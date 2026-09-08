@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#0b1020">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Ginásio Vila Flor">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <title>Ginásio Municipal de Vila Flor</title>
+    <script>try{const t=localStorage.getItem("vf_ginasio_tema");document.documentElement.dataset.theme=t==="light"?"light":"dark";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app">
+
+        <div id="installAppBar" class="install-app-bar" hidden>
+            <span>📱 Instala o Ginásio Vila Flor no ecrã principal</span>
+            <button id="installAppBtn">Instalar</button>
+            <button id="dismissInstall" aria-label="Fechar">×</button>
+        </div>
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-mark">VF</div>
+                <div class="brand-text">
+                    <strong>Ginásio Municipal</strong>
+                    <span>Vila Flor</span>
+                </div>
+            </div>
+
+            <div class="topbar-actions">
+            <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Mudar tema" title="Mudar tema"><span class="theme-toggle-icon" aria-hidden="true">☾</span></button>
+            <button class="icon-btn" id="infoBtn" aria-label="Informações">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 10v6M12 7h.01"/>
+                </svg>
+            </button>
+            </div>
+        </header>
+
+        <main id="app-content">
+
+            <section class="page active" id="page-home">
+
+                <div class="hero">
+                    <div class="hero-glow"></div>
+                    <div class="hero-grid"></div>
+
+                    <div class="hero-overlay">
+                        <span class="eyebrow">GINÁSIO MUNICIPAL · VILA FLOR</span>
+                        <h1>Treina melhor.<br><em>Vive melhor.</em></h1>
+                        <p>O teu espaço para força, cardio e evolução. Tudo o que precisas para treinar num só lugar.</p>
+
+                        <div class="hero-actions">
+                            <button class="hero-btn" data-page-jump="equipment">
+                                Ver equipamentos <span>→</span>
+                            </button>
+                            <button class="hero-link" data-page-jump="workout">
+                                Meu treino
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="section intro-section">
+                    <div class="section-heading">
+                        <span class="eyebrow">SOBRE O ESPAÇO</span>
+                        <span class="heading-line"></span>
+                    </div>
+
+                    <h2>O Ginásio</h2>
+                    <p class="muted">Espaço desportivo do Município de Vila Flor, equipado para treino de força, resistência e condicionamento físico.</p>
+
+                    <div class="stats">
+                        <div>
+                            <b>15+</b>
+                            <span>Equipamentos</span>
+                        </div>
+                        <div>
+                            <b>2</b>
+                            <span>Instrutores</span>
+                        </div>
+                        <div>
+                            <b>8</b>
+                            <span>Anos aberto</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-heading">
+                        <span class="eyebrow">ESPAÇO</span>
+                        <span class="heading-line"></span>
+                    </div>
+
+                    <h2>Zonas de treino</h2>
+
+                    <div class="zone-card zone-muscle">
+                        <div>
+                            <span class="zone-label">FORÇA</span>
+                            <h3>Zona de Musculação</h3>
+                            <p>Máquinas, resistência e pesos livres.</p>
+                        </div>
+                    </div>
+
+                    <div class="zone-card zone-cardio">
+                        <div>
+                            <span class="zone-label">CARDIO</span>
+                            <h3>Zona de Cardio</h3>
+                            <p>Passadeiras, bicicletas, elípticas e remo.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-heading">
+                        <span class="eyebrow">COMODIDADES</span>
+                        <span class="heading-line"></span>
+                    </div>
+
+                    <h2>Conforto</h2>
+
+                    <div class="amenities">
+                        <div class="amenity">
+                            <div class="amenity-icon">AC</div>
+                            <div>
+                                <b>Ar Condicionado</b>
+                                <small>Temperatura confortável</small>
+                            </div>
+                        </div>
+
+                        <div class="amenity">
+                            <div class="amenity-icon">TV</div>
+                            <div>
+                                <b>Televisão</b>
+                                <small>Entretenimento</small>
+                            </div>
+                        </div>
+
+                        <div class="amenity">
+                            <div class="amenity-icon">BA</div>
+                            <div>
+                                <b>Balneários</b>
+                                <small>Masculino e feminino</small>
+                            </div>
+                        </div>
+
+                        <div class="amenity">
+                            <div class="amenity-icon">CA</div>
+                            <div>
+                                <b>Cacifos</b>
+                                <small>Espaço para objetos</small>
+                            </div>
+                        </div>
+
+                        <div class="amenity">
+                            <div class="amenity-icon">WF</div>
+                            <div>
+                                <b>WiFi Gratuito</b>
+                                <small>Ligação disponível</small>
+                            </div>
+                        </div>
+
+                        <div class="amenity">
+                            <div class="amenity-icon">PK</div>
+                            <div>
+                                <b>Estacionamento</b>
+                                <small>Próximo do espaço</small>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </section>
+
+            <section class="page" id="page-equipment">
+                <section class="section">
+                    <span class="eyebrow">EQUIPAMENTOS</span>
+                    <h2>Conhece o espaço</h2>
+                    <p class="muted">Consulta os equipamentos disponíveis no ginásio.</p>
+
+                    <div class="equipment-filters">
+                        <button class="filter-btn active" data-filter="Todos">Todos</button>
+                        <button class="filter-btn" data-filter="Musculação">Musculação</button>
+                        <button class="filter-btn" data-filter="Cardio">Cardio</button>
+                    </div>
+
+                    <div id="equipment-list" class="equipment-list"></div>
+                </section>
+            </section>
+
+            <section class="page" id="page-workout">
+                <section class="section workout-page">
+                    <div class="workout-header">
+                        <span class="eyebrow">TREINO</span>
+                        <h2>Meu treino</h2>
+                        <p class="muted">Escolhe o dia e cria um treino com vários exercícios.</p>
+                    </div>
+
+                    <div id="workout-root"></div>
+                </section>
+            </section>
+
+            <section class="page" id="page-timer">
+                <section class="section">
+                    <span class="eyebrow">TREINO</span>
+                    <h2>Timer</h2>
+                    <p class="muted">Define o teu próprio tempo de descanso.</p>
+
+                    <div class="timer-card" id="timerCard">
+                        <svg width="0" height="0" style="position:absolute">
+                            <defs>
+                                <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#7c4dff"/>
+                                    <stop offset="100%" stop-color="#3fa9f5"/>
+                                </linearGradient>
+                                <linearGradient id="timerGradientActive" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#2ecc8f"/>
+                                    <stop offset="100%" stop-color="#3fa9f5"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+
+                        <div class="timer-ring-wrap">
+                            <svg class="timer-ring" viewBox="0 0 220 220">
+                                <circle class="timer-ring-bg" cx="110" cy="110" r="100"/>
+                                <circle id="timerRingProgress" class="timer-ring-progress" cx="110" cy="110" r="100"/>
+                            </svg>
+                            <div class="timer-center">
+                                <div id="timerDisplay" class="timer-display">01:30</div>
+                                <span id="timerState" class="timer-state">Pronto</span>
+                            </div>
+                        </div>
+
+                        <div class="timer-presets">
+                            <button data-time="30">30s</button>
+                            <button data-time="60">1 min</button>
+                            <button data-time="90">1:30</button>
+                            <button data-time="120">2 min</button>
+                            <button data-time="180">3 min</button>
+                        </div>
+
+                        <div class="custom-time">
+                            <div>
+                                <label>Minutos</label>
+                                <input id="timerMinutes" type="number" min="0" max="99" value="1">
+                            </div>
+
+                            <div>
+                                <label>Segundos</label>
+                                <input id="timerSeconds" type="number" min="0" max="59" value="30">
+                            </div>
+                        </div>
+
+                        <button id="setCustomTimer" class="secondary-btn full">Definir tempo</button>
+
+                        <div class="timer-actions">
+                            <button id="timerStart" class="primary-btn">Iniciar</button>
+                            <button id="timerReset" class="secondary-btn">Reiniciar</button>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <section class="page" id="page-ajuda">
+                <section class="section">
+                    <span class="eyebrow">BIBLIOTECA DE EXERCÍCIOS</span>
+                    <h2>Ajuda</h2>
+                    <p class="muted">Explica-se aqui como executar cada exercício, com vídeo demonstrativo e principais erros a evitar.</p>
+
+                    <div class="help-search-wrap">
+                        <span class="help-search-icon" aria-hidden="true">⌕</span>
+                        <input id="helpExerciseSearch" class="help-search-input" type="search" placeholder="Pesquisar exercício..." autocomplete="off" spellcheck="false" aria-label="Pesquisar exercício na ajuda">
+                    </div>
+
+                    <div class="help-groups" id="help-groups">
+                        <button class="filter-btn active" data-group="Todos">Todos</button>
+                        <button class="filter-btn" data-group="Peito">Peito</button>
+                        <button class="filter-btn" data-group="Costas">Costas</button>
+                        <button class="filter-btn" data-group="Pernas">Pernas</button>
+                        <button class="filter-btn" data-group="Ombros">Ombros</button>
+                        <button class="filter-btn" data-group="Braços">Braços</button>
+                        <button class="filter-btn" data-group="Core">Core</button>
+                    </div>
+
+                    <div id="help-exercise-list" class="help-exercise-grid"></div>
+                </section>
+            </section>
+
+            <section class="page" id="page-info">
+                <section class="section">
+                    <span class="eyebrow">INFORMAÇÃO</span>
+                    <h2>Ginásio Municipal</h2>
+
+                    <div class="info-card">
+                        <h3>Localização</h3>
+                        <p>Ginásio Municipal de Vila Flor</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Horário</h3>
+                        <p>Consulta os horários atualizados junto do Município de Vila Flor.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Contacto</h3>
+                        <p>Contacta o Município para informações, inscrições ou dúvidas.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Sobre a aplicação</h3>
+                        <p>Equipamentos, informações do espaço e acompanhamento pessoal do treino.</p>
+                    </div>
+                </section>
+            </section>
+
+        </main>
+
+        <div class="exercise-modal-overlay" id="exerciseModalOverlay">
+            <div class="exercise-modal" role="dialog" aria-modal="true" aria-labelledby="exerciseModalTitle">
+                <div class="exercise-modal-handle"></div>
+                <div class="exercise-modal-top">
+                    <div>
+                        <span class="help-exercise-tag" id="exerciseModalTag">Grupo</span>
+                        <h2 id="exerciseModalTitle">Exercício</h2>
+                    </div>
+                    <button class="exercise-modal-close" id="exerciseModalClose" aria-label="Fechar">×</button>
+                </div>
+
+                <div class="exercise-modal-video" id="exerciseModalVideo"></div>
+
+                <div class="exercise-modal-section">
+                    <h4>Descrição</h4>
+                    <p id="exerciseModalDesc"></p>
+                </div>
+
+                <div class="exercise-modal-section">
+                    <h4>Como executar</h4>
+                    <ul id="exerciseModalSteps"></ul>
+                </div>
+
+                <div class="exercise-modal-section errors">
+                    <h4>Erros a evitar</h4>
+                    <ul id="exerciseModalErrors"></ul>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="home">
+                <span>⌂</span>
+                <small>Início</small>
+            </button>
+
+            <button class="nav-item" data-page="equipment">
+                <span>▣</span>
+                <small>Equipamentos</small>
+            </button>
+
+            <button class="nav-item" data-page="workout">
+                <span>✓</span>
+                <small>Meu treino</small>
+            </button>
+
+            <button class="nav-item" data-page="timer">
+                <span>◷</span>
+                <small>Timer</small>
+            </button>
+
+            <button class="nav-item" data-page="ajuda">
+                <span>♥</span>
+                <small>Ajuda</small>
+            </button>
+        </nav>
+
+    </div>
+
+    <script src="js/equipamentos.js"></script>
+    <script src="js/treino.js"></script>
+    <script src="js/exercicios.js"></script>
+    <script src="js/navegacao.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/tema.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
