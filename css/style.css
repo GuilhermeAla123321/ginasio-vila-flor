@@ -1,4 +1,3 @@
-
 *{box-sizing:border-box}
 :root{
  --bg:#070912;--bg-soft:#0b0e1a;--card:#101422;--card-2:#0d1120;
@@ -652,352 +651,213 @@ body[data-theme="light"] .exercise-picker-close,body[data-theme="light"] .exerci
   .hero-overlay{left:17px;right:17px}
   .brand-text strong{font-size:11px}
 }
+
+
 /* ==========================================================
-   ALINHAMENTO DA PÁGINA INICIAL
+   PÁGINA INICIAL — TIPOGRAFIA, ALINHAMENTO E HERO
    ========================================================== */
 
-/* HERO */
-.hero-overlay {
-    text-align: center;
+/* Hero: todo o conteúdo textual fica centrado */
+.hero .hero-overlay {
+  text-align: center;
 }
 
-.hero-overlay .eyebrow {
-    text-align: center;
+.hero .eyebrow {
+  display: inline-block;
+  text-align: center;
 }
 
 .hero h1 {
-    text-align: center;
+  text-align: center;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
 }
 
 .hero p {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
 }
 
-.hero-actions {
-    justify-content: center;
+.hero .hero-actions {
+  justify-content: center;
 }
 
-/* TÍTULOS DAS SECÇÕES */
-.section-heading {
-    justify-content: center;
-    text-align: center;
-}
-
-.section-heading .eyebrow {
-    text-align: center;
-}
-
-.section-heading h2 {
-    text-align: center;
-}
-
-/* LINHA DECORATIVA */
-.section-heading .heading-line {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* TEXTO DESCRITIVO DAS SECÇÕES */
-.section > p {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
-/* ZONAS */
-.zone-card {
-    text-align: center;
-}
-
-.zone-card > div {
-    left: 15px;
-    right: 15px;
-    text-align: center;
-}
-
-/* ESTATÍSTICAS */
-.stats {
-    text-align: center;
-}
-
-.stats div {
-    text-align: center;
-}
-
-/* COMODIDADES */
-.amenity {
-    text-align: center;
-}
-
-/* MOBILE */
-@media (max-width: 430px) {
-
-    .hero-overlay {
-        left: 15px;
-        right: 15px;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .hero-actions .hero-btn,
-    .hero-actions .hero-link {
-        width: min(260px, 100%);
-    }
-}
-
-/* =========================================================
-   PÁGINA INICIAL — ORGANIZAÇÃO E TIPOGRAFIA DOS TEXTOS
-   ========================================================= */
-
-/* ---------- TÍTULOS DE SECÇÃO ---------- */
-
-.section-heading {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-bottom: 20px;
-}
-
-.section-heading .eyebrow {
-    display: block;
-    text-align: center;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.section-heading h2 {
-    width: 100%;
-    text-align: center;
-    font-size: 27px;
-    line-height: 1.15;
-    font-weight: 850;
-    letter-spacing: -0.8px;
-    margin: 0;
-}
-
-.section-heading .heading-line {
-    width: 42px;
-    height: 2px;
-    margin: 4px auto 0;
+/*
+   A imagem de identidade de Vila Flor contém texto gráfico próprio.
+   Este gradiente escurece a zona inferior do hero para impedir que
+   esse texto incorporado apareça por trás dos botões/conteúdo.
+*/
+.hero:after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,16,22,.04) 0%,
+      rgba(20,16,22,.10) 28%,
+      rgba(20,16,22,.45) 46%,
+      rgba(20,16,22,.88) 59%,
+      rgba(20,16,22,.98) 72%,
+      rgba(20,16,22,1) 100%
+    );
 }
 
 
-/* ---------- TEXTOS DAS SECÇÕES ---------- */
+/* ---------- Secções que pertencem à página inicial ---------- */
 
-.section > p,
-.section > .muted {
-    max-width: 650px;
-    margin: 0 auto 22px;
-    text-align: center;
-    line-height: 1.6;
+.hero ~ .section {
+  text-align: center;
+}
+
+.hero ~ .section .section-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.hero ~ .section .section-heading .eyebrow {
+  display: block;
+  text-align: center;
+}
+
+.hero ~ .section .section-heading h2 {
+  width: 100%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+}
+
+.hero ~ .section .section-heading .heading-line {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero ~ .section > p,
+.hero ~ .section > .muted {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  line-height: 1.6;
+  text-wrap: balance;
 }
 
 
-/* =========================================================
-   SOBRE O ESPAÇO
-   ========================================================= */
+/* ---------- Estatísticas ---------- */
 
-.section .section-heading + p {
-    text-align: center;
+.hero ~ .section .stats {
+  text-align: center;
 }
 
-.section .section-heading + p strong {
-    font-weight: 800;
+.hero ~ .section .stats > div {
+  text-align: center;
 }
 
-
-/* ---------- ESTATÍSTICAS ---------- */
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    text-align: center;
-    justify-items: center;
-    align-items: center;
-    gap: 18px;
-    margin-top: 24px;
+.hero ~ .section .stats b {
+  display: block;
+  text-align: center;
 }
 
-.stats > div {
-    text-align: center;
-}
-
-.stats strong,
-.stats b {
-    display: block;
-    font-size: 25px;
-    line-height: 1;
-    font-weight: 900;
-    margin-bottom: 6px;
-}
-
-.stats span,
-.stats small,
-.stats label {
-    display: block;
-    font-size: 11px;
-    line-height: 1.3;
-    text-align: center;
+.hero ~ .section .stats span {
+  display: block;
+  text-align: center;
 }
 
 
-/* =========================================================
-   ZONAS DE TREINO
-   ========================================================= */
+/* ---------- Zonas de treino ---------- */
 
-.zone-card {
-    text-align: center;
+.hero ~ .section .zone-card {
+  text-align: center;
 }
 
-.zone-card > div {
-    left: 15px;
-    right: 15px;
-    bottom: 16px;
-    text-align: center;
+.hero ~ .section .zone-card > div {
+  left: 15px;
+  right: 15px;
+  text-align: center;
 }
 
-.zone-card .eyebrow {
-    display: block;
-    text-align: center;
-    margin-bottom: 5px;
+.hero ~ .section .zone-card .zone-label {
+  display: block;
+  text-align: center;
 }
 
-.zone-card h3 {
-    text-align: center;
-    font-size: 18px;
-    line-height: 1.2;
-    font-weight: 850;
-    margin: 0 0 6px;
+.hero ~ .section .zone-card h3 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.zone-card p {
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.45;
-    margin: 0 auto;
-    max-width: 260px;
+.hero ~ .section .zone-card p {
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  line-height: 1.45;
 }
 
 
-/* =========================================================
-   CONFORTO / COMODIDADES
-   ========================================================= */
+/* ---------- Comodidades ---------- */
 
-.amenity {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.hero ~ .section .amenity {
+  justify-content: center;
+  text-align: center;
 }
 
-.amenity > div {
-    text-align: center;
+.hero ~ .section .amenity > div:last-child {
+  text-align: center;
 }
 
-.amenity > div:last-child {
-    text-align: center;
+.hero ~ .section .amenity b {
+  display: block;
+  text-align: center;
 }
 
-.amenity strong,
-.amenity b {
-    display: block;
-    font-size: 14px;
-    line-height: 1.2;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
-
-.amenity p,
-.amenity span,
-.amenity small {
-    display: block;
-    font-size: 11px;
-    line-height: 1.35;
-    margin: 0;
-    text-align: center;
+.hero ~ .section .amenity small {
+  display: block;
+  text-align: center;
 }
 
 
-/* ---------- CÓDIGOS AC / TV / BA / CA / WF / PK ---------- */
-
-.amenity > div:first-child {
-    font-weight: 900;
-    text-align: center;
-}
-
-
-/* =========================================================
-   ESPAÇAMENTO GERAL
-   ========================================================= */
-
-.section {
-    text-align: center;
-}
-
-.section h2,
-.section h3,
-.section p {
-    overflow-wrap: break-word;
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
+/* ---------- Ajustes mobile ---------- */
 
 @media (max-width: 600px) {
+  .hero .hero-overlay {
+    left: 17px;
+    right: 17px;
+  }
 
-    .section-heading h2 {
-        font-size: 24px;
-    }
+  .hero h1 {
+    text-wrap: balance;
+  }
 
-    .section > p,
-    .section > .muted {
-        font-size: 13px;
-        padding: 0 8px;
-    }
+  .hero p {
+    text-wrap: balance;
+  }
 
-    .stats {
-        gap: 10px;
-    }
+  .hero ~ .section .section-heading h2 {
+    font-size: 24px;
+  }
 
-    .stats strong,
-    .stats b {
-        font-size: 22px;
-    }
+  .hero ~ .section > p,
+  .hero ~ .section > .muted {
+    padding: 0 8px;
+  }
+}
 
-    .stats span,
-    .stats small,
-    .stats label {
-        font-size: 10px;
-    }
+@media (max-width: 430px) {
+  .hero .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .zone-card h3 {
-        font-size: 17px;
-    }
-
-    .zone-card p {
-        font-size: 11px;
-    }
-
-    .amenity strong,
-    .amenity b {
-        font-size: 13px;
-    }
-
-    .amenity p,
-    .amenity span,
-    .amenity small {
-        font-size: 10px;
-    }
+  .hero .hero-actions .hero-btn,
+  .hero .hero-actions .hero-link {
+    width: min(300px, 100%);
+  }
 }
