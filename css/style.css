@@ -2760,12 +2760,16 @@ body[data-theme="light"] .exercise-picker-close,body[data-theme="light"] .exerci
 .justthis {
     position: absolute;
     top: 24px;
-    left: 20px;
-    z-index: 5;
+    left: 50%;
+    transform: translateX(-50%);
 
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 10px;
+
+    z-index: 5;
+    white-space: nowrap;
 }
 
 .justthis h3 {
