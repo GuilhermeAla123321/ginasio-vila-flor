@@ -357,26 +357,38 @@ h3 {
   position: absolute;
   z-index: 2;
   left: 50%;
-  bottom: 30px;
+  bottom: 25px;
   transform: translateX(-50%);
   width: max-content;
   max-width: calc(100% - 20px);
-  padding: 7px 12px;
-  border-radius: 8px;
-  background: rgba(104,64,111,.92);
   text-align: center;
 }
 
-.zone-muscle {
-  background: url("../assets/2.jpeg") center / cover no-repeat;
+.zone-label {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffffff;
 }
 
-.zone-cardio {
-  background: url("../assets/1.jpeg") center / cover no-repeat;
+.zone-card h3 {
+  margin: 4px 0 4px;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.05;
+  background: linear-gradient(90deg, #3185ff, #8d4dff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 3px 10px rgba(0,0,0,.45);
 }
 
-.zone-cardio > div {
-  background: rgba(38,100,95,.92);
+.zone-card p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0,0,0,.65);
 }
 
 .zone-muscle .zone-label {
