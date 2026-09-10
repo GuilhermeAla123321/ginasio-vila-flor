@@ -2396,19 +2396,7 @@ body {
   border: 1px solid rgba(255,255,255,.16);
   font-size: 11px;
 }
-.brand-mark:before {
-  content: "✿";
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-size: 18px;
-  opacity: .94;
-}
-.brand-mark:after {
-  display: none
-}
+
 .brand-text strong {
   font-size: 13px;
   letter-spacing: .15px;
