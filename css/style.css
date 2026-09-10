@@ -2544,14 +2544,9 @@ h2 {
   border-color: rgba(236,227,238,.10);
   box-shadow: 0 10px 28px rgba(31,15,36,.17);
 }
-.zone-card:after {
-  background: linear-gradient(0deg,rgba(19,15,22,.96),rgba(19,15,22,.08))
-}
 
-.zone-cardio {
-  background: radial-gradient(circle at 75% 25%,#2d786e,#20302d 56%,#1d2024)
-   url("../assets/1.jpeg");
-}
+
+
 .zone-muscle .zone-label {
   color: #d7bade
 }
@@ -2934,6 +2929,14 @@ body[data-theme="light"] .exercise-picker-close,body[data-theme="light"] .exerci
   }
 }
 
+.zone-muscle {
+  background: url("../assets/2.jpeg") center / cover no-repeat;
+}
+
+.zone-cardio {
+  background: url("../assets/1.jpeg") center / cover no-repeat;
+}
+
 body[data-theme="light"] .zone-muscle {
   background: url("../assets/2.jpeg") center / cover no-repeat;
 }
@@ -2946,19 +2949,27 @@ body[data-theme="light"] .zone-card:after {
   background: none;
 }
 
-body[data-theme="light"] .zone-card > div {
-  background: rgba(104,64,111,.72);
-  color: #fff;
+.zone-card {
+  position: relative;
+  overflow: hidden;
 }
 
-body[data-theme="light"] .zone-cardio > div {
-  background: rgba(38,100,95,.72);
+.zone-card:after {
+  display: none;
 }
 
-body[data-theme="light"] .zone-card h3 {
-  color: #fff;
+.zone-muscle {
+  background: url("../assets/2.jpeg") center / cover no-repeat !important;
 }
 
-body[data-theme="light"] .zone-card p {
-  color: #f0eaff;
+.zone-cardio {
+  background: url("../assets/1.jpeg") center / cover no-repeat !important;
+}
+
+body[data-theme="light"] .zone-muscle {
+  background: url("../assets/2.jpeg") center / cover no-repeat !important;
+}
+
+body[data-theme="light"] .zone-cardio {
+  background: url("../assets/1.jpeg") center / cover no-repeat !important;
 }
