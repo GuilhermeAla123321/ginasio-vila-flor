@@ -1,9 +1,9 @@
-const CACHE_NAME = 'vf-ginasio-v7';
+const CACHE_NAME = 'vf-ginasio-v8';
 const APP_SHELL = [
   './', './index.html', './manifest.json',
   './css/style.css', './css/responsive.css',
   './js/equipamentos.js', './js/treino.js', './js/exercicios.js', './js/navegacao.js', './js/timer.js', './js/tema.js', './js/app.js',
-  './icons/icon-192.png', './icons/icon-512.png'
+  './icons/icon-192.png', './icons/icon-512.png', './assets/vila-flor-identidade.png'
 ];
 
 self.addEventListener('install', event => {

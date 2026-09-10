@@ -367,3 +367,288 @@ body[data-theme="light"] .exercise-card-summary{background:rgba(63,169,245,.045)
 .progress-history-list{display:grid;gap:10px}.progress-history-entry{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:rgba(124,77,255,.035)}.progress-history-date{padding:10px 12px;font-size:10px;font-weight:900;color:var(--text);background:rgba(124,77,255,.055)}.progress-history-series{padding:8px 10px}.progress-history-series-row{display:grid;grid-template-columns:76px 1fr;gap:8px;padding:8px 2px;border-bottom:1px solid var(--line)}.progress-history-series-row:last-child{border-bottom:0}.progress-history-series-row span{font-size:8px;color:var(--muted-2);font-weight:850;text-transform:uppercase}.progress-history-series-row strong{font-size:9px;color:var(--muted);font-weight:700;line-height:1.45}
 .editor-series-setup{margin-bottom:6px}.exercise-editor .set-entry-card{margin-top:9px}
 @media(max-width:430px){.set-entry-fields{grid-template-columns:1fr 1fr}.series-count-row{align-items:flex-end}.series-count-input{width:78px!important}.progress-history-series-row{grid-template-columns:62px 1fr}}
+
+/* ==========================================================
+   VILA FLOR — IDENTIDADE VISUAL MUNICIPAL / GINÁSIO
+   Inspirada na linguagem oficial "Terra de Alma e Cor".
+   ========================================================== */
+:root{
+  --vf-purple:#68406f;
+  --vf-purple-dark:#4d2d59;
+  --vf-purple-light:#a184b4;
+  --vf-turquoise:#3e9d9a;
+  --vf-green:#5f9e6e;
+  --vf-pink:#c34f76;
+  --vf-cream:#f5efe7;
+  --vf-white:#ffffff;
+  --vf-dark:#17131b;
+
+  --purple:var(--vf-purple);
+  --purple-2:#8f6a98;
+  --blue:var(--vf-turquoise);
+  --blue-2:#73c4c0;
+  --green:var(--vf-green);
+  --green-2:#79b787;
+  --magenta:var(--vf-pink);
+  --magenta-2:#db7596;
+  --gradient:linear-gradient(135deg,var(--vf-purple) 0%,var(--vf-turquoise) 100%);
+  --gradient-warm:linear-gradient(135deg,var(--vf-pink) 0%,var(--vf-purple) 100%);
+  --gradient-active:linear-gradient(135deg,var(--vf-green) 0%,var(--vf-turquoise) 100%);
+  --line:rgba(236,227,238,.11);
+  --line-bright:rgba(161,132,180,.32);
+  --shadow:0 18px 50px rgba(32,17,35,.28);
+  --focus-ring:0 0 0 3px rgba(104,64,111,.24);
+}
+
+html,body{
+  background:var(--vf-dark);
+}
+body{
+  transition:background-color .28s ease,color .28s ease;
+}
+.app{
+  background:
+    radial-gradient(circle at 94% 2%,rgba(62,157,154,.12),transparent 23%),
+    radial-gradient(circle at -4% 16%,rgba(195,79,118,.10),transparent 22%),
+    linear-gradient(180deg,#211a24 0%,#17131b 52%,#141117 100%);
+}
+
+.topbar{
+  background:rgba(27,21,29,.82);
+  border-bottom-color:rgba(236,227,238,.10);
+}
+.brand{gap:10px}
+.brand-mark{
+  width:44px;height:44px;border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,.20) 0 7%,transparent 8%),
+    conic-gradient(from 0deg,var(--vf-purple),var(--vf-pink),var(--vf-turquoise),var(--vf-purple));
+  box-shadow:0 8px 24px rgba(104,64,111,.28);
+  display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.16);
+  font-size:11px;
+}
+.brand-mark:before{
+  content:"✿";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:18px;
+  opacity:.94;
+}
+.brand-mark:after{display:none}
+.brand-text strong{font-size:13px;letter-spacing:.15px;text-transform:uppercase}
+.brand-text span{color:#d0c1d6;font-size:10px;letter-spacing:.8px;text-transform:uppercase}
+.icon-btn{
+  background:rgba(255,255,255,.045);
+  border-color:rgba(236,227,238,.12);
+}
+.icon-btn:hover{background:rgba(255,255,255,.085);border-color:var(--line-bright)}
+
+.eyebrow{color:#c6a9cb;letter-spacing:1.8px}
+.heading-line{background:linear-gradient(90deg,rgba(161,132,180,.72),transparent)}
+h2{letter-spacing:-.8px}
+
+.hero{
+  margin:14px;
+  height:380px;
+  border-radius:28px;
+  border:1px solid rgba(245,239,231,.15);
+  background:
+    linear-gradient(135deg,rgba(77,45,89,.80) 0%,rgba(35,23,45,.56) 34%,rgba(62,157,154,.42) 100%),
+    url('../assets/vila-flor-identidade.png') center 35% / cover no-repeat;
+  box-shadow:0 22px 55px rgba(35,15,40,.36);
+}
+.hero:before{
+  background:
+    radial-gradient(circle at 75% 24%,rgba(255,255,255,.15),transparent 18%),
+    linear-gradient(130deg,rgba(195,79,118,.08),transparent 45%,rgba(62,157,154,.10));
+}
+.hero:after{
+  background:linear-gradient(180deg,rgba(20,16,22,.06) 5%,rgba(20,16,22,.10) 28%,rgba(20,16,22,.74) 68%,rgba(20,16,22,.96) 100%);
+}
+.hero-glow{
+  width:240px;height:240px;right:-70px;top:-70px;border-color:rgba(245,239,231,.20);
+  box-shadow:0 0 0 26px rgba(195,79,118,.035),0 0 0 56px rgba(62,157,154,.025);
+}
+.hero-grid{
+  opacity:.07;
+  background-size:42px 42px;
+}
+.hero-overlay{left:21px;right:21px;bottom:21px}
+.hero-signature{
+  display:inline-flex;
+  align-items:center;
+  margin-left:8px;
+  padding:4px 8px;
+  border:1px solid rgba(245,239,231,.18);
+  border-radius:999px;
+  background:rgba(23,19,27,.26);
+  color:#eadfe6;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  vertical-align:middle;
+  backdrop-filter:blur(6px);
+}
+.hero h1 em{
+  background:linear-gradient(135deg,#f2d6e3 0%,#b9d9d4 100%);
+  -webkit-background-clip:text;background-clip:text;
+}
+.hero p{color:#efe5ea;max-width:400px}
+.hero-btn{
+  background:var(--vf-cream);
+  color:var(--vf-purple-dark);
+  box-shadow:0 12px 30px rgba(18,10,22,.32);
+}
+.hero-link{
+  background:rgba(62,157,154,.16);
+  border-color:rgba(198,233,231,.22);
+  color:#eefcfb;
+}
+.hero-link:hover{background:rgba(62,157,154,.24)}
+
+.petal-decoration{
+  position:absolute;z-index:1;pointer-events:none;
+  width:52px;height:22px;
+  border:1px solid rgba(245,239,231,.16);
+  border-radius:100% 0 100% 0;
+  transform:rotate(35deg);
+  opacity:.45;
+}
+.petal-one{right:26px;top:60px;border-color:rgba(195,79,118,.34)}
+.petal-two{right:58px;top:92px;transform:rotate(110deg);border-color:rgba(62,157,154,.34)}
+.petal-three{right:10px;top:122px;transform:rotate(5deg);border-color:rgba(161,132,180,.30)}
+.petal-one:after,.petal-two:after,.petal-three:after{
+  content:"";position:absolute;left:50%;top:50%;width:4px;height:4px;border-radius:50%;background:currentColor;transform:translate(-50%,-50%);
+}
+
+.stats div{
+  background:linear-gradient(145deg,rgba(62,157,154,.075),rgba(195,79,118,.055));
+  border-color:rgba(245,239,231,.10);
+}
+.stats b{background:linear-gradient(135deg,#d9bfdc,#8fd1cc);-webkit-background-clip:text;background-clip:text}
+
+.zone-card,.equipment-card,.exercise-card,.form-card,.timer-card,.info-card,.workout-name-card,.amenity,.help-exercise-card{
+  border-color:rgba(236,227,238,.10);
+  box-shadow:0 10px 28px rgba(31,15,36,.17);
+}
+.zone-card:after{background:linear-gradient(0deg,rgba(19,15,22,.96),rgba(19,15,22,.08))}
+.zone-muscle{background:radial-gradient(circle at 80% 20%,#68406f,#2d2232 55%,#211a24)}
+.zone-cardio{background:radial-gradient(circle at 75% 25%,#2d786e,#20302d 56%,#1d2024)}
+.zone-muscle .zone-label{color:#d7bade}
+.zone-cardio .zone-label{color:#9cdbd6}
+.amenity{background:linear-gradient(145deg,rgba(104,64,111,.12),rgba(62,157,154,.06))}
+.amenity-icon{background:linear-gradient(145deg,rgba(104,64,111,.18),rgba(62,157,154,.10));color:#cbb1cf;border-color:rgba(161,132,180,.16)}
+
+.filter-btn,.timer-presets button{
+  background:#201a24;border-color:rgba(236,227,238,.12);color:#c5b8c9;
+}
+.filter-btn:hover,.timer-presets button:hover{border-color:rgba(62,157,154,.34);color:#f4eef5}
+.filter-btn.active,.timer-presets button.active{background:var(--gradient);box-shadow:0 8px 22px rgba(62,157,154,.14)}
+
+.primary-btn{background:var(--gradient);box-shadow:0 10px 26px rgba(104,64,111,.24)}
+.primary-btn:hover{box-shadow:0 14px 32px rgba(104,64,111,.30)}
+.secondary-btn{background:#241e28;border-color:rgba(236,227,238,.10);color:#e6dfe9}
+
+.bottom-nav{
+  background:rgba(24,18,27,.94);
+  border-top-color:rgba(236,227,238,.10);
+}
+.bottom-nav:before{
+  content:"";position:absolute;left:8%;right:8%;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--vf-purple),var(--vf-turquoise),var(--vf-green),var(--vf-pink),transparent);
+  opacity:.7;
+}
+.nav-item{color:#a79aa9}
+.nav-item.active{color:#e8d6eb;background:rgba(104,64,111,.18)}
+.nav-item.active:after{background:var(--vf-pink)}
+.nav-item:hover{color:#f0e8f2}
+
+.help-exercise-thumb,.help-exercise-thumb.t-peito{background:linear-gradient(135deg,var(--vf-purple),#92729b)}
+.help-exercise-thumb.t-costas{background:linear-gradient(135deg,#4b7774,var(--vf-turquoise))}
+.help-exercise-thumb.t-pernas{background:linear-gradient(135deg,#557c5e,var(--vf-green))}
+.help-exercise-thumb.t-ombros{background:linear-gradient(135deg,#82536f,var(--vf-pink))}
+.help-exercise-thumb.t-bracos{background:linear-gradient(135deg,#694b6f,#9d7ea4)}
+.help-exercise-thumb.t-core{background:linear-gradient(135deg,#3d6968,#6e9996)}
+.help-exercise-tag{color:#d8c1dc;background:rgba(104,64,111,.16);border-color:rgba(161,132,180,.22)}
+.help-exercise-cta{border-color:rgba(161,132,180,.26);background:rgba(104,64,111,.10);color:#dcc8df}
+
+.exercise-search-input,.help-search-input,.input{background:rgba(31,24,35,.92);border-color:rgba(236,227,238,.11);color:#f7f1f7}
+.exercise-search-input:focus,.help-search-input:focus,.input:focus{border-color:rgba(62,157,154,.55);box-shadow:0 0 0 4px rgba(62,157,154,.10)}
+.exercise-search-icon,.help-search-icon{color:#9bd4d0}
+
+.exercise-picker,.exercise-modal,.progress-modal,.exercise-editor{background:#211a24;border-color:rgba(236,227,238,.10)}
+.exercise-picker-close,.exercise-modal-close{background:#2a222d;color:#f4edf6;border-color:rgba(236,227,238,.11)}
+.exercise-search-result:hover{background:rgba(104,64,111,.10)}
+
+.install-app-bar{background:rgba(24,18,27,.94);border-bottom-color:rgba(236,227,238,.10)}
+.install-app-bar #installAppBtn{background:var(--vf-cream);color:var(--vf-purple-dark)}
+
+/* Light theme — Vila Flor institucional */
+body[data-theme="light"]{
+  --bg:#f7f2ec;
+  --bg-soft:#fffdf9;
+  --card:#fffdf9;
+  --card-2:#f5efe9;
+  --text:#2a2230;
+  --muted:#6d6370;
+  --muted-2:#8b808e;
+  --line:rgba(57,40,61,.11);
+  --line-bright:rgba(104,64,111,.28);
+  --shadow:0 18px 46px rgba(79,53,71,.10);
+}
+body[data-theme="light"] .app{
+  background:
+    radial-gradient(circle at 90% 2%,rgba(62,157,154,.10),transparent 24%),
+    radial-gradient(circle at -6% 16%,rgba(195,79,118,.08),transparent 23%),
+    linear-gradient(180deg,#fffdf9 0%,#f8f3ed 56%,#f4eee7 100%);
+}
+body[data-theme="light"] .topbar{background:rgba(255,253,249,.90);border-bottom-color:rgba(57,40,61,.10)}
+body[data-theme="light"] .brand-mark{box-shadow:0 8px 24px rgba(104,64,111,.16)}
+body[data-theme="light"] .brand-text span{color:#716575}
+body[data-theme="light"] .icon-btn{background:rgba(104,64,111,.045);color:#4f3f53}
+body[data-theme="light"] .hero{
+  background:
+    linear-gradient(135deg,rgba(77,45,89,.64) 0%,rgba(104,64,111,.38) 38%,rgba(62,157,154,.40) 100%),
+    url('../assets/vila-flor-identidade.png') center 35% / cover no-repeat;
+  border-color:rgba(104,64,111,.16);
+}
+body[data-theme="light"] .stats div{background:linear-gradient(145deg,rgba(104,64,111,.06),rgba(62,157,154,.045))}
+body[data-theme="light"] .zone-card:after{background:linear-gradient(0deg,rgba(30,23,31,.88),rgba(30,23,31,.08))}
+body[data-theme="light"] .zone-muscle{background:radial-gradient(circle at 80% 20%,#7d5a83,#a18aa4 55%,#705875)}
+body[data-theme="light"] .zone-cardio{background:radial-gradient(circle at 75% 25%,#5d9f96,#6b8d87 56%,#496d69)}
+body[data-theme="light"] .amenity,
+body[data-theme="light"] .equipment-card,
+body[data-theme="light"] .exercise-card,
+body[data-theme="light"] .form-card,
+body[data-theme="light"] .timer-card,
+body[data-theme="light"] .info-card,
+body[data-theme="light"] .workout-name-card,
+body[data-theme="light"] .stats div,
+body[data-theme="light"] .help-exercise-card{background:linear-gradient(145deg,#fffdfa,#f8f3ee);box-shadow:0 10px 28px rgba(79,53,71,.07)}
+body[data-theme="light"] .filter-btn,body[data-theme="light"] .timer-presets button{background:#faf6f1;color:#665968;border-color:rgba(57,40,61,.12)}
+body[data-theme="light"] .secondary-btn{background:#f4eee8;color:#4f4652}
+body[data-theme="light"] .input,
+body[data-theme="light"] .exercise-search-input,
+body[data-theme="light"] .help-search-input{background:#fffdf9;color:#2a2230;border-color:rgba(57,40,61,.14)}
+body[data-theme="light"] .bottom-nav{background:rgba(255,253,249,.94);border-top-color:rgba(57,40,61,.10)}
+body[data-theme="light"] .nav-item{color:#867b87}
+body[data-theme="light"] .nav-item.active{color:var(--vf-purple);background:rgba(104,64,111,.08)}
+body[data-theme="light"] .exercise-picker,
+body[data-theme="light"] .exercise-modal,
+body[data-theme="light"] .progress-modal,
+body[data-theme="light"] .exercise-editor{background:#fffdf9}
+body[data-theme="light"] .exercise-picker-close,body[data-theme="light"] .exercise-modal-close{background:#f4eee8;color:#4d4350}
+
+@media(max-width:430px){
+  .hero-signature{display:block;width:max-content;margin:7px 0 0}
+  .hero{height:360px}
+}
+@media(max-width:360px){
+  .hero{height:345px;border-radius:23px}
+  .hero-overlay{left:17px;right:17px}
+  .brand-text strong{font-size:11px}
+}
