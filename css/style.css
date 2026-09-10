@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box
 }
+.justthis{
+  
+}
 :root {
   --bg: #070912;
   --bg-soft: #0b0e1a;
