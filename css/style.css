@@ -420,9 +420,7 @@ h3 {
   font-weight: 600;
   text-shadow: 0 2px 6px rgba(0,0,0,.65);
 }
-.zone-card > div {
-  background: rgba(104,64,111,.72);
-}
+
 .amenities {
   display: grid;
   grid-template-columns: 1fr 1fr;
