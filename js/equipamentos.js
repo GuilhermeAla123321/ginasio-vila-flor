@@ -22,7 +22,39 @@ const EQUIPAMENTOS_EXERCICIOS={
   {nome:"Resistência",grupo:"Cardio",icon:"💪",desc:"Remada contínua a intensidade moderada para desenvolver resistência.",passos:["Define uma resistência confortável.","Mantém sequência coordenada entre pernas, tronco e braços.","Controla a velocidade de recuperação.","Mantém ritmo estável durante toda a sessão."],erros:["Usar resistência excessiva.","Acelerar a recuperação.","Perder a posição neutra da coluna."],musculos:["Quadríceps","Glúteos","Costas","Core","Braços"],beneficios:["Desenvolve resistência muscular","Melhora capacidade aeróbia","Trabalha o corpo inteiro"],dificuldade:"Intermédio",cuidados:["Escolhe uma resistência que permita boa técnica.","Evita arredondar a lombar."],sugestoes:["Mantém um ritmo sustentável.","Foca-te numa remada longa e controlada."]}
  ],
  "Smith Machine":[
-  {nome:"Agachamento na Smith Machine",grupo:"Pernas",icon:"🏋️",desc:"Agachamento guiado com a barra da Smith Machine para trabalhar principalmente pernas e glúteos.",passos:["Coloca a barra de forma confortável sobre a parte superior das costas.","Posiciona os pés de acordo com a amplitude confortável.","Desce controladamente mantendo joelhos alinhados com os pés.","Empurra o chão para regressar à posição inicial."],erros:["Juntar os joelhos para dentro.","Descer sem controlo.","Usar carga excessiva."],musculos:["Quadríceps","Glúteos","Posteriores da coxa"],beneficios:["Desenvolve força das pernas","Permite maior estabilidade da barra","Facilita progressão de carga"],dificuldade:"Intermédio",cuidados:["Confirma o bloqueio da barra antes de começar.","Usa carga adequada."],sugestoes:["Começa com amplitude confortável.","Mantém joelhos e pés alinhados."]},
+{
+    nome:"Agachamento na Smith Machine",
+    grupo:"Pernas",
+    icon:"🏋️",
+    desc:"Agachamento guiado com a barra da Smith Machine para trabalhar principalmente pernas e glúteos.",
+    passos:[
+        "Coloca a barra de forma confortável sobre a parte superior das costas.",
+        "Posiciona os pés de acordo com a amplitude confortável.",
+        "Desce controladamente mantendo joelhos alinhados com os pés.",
+        "Empurra o chão para regressar à posição inicial."
+    ],
+    erros:[
+        "Juntar os joelhos para dentro.",
+        "Descer sem controlo.",
+        "Usar carga excessiva."
+    ],
+    musculos:["Quadríceps","Glúteos","Posteriores da coxa"],
+    beneficios:[
+        "Desenvolve força das pernas",
+        "Permite maior estabilidade da barra",
+        "Facilita progressão de carga"
+    ],
+    dificuldade:"Intermédio",
+    cuidados:[
+        "Confirma o bloqueio da barra antes de começar.",
+        "Usa carga adequada."
+    ],
+    sugestoes:[
+        "Começa com amplitude confortável.",
+        "Mantém joelhos e pés alinhados."
+    ],
+    gif:"assets/exercises/gif1.gif"
+},
   {nome:"Supino na Smith Machine",gif:"assets/exercises/smith-bench-press.gif",grupo:"Peito",icon:"🏋️",desc:"Press de peito guiado na Smith Machine para trabalhar o peitoral e músculos auxiliares.",passos:["Deita-te no banco e ajusta-o à barra.","Segura a barra ligeiramente mais larga que os ombros.","Desce de forma controlada em direção ao peito.","Empurra a barra mantendo os ombros estáveis."],erros:["Descer a barra demasiado depressa.","Abrir excessivamente os cotovelos.","Usar carga que comprometa a técnica."],musculos:["Peitoral","Tríceps","Deltóide anterior"],beneficios:["Desenvolve força de empurrar","Permite progressão controlada","Aumenta estímulo do peitoral"],dificuldade:"Intermédio",cuidados:["Usa um banco bem posicionado.","Não treines sozinho com cargas elevadas sem segurança adequada."],sugestoes:["Mantém escápulas estáveis.","Controla a descida."]},
   {nome:"Lunges na Smith Machine",grupo:"Pernas",icon:"🦵",desc:"Lunges guiados para trabalhar unilateralmente pernas e glúteos.",passos:["Coloca a barra de forma segura e assume posição estável.","Dá um passo à frente ou atrás conforme a variante escolhida.","Desce mantendo o joelho alinhado com o pé.","Empurra o chão e regressa à posição inicial."],erros:["Perder equilíbrio por usar carga excessiva.","Deixar o joelho colapsar para dentro.","Dar passos demasiado curtos."],musculos:["Glúteos","Quadríceps","Posteriores da coxa"],beneficios:["Trabalha cada perna individualmente","Desenvolve força e estabilidade","Reforça glúteos e pernas"],dificuldade:"Intermédio",cuidados:["Começa com carga leve.","Usa amplitude controlada."],sugestoes:["Mantém o tronco estável.","Executa o mesmo número de repetições por lado."]},
   {nome:"Shoulder Press na Smith Machine",grupo:"Ombros",icon:"🏋️",desc:"Press vertical guiado para desenvolver os ombros.",passos:["Senta-te com as costas apoiadas e posiciona a barra à altura adequada.","Segura a barra ligeiramente fora da largura dos ombros.","Empurra verticalmente sem bloquear agressivamente os cotovelos.","Desce controladamente até à amplitude confortável."],erros:["Arquear excessivamente a lombar.","Descer além da amplitude confortável.","Usar carga que obrigue a compensações."],musculos:["Deltóides","Tríceps","Trapézio superior"],beneficios:["Desenvolve força dos ombros","Permite movimento guiado","Facilita progressão de carga"],dificuldade:"Intermédio",cuidados:["Ajusta banco e barra corretamente.","Mantém a coluna apoiada."],sugestoes:["Usa amplitude confortável.","Controla a descida."]}
