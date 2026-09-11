@@ -84,7 +84,7 @@ function metadadosExercicio(nome,meta={}){
 function construirBibliotecaExercicios(){
  const mapa=new Map();
  exerciciosDisponiveis.forEach(nome=>mapa.set(normalizarTexto(nome),metadadosExercicio(nome)));
- if(Array.isArray(window.exerciciosAjuda))window.exerciciosAjuda.forEach(item=>{if(item?.nome)mapa.set(normalizarTexto(item.nome),metadadosExercicio(item.nome,{grupo:item.grupo}))});
+ if(Array.isArray(window.exerciciosBiblioteca))window.exerciciosBiblioteca.forEach(item=>{if(item?.nome)mapa.set(normalizarTexto(item.nome),metadadosExercicio(item.nome,{grupo:item.grupo}))});
  if(Array.isArray(exerciciosPersonalizados))exerciciosPersonalizados.forEach(item=>{if(item?.nome)mapa.set(normalizarTexto(item.nome),metadadosExercicio(item.nome,{grupo:item.grupo,tipo:item.tipo,personalizado:true,id:item.id}))});
  return [...mapa.values()];
 }

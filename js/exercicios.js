@@ -1,4 +1,5 @@
-const exerciciosAjuda=[
+window.exerciciosBiblioteca = exerciciosBiblioteca;
+const exerciciosBiblioteca=[
 {
  nome:"Supino Reto",
  grupo:"Peito",
@@ -267,47 +268,32 @@ const exerciciosAjuda=[
 }
 ];
 
-let grupoAjudaSelecionado="Todos";
-let ajudaTermoPesquisa="";
-
-function renderExerciciosAjuda(grupo="Todos"){
- const list=document.getElementById("help-exercise-list");if(!list)return;
- const q=normalizarTextoAjuda(ajudaTermoPesquisa);
- const filtrados=exerciciosAjuda.filter(e=>{
-  const pertenceGrupo=grupo==="Todos"||e.grupo===grupo;
-  if(!pertenceGrupo)return false;
-  if(!q)return true;
-  const hay=normalizarTextoAjuda(`${e.nome} ${e.grupo} ${e.desc}`);
-  return q.split(" ").filter(Boolean).every(token=>hay.includes(token));
- });
- if(!filtrados.length){
-  list.innerHTML=`<div class="help-empty help-no-results"><strong>Não encontrámos nenhum exercício.</strong><p>Tenta pesquisar por outro nome.</p></div>`;
-  return;
- }
- list.innerHTML=filtrados.map(e=>`
-  <button class="help-exercise-card" data-index="${exerciciosAjuda.indexOf(e)}">
-   <div class="help-exercise-thumb ${e.classe}"><span>${e.icon}</span></div>
-   <div class="help-exercise-body">
-    <span class="help-exercise-tag">${e.grupo}</span>
-    <h3>${e.nome}</h3>
-    <p>${e.desc}</p>
-    <span class="help-exercise-cta">Ver exercício</span>
-   </div>
-  </button>`).join("");
- list.querySelectorAll(".help-exercise-card").forEach(card=>card.addEventListener("click",()=>abrirExercicioModal(exerciciosAjuda[+card.dataset.index])));
-}
-function normalizarTextoAjuda(valor){
- return String(valor||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
+function gifParaExercicio(ex){
+ const n=(ex?.nome||'').toLowerCase();
+ if(/passadeira|caminhada|corrida|intervalo/.test(n)) return 'assets/exercises/walk.gif';
+ if(/bicicleta|pedal|sprint/.test(n)) return 'assets/exercises/cycle.gif';
+ if(/elíptica|elliptica/.test(n)) return 'assets/exercises/elliptical.gif';
+ if(/remo|remada/.test(n)) return 'assets/exercises/row.gif';
+ if(/agachamento|lunge|leg press/.test(n)) return /leg press/.test(n)?'assets/exercises/legpress.gif':'assets/exercises/squat.gif';
+ if(/supino|peito|bench/.test(n)) return 'assets/exercises/bench.gif';
+ if(/shoulder|ombro|press/.test(n)) return 'assets/exercises/press.gif';
+ if(/polia|tríceps|triceps|bíceps|biceps|puxada|extensão/.test(n)) return 'assets/exercises/cable.gif';
+ if(/abdutora|abdução|abducao/.test(n)) return 'assets/exercises/abduct.gif';
+ if(/peso morto|deadlift/.test(n)) return 'assets/exercises/deadlift.gif';
+ if(/gémeos|gemeos|panturrilha/.test(n)) return 'assets/exercises/generic.gif';
+ return 'assets/exercises/generic.gif';
 }
 
 function abrirExercicioModal(ex){
  const overlay=document.getElementById("exerciseModalOverlay");if(!overlay||!ex)return;
- document.getElementById("exerciseModalTag").textContent=ex.grupo;
- document.getElementById("exerciseModalTitle").textContent=ex.nome;
- document.getElementById("exerciseModalDesc").textContent=ex.desc;
- document.getElementById("exerciseModalVideo").innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${ex.video}" title="Vídeo demonstrativo — ${ex.nome}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
- document.getElementById("exerciseModalSteps").innerHTML=ex.passos.map(p=>`<li>${p}</li>`).join("");
- document.getElementById("exerciseModalErrors").innerHTML=ex.erros.map(p=>`<li>${p}</li>`).join("");
+ document.getElementById("exerciseModalTag").textContent=ex.grupo||"Exercício";
+ document.getElementById("exerciseModalTitle").textContent=ex.nome||"Exercício";
+ document.getElementById("exerciseModalDesc").textContent=ex.desc||"";
+ const media=document.getElementById("exerciseModalVideo");
+ const gif=ex.gif||gifParaExercicio(ex);
+ media.innerHTML=`<img src="${gif}" alt="Demonstração de ${ex.nome}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">`;
+ document.getElementById("exerciseModalSteps").innerHTML=(ex.passos||[]).map(p=>`<li>${p}</li>`).join("");
+ document.getElementById("exerciseModalErrors").innerHTML=(ex.erros||[]).map(p=>`<li>${p}</li>`).join("");
  overlay.classList.add("open");
  document.body.style.overflow="hidden";
 }
@@ -320,22 +306,9 @@ function fecharExercicioModal(){
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
- renderExerciciosAjuda();
- const search=document.getElementById("helpExerciseSearch");
- search?.addEventListener("input",()=>{ajudaTermoPesquisa=search.value;renderExerciciosAjuda(grupoAjudaSelecionado)});
- document.getElementById("exerciseModalClose")?.addEventListener("click",fecharExercicioModal);
- document.getElementById("exerciseModalOverlay")?.addEventListener("click",e=>{
-  if(e.target.id==="exerciseModalOverlay")fecharExercicioModal();
- });
- document.addEventListener("keydown",e=>{
-  if(e.key==="Escape")fecharExercicioModal();
- });
- document.querySelectorAll(".filter-btn[data-group]").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-   document.querySelectorAll("#help-groups .filter-btn").forEach(x=>x.classList.remove("active"));
-   btn.classList.add("active");
-   grupoAjudaSelecionado=btn.dataset.group;
-   renderExerciciosAjuda(grupoAjudaSelecionado);
-  });
- });
+ const overlay=document.getElementById("exerciseModalOverlay");
+ const close=document.getElementById("exerciseModalClose");
+ close?.addEventListener("click",fecharExercicioModal);
+ overlay?.addEventListener("click",e=>{if(e.target===overlay)fecharExercicioModal()});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape" && overlay?.classList.contains("open")) fecharExercicioModal()});
 });
