@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#6a3b61">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Ginásio Vila Flor">
     <link rel="manifest" href="manifest.json">
@@ -18,71 +19,70 @@
 <body>
     <div class="app">
         <header class="topbar">
-    <div class="brand">
-        <div class="brand-mark">✿</div>
+            <div class="brand">
+                <div class="brand-mark">✿</div>
 
-        <div class="brand-text">
-            <strong>Ginásio Municipal</strong>
-            <span>Vila Flor</span>
-        </div>
-    </div>
+                <div class="brand-text">
+                    <strong>Ginásio Municipal</strong>
+                    <span>Vila Flor</span>
+                </div>
+            </div>
 
-    <div class="topbar-actions">
-        <button class="icon-btn theme-toggle" id="themeToggle"
-                aria-label="Mudar tema"
-                title="Mudar tema">
-            <span class="theme-toggle-icon" aria-hidden="true">☾</span>
-        </button>
+            <div class="topbar-actions">
+                <button class="icon-btn theme-toggle" id="themeToggle"
+                        aria-label="Mudar tema"
+                        title="Mudar tema">
+                    <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+                </button>
 
-        <button class="icon-btn" id="infoBtn" aria-label="Informações">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9"/>
-                <path d="M12 10v6M12 7h.01"/>
-            </svg>
-        </button>
-    </div>
-</header>
-
+                <button class="icon-btn" id="infoBtn" aria-label="Informações">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M12 10v6M12 7h.01"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
 
         <main id="app-content">
 
             <section class="page active" id="page-home">
 
-            <div class="hero">
-                <div class="hero-glow"></div>
-                <div class="hero-grid"></div>
+                <div class="hero">
+                    <div class="hero-glow"></div>
+                    <div class="hero-grid"></div>
 
-                <div class="petal-decoration petal-one" aria-hidden="true"></div>
-                <div class="petal-decoration petal-two" aria-hidden="true"></div>
-                <div class="petal-decoration petal-three" aria-hidden="true"></div>
+                    <div class="petal-decoration petal-one" aria-hidden="true"></div>
+                    <div class="petal-decoration petal-two" aria-hidden="true"></div>
+                    <div class="petal-decoration petal-three" aria-hidden="true"></div>
 
-                <div class="justthis">
-                    <h3>VILA FLOR</h3>
-                    <span>TERRA DE ALMA E COR</span>
-                </div>
+                    <div class="justthis">
+                        <h3>VILA FLOR</h3>
+                        <span>TERRA DE ALMA E COR</span>
+                    </div>
 
-                <div class="hero-overlay">
-                    <h1>
-                        Treina melhor.<br>
-                        <em>Vive melhor.</em>
-                    </h1>
+                    <div class="hero-overlay">
+                        <h1>
+                            Treina melhor.<br>
+                            <em>Vive melhor.</em>
+                        </h1>
 
-                    <p>
-                        O teu espaço para força, cardio e evolução.
-                        Tudo o que precisas para treinar num só lugar.
-                    </p>
+                        <p>
+                            O teu espaço para força, cardio e evolução.
+                            Tudo o que precisas para treinar num só lugar.
+                        </p>
 
-                    <div class="hero-actions">
-                        <button class="hero-btn" data-page-jump="equipment">
-                            Ver equipamentos <span>→</span>
-                        </button>
+                        <div class="hero-actions">
+                            <button class="hero-btn" data-page-jump="equipment">
+                                Ver equipamentos <span>→</span>
+                            </button>
 
-                        <button class="hero-link" data-page-jump="workout">
-                            Meu treino
-                        </button>
+                            <button class="hero-link" data-page-jump="workout">
+                                Meu treino
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <section class="section intro-section">
                     <div class="section-heading">
@@ -205,111 +205,129 @@
                         <button class="filter-btn" data-filter="Cardio">Cardio</button>
                     </div>
 
-                <div id="equipment-list" class="equipment-list">
+                    <div id="equipment-list" class="equipment-list">
 
-                    <article class="equipment-card" data-category="Cardio">
-                        <div class="equipment-icon">
-                            <img src="assets/passadeira.png" alt="Passadeira">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Passadeira</h3>
-                            <p>Corrida e caminhada com velocidade e inclinação ajustáveis</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Cardio">
+                            <div class="equipment-icon">
+                                <img src="assets/passadeira.png" alt="Passadeira">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Passadeira</h3>
+                                <p>Corrida e caminhada com velocidade e inclinação ajustáveis.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Cardio">
-                        <div class="equipment-icon">
-                            <img src="assets/bicicleta.png" alt="Bicicleta">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Bicicleta</h3>
-                            <p>Treino cardiovascular de baixo impacto</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Cardio">
+                            <div class="equipment-icon">
+                                <img src="assets/bicicleta.png" alt="Bicicleta">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Bicicleta</h3>
+                                <p>Treino cardiovascular de baixo impacto.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Cardio">
-                        <div class="equipment-icon">
-                            <img src="assets/eliptica.png" alt="Elíptica">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Elíptica</h3>
-                            <p>Treino cardiovascular de corpo inteiro e baixo impacto</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Cardio">
+                            <div class="equipment-icon">
+                                <img src="assets/eliptica.png" alt="Elíptica">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Elíptica</h3>
+                                <p>Treino cardiovascular de corpo inteiro e baixo impacto.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Cardio">
-                        <div class="equipment-icon">
-                            <img src="assets/remo.png" alt="Máquina de Remo">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Máquina de Remo</h3>
-                            <p>Trabalho cardiovascular e muscular de corpo inteiro</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Cardio">
+                            <div class="equipment-icon">
+                                <img src="assets/remo.png" alt="Máquina de Remo">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Máquina de Remo</h3>
+                                <p>Trabalho cardiovascular e muscular de corpo inteiro.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Musculação">
-                        <div class="equipment-icon">
-                            <img src="assets/smith.png" alt="Smith Machine">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Smith Machine</h3>
-                            <p>Treino de força guiado com maior estabilidade</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/smith.png" alt="Smith Machine">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Smith Machine</h3>
+                                <p>Treino de força guiado com maior estabilidade.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Musculação">
-                        <div class="equipment-icon">
-                            <img src="assets/banco-peso.png" alt="Banco de Peso">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Banco de Peso</h3>
-                            <p>Treino com pesos livres e exercícios variados</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/banco-peso.png" alt="Banco de Peso">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Banco de Peso</h3>
+                                <p>Treino com pesos livres e exercícios variados.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Musculação">
-                        <div class="equipment-icon">
-                            <img src="assets/polia.png" alt="Polia Multifuncional">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Polia Multifuncional</h3>
-                            <p>Exercícios de força para diferentes grupos musculares</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/polia.png" alt="Polia Multifuncional">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Polia Multifuncional</h3>
+                                <p>Exercícios de força para diferentes grupos musculares.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Musculação">
-                        <div class="equipment-icon">
-                            <img src="assets/abdutora.png" alt="Máquina Abdutora">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Máquina Abdutora</h3>
-                            <p>Trabalho específico dos músculos abdutores da anca</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/abdutora.png" alt="Máquina Abdutora">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Máquina Abdutora</h3>
+                                <p>Trabalho específico dos músculos abdutores da anca.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Musculação">
-                        <div class="equipment-icon">
-                            <img src="assets/peso-livre.png" alt="Peso Livre">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Peso Livre</h3>
-                            <p>Halteres e cargas livres para treino de força</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/peso-livre.png" alt="Peso Livre">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Peso Livre</h3>
+                                <p>Halteres e cargas livres para treino de força.</p>
+                            </div>
+                        </article>
 
-                    <article class="equipment-card" data-category="Musculação">
-                        <div class="equipment-icon">
-                            <img src="assets/legpress.png" alt="Leg Press">
-                        </div>
-                        <div class="equipment-info">
-                            <h3>Leg Press</h3>
-                            <p>Treino de força direcionado aos principais músculos das pernas</p>
-                        </div>
-                    </article>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/legpress.png" alt="Leg Press">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Leg Press</h3>
+                                <p>Treino de força direcionado aos principais músculos das pernas.</p>
+                            </div>
+                        </article>
 
-                </div>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/extensora .png" alt="Leg Press">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Cadeira Extensora</h3>
+                                <p>Fortalece e isola os músculos da parte da frente da coxa.</p>
+                            </div>
+                        </article>
 
-                    <div id="equipment-list" class="equipment-list"></div>
+                        <article class="equipment-card" data-category="Musculação">
+                            <div class="equipment-icon">
+                                <img src="assets/mesa.png" alt="Leg Press">
+                            </div>
+                            <div class="equipment-info">
+                                <h3>Mesa Flexora</h3>
+                                <p>Exercício focado no fortalecimento dos posteriores da coxa.</p>
+                            </div>
+                        </article>
+
+                    </div>
                 </section>
             </section>
 
@@ -423,12 +441,13 @@
                         <span class="help-exercise-tag" id="exerciseModalTag">Grupo</span>
                         <h2 id="exerciseModalTitle">Exercício</h2>
                     </div>
-                <button class="exercise-modal-close"
-                        id="exerciseModalClose"
-                        aria-label="Fechar"
-                        onclick="fecharExercicioModal()">
-                    ×
-                </button>                </div>
+                    <button class="exercise-modal-close"
+                            id="exerciseModalClose"
+                            aria-label="Fechar"
+                            onclick="fecharExercicioModal()">
+                        ×
+                    </button>
+                </div>
 
                 <div class="exercise-modal-video" id="exerciseModalVideo"></div>
 
