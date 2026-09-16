@@ -629,22 +629,44 @@ h3 {
 .equipment-info h3 {
   margin: 0 0 4px;
   font-size: 15px;
-  color: #eadff0;
+  color: #3a2940;
   text-align: left;
 }
-
 .equipment-info p {
   margin: 0 0 5px;
-  color: #bcaec2;
+  color: #765a78;
   font-size: 12px;
   line-height: 1.45;
   text-align: left;
 }
 
 .equipment-info small {
-  color: #b99ac6;
+  color: #9a4f86;
   font-size: 9px;
   font-weight: 750;
+}
+body[data-theme="dark"] .equipment-info h3 {
+  color: #eadff0;
+}
+
+body[data-theme="dark"] .equipment-info p {
+  color: #bcaec2;
+}
+
+body[data-theme="dark"] .equipment-info small {
+  color: #b99ac6;
+}
+
+body[data-theme="light"] .equipment-info h3 {
+  color: #3a2940;
+}
+
+body[data-theme="light"] .equipment-info p {
+  color: #765a78;
+}
+
+body[data-theme="light"] .equipment-info small {
+  color: #9a4f86;
 }
 .workout-header {
   margin-bottom: 18px
