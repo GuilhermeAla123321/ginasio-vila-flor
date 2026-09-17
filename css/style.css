@@ -561,6 +561,69 @@ h3 {
   display: grid;
   gap: 11px;
 }
+/* Cartões dos exercícios dentro de cada equipamento */
+#filtered-exercise-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+}
+
+#filtered-exercise-list .equipment-exercise-card {
+    width: 100%;
+    min-width: 0;
+    display: block;
+}
+/* ===== Filtros dos exercícios ===== */
+
+.exercise-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.exercise-filters select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid rgba(124,77,255,.20);
+    background: rgba(124,77,255,.07);
+    color: #5f45bd;
+    border-radius: 10px;
+    padding: 8px 32px 8px 11px;
+    min-height: 34px;
+    font-size: 10px;
+    font-weight: 750;
+    outline: none;
+    cursor: pointer;
+    background-image:
+        linear-gradient(45deg, transparent 50%, #6f55c9 50%),
+        linear-gradient(135deg, #6f55c9 50%, transparent 50%);
+    background-position:
+        calc(100% - 13px) 14px,
+        calc(100% - 9px) 14px;
+    background-size:
+        4px 4px,
+        4px 4px;
+    background-repeat: no-repeat;
+}
+
+.exercise-filters select:hover {
+    border-color: rgba(124,77,255,.38);
+    background-color: rgba(124,77,255,.10);
+}
+
+.exercise-filters select:focus {
+    border-color: #7c4dff;
+    box-shadow: 0 0 0 3px rgba(124,77,255,.10);
+}
+
+body[data-theme="dark"] .exercise-filters select {
+    background-color: rgba(124,77,255,.09);
+    color: #cfc3ff;
+    border-color: rgba(124,77,255,.25);
+}
 
 .equipment-icon {
     width: 72px;
@@ -1150,6 +1213,23 @@ body[data-theme="light"] .equipment-info small {
 .help-groups::-webkit-scrollbar {
   display: none
 }
+.help-exercise-thumb .exercise-meta {
+    display: inline-block;
+    max-width: 90%;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: rgba(255,255,255,.16);
+    color: rgba(255,255,255,.95);
+    border: 1px solid rgba(255,255,255,.12);
+}
 .help-exercise-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1210,6 +1290,15 @@ body[data-theme="light"] .equipment-info small {
 }
 .help-exercise-body {
   padding: 11px 12px 13px
+}
+
+.help-exercise-card {
+  padding: 0;
+}
+
+.help-exercise-thumb {
+  width: 100%;
+  border-radius: 18px 18px 0 0;
 }
 .help-exercise-body h3 {
   font-size: 13px;
@@ -2970,19 +3059,21 @@ body[data-theme="light"] .exercise-picker-close,body[data-theme="light"] .exerci
 }
 /* ---------- Comodidades ---------- */
 .hero ~ .section .amenity {
-  justify-content: center;
-  text-align: center;
+  justify-content: flex-start;
+  text-align: left;
 }
 .hero ~ .section .amenity > div:last-child {
-  text-align: center;
+  text-align: left;
 }
+
 .hero ~ .section .amenity b {
   display: block;
-  text-align: center;
+  text-align: left;
 }
+
 .hero ~ .section .amenity small {
   display: block;
-  text-align: center;
+  text-align: left;
 }
 /* ---------- Ajustes mobile ---------- */
 @media (max-width: 600px) {
@@ -3062,4 +3153,27 @@ body[data-theme="light"] .zone-muscle {
 
 body[data-theme="light"] .zone-cardio {
   background: url("../assets/1.jpeg") center / cover no-repeat !important;
+}
+body[data-theme="light"] .help-exercise-cta {
+  color: #76527f;
+}
+body[data-theme="light"] .exercise-modal-section.errors h4 {
+    color: #9b4f68;
+}
+
+body[data-theme="light"] .exercise-modal-section.errors li {
+    color: #7a5261;
+}
+/* Filtros - opções do menu */
+.exercise-filters select option {
+    background: #ffffff;
+    color: #3a2940;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Tema escuro */
+body[data-theme="dark"] .exercise-filters select option {
+    background: #ffffff;
+    color: #3a2940;
 }

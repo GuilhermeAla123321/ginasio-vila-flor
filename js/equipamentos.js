@@ -1,156 +1,1790 @@
-const EQUIPAMENTOS_EXERCICIOS={
- "Passadeira":[
-  {nome:"Caminhada",grupo:"Cardio",icon:"🚶",desc:"Caminhada na passadeira com ritmo confortável e controlo da postura.",passos:["Coloca os pés na zona central da passadeira e inicia a velocidade de forma gradual.","Mantém o tronco direito e olha em frente.","Caminha com passada natural, sem te agarrares às barras.","Ajusta a velocidade ao teu nível e termina reduzindo gradualmente o ritmo."],erros:["Caminhar demasiado perto da frente da passadeira.","Apoiar continuamente o peso nas barras laterais.","Aumentar a velocidade sem controlar a passada."],musculos:["Gémeos","Quadríceps","Posteriores da coxa","Glúteos"],beneficios:["Melhora a capacidade cardiovascular","Promove resistência aeróbia","Permite controlar facilmente o ritmo"],dificuldade:"Iniciante",cuidados:["Usa as barras apenas quando necessário para equilíbrio.","Começa com velocidade baixa se não estiveres habituado."],sugestoes:["Mantém uma passada confortável.","Aumenta a velocidade progressivamente."]},
-  {nome:"Caminhada inclinada",grupo:"Cardio",icon:"⛰️",desc:"Caminhada com inclinação para aumentar a exigência do exercício sem correr.",passos:["Começa a caminhar a velocidade confortável.","Aumenta gradualmente a inclinação.","Mantém o tronco estável sem te inclinares sobre a consola.","Reduz a inclinação antes de parar."],erros:["Apoiar o peso nas barras.","Inclinar excessivamente o tronco para a frente.","Usar uma inclinação demasiado elevada para o nível atual."],musculos:["Glúteos","Gémeos","Quadríceps","Posteriores da coxa"],beneficios:["Aumenta a intensidade do cardio","Reforça a cadeia inferior","Permite trabalhar resistência com caminhada"],dificuldade:"Iniciante / Intermédio",cuidados:["Aumenta a inclinação gradualmente.","Reduz a intensidade se perderes a postura."],sugestoes:["Mantém os braços livres sempre que possível.","Usa períodos de inclinação moderada."]},
-  {nome:"Corrida",grupo:"Cardio",icon:"🏃",desc:"Corrida contínua na passadeira com velocidade ajustada ao nível do utilizador.",passos:["Faz um aquecimento progressivo antes de atingir o ritmo de corrida.","Mantém o tronco direito e os braços descontraídos.","Aterra de forma controlada e mantém uma passada natural.","Reduz gradualmente a velocidade no final."],erros:["Começar demasiado rápido.","Dar passadas excessivamente longas.","Correr agarrado às barras."],musculos:["Quadríceps","Posteriores da coxa","Glúteos","Gémeos","Core"],beneficios:["Melhora a resistência cardiovascular","Aumenta a capacidade aeróbia","Desenvolve resistência muscular das pernas"],dificuldade:"Intermédio",cuidados:["Ajusta a velocidade à tua condição física.","Faz aquecimento e retorno à calma."],sugestoes:["Mantém um ritmo sustentável.","Controla a respiração e a postura."]},
-  {nome:"Corrida com inclinação",grupo:"Cardio",icon:"🏃‍♂️",desc:"Corrida na passadeira com inclinação controlada para aumentar a exigência do treino.",passos:["Começa com alguns minutos de corrida sem inclinação.","Aumenta a inclinação gradualmente mantendo uma velocidade controlável.","Mantém o tronco estável e evita apoiar-te nas barras.","Reduz primeiro a inclinação e depois a velocidade no final."],erros:["Usar inclinação elevada com velocidade excessiva.","Pendurar o corpo nas barras.","Perder a postura por tentar manter um ritmo demasiado alto."],musculos:["Glúteos","Quadríceps","Posteriores da coxa","Gémeos","Core"],beneficios:["Aumenta a intensidade cardiovascular","Reforça a musculatura das pernas","Permite variar o estímulo do treino"],dificuldade:"Intermédio / Avançado",cuidados:["Progressão gradual da inclinação.","Reduz a intensidade se a técnica se deteriorar."],sugestoes:["Usa blocos curtos de inclinação.","Escolhe uma velocidade que consigas controlar."]},
-  {nome:"Intervalos de corrida",grupo:"Cardio",icon:"⏱️",desc:"Alternância entre períodos de corrida e recuperação na passadeira.",passos:["Aquece durante vários minutos a ritmo fácil.","Alterna períodos de corrida com períodos de recuperação.","Mantém a técnica consistente durante os blocos rápidos.","Termina com alguns minutos de recuperação progressiva."],erros:["Começar o primeiro intervalo demasiado rápido.","Eliminar os períodos de recuperação.","Ignorar sinais de fadiga excessiva."],musculos:["Quadríceps","Posteriores da coxa","Glúteos","Gémeos","Core"],beneficios:["Melhora a capacidade cardiovascular","Permite variar a intensidade","Desenvolve tolerância a esforços mais elevados"],dificuldade:"Intermédio / Avançado",cuidados:["Adequa a duração dos intervalos ao teu nível.","Faz recuperação suficiente entre esforços."],sugestoes:["Começa com intervalos simples, por exemplo 1:1.","Aumenta a dificuldade gradualmente."]}
- ],
- "Bicicleta":[
-  {nome:"Pedalagem moderada",grupo:"Cardio",icon:"🚴",desc:"Pedalagem contínua a intensidade moderada para trabalho cardiovascular.",passos:["Ajusta o banco para manter uma ligeira flexão do joelho no ponto inferior.","Coloca os pés corretamente nos pedais.","Pedala com ritmo regular e tronco estável.","Reduz gradualmente a resistência no final."],erros:["Banco demasiado baixo ou alto.","Pedalar apenas com a ponta dos pés.","Usar resistência excessiva."],musculos:["Quadríceps","Posteriores da coxa","Glúteos","Gémeos"],beneficios:["Melhora a resistência cardiovascular","Baixo impacto articular","Permite controlar facilmente a intensidade"],dificuldade:"Iniciante",cuidados:["Ajusta o banco antes de começar.","Evita resistência que prejudique a técnica."],sugestoes:["Mantém uma cadência regular.","Aumenta a resistência progressivamente."]},
-  {nome:"Sprint",grupo:"Cardio",icon:"⚡",desc:"Períodos curtos de pedalagem intensa intercalados com recuperação.",passos:["Aquece com pedalagem leve.","Aumenta a resistência ou cadência durante o sprint.","Mantém o tronco estável e controla o movimento das pernas.","Recupera com intensidade baixa antes do próximo sprint."],erros:["Fazer o sprint sem aquecimento.","Perder a posição correta no banco.","Manter intensidade máxima durante demasiado tempo."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Gémeos"],beneficios:["Desenvolve capacidade anaeróbia","Melhora a resposta cardiovascular","Permite treinos curtos e intensos"],dificuldade:"Intermédio / Avançado",cuidados:["Usa períodos curtos de esforço.","Interrompe se perderes controlo do movimento."],sugestoes:["Começa com sprints de 15–30 segundos.","Recupera completamente entre esforços."]},
-  {nome:"Resistência",grupo:"Cardio",icon:"🔁",desc:"Pedalagem com resistência elevada e ritmo controlado para desenvolver resistência muscular.",passos:["Ajusta o banco e escolhe uma resistência moderada.","Mantém uma cadência controlada.","Pedala sem balançar o tronco.","Reduz a resistência progressivamente no final."],erros:["Usar resistência que obriga a compensações.","Perder a postura.","Parar de forma abrupta após esforço elevado."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Gémeos"],beneficios:["Desenvolve resistência muscular","Reforça a cadeia inferior","Complementa o treino cardiovascular"],dificuldade:"Intermédio",cuidados:["Ajusta a resistência ao nível atual.","Mantém movimento fluido."],sugestoes:["Trabalha em blocos de duração moderada.","Mantém cadência consistente."]}
- ],
- "Elíptica":[
-  {nome:"Cardio moderado",grupo:"Cardio",icon:"🔄",desc:"Movimento contínuo na elíptica para treino cardiovascular de baixo impacto.",passos:["Coloca os pés centrados nos apoios.","Segura as pegas sem apertar excessivamente.","Mantém o tronco direito e realiza o movimento contínuo.","Reduz gradualmente o ritmo no final."],erros:["Apoiar demasiado peso nas pegas.","Perder a postura.","Usar resistência excessiva."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Gémeos","Braços"],beneficios:["Melhora a resistência cardiovascular","Movimento de baixo impacto","Envolve grande parte do corpo"],dificuldade:"Iniciante",cuidados:["Mantém os pés dentro dos apoios.","Ajusta a resistência ao teu nível."],sugestoes:["Mantém um ritmo regular.","Usa as pegas móveis quando confortável."]},
-  {nome:"Resistência",grupo:"Cardio",icon:"💪",desc:"Trabalho contínuo na elíptica com maior resistência para aumentar a exigência muscular.",passos:["Começa com resistência baixa.","Aumenta gradualmente a resistência.","Mantém a amplitude natural do movimento.","Reduz a resistência antes de terminar."],erros:["Compensar com o tronco.","Aumentar demasiado a resistência.","Reduzir excessivamente a amplitude."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Gémeos","Braços"],beneficios:["Aumenta a resistência muscular","Melhora o condicionamento cardiovascular","Permite controlar a intensidade"],dificuldade:"Intermédio",cuidados:["Aumenta a carga progressivamente.","Mantém postura estável."],sugestoes:["Usa blocos de 2–5 minutos.","Combina com períodos de recuperação."]},
-  {nome:"Intervalos",grupo:"Cardio",icon:"⏱️",desc:"Alternância de períodos rápidos e períodos de recuperação na elíptica.",passos:["Aquece a ritmo leve.","Aumenta a cadência durante o intervalo rápido.","Recupera a ritmo confortável.","Repete os blocos e termina com recuperação."],erros:["Começar demasiado forte.","Não recuperar entre intervalos.","Perder a postura durante o esforço."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Gémeos","Braços"],beneficios:["Melhora a capacidade cardiovascular","Permite variar a intensidade","Desenvolve resistência"],dificuldade:"Intermédio",cuidados:["Adapta os intervalos ao teu nível.","Mantém controlo do movimento."],sugestoes:["Experimenta 30–60 segundos fortes com 60–120 segundos de recuperação."]}
- ],
- "Máquina de Remo":[
-  {nome:"Intervalos",grupo:"Cardio",icon:"⏱️",desc:"Blocos de remada intensa alternados com recuperação.",passos:["Aquece com remada leve.","Executa o bloco rápido mantendo a sequência pernas-tronco-braços.","Recupera a intensidade baixa.","Repete os blocos e termina com alguns minutos leves."],erros:["Aumentar o ritmo sacrificando a técnica.","Puxar só com os braços.","Não recuperar entre esforços."],musculos:["Pernas","Costas","Glúteos","Braços","Core"],beneficios:["Aumenta a capacidade cardiovascular","Desenvolve potência e resistência","Permite controlar o esforço por tempo ou distância"],dificuldade:"Intermédio / Avançado",cuidados:["Mantém técnica consistente.","Ajusta a intensidade ao nível atual."],sugestoes:["Usa intervalos curtos no início.","Controla o ritmo por 250–500 m ou por tempo."]},
-  {nome:"Resistência",grupo:"Cardio",icon:"💪",desc:"Remada contínua a intensidade moderada para desenvolver resistência.",passos:["Define uma resistência confortável.","Mantém sequência coordenada entre pernas, tronco e braços.","Controla a velocidade de recuperação.","Mantém ritmo estável durante toda a sessão."],erros:["Usar resistência excessiva.","Acelerar a recuperação.","Perder a posição neutra da coluna."],musculos:["Quadríceps","Glúteos","Costas","Core","Braços"],beneficios:["Desenvolve resistência muscular","Melhora capacidade aeróbia","Trabalha o corpo inteiro"],dificuldade:"Intermédio",cuidados:["Escolhe uma resistência que permita boa técnica.","Evita arredondar a lombar."],sugestoes:["Mantém um ritmo sustentável.","Foca-te numa remada longa e controlada."]}
- ],
- "Smith Machine":[
-{
-    nome:"Agachamento na Smith Machine",
-    grupo:"Pernas",
-    icon:"🏋️",
-    desc:"Agachamento guiado com a barra da Smith Machine para trabalhar principalmente pernas e glúteos.",
-    passos:[
-        "Coloca a barra de forma confortável sobre a parte superior das costas.",
-        "Posiciona os pés de acordo com a amplitude confortável.",
-        "Desce controladamente mantendo joelhos alinhados com os pés.",
-        "Empurra o chão para regressar à posição inicial."
-    ],
-    erros:[
-        "Juntar os joelhos para dentro.",
-        "Descer sem controlo.",
-        "Usar carga excessiva."
-    ],
-    musculos:["Quadríceps","Glúteos","Posteriores da coxa"],
-    beneficios:[
-        "Desenvolve força das pernas",
-        "Permite maior estabilidade da barra",
-        "Facilita progressão de carga"
-    ],
-    dificuldade:"Intermédio",
-    cuidados:[
-        "Confirma o bloqueio da barra antes de começar.",
-        "Usa carga adequada."
-    ],
-    sugestoes:[
-        "Começa com amplitude confortável.",
-        "Mantém joelhos e pés alinhados."
-    ],
-    gif:"assets/exercises/gif1.gif"
-},
-  {nome:"Supino na Smith Machine",gif:"assets/exercises/smith-bench-press.gif",grupo:"Peito",icon:"🏋️",desc:"Press de peito guiado na Smith Machine para trabalhar o peitoral e músculos auxiliares.",passos:["Deita-te no banco e ajusta-o à barra.","Segura a barra ligeiramente mais larga que os ombros.","Desce de forma controlada em direção ao peito.","Empurra a barra mantendo os ombros estáveis."],erros:["Descer a barra demasiado depressa.","Abrir excessivamente os cotovelos.","Usar carga que comprometa a técnica."],musculos:["Peitoral","Tríceps","Deltóide anterior"],beneficios:["Desenvolve força de empurrar","Permite progressão controlada","Aumenta estímulo do peitoral"],dificuldade:"Intermédio",cuidados:["Usa um banco bem posicionado.","Não treines sozinho com cargas elevadas sem segurança adequada."],sugestoes:["Mantém escápulas estáveis.","Controla a descida."]},
-  {nome:"Lunges na Smith Machine",grupo:"Pernas",icon:"🦵",desc:"Lunges guiados para trabalhar unilateralmente pernas e glúteos.",passos:["Coloca a barra de forma segura e assume posição estável.","Dá um passo à frente ou atrás conforme a variante escolhida.","Desce mantendo o joelho alinhado com o pé.","Empurra o chão e regressa à posição inicial."],erros:["Perder equilíbrio por usar carga excessiva.","Deixar o joelho colapsar para dentro.","Dar passos demasiado curtos."],musculos:["Glúteos","Quadríceps","Posteriores da coxa"],beneficios:["Trabalha cada perna individualmente","Desenvolve força e estabilidade","Reforça glúteos e pernas"],dificuldade:"Intermédio",cuidados:["Começa com carga leve.","Usa amplitude controlada."],sugestoes:["Mantém o tronco estável.","Executa o mesmo número de repetições por lado."]},
-  {nome:"Shoulder Press na Smith Machine",grupo:"Ombros",icon:"🏋️",desc:"Press vertical guiado para desenvolver os ombros.",passos:["Senta-te com as costas apoiadas e posiciona a barra à altura adequada.","Segura a barra ligeiramente fora da largura dos ombros.","Empurra verticalmente sem bloquear agressivamente os cotovelos.","Desce controladamente até à amplitude confortável."],erros:["Arquear excessivamente a lombar.","Descer além da amplitude confortável.","Usar carga que obrigue a compensações."],musculos:["Deltóides","Tríceps","Trapézio superior"],beneficios:["Desenvolve força dos ombros","Permite movimento guiado","Facilita progressão de carga"],dificuldade:"Intermédio",cuidados:["Ajusta banco e barra corretamente.","Mantém a coluna apoiada."],sugestoes:["Usa amplitude confortável.","Controla a descida."]}
- ],
- "Banco de Peso":[
-  {nome:"Supino Reto",grupo:"Peito",icon:"🏋️",desc:"Press de peito no banco reto com barra ou halteres.",passos:["Deita-te no banco com os pés apoiados.","Posiciona a carga acima do peito.","Desce controladamente mantendo os ombros estáveis.","Empurra até à posição inicial."],erros:["Levantar os glúteos do banco.","Abrir demasiado os cotovelos.","Perder controlo da carga."],musculos:["Peitoral","Tríceps","Deltóide anterior"],beneficios:["Desenvolve força do peito","Trabalha músculos de empurrar","Permite progressão de carga"],dificuldade:"Intermédio",cuidados:["Usa carga adequada e segurança quando necessário."],sugestoes:["Mantém escápulas estáveis e movimento controlado."]},
-  {nome:"Remada com Halteres",grupo:"Costas",icon:"🎯",desc:"Remada unilateral ou bilateral com halteres apoiada no banco.",passos:["Apoia uma mão e o joelho no banco quando fizeres a variante unilateral.","Mantém a coluna neutra.","Puxa o halter em direção à anca.","Desce lentamente e repete."],erros:["Rodar excessivamente o tronco.","Puxar com impulso.","Encolher o ombro."],musculos:["Dorsais","Romboides","Bíceps","Trapézio"],beneficios:["Desenvolve costas","Melhora controlo escapular","Permite trabalho unilateral"],dificuldade:"Intermédio",cuidados:["Mantém coluna neutra.","Escolhe carga controlável."],sugestoes:["Conduz o movimento com o cotovelo.","Controla a descida."]},
-  {nome:"Bíceps com Halteres",grupo:"Braços",icon:"💪",desc:"Flexão do cotovelo com halteres para trabalhar os bíceps.",passos:["Senta-te ou fica em pé com os braços junto ao corpo.","Flexiona os cotovelos elevando os halteres.","Mantém os cotovelos relativamente fixos.","Desce de forma controlada."],erros:["Balançar o tronco.","Avançar os cotovelos excessivamente.","Usar carga que obriga a compensar."],musculos:["Bíceps","Braquial","Antebraços"],beneficios:["Desenvolve força dos braços","Melhora controlo da flexão do cotovelo"],dificuldade:"Iniciante / Intermédio",cuidados:["Evita balanço do corpo.","Usa amplitude confortável."],sugestoes:["Mantém o movimento lento e controlado."]}
- ],
- "Polia Multifuncional":[
-  {nome:"Tríceps na Polia",grupo:"Braços",icon:"💪",desc:"Extensão dos cotovelos na polia para trabalhar os tríceps.",passos:["Fica de frente para a polia com os pés estáveis.","Mantém os cotovelos junto ao tronco.","Empurra o acessório para baixo estendendo os cotovelos.","Regressa lentamente à posição inicial."],erros:["Abrir os cotovelos.","Usar o corpo para empurrar a carga.","Fazer a fase de retorno demasiado rápida."],musculos:["Tríceps"],beneficios:["Isola eficazmente os tríceps","Desenvolve força de extensão do cotovelo"],dificuldade:"Iniciante / Intermédio",cuidados:["Mantém a carga controlável.","Evita movimentos bruscos."],sugestoes:["Mantém os cotovelos estáveis.","Controla a fase excêntrica."]},
-  {nome:"Puxada na Polia",grupo:"Costas",icon:"🎯",desc:"Puxada vertical na polia para trabalhar principalmente as costas.",passos:["Senta-te e fixa as pernas quando o equipamento permitir.","Segura a barra com uma pega confortável.","Puxa em direção à parte superior do peito.","Regressa lentamente à posição inicial."],erros:["Puxar a barra atrás da nuca.","Usar balanço do tronco.","Não controlar a subida."],musculos:["Dorsais","Bíceps","Romboides"],beneficios:["Desenvolve força de puxada","Trabalha a musculatura das costas","Permite ajustar facilmente a carga"],dificuldade:"Iniciante / Intermédio",cuidados:["Mantém ombros estáveis.","Evita puxar atrás da nuca."],sugestoes:["Pensa em conduzir os cotovelos para baixo.","Controla o retorno."]}
- ],
- "Máquina Abdutora/Adutora":[
-  {nome:"Abdução da anca",grupo:"Pernas",icon:"🦵",desc:"Abertura controlada das pernas na máquina abdutora para trabalhar os músculos abdutores da anca.",passos:["Senta-te com as costas apoiadas e ajusta a posição inicial.","Coloca as pernas contra os apoios.","Abre as pernas de forma controlada.","Regressa lentamente sem deixar a carga bater."],erros:["Usar balanço para abrir as pernas.","Soltar a carga de forma brusca.","Usar amplitude desconfortável."],musculos:["Glúteo médio","Glúteo mínimo","Abdutores da anca"],beneficios:["Fortalece os abdutores","Pode melhorar controlo da anca","Permite carga ajustável"],dificuldade:"Iniciante",cuidados:["Ajusta o equipamento à tua anatomia.","Usa amplitude confortável."],sugestoes:["Faz pausas curtas na abertura.","Controla sempre o retorno."]}
- ],
- "Peso Livre":[
-  {nome:"Agachamento com peso livre",grupo:"Pernas",icon:"🏋️",desc:"Agachamento com barra, halteres ou outra carga livre.",passos:["Assume uma base estável com os pés aproximadamente à largura dos ombros.","Desce levando a anca para trás e fletindo os joelhos.","Mantém a coluna estável e os joelhos alinhados.","Empurra o chão para subir."],erros:["Arredondar a coluna.","Deixar os joelhos colapsarem para dentro.","Usar carga excessiva."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Core"],beneficios:["Desenvolve força global","Trabalha vários grupos musculares","Permite progressão de carga"],dificuldade:"Intermédio / Avançado",cuidados:["Aprende a técnica antes de aumentar a carga.","Usa suporte adequado quando necessário."],sugestoes:["Começa leve e aumenta gradualmente.","Mantém a amplitude que consegues controlar."]},
-  {nome:"Peso Morto",grupo:"Pernas",icon:"🏋️",desc:"Movimento de extensão da anca com carga livre, envolvendo a cadeia posterior.",passos:["Posiciona a carga próxima das pernas.","Faz a flexão da anca mantendo a coluna neutra.","Empurra o chão e estende anca e joelhos.","Termina de pé sem hiperestender a lombar."],erros:["Arredondar a coluna.","Afastar a carga do corpo.","Levantar com a lombar em vez de usar a anca."],musculos:["Glúteos","Posteriores da coxa","Eretores da coluna","Costas"],beneficios:["Desenvolve força da cadeia posterior","Melhora capacidade de levantar cargas","Trabalha vários grupos musculares"],dificuldade:"Avançado",cuidados:["Aprende a técnica com carga baixa.","Mantém a carga próxima do corpo."],sugestoes:["Pensa em empurrar o chão.","Mantém o movimento controlado."]}
- ],
- "Leg Press":[
-  {nome:"Leg Press",grupo:"Pernas",icon:"🦵",desc:"Press de pernas na máquina para trabalhar principalmente quadríceps e glúteos.",passos:["Ajusta o banco para manter uma posição confortável.","Coloca os pés na plataforma à largura adequada.","Desbloqueia a plataforma e desce de forma controlada.","Empurra a plataforma sem bloquear agressivamente os joelhos."],erros:["Descer até perder a posição da bacia.","Juntar os joelhos.","Bloquear os joelhos com força no topo."],musculos:["Quadríceps","Glúteos","Posteriores da coxa"],beneficios:["Desenvolve força das pernas","Permite trabalho com carga guiada","Facilita progressão de resistência"],dificuldade:"Intermédio",cuidados:["Nunca retires o apoio da plataforma.","Ajusta a amplitude ao teu corpo."],sugestoes:["Mantém pés estáveis.","Controla a descida e a subida."]}
- ],
- "Mesa Flexora":[
- ],
- "Cadeira Extendora":[
+const EQUIPAMENTOS_EXERCICIOS = {
+    "Passadeira": [
+        {
+            nome: "Caminhada",
+            grupo: "Cardio",
+            icon: "🚶",
+            desc: "Caminhada na passadeira com ritmo confortável e controlo da postura.",
+            passos: [
+                "Coloca os pés na zona central da passadeira e inicia a velocidade de forma gradual.",
+                "Mantém o tronco direito e olha em frente.",
+                "Caminha com passada natural, sem te agarrares às barras.",
+                "Ajusta a velocidade ao teu nível e termina reduzindo gradualmente o ritmo."
+            ],
+            erros: [
+                "Caminhar demasiado perto da frente da passadeira.",
+                "Apoiar continuamente o peso nas barras laterais.",
+                "Aumentar a velocidade sem controlar a passada."
+            ],
+            musculos: [
+                "Gémeos",
+                "Quadríceps",
+                "Posteriores da coxa",
+                "Glúteos"
+            ],
+            beneficios: [
+                "Melhora a capacidade cardiovascular",
+                "Promove resistência aeróbia",
+                "Permite controlar facilmente o ritmo"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Usa as barras apenas quando necessário para equilíbrio.",
+                "Começa com velocidade baixa se não estiveres habituado."
+            ],
+            sugestoes: [
+                "Mantém uma passada confortável.",
+                "Aumenta a velocidade progressivamente."
+            ]
+        },
 
- ]
+        {
+            nome: "Caminhada inclinada",
+            grupo: "Cardio",
+            icon: "⛰️",
+            desc: "Caminhada com inclinação para aumentar a exigência do exercício sem correr.",
+            passos: [
+                "Começa a caminhar a velocidade confortável.",
+                "Aumenta gradualmente a inclinação.",
+                "Mantém o tronco estável sem te inclinares sobre a consola.",
+                "Reduz a inclinação antes de parar."
+            ],
+            erros: [
+                "Apoiar o peso nas barras.",
+                "Inclinar excessivamente o tronco para a frente.",
+                "Usar uma inclinação demasiado elevada para o nível atual."
+            ],
+            musculos: [
+                "Glúteos",
+                "Gémeos",
+                "Quadríceps",
+                "Posteriores da coxa"
+            ],
+            beneficios: [
+                "Aumenta a intensidade do cardio",
+                "Reforça a cadeia inferior",
+                "Permite trabalhar resistência com caminhada"
+            ],
+            dificuldade: "Iniciante / Intermédio",
+            cuidados: [
+                "Aumenta a inclinação gradualmente.",
+                "Reduz a intensidade se perderes a postura."
+            ],
+            sugestoes: [
+                "Mantém os braços livres sempre que possível.",
+                "Usa períodos de inclinação moderada."
+            ]
+        },
+
+        {
+            nome: "Corrida",
+            grupo: "Cardio",
+            icon: "🏃",
+            desc: "Corrida contínua na passadeira com velocidade ajustada ao nível do utilizador.",
+            passos: [
+                "Faz um aquecimento progressivo antes de atingir o ritmo de corrida.",
+                "Mantém o tronco direito e os braços descontraídos.",
+                "Aterra de forma controlada e mantém uma passada natural.",
+                "Reduz gradualmente a velocidade no final."
+            ],
+            erros: [
+                "Começar demasiado rápido.",
+                "Dar passadas excessivamente longas.",
+                "Correr agarrado às barras."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Posteriores da coxa",
+                "Glúteos",
+                "Gémeos",
+                "Core"
+            ],
+            beneficios: [
+                "Melhora a resistência cardiovascular",
+                "Aumenta a capacidade aeróbia",
+                "Desenvolve resistência muscular das pernas"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Ajusta a velocidade à tua condição física.",
+                "Faz aquecimento e retorno à calma."
+            ],
+            sugestoes: [
+                "Mantém um ritmo sustentável.",
+                "Controla a respiração e a postura."
+            ]
+        },
+
+        {
+            nome: "Corrida com inclinação",
+            grupo: "Cardio",
+            icon: "🏃‍♂️",
+            desc: "Corrida na passadeira com inclinação controlada para aumentar a exigência do treino.",
+            passos: [
+                "Começa com alguns minutos de corrida sem inclinação.",
+                "Aumenta a inclinação gradualmente mantendo uma velocidade controlável.",
+                "Mantém o tronco estável e evita apoiar-te nas barras.",
+                "Reduz primeiro a inclinação e depois a velocidade no final."
+            ],
+            erros: [
+                "Usar inclinação elevada com velocidade excessiva.",
+                "Pendurar o corpo nas barras.",
+                "Perder a postura por tentar manter um ritmo demasiado alto."
+            ],
+            musculos: [
+                "Glúteos",
+                "Quadríceps",
+                "Posteriores da coxa",
+                "Gémeos",
+                "Core"
+            ],
+            beneficios: [
+                "Aumenta a intensidade cardiovascular",
+                "Reforça a musculatura das pernas",
+                "Permite variar o estímulo do treino"
+            ],
+            dificuldade: "Intermédio / Avançado",
+            cuidados: [
+                "Progressão gradual da inclinação.",
+                "Reduz a intensidade se a técnica se deteriorar."
+            ],
+            sugestoes: [
+                "Usa blocos curtos de inclinação.",
+                "Escolhe uma velocidade que consigas controlar."
+            ]
+        },
+
+        {
+            nome: "Intervalos de corrida",
+            grupo: "Cardio",
+            icon: "⏱️",
+            desc: "Alternância entre períodos de corrida e recuperação na passadeira.",
+            passos: [
+                "Aquece durante vários minutos a ritmo fácil.",
+                "Alterna períodos de corrida com períodos de recuperação.",
+                "Mantém a técnica consistente durante os blocos rápidos.",
+                "Termina com alguns minutos de recuperação progressiva."
+            ],
+            erros: [
+                "Começar o primeiro intervalo demasiado rápido.",
+                "Eliminar os períodos de recuperação.",
+                "Ignorar sinais de fadiga excessiva."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Posteriores da coxa",
+                "Glúteos",
+                "Gémeos",
+                "Core"
+            ],
+            beneficios: [
+                "Melhora a capacidade cardiovascular",
+                "Permite variar a intensidade",
+                "Desenvolve tolerância a esforços mais elevados"
+            ],
+            dificuldade: "Intermédio / Avançado",
+            cuidados: [
+                "Adequa a duração dos intervalos ao teu nível.",
+                "Faz recuperação suficiente entre esforços."
+            ],
+            sugestoes: [
+                "Começa com intervalos simples, por exemplo 1:1.",
+                "Aumenta a dificuldade gradualmente."
+            ]
+        }
+    ],
+
+    "Bicicleta": [
+        {
+            nome: "Pedalagem moderada",
+            grupo: "Cardio",
+            icon: "🚴",
+            desc: "Pedalagem contínua a intensidade moderada para trabalho cardiovascular.",
+            passos: [
+                "Ajusta o banco para manter uma ligeira flexão do joelho no ponto inferior.",
+                "Coloca os pés corretamente nos pedais.",
+                "Pedala com ritmo regular e tronco estável.",
+                "Reduz gradualmente a resistência no final."
+            ],
+            erros: [
+                "Banco demasiado baixo ou alto.",
+                "Pedalar apenas com a ponta dos pés.",
+                "Usar resistência excessiva."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Posteriores da coxa",
+                "Glúteos",
+                "Gémeos"
+            ],
+            beneficios: [
+                "Melhora a resistência cardiovascular",
+                "Baixo impacto articular",
+                "Permite controlar facilmente a intensidade"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Ajusta o banco antes de começar.",
+                "Evita resistência que prejudique a técnica."
+            ],
+            sugestoes: [
+                "Mantém uma cadência regular.",
+                "Aumenta a resistência progressivamente."
+            ]
+        },
+
+        {
+            nome: "Sprint",
+            grupo: "Cardio",
+            icon: "⚡",
+            desc: "Períodos curtos de pedalagem intensa intercalados com recuperação.",
+            passos: [
+                "Aquece com pedalagem leve.",
+                "Aumenta a resistência ou cadência durante o sprint.",
+                "Mantém o tronco estável e controla o movimento das pernas.",
+                "Recupera com intensidade baixa antes do próximo sprint."
+            ],
+            erros: [
+                "Fazer o sprint sem aquecimento.",
+                "Perder a posição correta no banco.",
+                "Manter intensidade máxima durante demasiado tempo."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Gémeos"
+            ],
+            beneficios: [
+                "Desenvolve capacidade anaeróbia",
+                "Melhora a resposta cardiovascular",
+                "Permite treinos curtos e intensos"
+            ],
+            dificuldade: "Intermédio / Avançado",
+            cuidados: [
+                "Usa períodos curtos de esforço.",
+                "Interrompe se perderes controlo do movimento."
+            ],
+            sugestoes: [
+                "Começa com sprints de 15–30 segundos.",
+                "Recupera completamente entre esforços."
+            ]
+        },
+
+        {
+            nome: "Resistência",
+            grupo: "Cardio",
+            icon: "🔁",
+            desc: "Pedalagem com resistência elevada e ritmo controlado para desenvolver resistência muscular.",
+            passos: [
+                "Ajusta o banco e escolhe uma resistência moderada.",
+                "Mantém uma cadência controlada.",
+                "Pedala sem balançar o tronco.",
+                "Reduz a resistência progressivamente no final."
+            ],
+            erros: [
+                "Usar resistência que obriga a compensações.",
+                "Perder a postura.",
+                "Parar de forma abrupta após esforço elevado."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Gémeos"
+            ],
+            beneficios: [
+                "Desenvolve resistência muscular",
+                "Reforça a cadeia inferior",
+                "Complementa o treino cardiovascular"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Ajusta a resistência ao nível atual.",
+                "Mantém movimento fluido."
+            ],
+            sugestoes: [
+                "Trabalha em blocos de duração moderada.",
+                "Mantém cadência consistente."
+            ]
+        }
+    ],
+
+    "Elíptica": [
+        {
+            nome: "Cardio moderado",
+            grupo: "Cardio",
+            icon: "🔄",
+            desc: "Movimento contínuo na elíptica para treino cardiovascular de baixo impacto.",
+            passos: [
+                "Coloca os pés centrados nos apoios.",
+                "Segura as pegas sem apertar excessivamente.",
+                "Mantém o tronco direito e realiza o movimento contínuo.",
+                "Reduz gradualmente o ritmo no final."
+            ],
+            erros: [
+                "Apoiar demasiado peso nas pegas.",
+                "Perder a postura.",
+                "Usar resistência excessiva."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Gémeos",
+                "Braços"
+            ],
+            beneficios: [
+                "Melhora a resistência cardiovascular",
+                "Movimento de baixo impacto",
+                "Envolve grande parte do corpo"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Mantém os pés dentro dos apoios.",
+                "Ajusta a resistência ao teu nível."
+            ],
+            sugestoes: [
+                "Mantém um ritmo regular.",
+                "Usa as pegas móveis quando confortável."
+            ]
+        },
+
+        {
+            nome: "Resistência",
+            grupo: "Cardio",
+            icon: "💪",
+            desc: "Trabalho contínuo na elíptica com maior resistência para aumentar a exigência muscular.",
+            passos: [
+                "Começa com resistência baixa.",
+                "Aumenta gradualmente a resistência.",
+                "Mantém a amplitude natural do movimento.",
+                "Reduz a resistência antes de terminar."
+            ],
+            erros: [
+                "Compensar com o tronco.",
+                "Aumentar demasiado a resistência.",
+                "Reduzir excessivamente a amplitude."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Gémeos",
+                "Braços"
+            ],
+            beneficios: [
+                "Aumenta a resistência muscular",
+                "Melhora o condicionamento cardiovascular",
+                "Permite controlar a intensidade"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Aumenta a carga progressivamente.",
+                "Mantém postura estável."
+            ],
+            sugestoes: [
+                "Usa blocos de 2–5 minutos.",
+                "Combina com períodos de recuperação."
+            ]
+        },
+
+        {
+            nome: "Intervalos",
+            grupo: "Cardio",
+            icon: "⏱️",
+            desc: "Alternância de períodos rápidos e períodos de recuperação na elíptica.",
+            passos: [
+                "Aquece a ritmo leve.",
+                "Aumenta a cadência durante o intervalo rápido.",
+                "Recupera a ritmo confortável.",
+                "Repete os blocos e termina com recuperação."
+            ],
+            erros: [
+                "Começar demasiado forte.",
+                "Não recuperar entre intervalos.",
+                "Perder a postura durante o esforço."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Gémeos",
+                "Braços"
+            ],
+            beneficios: [
+                "Melhora a capacidade cardiovascular",
+                "Permite variar a intensidade",
+                "Desenvolve resistência"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Adapta os intervalos ao teu nível.",
+                "Mantém controlo do movimento."
+            ],
+            sugestoes: [
+                "Experimenta 30–60 segundos fortes com 60–120 segundos de recuperação."
+            ]
+        }
+    ],
+
+    "Máquina de Remo": [
+        {
+            nome: "Intervalos",
+            grupo: "Cardio",
+            icon: "⏱️",
+            desc: "Blocos de remada intensa alternados com recuperação.",
+            passos: [
+                "Aquece com remada leve.",
+                "Executa o bloco rápido mantendo a sequência pernas-tronco-braços.",
+                "Recupera a intensidade baixa.",
+                "Repete os blocos e termina com alguns minutos leves."
+            ],
+            erros: [
+                "Aumentar o ritmo sacrificando a técnica.",
+                "Puxar só com os braços.",
+                "Não recuperar entre esforços."
+            ],
+            musculos: [
+                "Pernas",
+                "Costas",
+                "Glúteos",
+                "Braços",
+                "Core"
+            ],
+            beneficios: [
+                "Aumenta a capacidade cardiovascular",
+                "Desenvolve potência e resistência",
+                "Permite controlar o esforço por tempo ou distância"
+            ],
+            dificuldade: "Intermédio / Avançado",
+            cuidados: [
+                "Mantém técnica consistente.",
+                "Ajusta a intensidade ao nível atual."
+            ],
+            sugestoes: [
+                "Usa intervalos curtos no início.",
+                "Controla o ritmo por 250–500 m ou por tempo."
+            ]
+        },
+
+        {
+            nome: "Resistência",
+            grupo: "Cardio",
+            icon: "💪",
+            desc: "Remada contínua a intensidade moderada para desenvolver resistência.",
+            passos: [
+                "Define uma resistência confortável.",
+                "Mantém sequência coordenada entre pernas, tronco e braços.",
+                "Controla a velocidade de recuperação.",
+                "Mantém ritmo estável durante toda a sessão."
+            ],
+            erros: [
+                "Usar resistência excessiva.",
+                "Acelerar a recuperação.",
+                "Perder a posição neutra da coluna."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Costas",
+                "Core",
+                "Braços"
+            ],
+            beneficios: [
+                "Desenvolve resistência muscular",
+                "Melhora capacidade aeróbia",
+                "Trabalha o corpo inteiro"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Escolhe uma resistência que permita boa técnica.",
+                "Evita arredondar a lombar."
+            ],
+            sugestoes: [
+                "Mantém um ritmo sustentável.",
+                "Foca-te numa remada longa e controlada."
+            ]
+        }
+    ],
+
+    "Smith Machine": [
+        {
+            nome: "Agachamento na Smith Machine",
+            grupo: "Pernas",
+            icon: "🏋️",
+            desc: "Agachamento guiado com a barra da Smith Machine para trabalhar principalmente pernas e glúteos.",
+            passos: [
+                "Coloca a barra de forma confortável sobre a parte superior das costas.",
+                "Posiciona os pés de acordo com a amplitude confortável.",
+                "Desce controladamente mantendo joelhos alinhados com os pés.",
+                "Empurra o chão para regressar à posição inicial."
+            ],
+            erros: [
+                "Juntar os joelhos para dentro.",
+                "Descer sem controlo.",
+                "Usar carga excessiva."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa"
+            ],
+            beneficios: [
+                "Desenvolve força das pernas",
+                "Permite maior estabilidade da barra",
+                "Facilita progressão de carga"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Confirma o bloqueio da barra antes de começar.",
+                "Usa carga adequada."
+            ],
+            sugestoes: [
+                "Começa com amplitude confortável.",
+                "Mantém joelhos e pés alinhados."
+            ],
+            gif: "assets/exercises/gif1.gif"
+        },
+
+        {
+            nome: "Supino na Smith Machine",
+            gif: "assets/exercises/smith-bench-press.gif",
+            grupo: "Peito",
+            icon: "🏋️",
+            desc: "Press de peito guiado na Smith Machine para trabalhar o peitoral e músculos auxiliares.",
+            passos: [
+                "Deita-te no banco e ajusta-o à barra.",
+                "Segura a barra ligeiramente mais larga que os ombros.",
+                "Desce de forma controlada em direção ao peito.",
+                "Empurra a barra mantendo os ombros estáveis."
+            ],
+            erros: [
+                "Descer a barra demasiado depressa.",
+                "Abrir excessivamente os cotovelos.",
+                "Usar carga que comprometa a técnica."
+            ],
+            musculos: [
+                "Peitoral",
+                "Tríceps",
+                "Deltóide anterior"
+            ],
+            beneficios: [
+                "Desenvolve força de empurrar",
+                "Permite progressão controlada",
+                "Aumenta estímulo do peitoral"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa um banco bem posicionado.",
+                "Não treines sozinho com cargas elevadas sem segurança adequada."
+            ],
+            sugestoes: [
+                "Mantém escápulas estáveis.",
+                "Controla a descida."
+            ]
+        },
+
+        {
+            nome: "Lunges na Smith Machine",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Lunges guiados para trabalhar unilateralmente pernas e glúteos.",
+            passos: [
+                "Coloca a barra de forma segura e assume posição estável.",
+                "Dá um passo à frente ou atrás conforme a variante escolhida.",
+                "Desce mantendo o joelho alinhado com o pé.",
+                "Empurra o chão e regressa à posição inicial."
+            ],
+            erros: [
+                "Perder equilíbrio por usar carga excessiva.",
+                "Deixar o joelho colapsar para dentro.",
+                "Dar passos demasiado curtos."
+            ],
+            musculos: [
+                "Glúteos",
+                "Quadríceps",
+                "Posteriores da coxa"
+            ],
+            beneficios: [
+                "Trabalha cada perna individualmente",
+                "Desenvolve força e estabilidade",
+                "Reforça glúteos e pernas"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Começa com carga leve.",
+                "Usa amplitude controlada."
+            ],
+            sugestoes: [
+                "Mantém o tronco estável.",
+                "Executa o mesmo número de repetições por lado."
+            ]
+        },
+
+        {
+            nome: "Shoulder Press na Smith Machine",
+            grupo: "Ombros",
+            icon: "🏋️",
+            desc: "Press vertical guiado para desenvolver os ombros.",
+            passos: [
+                "Senta-te com as costas apoiadas e posiciona a barra à altura adequada.",
+                "Segura a barra ligeiramente fora da largura dos ombros.",
+                "Empurra verticalmente sem bloquear agressivamente os cotovelos.",
+                "Desce controladamente até à amplitude confortável."
+            ],
+            erros: [
+                "Arquear excessivamente a lombar.",
+                "Descer além da amplitude confortável.",
+                "Usar carga que obrigue a compensações."
+            ],
+            musculos: [
+                "Deltóides",
+                "Tríceps",
+                "Trapézio superior"
+            ],
+            beneficios: [
+                "Desenvolve força dos ombros",
+                "Permite movimento guiado",
+                "Facilita progressão de carga"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Ajusta banco e barra corretamente.",
+                "Mantém a coluna apoiada."
+            ],
+            sugestoes: [
+                "Usa amplitude confortável.",
+                "Controla a descida."
+            ]
+        }
+    ],
+
+    "Banco de Peso": [
+        {
+            nome: "Supino Reto",
+            grupo: "Peito",
+            icon: "🏋️",
+            desc: "Press de peito no banco reto com barra ou halteres.",
+            passos: [
+                "Deita-te no banco com os pés apoiados.",
+                "Posiciona a carga acima do peito.",
+                "Desce controladamente mantendo os ombros estáveis.",
+                "Empurra até à posição inicial."
+            ],
+            erros: [
+                "Levantar os glúteos do banco.",
+                "Abrir demasiado os cotovelos.",
+                "Perder controlo da carga."
+            ],
+            musculos: [
+                "Peitoral",
+                "Tríceps",
+                "Deltóide anterior"
+            ],
+            beneficios: [
+                "Desenvolve força do peito",
+                "Trabalha músculos de empurrar",
+                "Permite progressão de carga"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa carga adequada e segurança quando necessário."
+            ],
+            sugestoes: [
+                "Mantém escápulas estáveis e movimento controlado."
+            ]
+        },
+
+        {
+            nome: "Remada com Halteres",
+            grupo: "Costas",
+            icon: "🎯",
+            desc: "Remada unilateral ou bilateral com halteres apoiada no banco.",
+            passos: [
+                "Apoia uma mão e o joelho no banco quando fizeres a variante unilateral.",
+                "Mantém a coluna neutra.",
+                "Puxa o halter em direção à anca.",
+                "Desce lentamente e repete."
+            ],
+            erros: [
+                "Rodar excessivamente o tronco.",
+                "Puxar com impulso.",
+                "Encolher o ombro."
+            ],
+            musculos: [
+                "Dorsais",
+                "Romboides",
+                "Bíceps",
+                "Trapézio"
+            ],
+            beneficios: [
+                "Desenvolve costas",
+                "Melhora controlo escapular",
+                "Permite trabalho unilateral"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Mantém coluna neutra.",
+                "Escolhe carga controlável."
+            ],
+            sugestoes: [
+                "Conduz o movimento com o cotovelo.",
+                "Controla a descida."
+            ]
+        },
+
+        {
+            nome: "Bíceps com Halteres",
+            grupo: "Braços",
+            icon: "💪",
+            desc: "Flexão do cotovelo com halteres para trabalhar os bíceps.",
+            passos: [
+                "Senta-te ou fica em pé com os braços junto ao corpo.",
+                "Flexiona os cotovelos elevando os halteres.",
+                "Mantém os cotovelos relativamente fixos.",
+                "Desce de forma controlada."
+            ],
+            erros: [
+                "Balançar o tronco.",
+                "Avançar os cotovelos excessivamente.",
+                "Usar carga que obriga a compensar."
+            ],
+            musculos: [
+                "Bíceps",
+                "Braquial",
+                "Antebraços"
+            ],
+            beneficios: [
+                "Desenvolve força dos braços",
+                "Melhora controlo da flexão do cotovelo"
+            ],
+            dificuldade: "Iniciante / Intermédio",
+            cuidados: [
+                "Evita balanço do corpo.",
+                "Usa amplitude confortável."
+            ],
+            sugestoes: [
+                "Mantém o movimento lento e controlado."
+            ]
+        }
+    ],
+
+    "Polia Multifuncional": [
+        {
+            nome: "Tríceps na Polia",
+            grupo: "Braços",
+            icon: "💪",
+            desc: "Extensão dos cotovelos na polia para trabalhar os tríceps.",
+            passos: [
+                "Fica de frente para a polia com os pés estáveis.",
+                "Mantém os cotovelos junto ao tronco.",
+                "Empurra o acessório para baixo estendendo os cotovelos.",
+                "Regressa lentamente à posição inicial."
+            ],
+            erros: [
+                "Abrir os cotovelos.",
+                "Usar o corpo para empurrar a carga.",
+                "Fazer a fase de retorno demasiado rápida."
+            ],
+            musculos: [
+                "Tríceps"
+            ],
+            beneficios: [
+                "Isola eficazmente os tríceps",
+                "Desenvolve força de extensão do cotovelo"
+            ],
+            dificuldade: "Iniciante / Intermédio",
+            cuidados: [
+                "Mantém a carga controlável.",
+                "Evita movimentos bruscos."
+            ],
+            sugestoes: [
+                "Mantém os cotovelos estáveis.",
+                "Controla a fase excêntrica."
+            ]
+        },
+
+        {
+            nome: "Puxada na Polia",
+            grupo: "Costas",
+            icon: "🎯",
+            desc: "Puxada vertical na polia para trabalhar principalmente as costas.",
+            passos: [
+                "Senta-te e fixa as pernas quando o equipamento permitir.",
+                "Segura a barra com uma pega confortável.",
+                "Puxa em direção à parte superior do peito.",
+                "Regressa lentamente à posição inicial."
+            ],
+            erros: [
+                "Puxar a barra atrás da nuca.",
+                "Usar balanço do tronco.",
+                "Não controlar a subida."
+            ],
+            musculos: [
+                "Dorsais",
+                "Bíceps",
+                "Romboides"
+            ],
+            beneficios: [
+                "Desenvolve força de puxada",
+                "Trabalha a musculatura das costas",
+                "Permite ajustar facilmente a carga"
+            ],
+            dificuldade: "Iniciante / Intermédio",
+            cuidados: [
+                "Mantém ombros estáveis.",
+                "Evita puxar atrás da nuca."
+            ],
+            sugestoes: [
+                "Pensa em conduzir os cotovelos para baixo.",
+                "Controla o retorno."
+            ]
+        }
+    ],
+
+    "Máquina Abdutora/Adutora": [
+        {
+            nome: "Abdução da anca",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Abertura controlada das pernas na máquina abdutora para trabalhar os músculos abdutores da anca.",
+            passos: [
+                "Senta-te com as costas apoiadas e ajusta a posição inicial.",
+                "Coloca as pernas contra os apoios.",
+                "Abre as pernas de forma controlada.",
+                "Regressa lentamente sem deixar a carga bater."
+            ],
+            erros: [
+                "Usar balanço para abrir as pernas.",
+                "Soltar a carga de forma brusca.",
+                "Usar amplitude desconfortável."
+            ],
+            musculos: [
+                "Glúteo médio",
+                "Glúteo mínimo",
+                "Abdutores da anca"
+            ],
+            beneficios: [
+                "Fortalece os abdutores",
+                "Pode melhorar controlo da anca",
+                "Permite carga ajustável"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Ajusta o equipamento à tua anatomia.",
+                "Usa amplitude confortável."
+            ],
+            sugestoes: [
+                "Faz pausas curtas na abertura.",
+                "Controla sempre o retorno."
+            ]
+        }
+    ],
+
+    "Peso Livre": [
+        {
+            nome: "Agachamento com peso livre",
+            grupo: "Pernas",
+            icon: "🏋️",
+            desc: "Agachamento com barra, halteres ou outra carga livre.",
+            passos: [
+                "Assume uma base estável com os pés aproximadamente à largura dos ombros.",
+                "Desce levando a anca para trás e fletindo os joelhos.",
+                "Mantém a coluna estável e os joelhos alinhados.",
+                "Empurra o chão para subir."
+            ],
+            erros: [
+                "Arredondar a coluna.",
+                "Deixar os joelhos colapsarem para dentro.",
+                "Usar carga excessiva."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Core"
+            ],
+            beneficios: [
+                "Desenvolve força global",
+                "Trabalha vários grupos musculares",
+                "Permite progressão de carga"
+            ],
+            dificuldade: "Intermédio / Avançado",
+            cuidados: [
+                "Aprende a técnica antes de aumentar a carga.",
+                "Usa suporte adequado quando necessário."
+            ],
+            sugestoes: [
+                "Começa leve e aumenta gradualmente.",
+                "Mantém a amplitude que consegues controlar."
+            ]
+        },
+
+        {
+            nome: "Peso Morto",
+            grupo: "Pernas",
+            icon: "🏋️",
+            desc: "Movimento de extensão da anca com carga livre, envolvendo a cadeia posterior.",
+            passos: [
+                "Posiciona a carga próxima das pernas.",
+                "Faz a flexão da anca mantendo a coluna neutra.",
+                "Empurra o chão e estende anca e joelhos.",
+                "Termina de pé sem hiperestender a lombar."
+            ],
+            erros: [
+                "Arredondar a coluna.",
+                "Afastar a carga do corpo.",
+                "Levantar com a lombar em vez de usar a anca."
+            ],
+            musculos: [
+                "Glúteos",
+                "Posteriores da coxa",
+                "Eretores da coluna",
+                "Costas"
+            ],
+            beneficios: [
+                "Desenvolve força da cadeia posterior",
+                "Melhora capacidade de levantar cargas",
+                "Trabalha vários grupos musculares"
+            ],
+            dificuldade: "Avançado",
+            cuidados: [
+                "Aprende a técnica com carga baixa.",
+                "Mantém a carga próxima do corpo."
+            ],
+            sugestoes: [
+                "Pensa em empurrar o chão.",
+                "Mantém o movimento controlado."
+            ]
+        }
+    ],
+
+    "Leg Press": [
+        {
+            nome: "Leg Press",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Press de pernas na máquina para trabalhar principalmente quadríceps e glúteos.",
+            passos: [
+                "Ajusta o banco para manter uma posição confortável.",
+                "Coloca os pés na plataforma à largura adequada.",
+                "Desbloqueia a plataforma e desce de forma controlada.",
+                "Empurra a plataforma sem bloquear agressivamente os joelhos."
+            ],
+            erros: [
+                "Descer até perder a posição da bacia.",
+                "Juntar os joelhos.",
+                "Bloquear os joelhos com força no topo."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa"
+            ],
+            beneficios: [
+                "Desenvolve força das pernas",
+                "Permite trabalho com carga guiada",
+                "Facilita progressão de resistência"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Nunca retires o apoio da plataforma.",
+                "Ajusta a amplitude ao teu corpo."
+            ],
+            sugestoes: [
+                "Mantém pés estáveis.",
+                "Controla a descida e a subida."
+            ]
+        }
+    ],
+
+    "Mesa Flexora": [],
+
+    "Cadeira Extendora": []
 };
 
+const EXERCICIOS_EXTRA = {
+    "Passadeira": [
+        {
+            nome: "Caminhada de recuperação",
+            grupo: "Cardio",
+            icon: "🚶",
+            desc: "Caminhada leve para recuperação ativa e retorno à calma.",
+            passos: [
+                "Começa a velocidade baixa.",
+                "Mantém postura natural e passada curta.",
+                "Respira de forma confortável.",
+                "Reduz a velocidade antes de parar."
+            ],
+            erros: [
+                "Começar demasiado rápido.",
+                "Apoiar o peso nas barras."
+            ],
+            musculos: [
+                "Gémeos",
+                "Quadríceps",
+                "Glúteos"
+            ],
+            beneficios: [
+                "Facilita a recuperação",
+                "Mantém movimento leve"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Usa intensidade confortável."
+            ],
+            sugestoes: [
+                "Mantém ritmo em que consegues conversar."
+            ]
+        },
 
-const EXERCICIOS_EXTRA={
- "Passadeira":[
-  {nome:"Caminhada de recuperação",grupo:"Cardio",icon:"🚶",desc:"Caminhada leve para recuperação ativa e retorno à calma.",passos:["Começa a velocidade baixa.","Mantém postura natural e passada curta.","Respira de forma confortável.","Reduz a velocidade antes de parar."],erros:["Começar demasiado rápido.","Apoiar o peso nas barras."],musculos:["Gémeos","Quadríceps","Glúteos"],beneficios:["Facilita a recuperação","Mantém movimento leve"],dificuldade:"Iniciante",cuidados:["Usa intensidade confortável."],sugestoes:["Mantém ritmo em que consegues conversar."]},
-  {nome:"Corrida progressiva",grupo:"Cardio",icon:"📈",desc:"Corrida em que a velocidade aumenta gradualmente ao longo do treino.",passos:["Começa a ritmo fácil.","Aumenta ligeiramente a velocidade a cada bloco.","Mantém a técnica estável.","Termina a ritmo controlado."],erros:["Aumentar demasiado cedo.","Perder a postura com a fadiga."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Gémeos"],beneficios:["Desenvolve resistência","Melhora controlo do ritmo"],dificuldade:"Intermédio",cuidados:["Adapta o ritmo à condição física."],sugestoes:["Usa blocos de 3–5 minutos."]}
- ],
- "Bicicleta":[
-  {nome:"Cadência constante",grupo:"Cardio",icon:"🚴",desc:"Pedalagem contínua mantendo uma cadência estável.",passos:["Ajusta o banco.","Escolhe resistência leve a moderada.","Mantém cadência regular.","Reduz a resistência no final."],erros:["Alterar a cadência constantemente.","Usar posição desconfortável."],musculos:["Quadríceps","Glúteos","Gémeos"],beneficios:["Melhora eficiência cardiovascular","Desenvolve resistência"],dificuldade:"Iniciante",cuidados:["Mantém movimento sem dor."],sugestoes:["Procura um ritmo sustentável."]},
-  {nome:"Subidas simuladas",grupo:"Cardio",icon:"⛰️",desc:"Pedalagem com resistência elevada para simular uma subida.",passos:["Começa com resistência moderada.","Aumenta progressivamente a resistência.","Mantém o tronco estável.","Reduz a resistência gradualmente."],erros:["Usar resistência excessiva.","Perder a cadência."],musculos:["Quadríceps","Glúteos","Posteriores da coxa"],beneficios:["Aumenta a resistência muscular","Melhora capacidade cardiovascular"],dificuldade:"Intermédio",cuidados:["Reduz a carga se a técnica piorar."],sugestoes:["Trabalha em blocos de 2–4 minutos."]}
- ],
- "Elíptica":[
-  {nome:"Resistência contínua",grupo:"Cardio",icon:"🔄",desc:"Trabalho contínuo na elíptica com resistência moderada.",passos:["Coloca os pés corretamente.","Seleciona resistência moderada.","Mantém ritmo contínuo.","Reduz a resistência antes de terminar."],erros:["Apoiar demasiado o peso nas pegas.","Fazer movimentos curtos sem controlo."],musculos:["Quadríceps","Glúteos","Posteriores da coxa","Ombros"],beneficios:["Melhora resistência","Baixo impacto"],dificuldade:"Iniciante",cuidados:["Mantém postura estável."],sugestoes:["Usa movimentos amplos e controlados."]},
-  {nome:"Intervalos na elíptica",grupo:"Cardio",icon:"⏱️",desc:"Alternância entre blocos rápidos e recuperação.",passos:["Aquece.","Aumenta ritmo durante o bloco rápido.","Recupera a ritmo leve.","Repete os blocos."],erros:["Começar demasiado forte.","Eliminar a recuperação."],musculos:["Pernas","Glúteos","Core"],beneficios:["Varia a intensidade","Desenvolve capacidade cardiovascular"],dificuldade:"Intermédio",cuidados:["Ajusta a duração ao teu nível."],sugestoes:["Começa com 30 segundos rápidos e 60 de recuperação."]}
- ],
- "Máquina de Remo":[
-  {nome:"Remada técnica",grupo:"Cardio",icon:"🚣",desc:"Remada lenta focada na sequência correta do movimento.",passos:["Empurra com as pernas.","Inclina ligeiramente o tronco.","Puxa a pega em direção ao abdómen.","Recupera na ordem inversa."],erros:["Puxar só com os braços.","Arredondar a lombar."],musculos:["Costas","Quadríceps","Glúteos","Bíceps"],beneficios:["Melhora técnica","Trabalha grande parte do corpo"],dificuldade:"Iniciante",cuidados:["Mantém a lombar estável."],sugestoes:["Controla o retorno da pega."]},
-  {nome:"Sprints no remo",grupo:"Cardio",icon:"⚡",desc:"Intervalos curtos de remada intensa com recuperação ativa.",passos:["Aquece a ritmo leve.","Aumenta a potência por um intervalo curto.","Recupera a ritmo fácil.","Repete conforme o plano."],erros:["Perder a técnica quando aumenta a intensidade.","Recuperar demasiado pouco."],musculos:["Pernas","Costas","Glúteos","Core"],beneficios:["Melhora potência","Aumenta capacidade cardiovascular"],dificuldade:"Avançado",cuidados:["Prioriza sempre a técnica."],sugestoes:["Começa com 15–20 segundos fortes."]}
- ],
- "Smith Machine":[
-  {nome:"Agachamento frontal",grupo:"Pernas",icon:"🏋️",desc:"Agachamento guiado com a barra apoiada à frente dos ombros.",passos:["Posiciona a barra de forma estável.","Mantém o tronco alto.","Desce controladamente.","Empurra o chão para subir."],erros:["Juntar os joelhos.","Descer sem controlo."],musculos:["Quadríceps","Glúteos","Core"],beneficios:["Trabalha pernas e core","Permite controlo da trajetória"],dificuldade:"Intermédio",cuidados:["Usa carga adequada."],sugestoes:["Começa com amplitude confortável."]},
- ],
- "Banco de Peso":[
-  {nome:"Press de ombros com halteres",grupo:"Ombros",icon:"🏋️",desc:"Press sentado num banco com halteres.",passos:["Senta-te com apoio das costas.","Coloca os halteres à altura dos ombros.","Empurra para cima.","Desce controladamente."],erros:["Arquear excessivamente a lombar.","Usar impulso das pernas."],musculos:["Deltoides","Tríceps"],beneficios:["Desenvolve força dos ombros","Melhora estabilidade do tronco"],dificuldade:"Intermédio",cuidados:["Usa carga controlável."],sugestoes:["Mantém punhos neutros."]},
- ],
- "Estação Multifuncional":[
-  {nome:"Face Pull",grupo:"Ombros",icon:"🎯",desc:"Puxada à altura do rosto para deltoide posterior e parte superior das costas.",passos:["Ajusta a polia à altura do rosto.","Puxa a corda em direção à testa.","Afasta as mãos mantendo os cotovelos altos.","Regressa lentamente."],erros:["Usar demasiado peso.","Compensar com o tronco."],musculos:["Deltoide posterior","Trapézio","Romboides"],beneficios:["Reforça a parte superior das costas","Ajuda no controlo dos ombros"],dificuldade:"Iniciante",cuidados:["Mantém movimento controlado."],sugestoes:["Usa carga leve a moderada."]},
-  {nome:"Pallof Press",grupo:"Core",icon:"🧱",desc:"Exercício anti-rotação na polia para estabilidade do core.",passos:["Fica perpendicular à polia.","Segura a pega junto ao peito.","Estende os braços sem rodar o tronco.","Volta devagar ao peito."],erros:["Rodar as ancas.","Afastar os pés demasiado."],musculos:["Core","Oblíquos","Glúteos"],beneficios:["Melhora estabilidade","Treina resistência à rotação"],dificuldade:"Intermédio",cuidados:["Começa com carga leve."],sugestoes:["Mantém o tronco totalmente estável."]}
- ],
- "Peso Livre":[
-  {nome:"Lunge com halteres",grupo:"Pernas",icon:"🦵",desc:"Lunge com halteres para trabalhar pernas de forma unilateral.",passos:["Segura um haltere em cada mão.","Dá um passo controlado.","Desce até uma posição estável.","Empurra o chão para voltar."],erros:["Passo demasiado curto.","Perder alinhamento do joelho."],musculos:["Quadríceps","Glúteos","Posteriores da coxa"],beneficios:["Melhora força unilateral","Trabalha equilíbrio"],dificuldade:"Intermédio",cuidados:["Começa sem carga se necessário."],sugestoes:["Mantém o tronco alto."]},
-  {nome:"Remada com halteres",grupo:"Costas",icon:"🎯",desc:"Remada inclinada com halteres para trabalhar as costas.",passos:["Inclina o tronco com coluna neutra.","Puxa os halteres em direção à anca.","Aperta as omoplatas.","Desce de forma controlada."],erros:["Arredondar a coluna.","Encolher os ombros."],musculos:["Dorsais","Romboides","Bíceps"],beneficios:["Fortalece as costas","Melhora força de puxada"],dificuldade:"Intermédio",cuidados:["Evita carga excessiva."],sugestoes:["Mantém cotovelos próximos do corpo."]}
- ],
- "Leg Press":[
-  {nome:"Leg Press unilateral",grupo:"Pernas",icon:"🦵",desc:"Press de pernas realizado com uma perna de cada vez.",passos:["Ajusta o banco e a plataforma.","Coloca um pé no centro da plataforma.","Desce de forma controlada.","Empurra sem bloquear o joelho."],erros:["Perder o apoio da bacia.","Usar carga demasiado alta."],musculos:["Quadríceps","Glúteos","Posteriores da coxa"],beneficios:["Trabalha cada perna individualmente","Ajuda a corrigir desequilíbrios"],dificuldade:"Intermédio",cuidados:["Usa carga reduzida face ao trabalho bilateral."],sugestoes:["Mantém a amplitude que controlas."]},
-  {nome:"Leg Press com pés altos",grupo:"Pernas",icon:"🦵",desc:"Variação com colocação dos pés mais alta na plataforma.",passos:["Coloca os pés um pouco mais altos.","Desce mantendo a bacia apoiada.","Empurra através de toda a planta do pé.","Volta lentamente."],erros:["Descer além do controlo.","Juntar os joelhos."],musculos:["Glúteos","Posteriores da coxa","Quadríceps"],beneficios:["Permite variar o estímulo muscular","Trabalha a cadeia inferior"],dificuldade:"Intermédio",cuidados:["Ajusta a posição ao teu conforto."],sugestoes:["Mantém joelhos alinhados com os pés."]}
- ],
+        {
+            nome: "Corrida progressiva",
+            grupo: "Cardio",
+            icon: "📈",
+            desc: "Corrida em que a velocidade aumenta gradualmente ao longo do treino.",
+            passos: [
+                "Começa a ritmo fácil.",
+                "Aumenta ligeiramente a velocidade a cada bloco.",
+                "Mantém a técnica estável.",
+                "Termina a ritmo controlado."
+            ],
+            erros: [
+                "Aumentar demasiado cedo.",
+                "Perder a postura com a fadiga."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Gémeos"
+            ],
+            beneficios: [
+                "Desenvolve resistência",
+                "Melhora controlo do ritmo"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Adapta o ritmo à condição física."
+            ],
+            sugestoes: [
+                "Usa blocos de 3–5 minutos."
+            ]
+        }
+    ],
+
+    "Bicicleta": [
+        {
+            nome: "Cadência constante",
+            grupo: "Cardio",
+            icon: "🚴",
+            desc: "Pedalagem contínua mantendo uma cadência estável.",
+            passos: [
+                "Ajusta o banco.",
+                "Escolhe resistência leve a moderada.",
+                "Mantém cadência regular.",
+                "Reduz a resistência no final."
+            ],
+            erros: [
+                "Alterar a cadência constantemente.",
+                "Usar posição desconfortável."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Gémeos"
+            ],
+            beneficios: [
+                "Melhora eficiência cardiovascular",
+                "Desenvolve resistência"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Mantém movimento sem dor."
+            ],
+            sugestoes: [
+                "Procura um ritmo sustentável."
+            ]
+        },
+
+        {
+            nome: "Subidas simuladas",
+            grupo: "Cardio",
+            icon: "⛰️",
+            desc: "Pedalagem com resistência elevada para simular uma subida.",
+            passos: [
+                "Começa com resistência moderada.",
+                "Aumenta progressivamente a resistência.",
+                "Mantém o tronco estável.",
+                "Reduz a resistência gradualmente."
+            ],
+            erros: [
+                "Usar resistência excessiva.",
+                "Perder a cadência."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa"
+            ],
+            beneficios: [
+                "Aumenta a resistência muscular",
+                "Melhora capacidade cardiovascular"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Reduz a carga se a técnica piorar."
+            ],
+            sugestoes: [
+                "Trabalha em blocos de 2–4 minutos."
+            ]
+        }
+    ],
+
+    "Elíptica": [
+        {
+            nome: "Resistência contínua",
+            grupo: "Cardio",
+            icon: "🔄",
+            desc: "Trabalho contínuo na elíptica com resistência moderada.",
+            passos: [
+                "Coloca os pés corretamente.",
+                "Seleciona resistência moderada.",
+                "Mantém ritmo contínuo.",
+                "Reduz a resistência antes de terminar."
+            ],
+            erros: [
+                "Apoiar demasiado o peso nas pegas.",
+                "Fazer movimentos curtos sem controlo."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Ombros"
+            ],
+            beneficios: [
+                "Melhora resistência",
+                "Baixo impacto"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Mantém postura estável."
+            ],
+            sugestoes: [
+                "Usa movimentos amplos e controlados."
+            ]
+        },
+
+        {
+            nome: "Intervalos na elíptica",
+            grupo: "Cardio",
+            icon: "⏱️",
+            desc: "Alternância entre blocos rápidos e recuperação.",
+            passos: [
+                "Aquece.",
+                "Aumenta ritmo durante o bloco rápido.",
+                "Recupera a ritmo leve.",
+                "Repete os blocos."
+            ],
+            erros: [
+                "Começar demasiado forte.",
+                "Eliminar a recuperação."
+            ],
+            musculos: [
+                "Pernas",
+                "Glúteos",
+                "Core"
+            ],
+            beneficios: [
+                "Varia a intensidade",
+                "Desenvolve capacidade cardiovascular"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Ajusta a duração ao teu nível."
+            ],
+            sugestoes: [
+                "Começa com 30 segundos rápidos e 60 de recuperação."
+            ]
+        }
+    ],
+
+    "Máquina de Remo": [
+        {
+            nome: "Remada técnica",
+            grupo: "Cardio",
+            icon: "🚣",
+            desc: "Remada lenta focada na sequência correta do movimento.",
+            passos: [
+                "Empurra com as pernas.",
+                "Inclina ligeiramente o tronco.",
+                "Puxa a pega em direção ao abdómen.",
+                "Recupera na ordem inversa."
+            ],
+            erros: [
+                "Puxar só com os braços.",
+                "Arredondar a lombar."
+            ],
+            musculos: [
+                "Costas",
+                "Quadríceps",
+                "Glúteos",
+                "Bíceps"
+            ],
+            beneficios: [
+                "Melhora técnica",
+                "Trabalha grande parte do corpo"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Mantém a lombar estável."
+            ],
+            sugestoes: [
+                "Controla o retorno da pega."
+            ]
+        },
+
+        {
+            nome: "Sprints no remo",
+            grupo: "Cardio",
+            icon: "⚡",
+            desc: "Intervalos curtos de remada intensa com recuperação ativa.",
+            passos: [
+                "Aquece a ritmo leve.",
+                "Aumenta a potência por um intervalo curto.",
+                "Recupera a ritmo fácil.",
+                "Repete conforme o plano."
+            ],
+            erros: [
+                "Perder a técnica quando aumenta a intensidade.",
+                "Recuperar demasiado pouco."
+            ],
+            musculos: [
+                "Pernas",
+                "Costas",
+                "Glúteos",
+                "Core"
+            ],
+            beneficios: [
+                "Melhora potência",
+                "Aumenta capacidade cardiovascular"
+            ],
+            dificuldade: "Avançado",
+            cuidados: [
+                "Prioriza sempre a técnica."
+            ],
+            sugestoes: [
+                "Começa com 15–20 segundos fortes."
+            ]
+        }
+    ],
+
+    "Smith Machine": [
+        {
+            nome: "Agachamento frontal",
+            grupo: "Pernas",
+            icon: "🏋️",
+            desc: "Agachamento guiado com a barra apoiada à frente dos ombros.",
+            passos: [
+                "Posiciona a barra de forma estável.",
+                "Mantém o tronco alto.",
+                "Desce controladamente.",
+                "Empurra o chão para subir."
+            ],
+            erros: [
+                "Juntar os joelhos.",
+                "Descer sem controlo."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Core"
+            ],
+            beneficios: [
+                "Trabalha pernas e core",
+                "Permite controlo da trajetória"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa carga adequada."
+            ],
+            sugestoes: [
+                "Começa com amplitude confortável."
+            ]
+        }
+    ],
+
+    "Banco de Peso": [
+        {
+            nome: "Press de ombros com halteres",
+            grupo: "Ombros",
+            icon: "🏋️",
+            desc: "Press sentado num banco com halteres.",
+            passos: [
+                "Senta-te com apoio das costas.",
+                "Coloca os halteres à altura dos ombros.",
+                "Empurra para cima.",
+                "Desce controladamente."
+            ],
+            erros: [
+                "Arquear excessivamente a lombar.",
+                "Usar impulso das pernas."
+            ],
+            musculos: [
+                "Deltoides",
+                "Tríceps"
+            ],
+            beneficios: [
+                "Desenvolve força dos ombros",
+                "Melhora estabilidade do tronco"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa carga controlável."
+            ],
+            sugestoes: [
+                "Mantém punhos neutros."
+            ]
+        }
+    ],
+
+    "Estação Multifuncional": [
+        {
+            nome: "Face Pull",
+            grupo: "Ombros",
+            icon: "🎯",
+            desc: "Puxada à altura do rosto para deltoide posterior e parte superior das costas.",
+            passos: [
+                "Ajusta a polia à altura do rosto.",
+                "Puxa a corda em direção à testa.",
+                "Afasta as mãos mantendo os cotovelos altos.",
+                "Regressa lentamente."
+            ],
+            erros: [
+                "Usar demasiado peso.",
+                "Compensar com o tronco."
+            ],
+            musculos: [
+                "Deltoide posterior",
+                "Trapézio",
+                "Romboides"
+            ],
+            beneficios: [
+                "Reforça a parte superior das costas",
+                "Ajuda no controlo dos ombros"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Mantém movimento controlado."
+            ],
+            sugestoes: [
+                "Usa carga leve a moderada."
+            ]
+        },
+
+        {
+            nome: "Pallof Press",
+            grupo: "Core",
+            icon: "🧱",
+            desc: "Exercício anti-rotação na polia para estabilidade do core.",
+            passos: [
+                "Fica perpendicular à polia.",
+                "Segura a pega junto ao peito.",
+                "Estende os braços sem rodar o tronco.",
+                "Volta devagar ao peito."
+            ],
+            erros: [
+                "Rodar as ancas.",
+                "Afastar os pés demasiado."
+            ],
+            musculos: [
+                "Core",
+                "Oblíquos",
+                "Glúteos"
+            ],
+            beneficios: [
+                "Melhora estabilidade",
+                "Treina resistência à rotação"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Começa com carga leve."
+            ],
+            sugestoes: [
+                "Mantém o tronco totalmente estável."
+            ]
+        }
+    ],
+
+    "Peso Livre": [
+        {
+            nome: "Lunge com halteres",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Lunge com halteres para trabalhar pernas de forma unilateral.",
+            passos: [
+                "Segura um haltere em cada mão.",
+                "Dá um passo controlado.",
+                "Desce até uma posição estável.",
+                "Empurra o chão para voltar."
+            ],
+            erros: [
+                "Passo demasiado curto.",
+                "Perder alinhamento do joelho."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa"
+            ],
+            beneficios: [
+                "Melhora força unilateral",
+                "Trabalha equilíbrio"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Começa sem carga se necessário."
+            ],
+            sugestoes: [
+                "Mantém o tronco alto."
+            ]
+        },
+
+        {
+            nome: "Remada com halteres",
+            grupo: "Costas",
+            icon: "🎯",
+            desc: "Remada inclinada com halteres para trabalhar as costas.",
+            passos: [
+                "Inclina o tronco com coluna neutra.",
+                "Puxa os halteres em direção à anca.",
+                "Aperta as omoplatas.",
+                "Desce de forma controlada."
+            ],
+            erros: [
+                "Arredondar a coluna.",
+                "Encolher os ombros."
+            ],
+            musculos: [
+                "Dorsais",
+                "Romboides",
+                "Bíceps"
+            ],
+            beneficios: [
+                "Fortalece as costas",
+                "Melhora força de puxada"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Evita carga excessiva."
+            ],
+            sugestoes: [
+                "Mantém cotovelos próximos do corpo."
+            ]
+        }
+    ],
+
+    "Leg Press": [
+        {
+            nome: "Leg Press unilateral",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Press de pernas realizado com uma perna de cada vez.",
+            passos: [
+                "Ajusta o banco e a plataforma.",
+                "Coloca um pé no centro da plataforma.",
+                "Desce de forma controlada.",
+                "Empurra sem bloquear o joelho."
+            ],
+            erros: [
+                "Perder o apoio da bacia.",
+                "Usar carga demasiado alta."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa"
+            ],
+            beneficios: [
+                "Trabalha cada perna individualmente",
+                "Ajuda a corrigir desequilíbrios"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa carga reduzida face ao trabalho bilateral."
+            ],
+            sugestoes: [
+                "Mantém a amplitude que controlas."
+            ]
+        },
+
+        {
+            nome: "Leg Press com pés altos",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Variação com colocação dos pés mais alta na plataforma.",
+            passos: [
+                "Coloca os pés um pouco mais altos.",
+                "Desce mantendo a bacia apoiada.",
+                "Empurra através de toda a planta do pé.",
+                "Volta lentamente."
+            ],
+            erros: [
+                "Descer além do controlo.",
+                "Juntar os joelhos."
+            ],
+            musculos: [
+                "Glúteos",
+                "Posteriores da coxa",
+                "Quadríceps"
+            ],
+            beneficios: [
+                "Permite variar o estímulo muscular",
+                "Trabalha a cadeia inferior"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Ajusta a posição ao teu conforto."
+            ],
+            sugestoes: [
+                "Mantém joelhos alinhados com os pés."
+            ]
+        }
+    ]
 };
-Object.entries(EXERCICIOS_EXTRA).forEach(([equipamento,extras])=>{
- if(Array.isArray(EQUIPAMENTOS_EXERCICIOS[equipamento])) EQUIPAMENTOS_EXERCICIOS[equipamento].push(...extras);
+
+Object.entries(EXERCICIOS_EXTRA).forEach(([equipamento, extras]) => {
+    if (Array.isArray(EQUIPAMENTOS_EXERCICIOS[equipamento])) {
+        EQUIPAMENTOS_EXERCICIOS[equipamento].push(...extras);
+    }
 });
 
-function renderEquipamentos(){
- const list=document.getElementById("equipment-list");if(!list)return;
- if(!list.dataset.originalHtml)list.dataset.originalHtml=list.innerHTML;
- list.querySelectorAll(".equipment-card").forEach(card=>{
-  card.setAttribute("role","button");card.setAttribute("tabindex","0");
-  card.onclick=()=>abrirEquipamento(card.querySelector("h3")?.textContent.trim());
-  card.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();abrirEquipamento(card.querySelector("h3")?.textContent.trim())}};
- });
+function renderEquipamentos() {
+    const list = document.getElementById("equipment-list");
+
+    if (!list) return;
+
+    if (!list.dataset.originalHtml) {
+        list.dataset.originalHtml = list.innerHTML;
+    }
+
+    list.querySelectorAll(".equipment-card").forEach(card => {
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+
+        card.onclick = () =>
+            abrirEquipamento(
+                card.querySelector("h3")?.textContent.trim()
+            );
+
+        card.onkeydown = e => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                abrirEquipamento(
+                    card.querySelector("h3")?.textContent.trim()
+                );
+            }
+        };
+    });
 }
 
-function abrirEquipamento(nome){
- const list=document.getElementById("equipment-list");if(!list)return;
- const exercicios=EQUIPAMENTOS_EXERCICIOS[nome]||[];
- list.innerHTML=`<div class="equipment-info" style="grid-column:1/-1;margin-bottom:1rem"><button class="filter-btn equipment-back" type="button">← Equipamentos</button><h3 style="margin-top:1rem">${nome}</h3><p>Exercícios disponíveis neste equipamento.</p></div>`+
-  (exercicios.length?exercicios.map((e,i)=>`<button type="button" class="help-exercise-card equipment-exercise-card" data-exercise="${i}"><div class="help-exercise-thumb ${classeExercicio(e.grupo)}"><span>${e.icon||"🏋️"}</span></div><div class="help-exercise-body"><span class="help-exercise-tag">${e.grupo}</span><h3>${e.nome}</h3><p>${e.desc}</p><span class="help-exercise-cta">Ver exercício</span></div></button>`).join(""):`<div class="help-empty"><strong>Sem exercícios associados.</strong><p>Este equipamento ainda não tem exercícios definidos.</p></div>`);
- list.querySelector(".equipment-back")?.addEventListener("click",()=>{list.innerHTML=list.dataset.originalHtml;renderEquipamentos()});
- list.querySelectorAll(".equipment-exercise-card").forEach(card=>card.addEventListener("click",()=>abrirExercicioModal(exercicios[Number(card.dataset.exercise)])));
- window.scrollTo(0,0);
+function abrirEquipamento(nome) {
+    const list = document.getElementById("equipment-list");
+    const filtrosEquipamentos = document.querySelector(".equipment-filters");
+
+    if (!list) return;
+
+    if (filtrosEquipamentos) {
+        filtrosEquipamentos.style.display = "none";
+    }
+
+    const exercicios = EQUIPAMENTOS_EXERCICIOS[nome] || [];
+
+    const gruposMusculares = [
+        ...new Set(
+            exercicios
+                .map(e => e.grupo)
+                .filter(g => g && g !== "Cardio")
+        )
+    ];
+
+    const temMusculacao = gruposMusculares.length > 0;
+
+    list.innerHTML = `
+        <div class="equipment-info" style="grid-column:1/-1;margin-bottom:1rem">
+            <button class="filter-btn equipment-back" type="button">
+                ← Equipamentos
+            </button>
+
+            <h3 style="margin-top:1rem">${nome}</h3>
+            <p>Exercícios disponíveis neste equipamento.</p>
+
+            <div class="exercise-filters">
+
+                <select id="exerciseDifficultyFilter">
+                    <option value="Todos">Todas as dificuldades</option>
+                    <option value="Iniciante">Iniciante</option>
+                    <option value="Intermédio">Intermédio</option>
+                    <option value="Avançado">Avançado</option>
+                </select>
+
+                ${
+                    temMusculacao
+                        ? `
+                        <select id="exerciseMuscleFilter">
+                            <option value="Todos">Todos os grupos</option>
+
+                            ${gruposMusculares
+                                .map(
+                                    grupo =>
+                                        `<option value="${grupo}">${grupo}</option>`
+                                )
+                                .join("")}
+                        </select>
+                        `
+                        : ""
+                }
+
+            </div>
+        </div>
+
+        <div id="filtered-exercise-list" class="equipment-exercise-grid"></div>
+    `;
+
+    const renderExerciciosFiltrados = () => {
+
+        const dificuldade =
+            document.getElementById("exerciseDifficultyFilter")?.value || "Todos";
+
+        const grupo =
+            document.getElementById("exerciseMuscleFilter")?.value || "Todos";
+
+        const filtrados = exercicios.filter(e => {
+
+            const correspondeDificuldade =
+                dificuldade === "Todos" ||
+                e.dificuldade === dificuldade;
+
+            const correspondeGrupo =
+                grupo === "Todos" ||
+                e.grupo === grupo;
+
+            return correspondeDificuldade && correspondeGrupo;
+        });
+
+        const exerciseList =
+            document.getElementById("filtered-exercise-list");
+
+        if (!exerciseList) return;
+
+        exerciseList.innerHTML =
+            filtrados.length
+                ? filtrados
+                      .map(
+                          (e) =>
+                              `<button type="button"
+                                  class="help-exercise-card equipment-exercise-card"
+                                  data-exercise-index="${exercicios.indexOf(e)}">
+
+                                  <div class="help-exercise-thumb ${classeExercicio(e.grupo)}">
+                                      <span class="exercise-meta">
+                                          ${(e.grupo || "").toUpperCase()} · ${(e.dificuldade || "").toUpperCase()}
+                                      </span>
+                                  </div>
+
+                                  <div class="help-exercise-body">
+                                      <span class="help-exercise-tag">${e.grupo}</span>
+
+                                      <h3>${e.nome}</h3>
+
+                                      <p>${e.desc}</p>
+
+                                      <span class="help-exercise-cta">
+                                          Ver exercício
+                                      </span>
+                                  </div>
+
+                              </button>`
+                      )
+                      .join("")
+                : `
+                    <div class="help-empty">
+                        <strong>Nenhum exercício encontrado.</strong>
+                        <p>Experimenta alterar os filtros.</p>
+                    </div>
+                `;
+
+        exerciseList
+            .querySelectorAll(".equipment-exercise-card")
+            .forEach(card => {
+                card.addEventListener("click", () => {
+                    const index =
+                        Number(card.dataset.exerciseIndex);
+
+                    abrirExercicioModal(exercicios[index]);
+                });
+            });
+    };
+
+    document
+        .getElementById("exerciseDifficultyFilter")
+        ?.addEventListener("change", renderExerciciosFiltrados);
+
+    document
+        .getElementById("exerciseMuscleFilter")
+        ?.addEventListener("change", renderExerciciosFiltrados);
+
+    list
+        .querySelector(".equipment-back")
+        ?.addEventListener("click", () => {
+            list.innerHTML = list.dataset.originalHtml;
+
+            if (filtrosEquipamentos) {
+                filtrosEquipamentos.style.display = "";
+            }
+
+            renderEquipamentos();
+        });
+
+    renderExerciciosFiltrados();
+
+    window.scrollTo(0, 0);
 }
-function classeExercicio(grupo){return ({Peito:"t-peito",Costas:"t-costas",Pernas:"t-pernas",Ombros:"t-ombros",Braços:"t-bracos",Core:"t-core"})[grupo]||""}
+
+function classeExercicio(grupo) {
+    return {
+        Peito: "t-peito",
+        Costas: "t-costas",
+        Pernas: "t-pernas",
+        Ombros: "t-ombros",
+        Braços: "t-bracos",
+        Core: "t-core"
+    }[grupo] || "";
+}
 
 document.addEventListener("click", e => {
-  const b=e.target.closest(".filter-btn[data-filter]");if(!b)return;
-  document.querySelectorAll("#page-equipment .filter-btn[data-filter]").forEach(x=>x.classList.remove("active"));b.classList.add("active");
-  const filtro=b.dataset.filter;
-  document.querySelectorAll("#equipment-list .equipment-card").forEach(card=>{card.style.display=(filtro==="Todos"||card.dataset.category===filtro)?"":"none"});
+    const b = e.target.closest(".filter-btn[data-filter]");
+
+    if (!b) return;
+
+    document
+        .querySelectorAll("#page-equipment .filter-btn[data-filter]")
+        .forEach(x => x.classList.remove("active"));
+
+    b.classList.add("active");
+
+    const filtro = b.dataset.filter;
+
+    document
+        .querySelectorAll("#equipment-list .equipment-card")
+        .forEach(card => {
+            card.style.display =
+                filtro === "Todos" || card.dataset.category === filtro
+                    ? ""
+                    : "none";
+        });
 });
 
-document.addEventListener("DOMContentLoaded",renderEquipamentos);
+document.addEventListener("DOMContentLoaded", renderEquipamentos);
