@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let deferredPrompt = null;
 
+
     /* =====================================================
        SERVICE WORKER
        ===================================================== */
@@ -20,13 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     );
 
-                // Verifica imediatamente se existe uma nova versão
-                await registration.update();
-
                 console.log(
                     "Service Worker registado:",
                     registration.scope
                 );
+
+                /*
+                 * Verifica imediatamente se existe
+                 * uma versão nova do Service Worker.
+                 */
+                await registration.update();
 
             } catch (err) {
 
@@ -39,11 +43,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+
+        /*
+         * Quando o novo Service Worker assumir
+         * o controlo, recarregar a página.
+         *
+         * Assim o utilizador passa a executar
+         * imediatamente o JS/CSS novo.
+         */
+
+        navigator.serviceWorker.addEventListener(
+            "controllerchange",
+            () => {
+
+                window.location.reload();
+
+            }
+        );
+
     }
 
 
     /* =====================================================
-       INSTALAÇÃO DA APP
+       INSTALAÇÃO DA PWA
        ===================================================== */
 
     window.addEventListener(
@@ -74,6 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
+    /* =====================================================
+       BOTÃO INSTALAR
+       ===================================================== */
+
     document
         .getElementById("installAppBtn")
         ?.addEventListener(
@@ -91,7 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 deferredPrompt = null;
 
                 document
-                    .getElementById("installAppBar")
+                    .getElementById(
+                        "installAppBar"
+                    )
                     ?.setAttribute(
                         "hidden",
                         ""
@@ -100,6 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
+
+    /* =====================================================
+       DISPENSAR BARRA DE INSTALAÇÃO
+       ===================================================== */
 
     document
         .getElementById("dismissInstall")
@@ -113,7 +145,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
                 document
-                    .getElementById("installAppBar")
+                    .getElementById(
+                        "installAppBar"
+                    )
                     ?.setAttribute(
                         "hidden",
                         ""
@@ -123,6 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
+    /* =====================================================
+       APP INSTALADA
+       ===================================================== */
+
     window.addEventListener(
         "appinstalled",
         () => {
@@ -130,7 +168,9 @@ document.addEventListener("DOMContentLoaded", () => {
             deferredPrompt = null;
 
             document
-                .getElementById("installAppBar")
+                .getElementById(
+                    "installAppBar"
+                )
                 ?.setAttribute(
                     "hidden",
                     ""
@@ -145,7 +185,9 @@ document.addEventListener("DOMContentLoaded", () => {
        ===================================================== */
 
     document
-        .querySelectorAll("[data-page-jump]")
+        .querySelectorAll(
+            "[data-page-jump]"
+        )
         .forEach(btn => {
 
             btn.addEventListener(

@@ -1,24 +1,24 @@
 const CACHE_NAME = 'vf-ginasio-v21';
 
 const APP_SHELL = [
-  './',
-  './index.html',
-  './manifest.json',
+    './',
+    './index.html',
+    './manifest.json',
 
-  './css/style.css',
-  './css/responsive.css',
+    './css/style.css',
+    './css/responsive.css',
 
-  './js/equipamentos.js',
-  './js/treino.js',
-  './js/exercicios.js',
-  './js/navegacao.js',
-  './js/timer.js',
-  './js/tema.js',
-  './js/app.js',
+    './js/equipamentos.js',
+    './js/treino.js',
+    './js/exercicios.js',
+    './js/navegacao.js',
+    './js/timer.js',
+    './js/tema.js',
+    './js/app.js',
 
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './assets/vila-flor-identidade.png'
+    './icons/icon-192.png',
+    './icons/icon-512.png',
+    './assets/vila-flor-identidade.png'
 ];
 
 
@@ -28,19 +28,19 @@ const APP_SHELL = [
 
 self.addEventListener('install', event => {
 
-  event.waitUntil(
+    event.waitUntil(
 
-    caches.open(CACHE_NAME)
-      .then(cache => {
+        caches.open(CACHE_NAME)
+            .then(cache => {
 
-        return cache.addAll(APP_SHELL);
+                return cache.addAll(APP_SHELL);
 
-      })
+            })
 
-  );
+    );
 
-  // Ativa imediatamente a nova versão
-  self.skipWaiting();
+    // Ativa imediatamente a nova versão
+    self.skipWaiting();
 
 });
 
@@ -51,28 +51,28 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
 
-  event.waitUntil(
+    event.waitUntil(
 
-    caches.keys()
-      .then(keys => {
+        caches.keys()
+            .then(keys => {
 
-        return Promise.all(
+                return Promise.all(
 
-          keys
-            .filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
+                    keys
+                        .filter(key => key !== CACHE_NAME)
+                        .map(key => caches.delete(key))
 
-        );
+                );
 
-      })
-      .then(() => {
+            })
+            .then(() => {
 
-        // Assume imediatamente o controlo das páginas abertas
-        return self.clients.claim();
+                // Assume imediatamente o controlo das páginas
+                return self.clients.claim();
 
-      })
+            })
 
-  );
+    );
 
 });
 
@@ -83,132 +83,173 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
 
-  if (event.request.method !== 'GET') {
-    return;
-  }
+    // Apenas pedidos GET
+    if (event.request.method !== 'GET') {
+        return;
+    }
 
-  const url = new URL(event.request.url);
+    const url = new URL(event.request.url);
 
 
-  /*
-   * HTML
-   * ---------------------------------------------------------
-   * Vai primeiro à internet para garantir sempre a versão
-   * mais recente.
-   */
+    /* =====================================================
+       HTML
+       ===================================================== */
 
-  if (
-    url.pathname === '/' ||
-    url.pathname.endsWith('/index.html')
-  ) {
+    /*
+     * O HTML é sempre procurado primeiro na internet.
+     * Assim, a aplicação recebe a versão mais recente.
+     */
+
+    if (
+        url.pathname === '/' ||
+        url.pathname.endsWith('/index.html')
+    ) {
+
+        event.respondWith(
+
+            fetch(event.request, {
+                cache: 'no-store'
+            })
+
+                .then(response => {
+
+                    const copy = response.clone();
+
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+
+                            cache.put(
+                                event.request,
+                                copy
+                            );
+
+                        });
+
+                    return response;
+
+                })
+
+                .catch(() => {
+
+                    return caches.match(
+                        event.request
+                    );
+
+                })
+
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       JAVASCRIPT E CSS
+       ===================================================== */
+
+    /*
+     * JS e CSS também procuram primeiro a versão online.
+     *
+     * Isto evita que alterações ao:
+     *
+     * treino.js
+     * exercicios.js
+     * equipamentos.js
+     * style.css
+     * etc.
+     *
+     * fiquem presas numa versão antiga do cache.
+     */
+
+    if (
+        url.pathname.endsWith('.js') ||
+        url.pathname.endsWith('.css')
+    ) {
+
+        event.respondWith(
+
+            fetch(event.request, {
+                cache: 'no-store'
+            })
+
+                .then(response => {
+
+                    const copy = response.clone();
+
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+
+                            cache.put(
+                                event.request,
+                                copy
+                            );
+
+                        });
+
+                    return response;
+
+                })
+
+                .catch(() => {
+
+                    // Se não houver internet,
+                    // usa a versão guardada no cache.
+                    return caches.match(
+                        event.request
+                    );
+
+                })
+
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       RESTANTES FICHEIROS
+       ===================================================== */
+
+    /*
+     * Imagens, ícones, manifest, GIFs, etc.
+     *
+     * Aqui usamos cache primeiro para manter
+     * a aplicação funcional offline.
+     */
 
     event.respondWith(
 
-      fetch(event.request, {
-        cache: 'no-store'
-      })
+        caches.match(event.request)
 
-        .then(response => {
+            .then(cached => {
 
-          const copy = response.clone();
+                if (cached) {
+                    return cached;
+                }
 
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, copy);
-            });
+                return fetch(event.request)
 
-          return response;
+                    .then(response => {
 
-        })
+                        const copy =
+                            response.clone();
 
-        .catch(() => {
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
 
-          return caches.match(event.request);
+                                cache.put(
+                                    event.request,
+                                    copy
+                                );
 
-        })
+                            });
 
-    );
+                        return response;
 
-    return;
-  }
+                    });
 
-
-  /*
-   * JAVASCRIPT E CSS
-   * ---------------------------------------------------------
-   * Também tentamos primeiro a versão online.
-   *
-   * Isto é importante para que alterações ao código sejam
-   * disponibilizadas imediatamente depois de uma atualização.
-   */
-
-  if (
-    url.pathname.endsWith('.js') ||
-    url.pathname.endsWith('.css')
-  ) {
-
-    event.respondWith(
-
-      fetch(event.request, {
-        cache: 'no-store'
-      })
-
-        .then(response => {
-
-          const copy = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, copy);
-            });
-
-          return response;
-
-        })
-
-        .catch(() => {
-
-          return caches.match(event.request);
-
-        })
+            })
 
     );
-
-    return;
-  }
-
-
-  /*
-   * RESTANTES FICHEIROS
-   * ---------------------------------------------------------
-   * Cache primeiro para permitir funcionamento offline.
-   */
-
-  event.respondWith(
-
-    caches.match(event.request)
-      .then(cached => {
-
-        if (cached) {
-          return cached;
-        }
-
-        return fetch(event.request)
-          .then(response => {
-
-            const copy = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, copy);
-              });
-
-            return response;
-
-          });
-
-      })
-
-  );
 
 });
