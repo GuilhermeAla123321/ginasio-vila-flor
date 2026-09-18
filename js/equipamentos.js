@@ -1915,11 +1915,20 @@ function abrirEquipamento(nome) {
                                   class="help-exercise-card equipment-exercise-card"
                                   data-exercise-index="${exercicios.indexOf(e)}">
 
-                                  <div class="help-exercise-thumb ${classeExercicio(e.grupo)}">
-                                      <span class="exercise-meta">
-                                          ${(e.grupo || "").toUpperCase()} · ${(e.dificuldade || "").toUpperCase()}
-                                      </span>
-                                  </div>
+                               <div class="help-exercise-thumb ${classeExercicio(e.grupo)}">
+
+                            <div class="vila-flor-symbol">
+                                <img
+                                    src="assets/iconvila.png"
+                                    alt="Vila Flor"
+                                >
+                            </div>
+
+                                    <span class="exercise-meta">
+                                        ${(e.grupo || "").toUpperCase()} · ${(e.dificuldade || "").toUpperCase()}
+                                    </span>
+
+                                </div>
 
                                   <div class="help-exercise-body">
                                       <span class="help-exercise-tag">${e.grupo}</span>
