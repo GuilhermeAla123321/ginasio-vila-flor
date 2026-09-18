@@ -3237,6 +3237,144 @@ body[data-theme="dark"] .exercise-filters select option {
 
     display: block;
 }
+
+/* =========================================================
+   CORREÇÃO DOS ÍCONES NO TELEMÓVEL
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .equipment-card {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 13px !important;
+    }
+
+    .equipment-icon {
+        width: 53px !important;
+        height: 53px !important;
+        min-width: 53px !important;
+        min-height: 53px !important;
+
+        flex: 0 0 53px !important;
+
+        display: grid !important;
+        place-items: center !important;
+
+        overflow: hidden !important;
+        border-radius: 15px !important;
+    }
+
+    .equipment-icon img {
+        width: 100% !important;
+        height: 100% !important;
+
+        max-width: 100% !important;
+        max-height: 100% !important;
+
+        object-fit: cover !important;
+        display: block !important;
+    }
+
+    .equipment-info {
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+    }
+
+    .equipment-info h3 {
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 4px !important;
+    }
+
+    .equipment-info p {
+        font-size: 10px !important;
+        line-height: 1.35 !important;
+    }
+
+
+    /* Ícones da barra inferior */
+
+    .nav-item {
+        min-width: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+    }
+
+    .nav-item svg {
+        width: 20px !important;
+        height: 20px !important;
+
+        min-width: 20px !important;
+        min-height: 20px !important;
+
+        display: block !important;
+    }
+
+    .nav-item small {
+        font-size: 9px !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+    }
+
+
+    /* Botões com ícones no topo */
+
+    .icon-btn {
+        width: 38px !important;
+        height: 38px !important;
+
+        min-width: 38px !important;
+        min-height: 38px !important;
+
+        display: grid !important;
+        place-items: center !important;
+    }
+
+    .icon-btn svg {
+        width: 19px !important;
+        height: 19px !important;
+
+        min-width: 19px !important;
+        min-height: 19px !important;
+
+        display: block !important;
+    }
+
+    .theme-toggle-icon {
+        font-size: 17px !important;
+        line-height: 1 !important;
+        display: block !important;
+    }
+
+
+    /* Símbolo de Vila Flor */
+
+    .vila-flor-symbol {
+        width: 34px !important;
+        height: 34px !important;
+
+        min-width: 34px !important;
+        min-height: 34px !important;
+
+        flex: 0 0 34px !important;
+    }
+
+    .vila-flor-symbol img {
+        width: 100% !important;
+        height: 100% !important;
+
+        max-width: 100% !important;
+        max-height: 100% !important;
+
+        object-fit: contain !important;
+        display: block !important;
+    }
+}
 .exercise-picker-control.active {
     background: rgba(104,64,111,.10);
     color: #68406f;
