@@ -999,9 +999,155 @@ const EQUIPAMENTOS_EXERCICIOS = {
         }
     ],
 
-    "Mesa Flexora": [],
+    "Peck Deck": [],
 
-    "Cadeira Extendora": []
+    "Mesa Flexora": [
+        {
+            nome: "Flexão de pernas",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Flexão dos joelhos na mesa flexora para trabalhar principalmente os músculos posteriores da coxa.",
+            passos: [
+                "Ajusta a máquina e posiciona os tornozelos corretamente sob o apoio.",
+                "Mantém as ancas e o tronco apoiados no banco.",
+                "Flete os joelhos de forma controlada, aproximando os calcanhares dos glúteos.",
+                "Regressa lentamente à posição inicial."
+            ],
+            erros: [
+                "Levantar a bacia do banco.",
+                "Usar carga demasiado elevada.",
+                "Fazer o movimento de forma brusca."
+            ],
+            musculos: [
+                "Posteriores da coxa",
+                "Gémeos",
+                "Glúteos"
+            ],
+            beneficios: [
+                "Fortalece os posteriores da coxa",
+                "Melhora a força de flexão do joelho",
+                "Ajuda a desenvolver a cadeia posterior das pernas"
+            ],
+            dificuldade: "Iniciante / Intermédio",
+            cuidados: [
+                "Ajusta o apoio ao tamanho das pernas.",
+                "Evita deixar a carga cair no retorno."
+            ],
+            sugestoes: [
+                "Mantém o movimento lento e controlado.",
+                "Evita levantar a bacia durante a execução."
+            ]
+        },
+
+        {
+            nome: "Flexão unilateral de pernas",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Flexão unilateral do joelho na mesa flexora para trabalhar cada perna de forma individual.",
+            passos: [
+                "Ajusta a máquina e posiciona corretamente o tornozelo da perna que vai trabalhar.",
+                "Mantém as ancas e o tronco apoiados no banco.",
+                "Flete o joelho de forma controlada.",
+                "Regressa lentamente à posição inicial antes de repetir."
+            ],
+            erros: [
+                "Rodar a bacia durante o movimento.",
+                "Usar carga demasiado elevada.",
+                "Fazer o retorno demasiado rápido."
+            ],
+            musculos: [
+                "Posteriores da coxa",
+                "Gémeos",
+                "Glúteos"
+            ],
+            beneficios: [
+                "Permite trabalhar cada perna individualmente",
+                "Ajuda a identificar diferenças de força entre as pernas",
+                "Melhora o controlo do movimento"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa uma carga controlável.",
+                "Mantém a bacia estável durante toda a execução."
+            ],
+            sugestoes: [
+                "Mantém a amplitude que consegues controlar.",
+                "Realiza o mesmo número de repetições em cada perna."
+            ]
+        }
+    ],
+
+    "Cadeira Extensora": [
+        {
+            nome: "Extensão de pernas",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Extensão dos joelhos na cadeira extensora para trabalhar principalmente os quadríceps.",
+            passos: [
+                "Ajusta o banco e o apoio dos tornozelos à tua posição.",
+                "Mantém as costas e a bacia apoiadas no encosto.",
+                "Estende os joelhos de forma controlada.",
+                "Desce lentamente até à posição inicial."
+            ],
+            erros: [
+                "Levantar a bacia do banco.",
+                "Usar carga demasiado elevada.",
+                "Fazer o movimento demasiado rápido."
+            ],
+            musculos: [
+                "Quadríceps"
+            ],
+            beneficios: [
+                "Fortalece os quadríceps",
+                "Permite trabalhar a extensão do joelho de forma controlada",
+                "Facilita o isolamento da parte anterior da coxa"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Ajusta corretamente a posição do joelho e do tornozelo.",
+                "Evita bloquear os joelhos de forma brusca no topo."
+            ],
+            sugestoes: [
+                "Controla a subida e a descida.",
+                "Mantém a bacia apoiada durante todo o exercício."
+            ]
+        },
+
+        {
+            nome: "Extensão unilateral de pernas",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Extensão unilateral do joelho na cadeira extensora para trabalhar cada perna individualmente.",
+            passos: [
+                "Ajusta a cadeira e posiciona corretamente a perna que vai trabalhar.",
+                "Mantém as costas e a bacia apoiadas no encosto.",
+                "Estende o joelho de forma controlada.",
+                "Desce lentamente até à posição inicial."
+            ],
+            erros: [
+                "Rodar ou levantar a bacia.",
+                "Usar carga demasiado elevada.",
+                "Fazer o movimento com balanço."
+            ],
+            musculos: [
+                "Quadríceps"
+            ],
+            beneficios: [
+                "Permite trabalhar cada perna individualmente",
+                "Ajuda a identificar desequilíbrios de força",
+                "Melhora o controlo de cada perna"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa uma carga mais baixa do que na variante bilateral.",
+                "Evita movimentos bruscos na extensão."
+            ],
+            sugestoes: [
+                "Mantém a execução lenta e controlada.",
+                "Faz o mesmo número de repetições em cada perna."
+            ]
+        }
+    ]
 };
 
 const EXERCICIOS_EXTRA = {
@@ -1482,6 +1628,87 @@ const EXERCICIOS_EXTRA = {
             ],
             sugestoes: [
                 "Mantém cotovelos próximos do corpo."
+            ]
+        },
+
+        
+        {
+            
+        }
+    ],
+
+    "Peck Deck": [
+        {
+            nome: "Crucifixo",
+            grupo: "Peito",
+            icon: "💪",
+            desc: "Exercício de isolamento para o peito, realizado através da aproximação dos braços à frente do corpo.",
+            passos: [
+                "Ajusta o banco e a posição dos braços.",
+                "Mantém o peito aberto e as costas apoiadas.",
+                "Abre os braços de forma controlada.",
+                "Aproxima os braços à frente sem fazer movimentos bruscos."
+            ],
+            erros: [
+                "Usar carga demasiado elevada.",
+                "Fazer o movimento demasiado rápido.",
+                "Descolar as costas do banco."
+            ],
+            musculos: [
+                "Peitoral maior",
+                "Peitoral menor",
+                "Deltoide anterior"
+            ],
+            beneficios: [
+                "Ajuda a desenvolver o peito.",
+                "Permite trabalhar o peito de forma mais isolada.",
+                "Melhora o controlo e a amplitude do movimento."
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Usa uma carga que permita controlar todo o movimento.",
+                "Evita abrir demasiado os braços."
+            ],
+            sugestoes: [
+                "Mantém o movimento lento e controlado.",
+                "Concentra-te na contração do peito."
+            ]
+        },
+
+        {
+            nome: "Crucifixo invertido com pegada neutra",
+            grupo: "Ombros",
+            icon: "💪",
+            desc: "Exercício realizado com os braços afastando-se lateralmente e para trás, com pegada neutra, focado principalmente na parte posterior dos ombros.",
+            passos: [
+                "Ajusta o banco e segura os pegadores com uma pegada neutra.",
+                "Mantém o peito apoiado e as costas estáveis.",
+                "Abre os braços lateralmente e ligeiramente para trás.",
+                "Retorna lentamente à posição inicial."
+            ],
+            erros: [
+                "Usar carga demasiado elevada.",
+                "Encolher os ombros durante o movimento.",
+                "Fazer balanço com o tronco."
+            ],
+            musculos: [
+                "Deltoide posterior",
+                "Trapézio",
+                "Romboides"
+            ],
+            beneficios: [
+                "Fortalece a parte posterior dos ombros.",
+                "Ajuda a desenvolver a parte superior das costas.",
+                "Contribui para um melhor equilíbrio muscular dos ombros."
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa uma carga que permita controlar todo o movimento.",
+                "Evita puxar demasiado os braços para trás."
+            ],
+            sugestoes: [
+                "Mantém os cotovelos ligeiramente flexionados.",
+                "Concentra-te no movimento dos ombros e não das mãos."
             ]
         }
     ],
