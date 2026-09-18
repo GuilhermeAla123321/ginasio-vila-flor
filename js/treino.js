@@ -1368,9 +1368,6 @@ function renderTreino() {
                             Ginásio Encerrado
                         </strong>
 
-                        <p>
-                            O ginásio encontra-se encerrado aos domingos.
-                        </p>
 
                     </div>
                 `
