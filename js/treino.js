@@ -229,10 +229,8 @@ const PARAMETROS = {
    ========================================================= */
 
 let treinos = carregarJSON(STORAGE_TREINOS, {});
-
 let exerciciosPersonalizados =
     carregarJSON(STORAGE_EXERCICIOS_PERSONALIZADOS, []);
-
 let favoritosExercicios =
     carregarJSON(STORAGE_FAVORITOS_EXERCICIOS, []);
 
@@ -254,9 +252,7 @@ let diaSelecionado = "segunda";
 function carregarJSON(chave, valorPadrao) {
 
     try {
-
-        const raw =
-            localStorage.getItem(chave);
+        const raw = localStorage.getItem(chave);
 
         if (!raw) {
             return valorPadrao;
@@ -372,36 +368,25 @@ function inferirTipoExercicio(
     grupo = ""
 ) {
 
-    const n =
-        normalizarTexto(nome);
+    const n = normalizarTexto(nome);
 
-    if (
-        /passadeira|treadmill/.test(n)
-    ) {
+    if (/passadeira|treadmill/.test(n)) {
         return "passadeira";
     }
 
-    if (
-        /bicicleta|bike|bicycle/.test(n)
-    ) {
+    if (/bicicleta|bike|bicycle/.test(n)) {
         return "cardio";
     }
 
-    if (
-        /eliptica|elliptical/.test(n)
-    ) {
+    if (/eliptica|elliptical/.test(n)) {
         return "cardio";
     }
 
-    if (
-        /remo|rowing|ergometro/.test(n)
-    ) {
+    if (/remo|rowing|ergometro/.test(n)) {
         return "remo";
     }
 
-    if (
-        /prancha|isometr/.test(n)
-    ) {
+    if (/prancha|isometr/.test(n)) {
         return "isometrico";
     }
 
@@ -411,9 +396,7 @@ function inferirTipoExercicio(
         return "mobilidade";
     }
 
-    if (
-        /flexao|flexoes|push up|push-up/.test(n)
-    ) {
+    if (/flexao|flexoes|push up|push-up/.test(n)) {
         return "pesoCorporal";
     }
 
@@ -424,9 +407,7 @@ function inferirTipoExercicio(
         return "pesoCorporal";
     }
 
-    if (
-        /halteres|halter|dumbbell/.test(n)
-    ) {
+    if (/halteres|halter|dumbbell/.test(n)) {
         return "halteres";
     }
 
@@ -451,8 +432,7 @@ function inferirTipoExercicio(
 
 function inferirGrupoExercicio(nome) {
 
-    const n =
-        normalizarTexto(nome);
+    const n = normalizarTexto(nome);
 
     if (
         /supino|peito|crucifixo|abertura|press de peito|voador/.test(n)
@@ -510,21 +490,16 @@ function metadadosExercicio(
         inferirGrupoExercicio(nome);
 
     return {
-
         nome,
-
         grupo,
-
         tipo:
             meta.tipo ||
             inferirTipoExercicio(
                 nome,
                 grupo
             ),
-
         personalizado:
             !!meta.personalizado,
-
         id:
             meta.id || null
     };
@@ -537,214 +512,144 @@ function metadadosExercicio(
 
 function maquinaPorExercicio(nome) {
 
-    const n =
-        normalizarTexto(nome);
+    const n = normalizarTexto(nome);
 
-    if (
-        /peck deck|crucifixo|abertura/.test(n)
-    ) {
+    if (/peck deck|crucifixo|abertura/.test(n)) {
         return "Peck Deck";
     }
 
-    if (
-        /supino|press de peito|supino plano|supino inclinado/.test(n)
-    ) {
+    if (/supino|press de peito/.test(n)) {
         return "Banco de Peso";
     }
 
-    if (
-        /puxada frontal|triceps na polia|tríceps na polia|press de ombro/.test(n)
-    ) {
+    if (/puxada|remada sentada|triceps na polia|tríceps na polia/.test(n)) {
         return "Polia Multifuncional";
     }
 
-    if (
-        /remada sentada/.test(n)
-    ) {
-        return "Polia Multifuncional";
-    }
-
-    if (
-        /remada com halteres|aberturas com halteres|press de ombros com halteres|curl|rosca|peso livre|agachamento/.test(n)
-    ) {
+    if (/remada com halteres|halteres|halter|curl|rosca|elevacao lateral|elevação lateral|peso livre|agachamento/.test(n)) {
         return "Peso Livre";
     }
 
-    if (
-        /leg press/.test(n)
-    ) {
+    if (/leg press/.test(n)) {
         return "Leg Press";
     }
 
-    if (
-        /extensao de pernas|extensora/.test(n)
-    ) {
+    if (/extensao de pernas|extensão de pernas/.test(n)) {
         return "Cadeira Extensora";
     }
 
-    if (
-        /flexao de pernas|flexora/.test(n)
-    ) {
+    if (/flexao de pernas|flexão de pernas/.test(n)) {
         return "Mesa Flexora";
     }
 
-    if (
-        /abdutora|adutora/.test(n)
-    ) {
+    if (/abdutora|adutora/.test(n)) {
         return "Máquina Abdutora/Adutora";
     }
 
-    if (
-        /passadeira|caminhada|corrida/.test(n)
-    ) {
+    if (/passadeira|caminhada|corrida/.test(n)) {
         return "Passadeira";
     }
 
-    if (
-        /bicicleta|pedal/.test(n)
-    ) {
+    if (/bicicleta|pedal/.test(n)) {
         return "Bicicleta";
     }
 
-    if (
-        /eliptica|elíptica/.test(n)
-    ) {
+    if (/eliptica|elíptica/.test(n)) {
         return "Elíptica";
     }
 
-    if (
-        /remo/.test(n)
-    ) {
+    if (/remo/.test(n)) {
         return "Máquina de Remo";
     }
 
-    if (
-        /smith/.test(n)
-    ) {
+    if (/smith/.test(n)) {
         return "Smith Machine";
     }
 
     return "Peso Livre";
 }
 
-
 function construirBibliotecaExercicios() {
 
-    const mapa =
-        new Map();
+    const mapa = new Map();
 
-    exerciciosDisponiveis.forEach(
-        nome => {
+    exerciciosDisponiveis.forEach(nome => {
 
-            const meta =
-                metadadosExercicio(nome);
+        const meta = metadadosExercicio(nome);
+
+        mapa.set(
+            normalizarTexto(nome),
+            {
+                ...meta,
+                maquina: maquinaPorExercicio(nome)
+            }
+        );
+    });
+
+    if (Array.isArray(window.exerciciosBiblioteca)) {
+
+        window.exerciciosBiblioteca.forEach(item => {
+
+            if (!item?.nome) {
+                return;
+            }
+
+            const meta = metadadosExercicio(
+                item.nome,
+                {
+                    grupo: item.grupo
+                }
+            );
 
             mapa.set(
-                normalizarTexto(nome),
+                normalizarTexto(item.nome),
                 {
                     ...meta,
                     maquina:
-                        maquinaPorExercicio(nome)
+                        item.maquina ||
+                        maquinaPorExercicio(item.nome)
                 }
             );
-        }
-    );
-
-
-    if (
-        Array.isArray(
-            window.exerciciosBiblioteca
-        )
-    ) {
-
-        window.exerciciosBiblioteca.forEach(
-            item => {
-
-                if (item?.nome) {
-
-                    mapa.set(
-                        normalizarTexto(
-                            item.nome
-                        ),
-                        {
-                            ...metadadosExercicio(
-                                item.nome,
-                                {
-                                    grupo:
-                                        item.grupo
-                                }
-                            ),
-
-                            maquina:
-                                item.maquina ||
-                                maquinaPorExercicio(
-                                    item.nome
-                                )
-                        }
-                    );
-                }
-            }
-        );
+        });
     }
 
+    if (Array.isArray(exerciciosPersonalizados)) {
 
-    if (
-        Array.isArray(
-            exerciciosPersonalizados
-        )
-    ) {
+        exerciciosPersonalizados.forEach(item => {
 
-        exerciciosPersonalizados.forEach(
-            item => {
-
-                if (item?.nome) {
-
-                    mapa.set(
-                        normalizarTexto(
-                            item.nome
-                        ),
-                        {
-                            ...metadadosExercicio(
-                                item.nome,
-                                {
-                                    grupo:
-                                        item.grupo,
-
-                                    tipo:
-                                        item.tipo,
-
-                                    personalizado:
-                                        true,
-
-                                    id:
-                                        item.id
-                                }
-                            ),
-
-                            maquina:
-                                item.maquina ||
-                                maquinaPorExercicio(
-                                    item.nome
-                                )
-                        }
-                    );
-                }
+            if (!item?.nome) {
+                return;
             }
-        );
+
+            const meta = metadadosExercicio(
+                item.nome,
+                {
+                    grupo: item.grupo,
+                    tipo: item.tipo,
+                    personalizado: true,
+                    id: item.id
+                }
+            );
+
+            mapa.set(
+                normalizarTexto(item.nome),
+                {
+                    ...meta,
+                    maquina:
+                        item.maquina ||
+                        maquinaPorExercicio(item.nome)
+                }
+            );
+        });
     }
 
-    return [
-        ...mapa.values()
-    ];
+    return [...mapa.values()];
 }
 
 
-function pesquisarExercicios(
-    termo
-) {
+function pesquisarExercicios(termo) {
 
-    const q =
-        normalizarTexto(termo);
+    const q = normalizarTexto(termo);
 
     const sinonimos = {
 
@@ -830,56 +735,39 @@ function pesquisarExercicios(
         ]
     };
 
-
     if (!q) {
-
         return construirBibliotecaExercicios();
     }
 
-
     const tokens =
-        q
-            .split(" ")
-            .filter(Boolean);
-
+        q.split(" ").filter(Boolean);
 
     const extras =
-        sinonimos[q] ||
-        [];
-
+        sinonimos[q] || [];
 
     return construirBibliotecaExercicios()
-        .filter(
-            item => {
+        .filter(item => {
 
-                const hay =
-                    normalizarTexto(
-                        `${item.nome} ${item.grupo} ${
-                            TIPOS_EXERCICIO[
-                                item.tipo
-                            ]?.label || ""
-                        }`
-                    );
-
-                return (
-                    tokens.every(
-                        t =>
-                            hay.includes(t)
-                    ) ||
-
-                    hay.includes(q) ||
-
-                    extras.some(
-                        token =>
-                            hay.includes(
-                                normalizarTexto(
-                                    token
-                                )
-                            )
-                    )
+            const hay =
+                normalizarTexto(
+                    `${item.nome} ${item.grupo} ${
+                        TIPOS_EXERCICIO[item.tipo]?.label || ""
+                    }`
                 );
-            }
-        );
+
+            return (
+                tokens.every(
+                    t => hay.includes(t)
+                ) ||
+                hay.includes(q) ||
+                extras.some(
+                    token =>
+                        hay.includes(
+                            normalizarTexto(token)
+                        )
+                )
+            );
+        });
 }
 
 
@@ -896,7 +784,6 @@ function normalizarDadosHistorico(
         ...(registro || {})
     };
 
-
     const tipo =
         exercicio.tipo ||
         inferirTipoExercicio(
@@ -904,41 +791,29 @@ function normalizarDadosHistorico(
             exercicio.grupo
         );
 
-
     if (
         base.carga == null &&
         base.peso != null
     ) {
-
-        base.carga =
-            base.peso;
+        base.carga = base.peso;
     }
-
 
     if (
         base.repeticoes == null &&
         base.reps != null
     ) {
-
-        base.repeticoes =
-            base.reps;
+        base.repeticoes = base.reps;
     }
-
 
     if (
         base.series == null &&
         base.series != null
     ) {
-
-        base.series =
-            base.series;
+        base.series = base.series;
     }
 
-
     base.tipo =
-        base.tipo ||
-        tipo;
-
+        base.tipo || tipo;
 
     return base;
 }
@@ -947,19 +822,15 @@ function normalizarDadosHistorico(
 function ultimoRegisto(x) {
 
     const h =
-        Array.isArray(
-            x.historico
-        )
+        Array.isArray(x.historico)
             ? x.historico
             : [];
-
 
     return h.length
         ? normalizarDadosHistorico(
               h[h.length - 1],
               x
           )
-
         : normalizarDadosHistorico(
               x,
               x
@@ -975,13 +846,10 @@ function valorAtual(
     const u =
         ultimoRegisto(x);
 
-
     return u[param] != null
         ? u[param]
-
         : x[param] != null
             ? x[param]
-
             : "";
 }
 
@@ -1004,10 +872,8 @@ function formatarValor(
         val == null ||
         val === ""
     ) {
-
         return "—";
     }
-
 
     return `${escapeHtml(val)}${
         PARAMETROS[param]?.unit
@@ -1023,17 +889,12 @@ function resumoRegisto(x) {
         metadadosExercicio(
             x.nome,
             {
-                grupo:
-                    x.grupo,
-
-                tipo:
-                    x.tipo,
-
+                grupo: x.grupo,
+                tipo: x.tipo,
                 personalizado:
                     x.personalizado
             }
         );
-
 
     return meta.tipo
         ? TIPOS_EXERCICIO[
@@ -1051,11 +912,9 @@ function resumoRegisto(x) {
                       )
               )
               .filter(
-                  v =>
-                      v !== "—"
+                  v => v !== "—"
               )
               .join(" · ")
-
         : "";
 }
 
@@ -1075,23 +934,18 @@ function numeroSeriesExercicio(
             ? exercicio.seriesData
             : [];
 
-
     if (arr.length) {
         return arr.length;
     }
-
 
     const n =
         Number(
             exercicio?.series
         );
 
-
     return Number.isFinite(n) &&
         n > 0
-
         ? Math.floor(n)
-
         : 1;
 }
 
@@ -1107,7 +961,6 @@ function extrairSeriesExercicio(
             exercicio?.grupo || ""
         );
 
-
     const params =
         (
             TIPOS_EXERCICIO[
@@ -1116,10 +969,8 @@ function extrairSeriesExercicio(
             TIPOS_EXERCICIO.outro.params
         )
         .filter(
-            p =>
-                p !== "series"
+            p => p !== "series"
         );
-
 
     if (
         Array.isArray(
@@ -1141,12 +992,10 @@ function extrairSeriesExercicio(
         );
     }
 
-
     const n =
         numeroSeriesExercicio(
             exercicio
         );
-
 
     return Array.from(
         {
@@ -1158,11 +1007,11 @@ function extrairSeriesExercicio(
                     p => [
                         p,
                         exercicio?.[p] ??
-                        valorAtual(
-                            exercicio,
-                            p
-                        ) ??
-                        ""
+                            valorAtual(
+                                exercicio,
+                                p
+                            ) ??
+                            ""
                     ]
                 )
             )
@@ -1183,10 +1032,8 @@ function validarSeries(
             TIPOS_EXERCICIO.outro.params
         )
         .filter(
-            p =>
-                p !== "series"
+            p => p !== "series"
         );
-
 
     if (
         !Array.isArray(
@@ -1198,14 +1045,11 @@ function validarSeries(
         return "Indica pelo menos uma série.";
     }
 
-
     for (
         const serie of seriesData
     ) {
 
-        let temValor =
-            false;
-
+        let temValor = false;
 
         for (
             const p of params
@@ -1216,9 +1060,7 @@ function validarSeries(
                 serie[p] !== ""
             ) {
 
-                temValor =
-                    true;
-
+                temValor = true;
 
                 if (
                     !Number.isFinite(
@@ -1234,11 +1076,8 @@ function validarSeries(
                     }.`;
                 }
 
-
                 if (
-                    Number(
-                        serie[p]
-                    ) < 0
+                    Number(serie[p]) < 0
                 ) {
 
                     return "Os valores não podem ser negativos.";
@@ -1246,12 +1085,10 @@ function validarSeries(
             }
         }
 
-
         if (!temValor) {
 
             return "Preenche pelo menos um valor em cada série.";
         }
-
 
         if (
             params.includes(
@@ -1267,7 +1104,6 @@ function validarSeries(
             return "As repetições devem ser pelo menos 1.";
         }
     }
-
 
     return null;
 }
@@ -1287,14 +1123,12 @@ function renderLinhasSeries(
         return;
     }
 
-
     const tipo =
         exercicio?.tipo ||
         inferirTipoExercicio(
             exercicio?.nome || "",
             exercicio?.grupo || ""
         );
-
 
     const params =
         (
@@ -1304,23 +1138,18 @@ function renderLinhasSeries(
             TIPOS_EXERCICIO.outro.params
         )
         .filter(
-            p =>
-                p !== "series"
+            p => p !== "series"
         );
-
 
     const existing =
         Array.isArray(
             exercicio?.seriesData
         ) &&
         exercicio.seriesData.length
-
             ? exercicio.seriesData
-
             : extrairSeriesExercicio(
                   exercicio || {}
               );
-
 
     const count =
         Math.max(
@@ -1333,28 +1162,20 @@ function renderLinhasSeries(
             )
         );
 
-
     container.innerHTML =
         Array.from(
             {
-                length:
-                    count
+                length: count
             },
-            (
-                _,
-                i
-            ) => {
+            (_, i) => {
 
                 const serie =
-                    existing[i] ||
-                    {};
-
+                    existing[i] || {};
 
                 return `
                     <div class="set-entry-card">
 
                         <div class="set-entry-title">
-
                             <span>
                                 SÉRIE ${i + 1}
                             </span>
@@ -1362,66 +1183,59 @@ function renderLinhasSeries(
                             <small>
                                 Valores independentes
                             </small>
-
                         </div>
-
 
                         <div class="set-entry-fields">
 
-                            ${
-                                params
-                                    .map(
-                                        p => {
+                            ${params
+                                .map(p => {
 
-                                            const cfg =
-                                                PARAMETROS[p];
+                                    const cfg =
+                                        PARAMETROS[p];
 
-                                            const val =
-                                                serie[p] ??
-                                                "";
+                                    const val =
+                                        serie[p] ?? "";
 
-                                            return `
-                                                <div class="adaptive-field">
+                                    return `
+                                        <div class="adaptive-field">
 
-                                                    <label
-                                                        for="series_${i}_${p}"
-                                                    >
-                                                        ${cfg.label}
+                                            <label
+                                                for="series_${i}_${p}"
+                                            >
+                                                ${cfg.label}
 
-                                                        ${
-                                                            cfg.unit
-                                                                ? ` <span>(${cfg.unit})</span>`
-                                                                : ""
-                                                        }
-                                                    </label>
+                                                ${
+                                                    cfg.unit
+                                                        ? ` <span>(${cfg.unit})</span>`
+                                                        : ""
+                                                }
+                                            </label>
 
-                                                    <input
-                                                        id="series_${i}_${p}"
-                                                        data-series-index="${i}"
-                                                        data-param="${p}"
-                                                        class="input series-value-input"
-                                                        type="number"
-                                                        min="0"
-                                                        step="${cfg.step}"
-                                                        placeholder="${cfg.placeholder}"
-                                                        value="${
-                                                            val !== ""
-                                                                ? escapeHtml(
-                                                                      val
-                                                                  )
-                                                                : ""
-                                                        }"
-                                                    >
+                                            <input
+                                                id="series_${i}_${p}"
+                                                data-series-index="${i}"
+                                                data-param="${p}"
+                                                class="input series-value-input"
+                                                type="number"
+                                                min="0"
+                                                step="${cfg.step}"
+                                                placeholder="${cfg.placeholder}"
+                                                value="${
+                                                    val !== ""
+                                                        ? escapeHtml(
+                                                              val
+                                                          )
+                                                        : ""
+                                                }"
+                                            >
 
-                                                </div>
-                                            `;
-                                        }
-                                    )
-                                    .join("")
-                            }
+                                        </div>
+                                    `;
+
+                                })
+                                .join("")}
 
                         </div>
-
                     </div>
                 `;
             }
@@ -1443,10 +1257,8 @@ function recolherSeries(
             TIPOS_EXERCICIO.outro.params
         )
         .filter(
-            p =>
-                p !== "series"
+            p => p !== "series"
         );
-
 
     const count =
         [
@@ -1455,27 +1267,20 @@ function recolherSeries(
                     ...container.querySelectorAll(
                         "[data-series-index]"
                     )
-                ]
-                .map(
+                ].map(
                     el =>
                         Number(
                             el.dataset.seriesIndex
                         )
                 )
             )
-        ]
-        .length;
-
+        ].length;
 
     return Array.from(
         {
-            length:
-                count
+            length: count
         },
-        (
-            _,
-            i
-        ) =>
+        (_, i) =>
             Object.fromEntries(
                 params.map(
                     p => {
@@ -1484,7 +1289,6 @@ function recolherSeries(
                             container.querySelector(
                                 `[data-series-index="${i}"][data-param="${p}"]`
                             );
-
 
                         return [
                             p,
@@ -1515,22 +1319,18 @@ function serieResumo(
             TIPOS_EXERCICIO.outro.params
         )
         .filter(
-            p =>
-                p !== "series"
+            p => p !== "series"
         );
-
 
     return params
         .map(
             p =>
                 serie?.[p] !== "" &&
                 serie?.[p] != null
-
                     ? `${PARAMETROS[p].label}: ${formatarValor(
                           p,
                           serie[p]
                       )}`
-
                     : null
         )
         .filter(Boolean)
@@ -1551,7 +1351,6 @@ function historicoComSeries(
             exercicio?.grupo || ""
         );
 
-
     if (
         Array.isArray(
             row?.seriesData
@@ -1561,16 +1360,13 @@ function historicoComSeries(
         return row.seriesData;
     }
 
-
     const fake = {
         ...exercicio,
         ...row,
-
         series:
             row?.series ||
             exercicio?.series
     };
-
 
     return extrairSeriesExercicio(
         fake
@@ -1589,27 +1385,20 @@ function renderTreino() {
             "workout-root"
         );
 
-
     if (!r) {
         return;
     }
 
-
     const t =
         treinos[diaSelecionado] || {
-            nome:
-                "Treino",
-
-            exercicios:
-                []
+            nome: "Treino",
+            exercicios: []
         };
-
 
     const d =
         diasSemana.find(
             x =>
-                x[0] ===
-                diaSelecionado
+                x[0] === diaSelecionado
         ) ||
         diasSemana[0];
 
@@ -1618,49 +1407,40 @@ function renderTreino() {
 
         <div class="days-selector">
 
-            ${
-                diasSemana
-                    .map(
-                        x =>
-                            `
-                                <button
-                                    class="day-button ${
-                                        x[0] ===
-                                        diaSelecionado
-                                            ? "active"
-                                            : ""
-                                    }"
-                                    data-day="${x[0]}"
-                                >
+            ${diasSemana
+                .map(
+                    x => `
+                        <button
+                            class="day-button ${
+                                x[0] === diaSelecionado
+                                    ? "active"
+                                    : ""
+                            }"
+                            data-day="${x[0]}"
+                        >
 
-                                    <strong>
-                                        ${x[1]}
-                                    </strong>
+                            <strong>
+                                ${x[1]}
+                            </strong>
 
-                                    <span>
-                                        ${
-                                            treinos[
-                                                x[0]
-                                            ]
-                                                ?.exercicios
-                                                ?.length ||
-                                            ""
-                                        }
-                                    </span>
+                            <span>
+                                ${
+                                    treinos[x[0]]
+                                        ?.exercicios
+                                        ?.length || ""
+                                }
+                            </span>
 
-                                </button>
-                            `
-                    )
-                    .join("")
-            }
+                        </button>
+                    `
+                )
+                .join("")}
 
         </div>
 
 
         ${
-            diaSelecionado ===
-            "domingo"
-
+            diaSelecionado === "domingo"
                 ? `
                     <div class="gym-closed-message">
 
@@ -1668,9 +1448,9 @@ function renderTreino() {
                             Ginásio Encerrado
                         </strong>
 
+
                     </div>
                 `
-
                 : ""
         }
 
@@ -1689,7 +1469,6 @@ function renderTreino() {
 
             </div>
 
-
             <button
                 class="edit-workout-btn"
                 id="editWorkoutName"
@@ -1704,8 +1483,7 @@ function renderTreino() {
 
             <strong>
                 ${escapeHtml(
-                    t.nome ||
-                    "Treino"
+                    t.nome || "Treino"
                 )}
             </strong>
 
@@ -1721,20 +1499,15 @@ function renderTreino() {
 
             ${
                 t.exercicios.length
-
                     ? t.exercicios
                           .map(
-                              (
-                                  x,
-                                  i
-                              ) =>
+                              (x, i) =>
                                   renderExercicioCard(
                                       x,
                                       i
                                   )
                           )
                           .join("")
-
                     : `
                         <div class="empty-workout">
 
@@ -1769,20 +1542,17 @@ function renderTreino() {
        ===================================================== */
 
     document
-        .querySelectorAll(
-            ".day-button"
-        )
+        .querySelectorAll(".day-button")
         .forEach(
             b => {
 
-                b.onclick =
-                    () => {
+                b.onclick = () => {
 
-                        diaSelecionado =
-                            b.dataset.day;
+                    diaSelecionado =
+                        b.dataset.day;
 
-                        renderTreino();
-                    };
+                    renderTreino();
+                };
             }
         );
 
@@ -1803,26 +1573,23 @@ function renderTreino() {
 
     document.getElementById(
         "editWorkoutName"
-    ).onclick =
-        () => {
+    ).onclick = () => {
 
-            const n =
-                prompt(
-                    "Nome do treino:",
-                    t.nome
-                );
+        const n =
+            prompt(
+                "Nome do treino:",
+                t.nome
+            );
 
+        if (n?.trim()) {
 
-            if (n?.trim()) {
+            t.nome =
+                n.trim();
 
-                t.nome =
-                    n.trim();
-
-                save();
-
-                renderTreino();
-            }
-        };
+            save();
+            renderTreino();
+        }
+    };
 
 
     /* =====================================================
@@ -1836,20 +1603,18 @@ function renderTreino() {
         .forEach(
             b => {
 
-                b.onclick =
-                    () => {
+                b.onclick = () => {
 
-                        t.exercicios.splice(
-                            Number(
-                                b.dataset.index
-                            ),
-                            1
-                        );
+                    t.exercicios.splice(
+                        Number(
+                            b.dataset.index
+                        ),
+                        1
+                    );
 
-                        save();
-
-                        renderTreino();
-                    };
+                    save();
+                    renderTreino();
+                };
             }
         );
 
@@ -1865,17 +1630,16 @@ function renderTreino() {
         .forEach(
             b => {
 
-                b.onclick =
-                    () => {
+                b.onclick = () => {
 
-                        mostrarProgressao(
-                            t.exercicios[
-                                Number(
-                                    b.dataset.index
-                                )
-                            ]
-                        );
-                    };
+                    mostrarProgressao(
+                        t.exercicios[
+                            Number(
+                                b.dataset.index
+                            )
+                        ]
+                    );
+                };
             }
         );
 
@@ -1891,17 +1655,16 @@ function renderTreino() {
         .forEach(
             b => {
 
-                b.onclick =
-                    () => {
+                b.onclick = () => {
 
-                        abrirEditorExercicio(
-                            t.exercicios[
-                                Number(
-                                    b.dataset.index
-                                )
-                            ]
-                        );
-                    };
+                    abrirEditorExercicio(
+                        t.exercicios[
+                            Number(
+                                b.dataset.index
+                            )
+                        ]
+                    );
+                };
             }
         );
 }
@@ -1920,17 +1683,12 @@ function renderExercicioCard(
         metadadosExercicio(
             x.nome,
             {
-                grupo:
-                    x.grupo,
-
-                tipo:
-                    x.tipo,
-
+                grupo: x.grupo,
+                tipo: x.tipo,
                 personalizado:
                     x.personalizado
             }
         );
-
 
     const tipoLabel =
         TIPOS_EXERCICIO[
@@ -1938,64 +1696,49 @@ function renderExercicioCard(
         ]?.label ||
         "Outro";
 
-
     const series =
         extrairSeriesExercicio(
             {
                 ...x,
-                tipo:
-                    meta.tipo
+                tipo: meta.tipo
             }
         );
-
 
     const seriesHtml =
         series
             .map(
-                (
-                    s,
-                    n
-                ) =>
-                    `
-                        <div class="series-card-line">
+                (s, n) => `
+                    <div class="series-card-line">
 
-                            <span>
-                                Série ${n + 1}
-                            </span>
+                        <span>
+                            Série ${n + 1}
+                        </span>
 
-                            <strong>
-                                ${escapeHtml(
-                                    serieResumo(
-                                        meta.tipo,
-                                        s
-                                    ) ||
-                                    "Sem valores"
-                                )}
-                            </strong>
+                        <strong>
+                            ${escapeHtml(
+                                serieResumo(
+                                    meta.tipo,
+                                    s
+                                ) ||
+                                "Sem valores"
+                            )}
+                        </strong>
 
-                        </div>
-                    `
+                    </div>
+                `
             )
             .join("");
 
-
     return `
-
         <article class="exercise-card">
 
             <div class="exercise-top">
 
                 <div class="exercise-number">
-
                     ${String(
                         i + 1
-                    ).padStart(
-                        2,
-                        "0"
-                    )}
-
+                    ).padStart(2, "0")}
                 </div>
-
 
                 <div class="exercise-info">
 
@@ -2015,11 +1758,9 @@ function renderExercicioCard(
                                 ? " · Personalizado"
                                 : ""
                         }
-
                     </span>
 
                 </div>
-
 
                 <button
                     class="delete-exercise"
@@ -2048,7 +1789,6 @@ function renderExercicioCard(
                     🔵 Atualizar
                 </button>
 
-
                 <button
                     class="progress-button"
                     data-index="${i}"
@@ -2059,7 +1799,6 @@ function renderExercicioCard(
             </div>
 
         </article>
-
     `;
 }
 
@@ -2074,7 +1813,6 @@ function abrirAdicionar() {
         document.getElementById(
             "workout-root"
         );
-
 
     r.innerHTML = `
 
@@ -2092,11 +1830,9 @@ function abrirAdicionar() {
                 NOVO EXERCÍCIO
             </span>
 
-
             <h2>
                 Adicionar exercício
             </h2>
-
 
             <p class="muted">
                 Escolhe primeiro o exercício.
@@ -2124,19 +1860,13 @@ function abrirAdicionar() {
                     readonly
                 >
 
-
                 <button
                     type="button"
                     class="exercise-picker-trigger"
                     id="openExercisePicker"
                 >
-
-                    <span>
-                        ⌕
-                    </span>
-
+                    <span>⌕</span>
                     Escolher exercício
-
                 </button>
 
             </div>
@@ -2151,9 +1881,7 @@ function abrirAdicionar() {
             </div>
 
 
-            <div
-                id="exerciseTypeWrap"
-            ></div>
+            <div id="exerciseTypeWrap"></div>
 
 
             <div
@@ -2177,7 +1905,6 @@ function abrirAdicionar() {
                         </small>
 
                     </div>
-
 
                     <input
                         id="seriesCount"
@@ -2234,78 +1961,70 @@ function abrirAdicionar() {
 
     document.getElementById(
         "continueSeries"
-    ).onclick =
-        () => {
+    ).onclick = () => {
 
-            const input =
-                document.getElementById(
-                    "exerciseName"
-                );
-
-
-            const tipo =
-                document.getElementById(
-                    "exerciseType"
-                )?.value ||
-                input?.dataset.tipo;
-
-
-            if (
-                !input?.value ||
-                !tipo
-            ) {
-
-                return alert(
-                    "Escolhe primeiro um exercício."
-                );
-            }
-
-
-            const n =
-                Math.max(
-                    1,
-                    Math.min(
-                        30,
-                        Number(
-                            document.getElementById(
-                                "seriesCount"
-                            )?.value
-                        ) || 1
-                    )
-                );
-
-
+        const input =
             document.getElementById(
-                "seriesCount"
-            ).value =
-                n;
+                "exerciseName"
+            );
+
+        const tipo =
+            document.getElementById(
+                "exerciseType"
+            )?.value ||
+            input?.dataset.tipo;
+
+        if (
+            !input?.value ||
+            !tipo
+        ) {
+
+            return alert(
+                "Escolhe primeiro um exercício."
+            );
+        }
 
 
-            renderLinhasSeries(
-                document.getElementById(
-                    "exerciseFields"
-                ),
-                {
-                    nome:
-                        input.value,
-
-                    tipo
-                },
-                n
+        const n =
+            Math.max(
+                1,
+                Math.min(
+                    30,
+                    Number(
+                        document.getElementById(
+                            "seriesCount"
+                        )?.value
+                    ) || 1
+                )
             );
 
 
-            document.getElementById(
-                "saveExercise"
-            ).hidden =
-                false;
+        document.getElementById(
+            "seriesCount"
+        ).value = n;
 
 
+        renderLinhasSeries(
             document.getElementById(
-                "seriesSetup"
-            ).hidden =
-                true;
-        };
+                "exerciseFields"
+            ),
+            {
+                nome: input.value,
+                tipo
+            },
+            n
+        );
+
+
+        document.getElementById(
+            "saveExercise"
+        ).hidden = false;
+
+
+        document.getElementById(
+            "seriesSetup"
+        ).hidden = true;
+    };
 
 
     document.getElementById(
@@ -2324,85 +2043,59 @@ function abrirAdicionar() {
    SELETOR DE EXERCÍCIOS
    ========================================================= */
 
-function garantirEstilosSeletorFavoritos() {
+function garantirEstilosBiblioteca() {
 
-    if (
-        document.getElementById(
-            "exercise-picker-favorites-styles"
-        )
-    ) {
+    if (document.getElementById("exercise-library-styles")) {
         return;
     }
 
-
-    const style =
-        document.createElement(
-            "style"
-        );
-
-
-    style.id =
-        "exercise-picker-favorites-styles";
-
+    const style = document.createElement("style");
+    style.id = "exercise-library-styles";
 
     style.textContent = `
-
-        .exercise-picker-tabs {
-            display: flex;
-            gap: 8px;
-            padding: 0 18px 9px;
-        }
-
-        .exercise-picker-tab {
-            border: 1px solid rgba(104,64,111,.16);
-            background: rgba(104,64,111,.045);
-            color: var(--muted);
-            border-radius: 10px;
-            padding: 8px 13px;
-            font-size: 10px;
-            font-weight: 800;
-            transition: .18s ease;
-        }
-
-        .exercise-picker-tab.active {
-            background: linear-gradient(
-                135deg,
-                rgba(104,64,111,.14),
-                rgba(62,157,154,.10)
-            );
-            color: #60456a;
-            border-color: rgba(104,64,111,.24);
-        }
-
-        .exercise-picker-filter-buttons {
-            display: flex;
-            gap: 8px;
+        .exercise-picker-controls {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 6px;
             padding: 0 18px 8px;
+            width: 100%;
+            box-sizing: border-box;
+            flex-shrink: 0;
         }
 
-        .exercise-filter-button {
+        .exercise-picker-control {
+            min-width: 0;
+            height: 32px;
+            padding: 0 6px;
+            border-radius: 10px;
             border: 1px solid rgba(57,40,61,.12);
             background: #faf6f1;
             color: #665968;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 9.5px;
+            font-size: 9px;
             font-weight: 800;
-            transition: .18s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .exercise-filter-button.active {
-            background: rgba(104,64,111,.09);
+        .exercise-picker-control.active {
+            background: rgba(104,64,111,.10);
             color: #68406f;
-            border-color: rgba(104,64,111,.23);
+            border-color: rgba(104,64,111,.24);
         }
 
         .exercise-filter-options {
             display: flex;
+            align-items: center;
             gap: 6px;
+            width: 100%;
+            padding: 0 18px 8px;
+            box-sizing: border-box;
             overflow-x: auto;
             scrollbar-width: none;
-            padding: 0 18px 8px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 4;
         }
 
         .exercise-filter-options::-webkit-scrollbar {
@@ -2410,50 +2103,41 @@ function garantirEstilosSeletorFavoritos() {
         }
 
         .exercise-filter-option {
-            flex-shrink: 0;
-            border: 1px solid rgba(57,40,61,.11);
-            background: rgba(255,255,255,.65);
-            color: var(--muted);
+            flex: 0 0 auto;
+            height: 27px;
+            padding: 0 10px;
             border-radius: 999px;
-            padding: 6px 10px;
-            font-size: 9px;
+            border: 1px solid rgba(57,40,61,.11);
+            background: #fffdf9;
+            color: #6f6673;
+            font-size: 8.5px;
             font-weight: 750;
+            white-space: nowrap;
         }
 
         .exercise-filter-option.active {
-            background: linear-gradient(
-                135deg,
-                #68406f,
-                #3e9d9a
-            );
+            background: linear-gradient(135deg,#68406f,#3e9d9a);
             color: #fff;
             border-color: transparent;
         }
 
-        .exercise-search-result {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 0;
-            width: 100%;
-            min-height: 65px;
-            margin: 3px 0;
-            padding: 9px 7px 9px 9px;
-            border-radius: 14px;
-            border: 1px solid transparent;
-            background: transparent;
-            color: var(--text);
-            transition: .18s ease;
+        .exercise-search-results {
+            min-height: 0;
+            overflow-y: auto;
+            flex: 1 1 auto;
         }
 
-        .exercise-search-result:hover {
-            background: rgba(104,64,111,.055);
-            border-color: rgba(104,64,111,.12);
+        .exercise-search-result {
+            display: flex !important;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+            gap: 0;
         }
 
         .exercise-search-main {
-            min-width: 0;
             flex: 1;
+            min-width: 0;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -2464,14 +2148,10 @@ function garantirEstilosSeletorFavoritos() {
             padding: 0;
         }
 
-        .exercise-search-main:hover {
-            background: transparent;
-        }
-
         .exercise-favorite-button {
-            width: 35px;
-            height: 35px;
-            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
             display: grid;
             place-items: center;
             border: 0;
@@ -2480,21 +2160,26 @@ function garantirEstilosSeletorFavoritos() {
             font-size: 22px;
             line-height: 1;
             padding: 0;
-            transition: .18s ease;
-        }
-
-        .exercise-favorite-button:hover {
-            transform: scale(1.08);
         }
 
         .exercise-favorite-button.active {
             color: #d6a63a;
         }
 
-        body[data-theme="dark"] .exercise-filter-button {
+        body[data-theme="dark"] .exercise-picker-control {
             background: #111824;
             color: #aab5c9;
             border-color: var(--line);
+        }
+
+        body[data-theme="dark"] .exercise-picker-control.active {
+            background: rgba(104,64,111,.18);
+            color: #d2b9d7;
+            border-color: rgba(104,64,111,.30);
+        }
+
+        body[data-theme="dark"] .exercise-filter-options {
+            background: var(--bg-soft);
         }
 
         body[data-theme="dark"] .exercise-filter-option {
@@ -2503,93 +2188,44 @@ function garantirEstilosSeletorFavoritos() {
             border-color: var(--line);
         }
 
-        body[data-theme="light"] .exercise-picker-tab {
-            background: rgba(104,64,111,.04);
-            color: #746977;
-        }
-
-        body[data-theme="light"] .exercise-picker-tab.active {
-            color: #68406f;
-        }
-
-        body[data-theme="light"] .exercise-filter-button {
+        body[data-theme="light"] .exercise-picker-control {
             background: #faf6f1;
             color: #665968;
         }
-
-        body[data-theme="light"] .exercise-filter-option {
-            background: #fffdf9;
-            color: #6f6673;
-        }
-
     `;
 
-
-    document.head.appendChild(
-        style
-    );
+    document.head.appendChild(style);
 }
-
 
 function abrirSeletorExercicio() {
 
     fecharSeletorExercicio();
+    garantirEstilosBiblioteca();
 
-    garantirEstilosSeletorFavoritos();
+    filtroBiblioteca = "todos";
+    valorFiltroBiblioteca = "Todos";
+    favoritosApenas = false;
 
-    filtroBiblioteca =
-        "todos";
-
-    valorFiltroBiblioteca =
-        "Todos";
-
-    favoritosApenas =
-        false;
-
-
-    const overlay =
-        document.createElement(
-            "div"
-        );
-
-
-    overlay.className =
-        "exercise-picker-overlay open";
-
-
-    overlay.id =
-        "exercisePickerOverlay";
-
+    const overlay = document.createElement("div");
+    overlay.className = "exercise-picker-overlay open";
+    overlay.id = "exercisePickerOverlay";
 
     overlay.innerHTML = `
-
         <div
             class="exercise-picker"
             role="dialog"
             aria-modal="true"
         >
 
-            <div
-                class="exercise-picker-handle"
-            ></div>
+            <div class="exercise-picker-handle"></div>
 
-
-            <div
-                class="exercise-picker-header"
-            >
-
+            <div class="exercise-picker-header">
                 <div>
-
                     <span class="eyebrow">
                         BIBLIOTECA DE EXERCÍCIOS
                     </span>
-
-                    <h2>
-                        Adicionar exercício
-                    </h2>
-
+                    <h2>Adicionar exercício</h2>
                 </div>
-
 
                 <button
                     type="button"
@@ -2598,21 +2234,10 @@ function abrirSeletorExercicio() {
                 >
                     ×
                 </button>
-
             </div>
 
-
-            <div
-                class="exercise-search-wrap"
-            >
-
-                <span
-                    class="exercise-search-icon"
-                >
-                    ⌕
-                </span>
-
-
+            <div class="exercise-search-wrap">
+                <span class="exercise-search-icon">⌕</span>
                 <input
                     id="exerciseSearch"
                     class="exercise-search-input"
@@ -2621,69 +2246,51 @@ function abrirSeletorExercicio() {
                     autocomplete="off"
                     spellcheck="false"
                 >
-
             </div>
 
-
-            <div
-                class="exercise-picker-tabs"
-            >
-
+            <div class="exercise-picker-controls">
                 <button
                     type="button"
-                    class="exercise-picker-tab active"
-                    data-tab="todos"
+                    class="exercise-picker-control active"
+                    data-control="todos"
                 >
                     Todos
                 </button>
 
-
                 <button
                     type="button"
-                    class="exercise-picker-tab"
-                    data-tab="favoritos"
+                    class="exercise-picker-control"
+                    data-control="favoritos"
                 >
                     ★ Favoritos
                 </button>
 
-            </div>
-
-
-            <div
-                class="exercise-picker-filter-buttons"
-            >
-
                 <button
                     type="button"
-                    class="exercise-filter-button"
-                    data-filter="musculos"
+                    class="exercise-picker-control"
+                    data-control="musculos"
                 >
                     Músculos
                 </button>
 
-
                 <button
                     type="button"
-                    class="exercise-filter-button"
-                    data-filter="maquinas"
+                    class="exercise-picker-control"
+                    data-control="maquinas"
                 >
                     Máquinas
                 </button>
-
             </div>
-
 
             <div
                 class="exercise-filter-options"
                 id="exerciseFilterOptions"
             ></div>
 
-
             <div
                 class="exercise-search-meta"
                 id="exerciseSearchMeta"
             ></div>
-
 
             <div
                 class="exercise-search-results"
@@ -2691,239 +2298,92 @@ function abrirSeletorExercicio() {
             ></div>
 
         </div>
-
     `;
 
+    document.body.appendChild(overlay);
 
-    document.body.appendChild(
-        overlay
-    );
+    const input = document.getElementById("exerciseSearch");
 
+    const render = () =>
+        renderResultadosPesquisa(input.value);
 
-    const input =
-        document.getElementById(
-            "exerciseSearch"
-        );
-
-
-    const render =
-        () =>
-            renderResultadosPesquisa(
-                input.value
-            );
-
-
-    input.addEventListener(
-        "input",
-        render
-    );
-
+    input.addEventListener("input", render);
 
     document.getElementById(
         "closeExercisePicker"
-    ).onclick =
-        fecharSeletorExercicio;
+    ).onclick = fecharSeletorExercicio;
 
-
-    overlay.addEventListener(
-        "click",
-        e => {
-
-            if (
-                e.target === overlay
-            ) {
-
-                fecharSeletorExercicio();
-            }
+    overlay.addEventListener("click", e => {
+        if (e.target === overlay) {
+            fecharSeletorExercicio();
         }
-    );
-
-
-    overlay
-        .querySelectorAll(
-            ".exercise-picker-tab"
-        )
-        .forEach(
-            tab => {
-
-                tab.addEventListener(
-                    "click",
-                    () => {
-
-                        favoritosApenas =
-                            tab.dataset.tab ===
-                            "favoritos";
-
-
-                        overlay
-                            .querySelectorAll(
-                                ".exercise-picker-tab"
-                            )
-                            .forEach(
-                                x =>
-                                    x.classList.remove(
-                                        "active"
-                                    )
-                            );
-
-
-                        tab.classList.add(
-                            "active"
-                        );
-
-
-                        filtroBiblioteca =
-                            "todos";
-
-
-                        valorFiltroBiblioteca =
-                            "Todos";
-
-
-                        overlay
-                            .querySelectorAll(
-                                ".exercise-filter-button"
-                            )
-                            .forEach(
-                                x =>
-                                    x.classList.remove(
-                                        "active"
-                                    )
-                            );
-
-
-                        const options =
-                            document.getElementById(
-                                "exerciseFilterOptions"
-                            );
-
-
-                        if (options) {
-
-                            options.innerHTML =
-                                "";
-                        }
-
-
-                        render();
-                    }
-                );
-            }
-        );
-
+    });
 
     overlay
-        .querySelectorAll(
-            ".exercise-filter-button"
-        )
-        .forEach(
-            button => {
+        .querySelectorAll(".exercise-picker-control")
+        .forEach(button => {
 
-                button.addEventListener(
-                    "click",
-                    () => {
+            button.addEventListener("click", () => {
 
-                        const tipo =
-                            button.dataset.filter;
+                const control = button.dataset.control;
 
+                filtroBiblioteca = "todos";
+                valorFiltroBiblioteca = "Todos";
 
-                        if (
-                            filtroBiblioteca ===
-                            tipo
-                        ) {
+                if (control === "todos") {
+                    favoritosApenas = false;
+                }
 
-                            filtroBiblioteca =
-                                "todos";
+                if (control === "favoritos") {
+                    favoritosApenas = true;
+                }
 
-
-                            valorFiltroBiblioteca =
-                                "Todos";
-
-
-                            button.classList.remove(
-                                "active"
-                            );
-
-
-                            const options =
-                                document.getElementById(
-                                    "exerciseFilterOptions"
-                                );
-
-
-                            if (options) {
-
-                                options.innerHTML =
-                                    "";
-                            }
-
-
-                            render();
-
-                            return;
-                        }
-
-
-                        filtroBiblioteca =
-                            tipo;
-
-
-                        valorFiltroBiblioteca =
-                            "Todos";
-
-
-                        overlay
-                            .querySelectorAll(
-                                ".exercise-filter-button"
-                            )
-                            .forEach(
-                                x =>
-                                    x.classList.remove(
-                                        "active"
-                                    )
-                            );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-
-                        renderOpcoesFiltroBiblioteca(
-                            tipo
-                        );
-
-
-                        render();
+                if (
+                    control === "musculos" ||
+                    control === "maquinas"
+                ) {
+                    favoritosApenas = false;
+                    filtroBiblioteca = control;
+                    renderOpcoesFiltroBiblioteca(control);
+                } else {
+                    const options = document.getElementById(
+                        "exerciseFilterOptions"
+                    );
+                    if (options) {
+                        options.innerHTML = "";
                     }
-                );
-            }
-        );
+                }
 
+                overlay
+                    .querySelectorAll(
+                        ".exercise-picker-control"
+                    )
+                    .forEach(x =>
+                        x.classList.remove("active")
+                    );
+
+                button.classList.add("active");
+
+                render();
+            });
+        });
 
     document.addEventListener(
         "keydown",
         fecharSeletorPorTecla
     );
 
-
     render();
 
-
-    requestAnimationFrame(
-        () =>
-            input.focus()
-    );
+    requestAnimationFrame(() => input.focus());
 }
 
 
 function fecharSeletorPorTecla(e) {
 
     if (
-        e.key ===
-        "Escape"
+        e.key === "Escape"
     ) {
-
         fecharSeletorExercicio();
     }
 }
@@ -2937,7 +2397,6 @@ function fecharSeletorExercicio() {
         )
         ?.remove();
 
-
     document.removeEventListener(
         "keydown",
         fecharSeletorPorTecla
@@ -2949,442 +2408,291 @@ function fecharSeletorExercicio() {
    PESQUISA DE EXERCÍCIOS
    ========================================================= */
 
-function renderOpcoesFiltroBiblioteca(
-    tipo
-) {
+function renderOpcoesFiltroBiblioteca(tipo) {
 
     const container =
         document.getElementById(
             "exerciseFilterOptions"
         );
 
-
     if (!container) {
         return;
     }
 
-
     const biblioteca =
         construirBibliotecaExercicios();
 
-
     let opcoes = [];
 
-
-    if (
-        tipo ===
-        "musculos"
-    ) {
-
+    if (tipo === "musculos") {
         opcoes = [
-
             "Todos",
-
             ...new Set(
                 biblioteca
-                    .map(
-                        item =>
-                            item.grupo
-                    )
+                    .map(item => item.grupo)
                     .filter(Boolean)
             )
         ];
     }
 
-
-    if (
-        tipo ===
-        "maquinas"
-    ) {
-
+    if (tipo === "maquinas") {
         opcoes = [
-
             "Todos",
-
             ...new Set(
                 biblioteca
-                    .map(
-                        item =>
-                            item.maquina
-                    )
+                    .map(item => item.maquina)
                     .filter(Boolean)
             )
         ];
     }
-
 
     container.innerHTML =
         opcoes
-            .map(
-                valor =>
-                    `
-                        <button
-                            type="button"
-                            class="exercise-filter-option ${
-                                valor ===
-                                valorFiltroBiblioteca
-                                    ? "active"
-                                    : ""
-                            }"
-                            data-value="${escaparAtributo(
-                                valor
-                            )}"
-                        >
-                            ${escapeHtml(
-                                valor
-                            )}
-                        </button>
-                    `
-            )
+            .map(opcao => `
+                <button
+                    type="button"
+                    class="exercise-filter-option ${
+                        opcao === valorFiltroBiblioteca
+                            ? "active"
+                            : ""
+                    }"
+                    data-value="${escaparAtributo(opcao)}"
+                >
+                    ${escapeHtml(opcao)}
+                </button>
+            `)
             .join("");
 
-
     container
-        .querySelectorAll(
-            ".exercise-filter-option"
-        )
-        .forEach(
-            button => {
+        .querySelectorAll(".exercise-filter-option")
+        .forEach(button => {
 
-                button.addEventListener(
-                    "click",
-                    () => {
+            button.onclick = () => {
 
-                        valorFiltroBiblioteca =
-                            button.dataset.value;
+                valorFiltroBiblioteca =
+                    button.dataset.value;
 
+                container
+                    .querySelectorAll(
+                        ".exercise-filter-option"
+                    )
+                    .forEach(x =>
+                        x.classList.remove("active")
+                    );
 
-                        container
-                            .querySelectorAll(
-                                ".exercise-filter-option"
-                            )
-                            .forEach(
-                                x =>
-                                    x.classList.remove(
-                                        "active"
-                                    )
-                            );
+                button.classList.add("active");
 
-
-                        button.classList.add(
-                            "active"
-                        );
-
-
-                        renderResultadosPesquisa(
-                            document.getElementById(
-                                "exerciseSearch"
-                            )?.value ||
-                            ""
-                        );
-                    }
+                renderResultadosPesquisa(
+                    document.getElementById(
+                        "exerciseSearch"
+                    )?.value || ""
                 );
-            }
-        );
+            };
+        });
 }
 
-
-function renderResultadosPesquisa(
-    termo
-) {
+function renderResultadosPesquisa(termo) {
 
     const results =
         document.getElementById(
             "exerciseSearchResults"
         );
 
-
     const meta =
         document.getElementById(
             "exerciseSearchMeta"
         );
 
-
     if (!results) {
         return;
     }
 
-
     const q =
-        String(
-            termo ||
-            ""
-        ).trim();
-
+        String(termo || "").trim();
 
     let lista =
-        pesquisarExercicios(
-            termo
-        );
-
+        pesquisarExercicios(termo);
 
     if (favoritosApenas) {
-
-        lista =
-            lista.filter(
-                item =>
-                    favoritosExercicios.includes(
-                        normalizarTexto(
-                            item.nome
-                        )
-                    )
-            );
+        lista = lista.filter(item =>
+            favoritosExercicios.includes(
+                normalizarTexto(item.nome)
+            )
+        );
     }
-
 
     if (
-        filtroBiblioteca ===
-        "musculos" &&
-        valorFiltroBiblioteca !==
-        "Todos"
+        filtroBiblioteca === "musculos" &&
+        valorFiltroBiblioteca !== "Todos"
     ) {
-
-        lista =
-            lista.filter(
-                item =>
-                    item.grupo ===
-                    valorFiltroBiblioteca
-            );
+        lista = lista.filter(item =>
+            item.grupo === valorFiltroBiblioteca
+        );
     }
-
 
     if (
-        filtroBiblioteca ===
-        "maquinas" &&
-        valorFiltroBiblioteca !==
-        "Todos"
+        filtroBiblioteca === "maquinas" &&
+        valorFiltroBiblioteca !== "Todos"
     ) {
-
-        lista =
-            lista.filter(
-                item =>
-                    item.maquina ===
-                    valorFiltroBiblioteca
-            );
+        lista = lista.filter(item =>
+            item.maquina === valorFiltroBiblioteca
+        );
     }
-
 
     if (meta) {
-
-        if (favoritosApenas) {
-
-            meta.textContent =
-                `${lista.length} favorito(s)`;
-
-        } else {
-
-            meta.textContent =
-                q
+        meta.textContent =
+            favoritosApenas
+                ? `${lista.length} favorito(s)`
+                : q
                     ? `${lista.length} resultado(s)`
                     : `${lista.length} exercícios disponíveis`;
-        }
     }
-
 
     const customCta =
         q
-
             ? `
-                <div
-                    class="exercise-search-custom-row"
-                >
-
+                <div class="exercise-search-custom-row">
                     <div>
-
                         <strong>
                             Queres adicionar um exercício próprio?
                         </strong>
-
                         <span>
-                            Escreve qualquer nome
-                            e escolhe o tipo
-                            no passo seguinte.
+                            Escreve qualquer nome e escolhe o tipo no passo seguinte.
                         </span>
-
                     </div>
-
 
                     <button
                         type="button"
                         class="custom-exercise-btn"
                         id="createCustomExercise"
                     >
-                        + Adicionar "${escapeHtml(
-                            q
-                        )}"
+                        + Adicionar "${escapeHtml(q)}"
                     </button>
-
                 </div>
             `
+            : `
+                <div class="exercise-search-custom-row exercise-search-custom-row-empty">
+                    <div>
+                        <strong>
+                            Não encontras o que procuras?
+                        </strong>
+                        <span>
+                            Podes escrever manualmente o nome de qualquer exercício e criá-lo.
+                        </span>
+                    </div>
 
-            : "";
-
+                    <button
+                        type="button"
+                        class="custom-exercise-btn"
+                        id="createCustomExercise"
+                    >
+                        + Adicionar exercício personalizado
+                    </button>
+                </div>
+            `;
 
     const listaHtml =
         lista
-            .map(
-                item => {
+            .map(item => {
 
-                    const favorito =
-                        favoritosExercicios.includes(
-                            normalizarTexto(
+                const favorito =
+                    favoritosExercicios.includes(
+                        normalizarTexto(item.nome)
+                    );
+
+                return `
+                    <div class="exercise-search-result">
+
+                        <button
+                            type="button"
+                            class="exercise-search-main"
+                            data-exercise-name="${escaparAtributo(
                                 item.nome
-                            )
-                        );
-
-
-                    return `
-                        <div
-                            class="exercise-search-result"
+                            )}"
                         >
 
-                            <button
-                                type="button"
-                                class="exercise-search-main"
-                                data-exercise-name="${escaparAtributo(
-                                    item.nome
-                                )}"
-                            >
+                            <span class="exercise-search-result-icon">
+                                ${
+                                    item.personalizado
+                                        ? "✦"
+                                        : "＋"
+                                }
+                            </span>
 
-                                <span
-                                    class="exercise-search-result-icon"
-                                >
+                            <span class="exercise-search-result-copy">
+                                <strong>
+                                    ${escapeHtml(item.nome)}
+                                </strong>
+
+                                <small>
+                                    ${escapeHtml(item.grupo)}
+                                    ·
+                                    ${escapeHtml(item.maquina)}
                                     ${
                                         item.personalizado
-                                            ? "✦"
-                                            : "＋"
+                                            ? " · Personalizado"
+                                            : ""
                                     }
-                                </span>
+                                </small>
+                            </span>
 
+                            <span class="exercise-search-result-arrow">
+                                ›
+                            </span>
 
-                                <span
-                                    class="exercise-search-result-copy"
-                                >
+                        </button>
 
-                                    <strong>
-                                        ${escapeHtml(
-                                            item.nome
-                                        )}
-                                    </strong>
+                        <button
+                            type="button"
+                            class="exercise-favorite-button ${
+                                favorito ? "active" : ""
+                            }"
+                            data-favorite-name="${escaparAtributo(
+                                item.nome
+                            )}"
+                            aria-label="${
+                                favorito
+                                    ? "Remover dos favoritos"
+                                    : "Adicionar aos favoritos"
+                            }"
+                        >
+                            ${favorito ? "★" : "☆"}
+                        </button>
 
-
-                                    <small>
-
-                                        ${escapeHtml(
-                                            item.grupo
-                                        )}
-
-                                        ·
-
-                                        ${escapeHtml(
-                                            item.maquina
-                                        )}
-
-                                        ${
-                                            item.personalizado
-                                                ? " · Personalizado"
-                                                : ""
-                                        }
-
-                                    </small>
-
-                                </span>
-
-
-                                <span
-                                    class="exercise-search-result-arrow"
-                                >
-                                    ›
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="exercise-favorite-button ${
-                                    favorito
-                                        ? "active"
-                                        : ""
-                                }"
-                                data-favorite-name="${escaparAtributo(
-                                    item.nome
-                                )}"
-                                aria-label="${
-                                    favorito
-                                        ? "Remover dos favoritos"
-                                        : "Adicionar aos favoritos"
-                                }"
-                            >
-
-                                ${
-                                    favorito
-                                        ? "★"
-                                        : "☆"
-                                }
-
-                            </button>
-
-                        </div>
-                    `;
-                }
-            )
+                    </div>
+                `;
+            })
             .join("");
-
 
     results.innerHTML =
         (
             lista.length
-
                 ? listaHtml
-
                 : `
-                    <div
-                        class="exercise-search-empty"
-                    >
+                    <div class="exercise-search-empty">
 
-                        <div
-                            class="exercise-search-empty-icon"
-                        >
-                            ${
-                                favoritosApenas
-                                    ? "★"
-                                    : "⌕"
-                            }
+                        <div class="exercise-search-empty-icon">
+                            ${favoritosApenas ? "★" : "⌕"}
                         </div>
 
-
                         <strong>
-
                             ${
                                 favoritosApenas
-
                                     ? "Ainda não tens favoritos."
-
                                     : q
-
                                         ? "Não encontrámos este exercício."
-
-                                        : "Pesquisa um exercício."
+                                        : "Pesquisa um exercício ou cria um novo."
                             }
-
                         </strong>
 
-
                         <p>
-
                             ${
                                 favoritosApenas
-
                                     ? "Carrega na estrela dos exercícios para os guardar aqui."
-
                                     : q
-
                                         ? "Podes adicioná-lo ao teu treino e escolher o tipo mais adequado."
-
-                                        : "Escreve o nome na caixa acima para procurar ou cria um novo exercício."
+                                        : "Escreve o nome na caixa acima para procurar ou criar um exercício."
                             }
-
                         </p>
 
                     </div>
@@ -3392,11 +2700,8 @@ function renderResultadosPesquisa(
         ) +
         customCta;
 
-
     document
-        .getElementById(
-            "createCustomExercise"
-        )
+        .getElementById("createCustomExercise")
         ?.addEventListener(
             "click",
             () => {
@@ -3405,22 +2710,17 @@ function renderResultadosPesquisa(
                     (
                         document.getElementById(
                             "exerciseSearch"
-                        )?.value ||
-                        ""
+                        )?.value || ""
                     ).trim();
 
-
                 if (!nome) {
-
                     document
                         .getElementById(
                             "exerciseSearch"
                         )
                         ?.focus();
-
                     return;
                 }
-
 
                 selecionarExercicio(
                     nome,
@@ -3429,119 +2729,78 @@ function renderResultadosPesquisa(
             }
         );
 
-
     results
-        .querySelectorAll(
-            ".exercise-search-main"
-        )
-        .forEach(
-            btn => {
+        .querySelectorAll(".exercise-search-main")
+        .forEach(btn => {
 
-                btn.onclick =
-                    () => {
+            btn.onclick = () => {
 
-                        const nome =
-                            btn.dataset
-                                .exerciseName;
+                const nome =
+                    btn.dataset.exerciseName;
 
-
-                        const item =
-                            construirBibliotecaExercicios()
-                                .find(
-                                    x =>
-                                        normalizarTexto(
-                                            x.nome
-                                        ) ===
-                                        normalizarTexto(
-                                            nome
-                                        )
-                                );
-
-
-                        selecionarExercicio(
-                            item?.nome ||
-                                nome,
-
-                            !!item?.personalizado,
-
-                            item
+                const item =
+                    construirBibliotecaExercicios()
+                        .find(
+                            x =>
+                                normalizarTexto(x.nome) ===
+                                normalizarTexto(nome)
                         );
-                    };
-            }
-        );
 
+                selecionarExercicio(
+                    item?.nome || nome,
+                    !!item?.personalizado,
+                    item
+                );
+            };
+        });
 
     results
         .querySelectorAll(
             ".exercise-favorite-button"
         )
-        .forEach(
-            btn => {
+        .forEach(btn => {
 
-                btn.onclick =
-                    e => {
+            btn.onclick = e => {
 
-                        e.stopPropagation();
+                e.stopPropagation();
 
+                const nome =
+                    normalizarTexto(
+                        btn.dataset.favoriteName
+                    );
 
-                        const nome =
-                            normalizarTexto(
-                                btn.dataset
-                                    .favoriteName
-                            );
+                const index =
+                    favoritosExercicios.indexOf(
+                        nome
+                    );
 
+                if (index === -1) {
+                    favoritosExercicios.push(nome);
+                } else {
+                    favoritosExercicios.splice(index, 1);
+                }
 
-                        const index =
-                            favoritosExercicios.indexOf(
-                                nome
-                            );
+                try {
+                    localStorage.setItem(
+                        STORAGE_FAVORITOS_EXERCICIOS,
+                        JSON.stringify(
+                            favoritosExercicios
+                        )
+                    );
+                } catch (error) {
+                    console.warn(
+                        "Favoritos localStorage:",
+                        error
+                    );
+                }
 
-
-                        if (
-                            index ===
-                            -1
-                        ) {
-
-                            favoritosExercicios.push(
-                                nome
-                            );
-
-                        } else {
-
-                            favoritosExercicios.splice(
-                                index,
-                                1
-                            );
-                        }
-
-
-                        try {
-
-                            localStorage.setItem(
-                                STORAGE_FAVORITOS_EXERCICIOS,
-                                JSON.stringify(
-                                    favoritosExercicios
-                                )
-                            );
-
-                        } catch (error) {
-
-                            console.warn(
-                                "Favoritos localStorage:",
-                                error
-                            );
-                        }
-
-
-                        renderResultadosPesquisa(
-                            document.getElementById(
-                                "exerciseSearch"
-                            )?.value ||
-                            ""
-                        );
-                    };
-            }
-        );
+                renderResultadosPesquisa(
+                    document.getElementById(
+                        "exerciseSearch"
+                    )?.value || ""
+                );
+            };
+        });
 }
 
 
@@ -3560,7 +2819,6 @@ function selecionarExercicio(
             "exerciseName"
         );
 
-
     if (!input) {
         return;
     }
@@ -3577,16 +2835,13 @@ function selecionarExercicio(
     input.value =
         nome;
 
-
     input.dataset.personalizado =
         personalizado
             ? "true"
             : "false";
 
-
     input.dataset.tipo =
         tipo;
-
 
     input.dataset.grupo =
         item?.grupo ||
@@ -3605,21 +2860,15 @@ function selecionarExercicio(
 
         hint.innerHTML =
             personalizado
-
                 ? `
-                    <span
-                        class="custom-selected-badge"
-                    >
+                    <span class="custom-selected-badge">
                         ✦ Exercício personalizado
                     </span>
 
                     Escolhe o tipo abaixo.
                 `
-
                 : `
-                    <span
-                        class="existing-selected-badge"
-                    >
+                    <span class="existing-selected-badge">
                         ✓ Exercício selecionado
                     </span>
 
@@ -3646,51 +2895,37 @@ function selecionarExercicio(
 
         wrap.innerHTML = `
 
-            <div
-                class="exercise-type-block"
-            >
+            <div class="exercise-type-block">
 
-                <label
-                    for="exerciseType"
-                >
+                <label for="exerciseType">
                     Tipo de exercício
                 </label>
-
 
                 <select
                     id="exerciseType"
                     class="input"
                 >
 
-                    ${
-                        Object.entries(
-                            TIPOS_EXERCICIO
-                        )
+                    ${Object.entries(
+                        TIPOS_EXERCICIO
+                    )
                         .map(
-                            (
-                                [
-                                    key,
-                                    v
-                                ]
-                            ) =>
-                                `
+                            ([key, v]) => `
 
-                                    <option
-                                        value="${key}"
-                                        ${
-                                            key ===
-                                            tipo
-                                                ? "selected"
-                                                : ""
-                                        }
-                                    >
-                                        ${v.label}
-                                    </option>
+                                <option
+                                    value="${key}"
+                                    ${
+                                        key === tipo
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    ${v.label}
+                                </option>
 
-                                `
+                            `
                         )
-                        .join("")
-                    }
+                        .join("")}
 
                 </select>
 
@@ -3735,7 +2970,6 @@ function guardarExercicio() {
             "exerciseName"
         );
 
-
     const container =
         document.getElementById(
             "exerciseFields"
@@ -3758,9 +2992,7 @@ function guardarExercicio() {
         document.getElementById(
             "exerciseType"
         )?.value ||
-
         nameInput.dataset.tipo ||
-
         inferirTipoExercicio(
             nome,
             nameInput.dataset.grupo
@@ -3834,15 +3066,13 @@ function guardarExercicio() {
     const t =
         treinoAtual();
 
-
     const now =
         Date.now();
 
 
     const reg = {
 
-        id:
-            now,
+        id: now,
 
         data:
             formatarData(),
@@ -3858,8 +3088,7 @@ function guardarExercicio() {
 
     t.exercicios.push({
 
-        id:
-            now,
+        id: now,
 
         nome,
 
@@ -3882,7 +3111,6 @@ function guardarExercicio() {
 
 
     save();
-
 
     renderTreino();
 }
@@ -3917,7 +3145,6 @@ function abrirEditorExercicio(
     overlay.className =
         "exercise-editor-overlay open";
 
-
     overlay.id =
         "exerciseEditorOverlay";
 
@@ -3944,9 +3171,7 @@ function abrirEditorExercicio(
             aria-modal="true"
         >
 
-            <div
-                class="exercise-editor-top"
-            >
+            <div class="exercise-editor-top">
 
                 <div>
 
@@ -3954,13 +3179,11 @@ function abrirEditorExercicio(
                         ATUALIZAR EXERCÍCIO
                     </span>
 
-
                     <h2>
                         ${escapeHtml(
                             exercicio.nome
                         )}
                     </h2>
-
 
                     <p class="muted">
                         Atualiza cada série individualmente.
@@ -3985,18 +3208,13 @@ function abrirEditorExercicio(
                 class="series-setup editor-series-setup"
             >
 
-                <div
-                    class="series-count-row"
-                >
+                <div class="series-count-row">
 
                     <div>
 
-                        <label
-                            for="editorSeriesCount"
-                        >
+                        <label for="editorSeriesCount">
                             Número de séries
                         </label>
-
 
                         <small>
                             Podes aumentar ou reduzir
@@ -4004,7 +3222,6 @@ function abrirEditorExercicio(
                         </small>
 
                     </div>
-
 
                     <input
                         id="editorSeriesCount"
@@ -4063,7 +3280,6 @@ function abrirEditorExercicio(
                     "exerciseEditorFields"
                 ),
                 exercicio,
-
                 Number(
                     document.getElementById(
                         "editorSeriesCount"
@@ -4088,7 +3304,6 @@ function abrirEditorExercicio(
             if (
                 e.target === overlay
             ) {
-
                 overlay.remove();
             }
         }
@@ -4189,11 +3404,7 @@ function guardarAtualizacaoExercicio(
     ).forEach(
         p => {
 
-            if (
-                p !==
-                "series"
-            ) {
-
+            if (p !== "series") {
                 delete exercicio[p];
             }
         }
@@ -4267,7 +3478,6 @@ function mostrarProgressao(
     overlay.className =
         "progress-overlay open";
 
-
     overlay.id =
         "progressOverlay";
 
@@ -4285,81 +3495,58 @@ function mostrarProgressao(
                                   row
                               );
 
-
                           return `
+                              <article class="progress-history-entry">
 
-                              <article
-                                  class="progress-history-entry"
-                              >
-
-                                  <div
-                                      class="progress-history-date"
-                                  >
+                                  <div class="progress-history-date">
                                       ${escapeHtml(
                                           row.data ||
                                           "—"
                                       )}
                                   </div>
 
+                                  <div class="progress-history-series">
 
-                                  <div
-                                      class="progress-history-series"
-                                  >
+                                      ${series
+                                          .map(
+                                              (s, i) => `
 
-                                      ${
-                                          series
-                                              .map(
-                                                  (
-                                                      s,
-                                                      i
-                                                  ) =>
-                                                      `
+                                                  <div class="progress-history-series-row">
 
-                                                          <div
-                                                              class="progress-history-series-row"
-                                                          >
+                                                      <span>
+                                                          Série ${i + 1}
+                                                      </span>
 
-                                                              <span>
-                                                                  Série ${i + 1}
-                                                              </span>
+                                                      <strong>
+                                                          ${escapeHtml(
+                                                              serieResumo(
+                                                                  tipo,
+                                                                  s
+                                                              ) ||
+                                                              "Sem valores"
+                                                          )}
+                                                      </strong>
 
+                                                  </div>
 
-                                                              <strong>
-                                                                  ${escapeHtml(
-                                                                      serieResumo(
-                                                                          tipo,
-                                                                          s
-                                                                      ) ||
-                                                                      "Sem valores"
-                                                                  )}
-                                                              </strong>
-
-                                                          </div>
-
-                                                      `
-                                              )
-                                              .join("")
-                                      }
+                                              `
+                                          )
+                                          .join("")}
 
                                   </div>
 
                               </article>
-
                           `;
                       }
                   )
                   .join("")
 
             : `
-
-                <div
-                    class="progress-empty"
-                >
+                <div class="progress-empty">
 
                     <strong>
                         Ainda não existe histórico.
                     </strong>
-
 
                     <p>
                         As atualizações guardadas
@@ -4367,7 +3554,6 @@ function mostrarProgressao(
                     </p>
 
                 </div>
-
             `;
 
 
@@ -4379,9 +3565,7 @@ function mostrarProgressao(
             aria-modal="true"
         >
 
-            <div
-                class="exercise-editor-top"
-            >
+            <div class="exercise-editor-top">
 
                 <div>
 
@@ -4389,13 +3573,11 @@ function mostrarProgressao(
                         PROGRESSÃO
                     </span>
 
-
                     <h2>
                         ${escapeHtml(
                             exercicio.nome
                         )}
                     </h2>
-
 
                     <p class="muted">
                         Histórico de evolução · apenas consulta
@@ -4415,36 +3597,27 @@ function mostrarProgressao(
             </div>
 
 
-            <div
-                class="progress-history-list"
-            >
+            <div class="progress-history-list">
 
                 ${historyHtml}
 
             </div>
 
 
-            <div
-                class="progress-readonly-note"
-            >
+            <div class="progress-readonly-note">
 
                 🔒 Consulta apenas.
-
                 Para registar novos valores,
                 utiliza o botão
-
                 <strong>
                     Atualizar
                 </strong>
-
                 no exercício.
 
             </div>
 
 
-            <div
-                class="progress-actions"
-            >
+            <div class="progress-actions">
 
                 <button
                     class="secondary-btn"
@@ -4486,7 +3659,6 @@ function mostrarProgressao(
             if (
                 e.target === overlay
             ) {
-
                 overlay.remove();
             }
         }

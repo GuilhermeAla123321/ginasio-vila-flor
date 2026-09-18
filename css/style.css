@@ -3177,3 +3177,171 @@ body[data-theme="dark"] .exercise-filters select option {
     background: #ffffff;
     color: #3a2940;
 }
+/* =========================================================
+   FILTROS DA BIBLIOTECA
+   ========================================================= */
+
+.exercise-picker-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 18px 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.exercise-picker-control {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 32px;
+    padding: 0 7px;
+    border-radius: 10px;
+    border: 1px solid rgba(57,40,61,.12);
+    background: #faf6f1;
+    color: #665968;
+    font-size: 9px;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: .18s ease;
+}
+
+.exercise-picker-control.active {
+    background: rgba(104,64,111,.10);
+    color: #68406f;
+    border-color: rgba(104,64,111,.24);
+}
+
+.exercise-filter-options {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-height: 0;
+    padding: 0 18px 8px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: relative;
+    z-index: 5;
+    background: var(--bg-soft);
+}
+
+.exercise-filter-options::-webkit-scrollbar {
+    display: none;
+}
+
+.exercise-filter-option {
+    flex: 0 0 auto;
+    height: 27px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(57,40,61,.11);
+    background: #fffdf9;
+    color: var(--muted);
+    font-size: 8.5px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.exercise-filter-option.active {
+    background: linear-gradient(
+        135deg,
+        #68406f,
+        #3e9d9a
+    );
+    color: #fff;
+    border-color: transparent;
+}
+
+
+/* =========================================================
+   RESULTADOS
+   ========================================================= */
+
+.exercise-search-results {
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+}
+
+.exercise-search-result {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.exercise-search-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    padding: 0;
+}
+
+.exercise-favorite-button {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #b8adb9;
+    font-size: 22px;
+    line-height: 1;
+    padding: 0;
+    transition: .18s ease;
+}
+
+.exercise-favorite-button:hover {
+    transform: scale(1.08);
+}
+
+.exercise-favorite-button.active {
+    color: #d6a63a;
+}
+
+
+/* =========================================================
+   TEMA ESCURO
+   ========================================================= */
+
+body[data-theme="dark"] .exercise-picker-control {
+    background: #111824;
+    color: #aab5c9;
+    border-color: var(--line);
+}
+
+body[data-theme="dark"] .exercise-picker-control.active {
+    background: rgba(104,64,111,.18);
+    color: #d2b9d7;
+    border-color: rgba(104,64,111,.30);
+}
+
+body[data-theme="dark"] .exercise-filter-options {
+    background: var(--bg-soft);
+}
+
+body[data-theme="dark"] .exercise-filter-option {
+    background: #111824;
+    color: #aab5c9;
+    border-color: var(--line);
+}
+
+body[data-theme="light"] .exercise-picker-control {
+    background: #faf6f1;
+    color: #665968;
+}
+
+body[data-theme="light"] .exercise-picker-control.active {
+    color: #68406f;
+}
