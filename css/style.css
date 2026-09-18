@@ -670,6 +670,9 @@ body[data-theme="dark"] .exercise-filters select {
         display: flex !important;
     }
 }
+.equipment-card.filter-hidden {
+    display: none !important;
+}
 .equipment-card:hover {
   transform: translateY(-2px);
   border-color: rgba(177,145,196,.45);

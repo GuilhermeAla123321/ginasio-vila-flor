@@ -1789,34 +1789,70 @@ Object.entries(EXERCICIOS_EXTRA).forEach(([equipamento, extras]) => {
 });
 
 function renderEquipamentos() {
-    const list = document.getElementById("equipment-list");
+
+    const list =
+        document.getElementById(
+            "equipment-list"
+        );
 
     if (!list) return;
 
+
     if (!list.dataset.originalHtml) {
-        list.dataset.originalHtml = list.innerHTML;
+        list.dataset.originalHtml =
+            list.innerHTML;
     }
 
-    list.querySelectorAll(".equipment-card").forEach(card => {
-        card.setAttribute("role", "button");
-        card.setAttribute("tabindex", "0");
 
-        card.onclick = () =>
-            abrirEquipamento(
-                card.querySelector("h3")?.textContent.trim()
+    list
+        .querySelectorAll(
+            ".equipment-card"
+        )
+        .forEach(card => {
+
+            card.setAttribute(
+                "role",
+                "button"
             );
 
-        card.onkeydown = e => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                abrirEquipamento(
-                    card.querySelector("h3")?.textContent.trim()
-                );
-            }
-        };
-    });
-}
+            card.setAttribute(
+                "tabindex",
+                "0"
+            );
 
+
+            card.onclick = () =>
+                abrirEquipamento(
+                    card
+                        .querySelector("h3")
+                        ?.textContent
+                        .trim()
+                );
+
+
+            card.onkeydown = e => {
+
+                if (
+                    e.key === "Enter" ||
+                    e.key === " "
+                ) {
+
+                    e.preventDefault();
+
+                    abrirEquipamento(
+                        card
+                            .querySelector("h3")
+                            ?.textContent
+                            .trim()
+                    );
+                }
+            };
+
+        });
+
+
+    configurarFiltrosEquipamentos();
+}
 function abrirEquipamento(nome) {
     const list = document.getElementById("equipment-list");
     const filtrosEquipamentos = document.querySelector(".equipment-filters");
@@ -2000,27 +2036,71 @@ function classeExercicio(grupo) {
     }[grupo] || "";
 }
 
-document.addEventListener("click", e => {
-    const b = e.target.closest(".filter-btn[data-filter]");
+function configurarFiltrosEquipamentos() {
 
-    if (!b) return;
+    const container = document.querySelector(
+        "#page-equipment .equipment-filters"
+    );
 
-    document
-        .querySelectorAll("#page-equipment .filter-btn[data-filter]")
-        .forEach(x => x.classList.remove("active"));
+    const list = document.getElementById(
+        "equipment-list"
+    );
 
-    b.classList.add("active");
+    if (!container || !list) return;
 
-    const filtro = b.dataset.filter;
+    const buttons = container.querySelectorAll(
+        ".filter-btn[data-filter]"
+    );
 
-    document
-        .querySelectorAll("#equipment-list .equipment-card")
-        .forEach(card => {
-            card.style.display =
-                filtro === "Todos" || card.dataset.category === filtro
-                    ? ""
-                    : "none";
-        });
-});
+    buttons.forEach(button => {
 
-document.addEventListener("DOMContentLoaded", renderEquipamentos);
+        button.onclick = function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const filtro = this.dataset.filter;
+
+            buttons.forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+            const cards = list.querySelectorAll(
+                ".equipment-card"
+            );
+
+            cards.forEach(card => {
+
+                const categoria =
+                    card.getAttribute("data-category");
+
+                const mostrar =
+                    filtro === "Todos" ||
+                    categoria === filtro;
+
+                if (mostrar) {
+                    card.style.removeProperty("display");
+                } else {
+                    card.style.setProperty(
+                        "display",
+                        "none",
+                        "important"
+                    );
+                }
+            });
+        };
+    });
+}
+
+/* =========================================
+   INICIALIZAÇÃO
+   ========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+        renderEquipamentos();
+    }
+);

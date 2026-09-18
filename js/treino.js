@@ -156,74 +156,72 @@ const PARAMETROS = {
         label: "Carga",
         unit: "kg",
         step: "0.5",
-        placeholder: "60"
+        placeholder: ""
     },
 
     pesoHalter: {
         label: "Peso por halter",
         unit: "kg",
         step: "0.5",
-        placeholder: "12"
+        placeholder: ""
     },
 
     series: {
         label: "Séries",
         unit: "",
         step: "1",
-        placeholder: "4"
+        placeholder: ""
     },
 
     repeticoes: {
         label: "Repetições",
         unit: "",
         step: "1",
-        placeholder: "10"
+        placeholder: ""
     },
 
     tempo: {
         label: "Tempo",
         unit: "min",
         step: "0.5",
-        placeholder: "20"
+        placeholder: ""
     },
 
     velocidade: {
         label: "Velocidade",
         unit: "km/h",
         step: "0.1",
-        placeholder: "10"
+        placeholder: ""
     },
 
     inclinacao: {
         label: "Inclinação",
         unit: "%",
         step: "0.5",
-        placeholder: "5"
+        placeholder: ""
     },
 
     distancia: {
         label: "Distância",
         unit: "km",
         step: "0.01",
-        placeholder: "5"
+        placeholder: ""
     },
 
     resistencia: {
         label: "Resistência",
         unit: "",
         step: "1",
-        placeholder: "5"
+        placeholder: ""
     },
 
     ritmo: {
         label: "Ritmo",
         unit: "min/500m",
         step: "0.1",
-        placeholder: "2.5"
+        placeholder: ""
     }
 };
-
-
 /* =========================================================
    ESTADO DA APLICAÇÃO
    ========================================================= */
@@ -607,7 +605,8 @@ function construirBibliotecaExercicios() {
                     ...meta,
                     maquina:
                         item.maquina ||
-                        maquinaPorExercicio(item.nome)
+                        maquinaPorExercicio(item.nome),
+                    descricao: item.descricao || ""
                 }
             );
         });
@@ -637,7 +636,8 @@ function construirBibliotecaExercicios() {
                     ...meta,
                     maquina:
                         item.maquina ||
-                        maquinaPorExercicio(item.nome)
+                        maquinaPorExercicio(item.nome),
+                    descricao: item.descricao || ""
                 }
             );
         });
@@ -2166,6 +2166,117 @@ function garantirEstilosBiblioteca() {
             color: #d6a63a;
         }
 
+        .custom-create-control {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(214, 112, 188, .18), rgba(62, 157, 154, .10));
+            color: #9b4b91;
+            border-color: rgba(214, 112, 188, .35);
+            font-size: 9px;
+        }
+
+        .custom-create-control:active {
+            transform: scale(.98);
+        }
+
+        .custom-exercise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10050;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(24, 17, 28, .48);
+            backdrop-filter: blur(5px);
+        }
+
+        .custom-exercise-modal {
+            width: min(100%, 430px);
+            max-height: min(90vh, 700px);
+            overflow-y: auto;
+            box-sizing: border-box;
+            border-radius: 24px;
+            padding: 20px;
+            background: #fffdf9;
+            border: 1px solid rgba(57,40,61,.10);
+            box-shadow: 0 24px 70px rgba(39, 24, 45, .22);
+        }
+
+        .custom-exercise-modal-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .custom-exercise-modal-top h2 {
+            margin: 4px 0 0;
+        }
+
+        .custom-exercise-form {
+            display: grid;
+            gap: 14px;
+        }
+
+        .custom-exercise-field {
+            display: grid;
+            gap: 7px;
+        }
+
+        .custom-exercise-field label {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .custom-exercise-field small {
+            font-size: 10px;
+            line-height: 1.35;
+            color: #8b7f8c;
+        }
+
+        .custom-exercise-field textarea.input {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .custom-exercise-actions {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .custom-exercise-actions button {
+            min-height: 44px;
+        }
+
+        body[data-theme="dark"] .custom-create-control {
+            background: rgba(214, 112, 188, .12);
+            color: #e1a5d3;
+            border-color: rgba(214, 112, 188, .28);
+        }
+
+        body[data-theme="dark"] .custom-exercise-modal {
+            background: #111824;
+            border-color: var(--line);
+            color: #eef2f8;
+        }
+
+        body[data-theme="dark"] .custom-exercise-field small {
+            color: #9aa6ba;
+        }
+
+        body[data-theme="dark"] .custom-exercise-overlay {
+            background: rgba(4, 8, 14, .68);
+        }
+
+        body[data-theme="light"] .custom-create-control {
+            background: linear-gradient(135deg, rgba(214, 112, 188, .13), rgba(62, 157, 154, .10));
+            color: #9b4b91;
+            border-color: rgba(214, 112, 188, .32);
+        }
+
         body[data-theme="dark"] .exercise-picker-control {
             background: #111824;
             color: #aab5c9;
@@ -2280,6 +2391,14 @@ function abrirSeletorExercicio() {
                 >
                     Máquinas
                 </button>
+
+                <button
+                    type="button"
+                    class="exercise-picker-control custom-create-control"
+                    id="openCustomExerciseCreator"
+                >
+                    ＋ Adicionar exercício personalizado
+                </button>
             </div>
 
             <div
@@ -2367,6 +2486,13 @@ function abrirSeletorExercicio() {
                 render();
             });
         });
+
+    document.getElementById(
+        "openCustomExerciseCreator"
+    )?.addEventListener(
+        "click",
+        abrirPopupExercicioPersonalizado
+    );
 
     document.addEventListener(
         "keydown",
@@ -2491,6 +2617,325 @@ function renderOpcoesFiltroBiblioteca(tipo) {
         });
 }
 
+function abrirPopupExercicioPersonalizado() {
+
+    document
+        .getElementById("customExerciseOverlay")
+        ?.remove();
+
+    const searchValue =
+        document.getElementById("exerciseSearch")?.value?.trim() || "";
+
+    const grupos = [
+        "Peito",
+        "Costas",
+        "Pernas",
+        "Ombros",
+        "Braços",
+        "Core",
+        "Cardio",
+        "Outro"
+    ];
+
+    const maquinas = [
+        "Sem equipamento",
+        ...new Set(
+            construirBibliotecaExercicios()
+                .map(item => item.maquina)
+                .filter(Boolean)
+        )
+    ];
+
+    const grupoInicial =
+        grupos.includes(inferirGrupoExercicio(searchValue))
+            ? inferirGrupoExercicio(searchValue)
+            : "Outro";
+
+    const tipoInicial =
+        inferirTipoExercicio(
+            searchValue || "Novo exercício",
+            grupoInicial
+        );
+
+    const maquinaInferida =
+        searchValue
+            ? maquinaPorExercicio(searchValue)
+            : "Sem equipamento";
+
+    const maquinaInicial =
+        maquinas.includes(maquinaInferida)
+            ? maquinaInferida
+            : "Sem equipamento";
+
+    const overlay = document.createElement("div");
+    overlay.className = "custom-exercise-overlay open";
+    overlay.id = "customExerciseOverlay";
+
+    overlay.innerHTML = `
+
+        <div
+            class="custom-exercise-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="customExerciseTitle"
+        >
+
+            <div class="custom-exercise-modal-top">
+
+                <div>
+                    <span class="eyebrow">
+                        NOVO EXERCÍCIO
+                    </span>
+
+                    <h2 id="customExerciseTitle">
+                        Adicionar exercício personalizado
+                    </h2>
+
+                    <p class="muted">
+                        Cria o exercício e guarda-o na tua biblioteca.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="exercise-picker-close"
+                    id="closeCustomExercise"
+                    aria-label="Fechar"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <div class="custom-exercise-form">
+
+                <div class="custom-exercise-field">
+                    <label for="customExerciseName">
+                        Nome do exercício
+                    </label>
+
+                    <input
+                        id="customExerciseName"
+                        class="input"
+                        type="text"
+                        maxlength="80"
+                        placeholder="Ex.: Agachamento búlgaro"
+                        value="${escapeHtml(searchValue)}"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="custom-exercise-field">
+                    <label for="customExerciseGroup">
+                        Grupo muscular
+                    </label>
+
+                    <select
+                        id="customExerciseGroup"
+                        class="input"
+                    >
+                        ${grupos
+                            .map(grupo => `
+                                <option
+                                    value="${escaparAtributo(grupo)}"
+                                    ${
+                                        grupo === grupoInicial
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    ${escapeHtml(grupo)}
+                                </option>
+                            `)
+                            .join("")}
+                    </select>
+                </div>
+
+                <div class="custom-exercise-field">
+                    <label for="customExerciseType">
+                        Tipo de exercício
+                    </label>
+
+                    <select
+                        id="customExerciseType"
+                        class="input"
+                    >
+                        ${Object.entries(TIPOS_EXERCICIO)
+                            .map(([key, value]) => `
+                                <option
+                                    value="${escaparAtributo(key)}"
+                                    ${
+                                        key === tipoInicial
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    ${escapeHtml(value.label)}
+                                </option>
+                            `)
+                            .join("")}
+                    </select>
+                </div>
+
+                <div class="custom-exercise-field">
+                    <label for="customExerciseMachine">
+                        Equipamento
+                    </label>
+
+                    <select
+                        id="customExerciseMachine"
+                        class="input"
+                    >
+                        ${maquinas
+                            .map(maquina => `
+                                <option
+                                    value="${escaparAtributo(maquina)}"
+                                    ${
+                                        maquina === maquinaInicial
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    ${escapeHtml(maquina)}
+                                </option>
+                            `)
+                            .join("")}
+                    </select>
+                </div>
+
+
+
+                <div class="custom-exercise-actions">
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="cancelCustomExercise"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        id="saveCustomExercise"
+                    >
+                        Adicionar exercício
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const nameInput =
+        document.getElementById("customExerciseName");
+
+    let escapeHandler;
+
+    const close = () => {
+        overlay.remove();
+        if (escapeHandler) {
+            document.removeEventListener(
+                "keydown",
+                escapeHandler
+            );
+        }
+    };
+
+    document.getElementById("closeCustomExercise").onclick = close;
+    document.getElementById("cancelCustomExercise").onclick = close;
+
+    overlay.addEventListener("click", e => {
+        if (e.target === overlay) {
+            close();
+        }
+    });
+
+    escapeHandler = e => {
+        if (e.key === "Escape") {
+            close();
+        }
+    };
+
+    document.addEventListener(
+        "keydown",
+        escapeHandler
+    );
+
+    document.getElementById("saveCustomExercise").onclick = () => {
+
+        const nome =
+            nameInput?.value.trim() || "";
+
+        const grupo =
+            document.getElementById("customExerciseGroup")?.value || "Outro";
+
+        const tipo =
+            document.getElementById("customExerciseType")?.value ||
+            inferirTipoExercicio(nome, grupo);
+
+        const maquina =
+            document.getElementById("customExerciseMachine")?.value ||
+            "Sem equipamento";
+
+        const descricao =
+            document.getElementById("customExerciseDescription")?.value.trim() || "";
+
+        if (!nome) {
+            alert("Indica o nome do exercício.");
+            nameInput?.focus();
+            return;
+        }
+
+        const biblioteca = construirBibliotecaExercicios();
+
+        const jaExiste = biblioteca.some(
+            item =>
+                normalizarTexto(item.nome) ===
+                normalizarTexto(nome)
+        );
+
+        if (jaExiste) {
+            alert("Já existe um exercício com esse nome na biblioteca.");
+            nameInput?.focus();
+            return;
+        }
+
+        const id =
+            `custom-${Date.now()}`;
+
+        const novo = {
+            id,
+            nome,
+            grupo,
+            tipo,
+            maquina,
+            descricao,
+            personalizado: true,
+            criadoEm: new Date().toISOString()
+        };
+
+        exerciciosPersonalizados.push(novo);
+        saveExerciciosPersonalizados();
+
+        close();
+
+        selecionarExercicio(
+            nome,
+            true,
+            novo
+        );
+    };
+
+    requestAnimationFrame(() => {
+        nameInput?.focus();
+        nameInput?.select();
+    });
+}
+
 function renderResultadosPesquisa(termo) {
 
     const results =
@@ -2547,49 +2992,6 @@ function renderResultadosPesquisa(termo) {
                     ? `${lista.length} resultado(s)`
                     : `${lista.length} exercícios disponíveis`;
     }
-
-    const customCta =
-        q
-            ? `
-                <div class="exercise-search-custom-row">
-                    <div>
-                        <strong>
-                            Queres adicionar um exercício próprio?
-                        </strong>
-                        <span>
-                            Escreve qualquer nome e escolhe o tipo no passo seguinte.
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        class="custom-exercise-btn"
-                        id="createCustomExercise"
-                    >
-                        + Adicionar "${escapeHtml(q)}"
-                    </button>
-                </div>
-            `
-            : `
-                <div class="exercise-search-custom-row exercise-search-custom-row-empty">
-                    <div>
-                        <strong>
-                            Não encontras o que procuras?
-                        </strong>
-                        <span>
-                            Podes escrever manualmente o nome de qualquer exercício e criá-lo.
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        class="custom-exercise-btn"
-                        id="createCustomExercise"
-                    >
-                        + Adicionar exercício personalizado
-                    </button>
-                </div>
-            `;
 
     const listaHtml =
         lista
@@ -2665,69 +3067,37 @@ function renderResultadosPesquisa(termo) {
             .join("");
 
     results.innerHTML =
-        (
-            lista.length
-                ? listaHtml
-                : `
-                    <div class="exercise-search-empty">
+        lista.length
+            ? listaHtml
+            : `
+                <div class="exercise-search-empty">
 
-                        <div class="exercise-search-empty-icon">
-                            ${favoritosApenas ? "★" : "⌕"}
-                        </div>
-
-                        <strong>
-                            ${
-                                favoritosApenas
-                                    ? "Ainda não tens favoritos."
-                                    : q
-                                        ? "Não encontrámos este exercício."
-                                        : "Pesquisa um exercício ou cria um novo."
-                            }
-                        </strong>
-
-                        <p>
-                            ${
-                                favoritosApenas
-                                    ? "Carrega na estrela dos exercícios para os guardar aqui."
-                                    : q
-                                        ? "Podes adicioná-lo ao teu treino e escolher o tipo mais adequado."
-                                        : "Escreve o nome na caixa acima para procurar ou criar um exercício."
-                            }
-                        </p>
-
+                    <div class="exercise-search-empty-icon">
+                        ${favoritosApenas ? "★" : "⌕"}
                     </div>
-                `
-        ) +
-        customCta;
 
-    document
-        .getElementById("createCustomExercise")
-        ?.addEventListener(
-            "click",
-            () => {
+                    <strong>
+                        ${
+                            favoritosApenas
+                                ? "Ainda não tens favoritos."
+                                : q
+                                    ? "Não encontrámos este exercício."
+                                    : "Pesquisa um exercício ou cria um novo."
+                        }
+                    </strong>
 
-                const nome =
-                    (
-                        document.getElementById(
-                            "exerciseSearch"
-                        )?.value || ""
-                    ).trim();
+                    <p>
+                        ${
+                            favoritosApenas
+                                ? "Carrega na estrela dos exercícios para os guardar aqui."
+                                : q
+                                    ? "Usa o botão + Criar no topo para adicionar um exercício personalizado."
+                                    : "Escreve o nome na caixa acima para procurar um exercício."
+                        }
+                    </p>
 
-                if (!nome) {
-                    document
-                        .getElementById(
-                            "exerciseSearch"
-                        )
-                        ?.focus();
-                    return;
-                }
-
-                selecionarExercicio(
-                    nome,
-                    true
-                );
-            }
-        );
+                </div>
+            `;
 
     results
         .querySelectorAll(".exercise-search-main")
@@ -2848,6 +3218,14 @@ function selecionarExercicio(
         inferirGrupoExercicio(
             nome
         );
+
+    input.dataset.maquina =
+        item?.maquina ||
+        maquinaPorExercicio(nome);
+
+    input.dataset.descricao =
+        item?.descricao ||
+        "";
 
 
     const hint =
@@ -3053,6 +3431,14 @@ function guardarExercicio() {
             grupo,
 
             tipo,
+
+            maquina:
+                nameInput.dataset.maquina ||
+                maquinaPorExercicio(nome),
+
+            descricao:
+                nameInput.dataset.descricao ||
+                "",
 
             criadoEm:
                 new Date().toISOString()
