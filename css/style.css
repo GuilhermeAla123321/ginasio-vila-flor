@@ -661,7 +661,15 @@ body[data-theme="dark"] .exercise-filters select {
   padding: 14px;
   transition: .2s;
 }
+@media (max-width: 600px) {
+    .equipment-card[style*="display: none"] {
+        display: none !important;
+    }
 
+    .equipment-card[style*="display: flex"] {
+        display: flex !important;
+    }
+}
 .equipment-card:hover {
   transform: translateY(-2px);
   border-color: rgba(177,145,196,.45);
