@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v24';
+const CACHE_NAME = 'vf-ginasio-v25';
 
 const APP_SHELL = [
     './',
@@ -36,10 +36,17 @@ self.addEventListener('install', event => {
                 return cache.addAll(APP_SHELL);
 
             })
+            .catch(error => {
+
+                console.warn(
+                    'Erro ao criar cache:',
+                    error
+                );
+
+            })
 
     );
 
-    // Ativa imediatamente a nova versão
     self.skipWaiting();
 
 });
@@ -65,10 +72,8 @@ self.addEventListener('activate', event => {
                 );
 
             })
-
             .then(() => {
 
-                // Assume imediatamente o controlo das páginas
                 return self.clients.claim();
 
             })
@@ -79,28 +84,98 @@ self.addEventListener('activate', event => {
 
 
 /* =========================================================
+   FUNÇÃO AUXILIAR
+   ========================================================= */
+
+async function guardarNoCache(request, response) {
+
+    /*
+     * Só guardar respostas válidas.
+     */
+
+    if (!response) {
+        return;
+    }
+
+    if (!response.ok) {
+        return;
+    }
+
+    /*
+     * Algumas respostas não podem ser colocadas
+     * no Cache Storage.
+     */
+
+    if (response.type === 'opaque') {
+        return;
+    }
+
+    try {
+
+        const cache = await caches.open(CACHE_NAME);
+
+        await cache.put(
+            request,
+            response.clone()
+        );
+
+    } catch (error) {
+
+        /*
+         * Um erro de cache nunca deve impedir
+         * o funcionamento da aplicação.
+         */
+
+        console.warn(
+            'Não foi possível guardar no cache:',
+            request.url,
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
    FETCH
    ========================================================= */
 
 self.addEventListener('fetch', event => {
 
-    // Apenas pedidos GET
-    if (event.request.method !== 'GET') {
+    const request = event.request;
+
+
+    /* =====================================================
+       MÉTODO
+       ===================================================== */
+
+    if (request.method !== 'GET') {
         return;
     }
 
-    const url = new URL(event.request.url);
+
+    /* =====================================================
+       URL
+       ===================================================== */
+
+    const url = new URL(request.url);
 
 
     /*
-     * IMPORTANTE:
-     * O Service Worker só deve tratar pedidos
-     * pertencentes à própria aplicação.
-     *
-     * Isto impede erros com:
-     * chrome-extension://
-     * outros domínios
-     * extensões do Chrome
+     * Só tratar pedidos HTTP/HTTPS.
+     */
+
+    if (
+        url.protocol !== 'http:' &&
+        url.protocol !== 'https:'
+    ) {
+        return;
+    }
+
+
+    /*
+     * Só tratar pedidos da própria aplicação.
      */
 
     if (url.origin !== self.location.origin) {
@@ -109,47 +184,47 @@ self.addEventListener('fetch', event => {
 
 
     /* =====================================================
-       HTML
+       LIVE SERVER
        ===================================================== */
 
     /*
-     * O HTML é sempre procurado primeiro online.
-     * Se não houver internet, utiliza a versão em cache.
+     * Não interferir com endpoints especiais
+     * utilizados pelo Live Server.
      */
 
     if (
+        url.pathname.includes('__livereload') ||
+        url.pathname.includes('livereload') ||
+        url.pathname.includes('__webpack') ||
+        url.pathname.includes('sockjs')
+    ) {
+
+        return;
+    }
+
+
+    /* =====================================================
+       HTML
+       ===================================================== */
+
+    if (
+        request.mode === 'navigate' ||
         url.pathname === '/' ||
         url.pathname.endsWith('/index.html')
     ) {
 
         event.respondWith(
 
-            fetch(event.request, {
+            fetch(request, {
                 cache: 'no-store'
             })
 
-                .then(response => {
+                .then(async response => {
 
-                    /*
-                     * Só guardar respostas válidas
-                     * no cache.
-                     */
-
-                    if (response && response.ok) {
-
-                        const copy = response.clone();
-
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-
-                                cache.put(
-                                    event.request,
-                                    copy
-                                );
-
-                            });
-
-                    }
+                    await guardarNoCache(
+                        request,
+                        response
+                    );
 
                     return response;
 
@@ -157,9 +232,7 @@ self.addEventListener('fetch', event => {
 
                 .catch(() => {
 
-                    return caches.match(
-                        event.request
-                    );
+                    return caches.match(request);
 
                 })
 
@@ -170,15 +243,8 @@ self.addEventListener('fetch', event => {
 
 
     /* =====================================================
-       JAVASCRIPT E CSS
+       JAVASCRIPT / CSS
        ===================================================== */
-
-    /*
-     * JS e CSS procuram primeiro a versão online.
-     *
-     * Assim, durante o desenvolvimento,
-     * as alterações aparecem imediatamente.
-     */
 
     if (
         url.pathname.endsWith('.js') ||
@@ -187,31 +253,16 @@ self.addEventListener('fetch', event => {
 
         event.respondWith(
 
-            fetch(event.request, {
+            fetch(request, {
                 cache: 'no-store'
             })
 
-                .then(response => {
+                .then(async response => {
 
-                    /*
-                     * Só guardar respostas válidas.
-                     */
-
-                    if (response && response.ok) {
-
-                        const copy = response.clone();
-
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-
-                                cache.put(
-                                    event.request,
-                                    copy
-                                );
-
-                            });
-
-                    }
+                    await guardarNoCache(
+                        request,
+                        response
+                    );
 
                     return response;
 
@@ -219,14 +270,7 @@ self.addEventListener('fetch', event => {
 
                 .catch(() => {
 
-                    /*
-                     * Sem internet:
-                     * utilizar a versão guardada.
-                     */
-
-                    return caches.match(
-                        event.request
-                    );
+                    return caches.match(request);
 
                 })
 
@@ -237,56 +281,48 @@ self.addEventListener('fetch', event => {
 
 
     /* =====================================================
-       RESTANTES FICHEIROS
+       IMAGENS / ÍCONES / MANIFEST
        ===================================================== */
 
-    /*
-     * Imagens, ícones, manifest, etc.
-     *
-     * Primeiro tenta o cache.
-     * Se não existir, procura online e guarda.
-     */
+    if (
+        url.pathname.endsWith('.png') ||
+        url.pathname.endsWith('.jpg') ||
+        url.pathname.endsWith('.jpeg') ||
+        url.pathname.endsWith('.webp') ||
+        url.pathname.endsWith('.gif') ||
+        url.pathname.endsWith('.svg') ||
+        url.pathname.endsWith('.ico') ||
+        url.pathname.endsWith('.json')
+    ) {
 
-    event.respondWith(
+        event.respondWith(
 
-        caches.match(event.request)
+            caches.match(request)
 
-            .then(cached => {
+                .then(cached => {
 
-                if (cached) {
-                    return cached;
-                }
+                    if (cached) {
+                        return cached;
+                    }
 
-                return fetch(event.request)
+                    return fetch(request)
 
-                    .then(response => {
+                        .then(async response => {
 
-                        /*
-                         * Só guardar respostas válidas.
-                         */
+                            await guardarNoCache(
+                                request,
+                                response
+                            );
 
-                        if (response && response.ok) {
+                            return response;
 
-                            const copy = response.clone();
+                        });
 
-                            caches.open(CACHE_NAME)
-                                .then(cache => {
+                })
 
-                                    cache.put(
-                                        event.request,
-                                        copy
-                                    );
+        );
 
-                                });
-
-                        }
-
-                        return response;
-
-                    });
-
-            })
-
-    );
+        return;
+    }
 
 });
