@@ -7,6 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
        SERVICE WORKER
        ===================================================== */
 
+    /*
+     * TEMPORARIAMENTE DESATIVADO DURANTE O DESENVOLVIMENTO
+     *
+     * O Service Worker pode causar problemas com o
+     * Live Server e com o cache enquanto estamos
+     * a desenvolver a aplicação.
+     *
+     * Na versão final da PWA podemos voltar a ativá-lo.
+     */
+
+    /*
     if ("serviceWorker" in navigator) {
 
         window.addEventListener("load", async () => {
@@ -26,10 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     registration.scope
                 );
 
-                /*
-                 * Verifica imediatamente se existe
-                 * uma versão nova do Service Worker.
-                 */
                 await registration.update();
 
             } catch (err) {
@@ -44,14 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
-        /*
-         * Quando o novo Service Worker assumir
-         * o controlo, recarregar a página.
-         *
-         * Assim o utilizador passa a executar
-         * imediatamente o JS/CSS novo.
-         */
-
         navigator.serviceWorker.addEventListener(
             "controllerchange",
             () => {
@@ -62,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
+    */
 
 
     /* =====================================================
