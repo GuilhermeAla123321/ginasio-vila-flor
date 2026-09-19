@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v23';
+const CACHE_NAME = 'vf-ginasio-v24';
 
 const APP_SHELL = [
     './',
@@ -65,6 +65,7 @@ self.addEventListener('activate', event => {
                 );
 
             })
+
             .then(() => {
 
                 // Assume imediatamente o controlo das páginas
@@ -91,13 +92,29 @@ self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
 
 
+    /*
+     * IMPORTANTE:
+     * O Service Worker só deve tratar pedidos
+     * pertencentes à própria aplicação.
+     *
+     * Isto impede erros com:
+     * chrome-extension://
+     * outros domínios
+     * extensões do Chrome
+     */
+
+    if (url.origin !== self.location.origin) {
+        return;
+    }
+
+
     /* =====================================================
        HTML
        ===================================================== */
 
     /*
-     * O HTML é sempre procurado primeiro na internet.
-     * Assim, a aplicação recebe a versão mais recente.
+     * O HTML é sempre procurado primeiro online.
+     * Se não houver internet, utiliza a versão em cache.
      */
 
     if (
@@ -113,17 +130,26 @@ self.addEventListener('fetch', event => {
 
                 .then(response => {
 
-                    const copy = response.clone();
+                    /*
+                     * Só guardar respostas válidas
+                     * no cache.
+                     */
 
-                    caches.open(CACHE_NAME)
-                        .then(cache => {
+                    if (response && response.ok) {
 
-                            cache.put(
-                                event.request,
-                                copy
-                            );
+                        const copy = response.clone();
 
-                        });
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
+
+                                cache.put(
+                                    event.request,
+                                    copy
+                                );
+
+                            });
+
+                    }
 
                     return response;
 
@@ -148,17 +174,10 @@ self.addEventListener('fetch', event => {
        ===================================================== */
 
     /*
-     * JS e CSS também procuram primeiro a versão online.
+     * JS e CSS procuram primeiro a versão online.
      *
-     * Isto evita que alterações ao:
-     *
-     * treino.js
-     * exercicios.js
-     * equipamentos.js
-     * style.css
-     * etc.
-     *
-     * fiquem presas numa versão antiga do cache.
+     * Assim, durante o desenvolvimento,
+     * as alterações aparecem imediatamente.
      */
 
     if (
@@ -174,17 +193,25 @@ self.addEventListener('fetch', event => {
 
                 .then(response => {
 
-                    const copy = response.clone();
+                    /*
+                     * Só guardar respostas válidas.
+                     */
 
-                    caches.open(CACHE_NAME)
-                        .then(cache => {
+                    if (response && response.ok) {
 
-                            cache.put(
-                                event.request,
-                                copy
-                            );
+                        const copy = response.clone();
 
-                        });
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
+
+                                cache.put(
+                                    event.request,
+                                    copy
+                                );
+
+                            });
+
+                    }
 
                     return response;
 
@@ -192,8 +219,11 @@ self.addEventListener('fetch', event => {
 
                 .catch(() => {
 
-                    // Se não houver internet,
-                    // usa a versão guardada no cache.
+                    /*
+                     * Sem internet:
+                     * utilizar a versão guardada.
+                     */
+
                     return caches.match(
                         event.request
                     );
@@ -211,10 +241,10 @@ self.addEventListener('fetch', event => {
        ===================================================== */
 
     /*
-     * Imagens, ícones, manifest, GIFs, etc.
+     * Imagens, ícones, manifest, etc.
      *
-     * Aqui usamos cache primeiro para manter
-     * a aplicação funcional offline.
+     * Primeiro tenta o cache.
+     * Se não existir, procura online e guarda.
      */
 
     event.respondWith(
@@ -231,18 +261,25 @@ self.addEventListener('fetch', event => {
 
                     .then(response => {
 
-                        const copy =
-                            response.clone();
+                        /*
+                         * Só guardar respostas válidas.
+                         */
 
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
+                        if (response && response.ok) {
 
-                                cache.put(
-                                    event.request,
-                                    copy
-                                );
+                            const copy = response.clone();
 
-                            });
+                            caches.open(CACHE_NAME)
+                                .then(cache => {
+
+                                    cache.put(
+                                        event.request,
+                                        copy
+                                    );
+
+                                });
+
+                        }
 
                         return response;
 
