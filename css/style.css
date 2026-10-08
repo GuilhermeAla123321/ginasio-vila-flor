@@ -3997,3 +3997,142 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-select option {
     width: 15px;
     height: 15px;
 }
+
+
+/* Biblioteca: menu de filtro personalizado em vez do select nativo do sistema. */
+#exercisePickerOverlay .exercise-filter-select-wrap { position: relative; overflow: visible; }
+#exercisePickerOverlay .exercise-filter-dropdown { position: relative; min-width: 0; width: 100%; }
+#exercisePickerOverlay .exercise-filter-trigger {
+    display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; min-width:0; min-height:38px;
+    padding:0 11px; border:1px solid rgba(161,132,180,.34); border-radius:11px;
+    background:linear-gradient(135deg,rgba(124,77,255,.13),rgba(230,57,155,.07)); color:var(--text,#f5edf7);
+    font:inherit; font-size:11px; font-weight:800; text-align:left; cursor:pointer;
+    transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+#exercisePickerOverlay .exercise-filter-trigger:hover,
+#exercisePickerOverlay .exercise-filter-trigger[aria-expanded="true"] { border-color:rgba(62,157,154,.72); box-shadow:0 0 0 3px rgba(62,157,154,.10); }
+#exercisePickerOverlay .exercise-filter-current { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#exercisePickerOverlay .exercise-filter-trigger .exercise-filter-select-chevron { flex:0 0 auto; transition:transform .18s ease; }
+#exercisePickerOverlay .exercise-filter-trigger[aria-expanded="true"] .exercise-filter-select-chevron { transform:rotate(180deg); }
+#exercisePickerOverlay .exercise-filter-menu {
+    position:absolute; z-index:10080; top:calc(100% + 7px); right:0; left:0; max-height:min(250px,32vh);
+    overflow-x:hidden; overflow-y:auto; padding:5px; border:1px solid rgba(161,132,180,.32); border-radius:14px;
+    background:#211927; color:#f5edf7; box-shadow:0 16px 36px rgba(0,0,0,.38); backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px); overscroll-behavior:contain;
+}
+#exercisePickerOverlay .exercise-filter-menu[hidden] { display:none !important; }
+#exercisePickerOverlay .exercise-filter-menu-option {
+    display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; min-height:35px; padding:8px 10px;
+    border:0; border-radius:9px; background:transparent; color:#e9deed; font:inherit; font-size:11px; font-weight:700;
+    text-align:left; cursor:pointer; transition:background .14s ease,color .14s ease;
+}
+#exercisePickerOverlay .exercise-filter-menu-option:hover { background:rgba(124,77,255,.17); color:#fff; }
+#exercisePickerOverlay .exercise-filter-menu-option.active { background:linear-gradient(110deg,rgba(124,77,255,.32),rgba(62,157,154,.24)); color:#fff; }
+#exercisePickerOverlay .exercise-filter-option-check { flex:0 0 16px; color:#6fd2c4; font-size:14px; font-weight:900; text-align:center; }
+body[data-theme="light"] #exercisePickerOverlay .exercise-filter-trigger { color:#49394e; background:linear-gradient(135deg,rgba(124,77,255,.07),rgba(230,57,155,.04)); border-color:rgba(104,64,111,.23); }
+body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu { background:#fffdf9; color:#49394e; border-color:rgba(104,64,111,.20); box-shadow:0 16px 36px rgba(49,30,55,.17); }
+body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option { color:#55465b; }
+body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option:hover { background:rgba(124,77,255,.09); color:#392841; }
+body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.active { background:linear-gradient(110deg,rgba(124,77,255,.14),rgba(62,157,154,.15)); color:#392841; }
+
+
+/* Biblioteca móvel: cinco filtros compactos numa única linha. */
+#exercisePickerOverlay .exercise-picker-controls {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+#exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
+    position: relative !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 3px 2px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+#exercisePickerOverlay .exercise-picker-select-control {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+}
+#exercisePickerOverlay .exercise-picker-control-label {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100% !important;
+    padding: 2px !important;
+    border: 0 !important;
+    border-radius: inherit !important;
+    background: transparent !important;
+    color: inherit !important;
+    font: inherit !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+    pointer-events: none !important;
+}
+#exercisePickerOverlay .filter-control-title,
+#exercisePickerOverlay .filter-control-value {
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+#exercisePickerOverlay .filter-control-value {
+    font-size: 8px !important;
+    font-weight: 700 !important;
+    opacity: .88 !important;
+}
+#exercisePickerOverlay .exercise-filter-native-select {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 3 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+    appearance: auto !important;
+    -webkit-appearance: menulist !important;
+    border: 0 !important;
+}
+#exercisePickerOverlay .exercise-created-control {
+    gap: 2px !important;
+    font-size: 8.5px !important;
+    line-height: 1.1 !important;
+}
+#exercisePickerOverlay .exercise-created-icon {
+    font-size: 10px !important;
+}
+#exercisePickerOverlay .exercise-filter-options:empty {
+    display: none !important;
+}
+@media (max-width: 560px) {
+    #exercisePickerOverlay .exercise-picker-controls {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 4px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
+        min-height: 42px !important;
+        padding: 2px 1px !important;
+        border-radius: 10px !important;
+    }
+    #exercisePickerOverlay .exercise-picker-control-label {
+        font-size: 8.5px !important;
+    }
+    #exercisePickerOverlay .filter-control-value {
+        font-size: 7.5px !important;
+    }
+}
