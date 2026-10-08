@@ -2245,8 +2245,8 @@ function garantirEstilosBiblioteca() {
     style.textContent = `
         .exercise-picker-controls {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 6px;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 7px;
             padding: 0 18px 8px;
             width: 100%;
             box-sizing: border-box;
@@ -2255,17 +2255,24 @@ function garantirEstilosBiblioteca() {
 
         .exercise-picker-control {
             min-width: 0;
-            height: 32px;
-            padding: 0 6px;
+            min-height: 40px;
+            height: auto;
+            padding: 5px 6px;
             border-radius: 10px;
             border: 1px solid rgba(57,40,61,.12);
             background: #faf6f1;
             color: #665968;
             font-size: 9px;
             font-weight: 800;
-            white-space: nowrap;
+            white-space: normal;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            line-height: 1.15;
+            text-align: center;
         }
 
         .exercise-picker-control.active {
@@ -2275,14 +2282,10 @@ function garantirEstilosBiblioteca() {
         }
 
         .exercise-filter-options {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            display: block;
             width: 100%;
             padding: 0 18px 8px;
             box-sizing: border-box;
-            overflow-x: auto;
-            scrollbar-width: none;
             flex-shrink: 0;
             position: relative;
             z-index: 4;
@@ -2441,16 +2444,23 @@ function garantirEstilosBiblioteca() {
             min-height: 44px;
         }
 
-        body[data-theme="dark"] .custom-create-control {
-            grid-column: 1 / -1;
-            justify-self: center;
+        .custom-create-control {
+            align-self: center;
+            display: block;
             width: min(88%, 420px);
             max-width: 420px;
             height: auto;
             min-height: 44px;
-            margin: 5px 0 8px;
+            margin: 5px auto 8px;
             padding: 10px 14px;
+            border-radius: 14px;
+            text-align: center;
             white-space: normal;
+            line-height: 1.35;
+            box-sizing: border-box;
+        }
+
+        body[data-theme="dark"] .custom-create-control {
             background: linear-gradient(135deg, rgba(195,79,118,.30), rgba(104,64,111,.30), rgba(62,157,154,.22));
             color: #f5d8e9;
             border-color: rgba(214,112,188,.58);
@@ -2594,17 +2604,28 @@ function abrirSeletorExercicio() {
 
                 <button
                     type="button"
-                    class="exercise-picker-control custom-create-control"
-                    id="openCustomExerciseCreator"
+                    class="exercise-picker-control exercise-created-control"
+                    data-control="criados"
+                    aria-label="Mostrar exercícios criados por mim"
                 >
-                    ＋ Adicionar exercício personalizado
+                    <span class="exercise-created-icon" aria-hidden="true">✦</span>
+                    <span>Exercícios<br>Criados</span>
                 </button>
+
             </div>
 
             <div
                 class="exercise-filter-options"
                 id="exerciseFilterOptions"
             ></div>
+
+            <button
+                type="button"
+                class="custom-create-control"
+                id="openCustomExerciseCreator"
+            >
+                ＋ Adicionar exercício personalizado
+            </button>
 
             <div
                 class="exercise-search-meta"
@@ -2639,7 +2660,7 @@ function abrirSeletorExercicio() {
     });
 
     overlay
-        .querySelectorAll(".exercise-picker-control")
+        .querySelectorAll(".exercise-picker-controls .exercise-picker-control")
         .forEach(button => {
 
             button.addEventListener("click", () => {
@@ -2648,34 +2669,38 @@ function abrirSeletorExercicio() {
 
                 filtroBiblioteca = "todos";
                 valorFiltroBiblioteca = "Todos";
-
-                if (control === "todos") {
-                    favoritosApenas = false;
-                }
+                favoritosApenas = false;
 
                 if (control === "favoritos") {
                     favoritosApenas = true;
-                }
-
-                if (
+                } else if (
                     control === "musculos" ||
                     control === "maquinas"
                 ) {
-                    favoritosApenas = false;
                     filtroBiblioteca = control;
                     renderOpcoesFiltroBiblioteca(control);
+                } else if (control === "criados") {
+                    filtroBiblioteca = "criados";
+                    const options = document.getElementById(
+                        "exerciseFilterOptions"
+                    );
+                    if (options) {
+                        options.innerHTML = "";
+                        options.dataset.mode = "";
+                    }
                 } else {
                     const options = document.getElementById(
                         "exerciseFilterOptions"
                     );
                     if (options) {
                         options.innerHTML = "";
+                        options.dataset.mode = "";
                     }
                 }
 
                 overlay
                     .querySelectorAll(
-                        ".exercise-picker-control"
+                        ".exercise-picker-controls .exercise-picker-control"
                     )
                     .forEach(x =>
                         x.classList.remove("active")
@@ -2736,18 +2761,10 @@ function fecharSeletorExercicio() {
 
 function renderOpcoesFiltroBiblioteca(tipo) {
 
-    const container =
-        document.getElementById(
-            "exerciseFilterOptions"
-        );
+    const container = document.getElementById("exerciseFilterOptions");
+    if (!container) return;
 
-    if (!container) {
-        return;
-    }
-
-    const biblioteca =
-        construirBibliotecaExercicios();
-
+    const biblioteca = construirBibliotecaExercicios();
     let opcoes = [];
 
     if (tipo === "musculos") {
@@ -2759,58 +2776,35 @@ function renderOpcoesFiltroBiblioteca(tipo) {
                     .filter(grupo => grupo && grupo !== "Outro")
             )
         ];
+    } else if (tipo === "maquinas") {
+        opcoes = ["Todos", ...EQUIPAMENTOS_GINASIO];
     }
 
-    if (tipo === "maquinas") {
-        opcoes = [
-            "Todos",
-            ...EQUIPAMENTOS_GINASIO
-        ];
-    }
+    const rotulo = tipo === "musculos" ? "Grupo muscular" : "Equipamento";
+    const idSelect = "exerciseFilterSelect";
 
-    container.innerHTML =
-        opcoes
-            .map(opcao => `
-                <button
-                    type="button"
-                    class="exercise-filter-option ${
-                        opcao === valorFiltroBiblioteca
-                            ? "active"
-                            : ""
-                    }"
-                    data-value="${escaparAtributo(opcao)}"
-                >
-                    ${escapeHtml(opcao)}
-                </button>
-            `)
-            .join("");
+    container.dataset.mode = tipo;
+    container.innerHTML = `
+        <label class="exercise-filter-select-wrap" for="${idSelect}">
+            <span class="exercise-filter-select-label">${rotulo}</span>
+            <select id="${idSelect}" class="exercise-filter-select" aria-label="Filtrar por ${rotulo.toLowerCase()}">
+                ${opcoes.map(opcao => `
+                    <option value="${escaparAtributo(opcao)}" ${opcao === valorFiltroBiblioteca ? "selected" : ""}>
+                        ${escapeHtml(opcao)}
+                    </option>
+                `).join("")}
+            </select>
+            <span class="exercise-filter-select-chevron" aria-hidden="true"></span>
+        </label>
+    `;
 
-    container
-        .querySelectorAll(".exercise-filter-option")
-        .forEach(button => {
-
-            button.onclick = () => {
-
-                valorFiltroBiblioteca =
-                    button.dataset.value;
-
-                container
-                    .querySelectorAll(
-                        ".exercise-filter-option"
-                    )
-                    .forEach(x =>
-                        x.classList.remove("active")
-                    );
-
-                button.classList.add("active");
-
-                renderResultadosPesquisa(
-                    document.getElementById(
-                        "exerciseSearch"
-                    )?.value || ""
-                );
-            };
-        });
+    const select = container.querySelector("#exerciseFilterSelect");
+    select?.addEventListener("change", () => {
+        valorFiltroBiblioteca = select.value;
+        renderResultadosPesquisa(
+            document.getElementById("exerciseSearch")?.value || ""
+        );
+    });
 }
 
 function abrirPopupExercicioPersonalizado() {
@@ -3177,6 +3171,10 @@ function renderResultadosPesquisa(termo) {
         );
     }
 
+    if (filtroBiblioteca === "criados") {
+        lista = lista.filter(item => item.personalizado === true);
+    }
+
     if (
         filtroBiblioteca === "musculos" &&
         valorFiltroBiblioteca !== "Todos"
@@ -3197,11 +3195,13 @@ function renderResultadosPesquisa(termo) {
 
     if (meta) {
         meta.textContent =
-            favoritosApenas
-                ? `${lista.length} favorito(s)`
-                : q
-                    ? `${lista.length} resultado(s)`
-                    : `${lista.length} exercícios disponíveis`;
+            filtroBiblioteca === "criados"
+                ? `${lista.length} exercício(s) criado(s)`
+                : favoritosApenas
+                    ? `${lista.length} favorito(s)`
+                    : q
+                        ? `${lista.length} resultado(s)`
+                        : `${lista.length} exercícios disponíveis`;
     }
 
     const listaHtml =
@@ -3268,9 +3268,28 @@ function renderResultadosPesquisa(termo) {
                                     ? "Remover dos favoritos"
                                     : "Adicionar aos favoritos"
                             }"
+                            title="${favorito ? "Remover dos favoritos" : "Adicionar aos favoritos"}"
                         >
                             ${favorito ? "★" : "☆"}
                         </button>
+
+                        ${filtroBiblioteca === "criados" && item.personalizado ? `
+                            <button
+                                type="button"
+                                class="exercise-delete-button"
+                                data-delete-custom-id="${escaparAtributo(item.id || "")}" 
+                                data-delete-custom-name="${escaparAtributo(item.nome)}"
+                                aria-label="Apagar ${escaparAtributo(item.nome)} da biblioteca"
+                                title="Apagar exercício criado"
+                            >
+                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M3 6h18" />
+                                    <path d="M8 6V4h8v2" />
+                                    <path d="m19 6-1 14H6L5 6" />
+                                    <path d="M10 10v6M14 10v6" />
+                                </svg>
+                            </button>
+                        ` : ""}
 
                     </div>
                 `;
@@ -3289,21 +3308,25 @@ function renderResultadosPesquisa(termo) {
 
                     <strong>
                         ${
-                            favoritosApenas
-                                ? "Ainda não tens favoritos."
-                                : q
-                                    ? "Não encontrámos este exercício."
-                                    : "Pesquisa um exercício ou cria um novo."
+                            filtroBiblioteca === "criados"
+                                ? "Ainda não criaste exercícios personalizados."
+                                : favoritosApenas
+                                    ? "Ainda não tens favoritos."
+                                    : q
+                                        ? "Não encontrámos este exercício."
+                                        : "Pesquisa um exercício ou cria um novo."
                         }
                     </strong>
 
                     <p>
                         ${
-                            favoritosApenas
-                                ? "Carrega na estrela dos exercícios para os guardar aqui."
-                                : q
-                                    ? "Usa o botão + Criar no topo para adicionar um exercício personalizado."
-                                    : "Escreve o nome na caixa acima para procurar um exercício."
+                            filtroBiblioteca === "criados"
+                                ? "Usa «Adicionar exercício personalizado» para criares o primeiro."
+                                : favoritosApenas
+                                    ? "Carrega na estrela dos exercícios para os guardar aqui."
+                                    : q
+                                        ? "Usa o botão + Criar no topo para adicionar um exercício personalizado."
+                                        : "Escreve o nome na caixa acima para procurar um exercício."
                         }
                     </p>
 
@@ -3382,6 +3405,52 @@ function renderResultadosPesquisa(termo) {
                 );
             };
         });
+
+    results.querySelectorAll(".exercise-delete-button").forEach(btn => {
+        btn.onclick = event => {
+            event.stopPropagation();
+
+            const id = btn.dataset.deleteCustomId || "";
+            const nome = btn.dataset.deleteCustomName || "";
+            const exercicio = exerciciosPersonalizados.find(item =>
+                (id && String(item.id || "") === id) ||
+                normalizarTexto(item.nome) === normalizarTexto(nome)
+            );
+
+            if (!exercicio) {
+                alert("Não foi possível encontrar este exercício criado.");
+                return;
+            }
+
+            const confirmado = window.confirm(
+                `Apagar «${exercicio.nome}» da biblioteca?\n\n` +
+                "Os treinos já guardados não serão alterados."
+            );
+            if (!confirmado) return;
+
+            exerciciosPersonalizados = exerciciosPersonalizados.filter(item =>
+                !((id && String(item.id || "") === id) ||
+                  normalizarTexto(item.nome) === normalizarTexto(exercicio.nome))
+            );
+            saveExerciciosPersonalizados();
+
+            favoritosExercicios = favoritosExercicios.filter(favorito =>
+                favorito !== normalizarTexto(exercicio.nome)
+            );
+            try {
+                localStorage.setItem(
+                    STORAGE_FAVORITOS_EXERCICIOS,
+                    JSON.stringify(favoritosExercicios)
+                );
+            } catch (error) {
+                console.warn("Favoritos localStorage:", error);
+            }
+
+            renderResultadosPesquisa(
+                document.getElementById("exerciseSearch")?.value || ""
+            );
+        };
+    });
 }
 
 
