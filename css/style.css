@@ -1,9 +1,6 @@
 * {
   box-sizing: border-box
 }
-.justthis{
-
-}
 :root {
   --bg: #070912;
   --bg-soft: #0b0e1a;
@@ -1981,7 +1978,7 @@ body[data-theme="light"] .exercise-search-result:hover {
 }
 .topbar-actions {
   display: flex;
-  align-items: center;
+  align-items: left;
   gap: 8px
 }
 body[data-theme="light"] .edit-workout-btn,body[data-theme="light"] .back-button {
@@ -2031,14 +2028,56 @@ body[data-theme="light"] .exercise-info span,body[data-theme="light"] .selected-
   color: var(--muted);
   font-weight: 600
 }
+/* Botões Atualizar e Ver progressão — versão compacta */
 .exercise-card-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-top: 10px !important;
 }
-.exercise-card-actions button {
-  flex: 1;
-  min-height: 42px
+
+.exercise-card-actions > button {
+    width: 100% !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
+    margin: 0 !important;
+    padding: 0 8px !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    box-sizing: border-box !important;
+    border-radius: 14px !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    line-height: 1.2 !important;
+    box-shadow: none !important;
+}
+
+/* Manter os dois botões com o mesmo aspeto */
+.exercise-card-actions .update-exercise-button,
+.exercise-card-actions .progress-button {
+    background: rgba(124, 77, 255, 0.09) !important;
+    color: #a78bfa !important;
+    border: 1px solid rgba(167, 139, 250, 0.4) !important;
+}
+
+.exercise-card-actions > button:hover {
+    background: rgba(124, 77, 255, 0.16) !important;
+    border-color: rgba(167, 139, 250, 0.65) !important;
+}
+
+@media (max-width: 380px) {
+    .exercise-card-actions {
+        gap: 7px !important;
+    }
+
+    .exercise-card-actions > button {
+        font-size: 11px !important;
+    }
 }
 .progress-button {
   border: 1px solid rgba(124,77,255,.24);
@@ -2086,9 +2125,6 @@ body[data-theme="light"] .exercise-info span,body[data-theme="light"] .selected-
 .form-row>div {
   flex: 1;
   min-width: 0
-}
-.form-card {
-  padding: 16px
 }
 .form-card .input {
   width: 100%
@@ -2274,13 +2310,6 @@ body[data-theme="light"] .exercise-info span,body[data-theme="light"] .selected-
   font-size: 10px;
   line-height: 1.5
 }
-.progress-actions {
-  margin-top: 12px
-}
-.progress-actions button {
-  width: 100%;
-  min-height: 44px
-}
 .exercise-editor-overlay .input {
   width: 100%;
   min-height: 46px
@@ -2419,28 +2448,61 @@ body[data-theme="light"] .exercise-card-summary {
   border-top: 1px solid var(--line)
 }
 .series-card-line {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 9px;
-  border-radius: 10px;
-  background: rgba(124,77,255,.045)
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(124, 77, 255, .045);
 }
-.series-card-line span {
-  font-size: 8px;
-  color: var(--muted-2);
-  font-weight: 850;
-  text-transform: uppercase;
-  letter-spacing: .7px;
-  white-space: nowrap
+
+.series-card-line > span {
+    flex-shrink: 0;
+    font-size: 8px;
+    color: var(--muted-2);
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    white-space: nowrap;
 }
+
 .series-card-line strong {
-  font-size: 9px;
-  color: var(--text);
-  font-weight: 750;
-  text-align: right;
-  line-height: 1.4
+    font-size: 9px;
+    color: var(--text);
+    font-weight: 750;
+    text-align: right;
+    line-height: 1.5;
+}
+
+.series-card-line .series-card-values {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 20px;
+    row-gap: 5px;
+    min-width: 0;
+}
+
+.series-card-values > span {
+    color: var(--text);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .series-card-line {
+        gap: 10px;
+        padding: 8px 9px;
+    }
+
+    .series-card-line .series-card-values {
+        column-gap: 12px;
+    }
 }
 .progress-history-list {
   display: grid;
@@ -3505,93 +3567,96 @@ body[data-theme="dark"] .exercise-filters select option {
 
 
 /* =========================================================
-   TEMA ESCURO
+   BIBLIOTECA DE EXERCÍCIOS — ESTILOS FINAIS CONSOLIDADOS
+   Estas regras substituem as antigas sobreposições repetidas da biblioteca.
    ========================================================= */
 
-body[data-theme="dark"] .exercise-picker-control {
-    background: #111824;
-    color: #aab5c9;
-    border-color: var(--line);
-}
-
-body[data-theme="dark"] .exercise-picker-control.active {
-    background: rgba(104,64,111,.18);
-    color: #d2b9d7;
-    border-color: rgba(104,64,111,.30);
-}
-
-body[data-theme="dark"] .exercise-filter-options {
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-}
-
-body[data-theme="dark"] .exercise-search-meta {
-    background: transparent;
-    border: 0;
-}
-
-body[data-theme="dark"] .exercise-search-results {
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-}
-.exercise-filter-options {
-    border: 0 !important;
-    box-shadow: none !important;
-}
-
-.exercise-search-meta {
-    border: 0 !important;
-    box-shadow: none !important;
-}
-
-.exercise-search-results {
-    border: 0 !important;
-    box-shadow: none !important;
-}
-.exercise-picker-controls {
-    margin-bottom: 0 !important;
-}
-
-.exercise-filter-options {
-    padding-bottom: 4px !important;
-}
-
-.exercise-search-meta {
-    margin: 0 !important;
-    padding: 0 18px 4px !important;
-}
-
-body[data-theme="dark"] .exercise-filter-option {
-    background: #111824;
-    color: #aab5c9;
-    border-color: var(--line);
-}
-
-body[data-theme="light"] .exercise-picker-control {
-    background: #faf6f1;
-    color: #665968;
-}
-
-body[data-theme="light"] .exercise-picker-control.active {
-    color: #68406f;
-}
-
-/* =========================================================
-   CORREÇÃO — LINHA/FAIXA NO FUNDO DO SELETOR DE EXERCÍCIOS
-   ========================================================= */
-
-#exercisePickerOverlay .exercise-picker {
-    border: 1px solid var(--line);
-    box-shadow: 0 -20px 60px rgba(0,0,0,.38);
-}
-
+/* Filtros da biblioteca: geometria consistente */
 #exercisePickerOverlay .exercise-picker-controls {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 18px 8px !important;
+    box-sizing: border-box !important;
     border: 0 !important;
+    box-shadow: none !important;
+    flex-shrink: 0 !important;
+}
+
+/* Botões Todos, Favoritos, Músculos e Máquinas — modo escuro */
+body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls .exercise-picker-control {
+    min-width: 0 !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 7px !important;
+    border: 1px solid rgba(161,132,180,.38) !important;
+    border-radius: 11px !important;
+    background: linear-gradient(135deg, rgba(124,77,255,.20), rgba(230,57,155,.12)) !important;
+    color: #eadff0 !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
     box-shadow: none !important;
 }
 
+body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls .exercise-picker-control.active {
+    background: linear-gradient(135deg, #68406f, #3e9d9a) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 5px 14px rgba(62,157,154,.16) !important;
+}
+
+body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls .exercise-picker-control:hover {
+    border-color: rgba(214,112,188,.62) !important;
+    filter: brightness(1.08);
+}
+
+/* Botão personalizado: segunda linha, centrado e com maior destaque */
+#exercisePickerOverlay .exercise-picker-controls .custom-create-control {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    width: min(88%, 420px) !important;
+    max-width: 420px !important;
+    min-height: 44px !important;
+    height: auto !important;
+    margin: 5px 0 8px !important;
+    padding: 10px 14px !important;
+    border-radius: 14px !important;
+    text-align: center !important;
+    white-space: normal !important;
+    line-height: 1.35 !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 5px 18px rgba(195,79,118,.10) !important;
+}
+
+body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls .exercise-picker-control.custom-create-control {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    width: min(88%, 420px) !important;
+    max-width: 420px !important;
+    height: auto !important;
+    min-height: 44px !important;
+    margin: 5px 0 8px !important;
+    padding: 10px 14px !important;
+    white-space: normal !important;
+    background: linear-gradient(135deg, rgba(195,79,118,.30), rgba(104,64,111,.30), rgba(62,157,154,.22)) !important;
+    color: #f5d8e9 !important;
+    border: 1px solid rgba(214,112,188,.58) !important;
+    font-size: 11px !important;
+    font-weight: 850 !important;
+}
+
+body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls .custom-create-control:hover {
+    background: linear-gradient(135deg, rgba(195,79,118,.40), rgba(104,64,111,.36), rgba(62,157,154,.28)) !important;
+    border-color: rgba(239,153,208,.78) !important;
+}
+
+/* Opções secundárias dos filtros de músculos/máquinas */
 #exercisePickerOverlay .exercise-filter-options {
     height: auto !important;
     min-height: 0 !important;
@@ -3600,8 +3665,22 @@ body[data-theme="light"] .exercise-picker-control.active {
     border: 0 !important;
     box-shadow: none !important;
     background: transparent !important;
+    overflow-x: auto !important;
 }
 
+body[data-theme="dark"] #exercisePickerOverlay .exercise-filter-option {
+    background: linear-gradient(135deg, rgba(124,77,255,.17), rgba(230,57,155,.10)) !important;
+    color: #e5d9eb !important;
+    border: 1px solid rgba(161,132,180,.34) !important;
+}
+
+body[data-theme="dark"] #exercisePickerOverlay .exercise-filter-option.active {
+    background: linear-gradient(135deg, #68406f, #3e9d9a) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+/* Texto com a contagem de exercícios — sem faixa/fundo extra */
 #exercisePickerOverlay .exercise-search-meta {
     height: auto !important;
     min-height: 15px !important;
@@ -3612,10 +3691,20 @@ body[data-theme="light"] .exercise-picker-control.active {
     background: transparent !important;
 }
 
+/* Lista de resultados — sem faixa/fundo extra */
 #exercisePickerOverlay .exercise-search-results {
+    position: relative;
+    min-height: 0 !important;
     margin: 0 !important;
     padding: 0 12px 18px !important;
     border: 0 !important;
     box-shadow: none !important;
     background: transparent !important;
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+
+#exercisePickerOverlay .exercise-picker {
+    border: 1px solid var(--line);
+    box-shadow: 0 -20px 60px rgba(0,0,0,.38);
 }

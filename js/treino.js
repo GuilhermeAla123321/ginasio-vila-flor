@@ -26,33 +26,272 @@ const diasSemana = [
 
 
 /* =========================================================
+   EQUIPAMENTOS DISPONÍVEIS NO GINÁSIO
+   Usar estes nomes exatos nos filtros e formulários.
+   ========================================================= */
+const EQUIPAMENTOS_GINASIO = [
+    "Passadeira",
+    "Bicicleta",
+    "Elíptica",
+    "Máquina de Remo",
+    "Smith Machine",
+    "Banco de Peso",
+    "Polia Multifuncional",
+    "Máquina Abdutora",
+    "Prensa de Ombros",
+    "Peck Deck",
+    "Peso Livre",
+    "Leg Press",
+    "Cadeira Extensora",
+    "Mesa Flexora"
+];
+
+
+
+/* =========================================================
    BIBLIOTECA DE EXERCÍCIOS
    ========================================================= */
 
 const exerciciosDisponiveis = [
+
+    // PEITO
     "Supino Plano",
     "Supino Inclinado",
+    "Supino Declinado",
+    "Supino Plano com Halteres",
+    "Supino Inclinado com Halteres",
+    "Supino Declinado com Halteres",
     "Aberturas com Halteres",
+    "Crucifixo com Halteres",
     "Press de Peito",
+    "Crossover na Polia",
+    "Crossover Baixo para Cima",
+    "Crossover Alto para Baixo",
+    "Flexões",
+    "Flexões Inclinadas",
+    "Flexões Declinadas",
+    "Fundos para Peito",
+
+    // COSTAS
     "Puxada Frontal",
+    "Puxada Frontal Pegada Aberta",
+    "Puxada Frontal Pegada Fechada",
+    "Puxada com Pegada Neutra",
+    "Puxada Unilateral na Polia",
     "Remada Sentada",
+    "Remada Baixa na Polia",
     "Remada com Halteres",
+    "Remada Curvada com Barra",
+    "Remada Unilateral com Halter",
+    "Remada T com Barra",
+    "Pullover na Polia",
+    "Pullover com Halter",
+    "Barra Fixa",
+    "Chin-up",
+    "Peso Morto",
+    "Peso Morto Romeno",
+
+    // OMBROS
     "Elevação Lateral",
+    "Elevação Lateral na Polia",
+    "Elevação Frontal com Halteres",
+    "Elevação Frontal com Barra",
     "Press de Ombros",
+    "Press de Ombros na Máquina",
+    "Desenvolvimento com Halteres",
+    "Desenvolvimento Militar com Barra",
+    "Crucifixo Inverso no Peck Deck",
+    "Crucifixo Inverso com Halteres",
+    "Face Pull na Polia",
+    "Encolhimento de Ombros com Halteres",
+
+    // BÍCEPS E ANTEBRAÇOS
     "Curl de Bíceps",
+    "Curl com Barra",
+    "Curl com Barra EZ",
+    "Curl Alternado com Halteres",
     "Curl Martelo",
+    "Curl Martelo na Corda",
+    "Curl Concentrado",
+    "Curl Inclinado com Halteres",
+    "Curl Scott",
+    "Curl na Polia Baixa",
+    "Curl Inverso com Barra",
+    "Flexão de Punhos",
+    "Extensão de Punhos",
+
+    // TRÍCEPS
     "Tríceps na Polia",
+    "Extensão de Tríceps com Corda",
+    "Extensão de Tríceps Acima da Cabeça",
+    "Tríceps Testa",
+    "Extensão Francesa com Halter",
+    "Fundos para Tríceps",
+    "Tríceps Kickback com Halter",
+
+    // QUADRÍCEPS E PERNAS
     "Agachamento",
+    "Agachamento Goblet",
+    "Agachamento Sumô",
+    "Agachamento Frontal",
+    "Agachamento na Smith Machine",
+    "Agachamento Búlgaro",
+    "Passadas com Halteres",
+    "Passadas a Caminhar",
     "Leg Press",
+    "Leg Press Unilateral",
     "Extensão de Pernas",
+    "Extensão de Pernas Unilateral",
     "Flexão de Pernas",
-    "Peso Livre",
+    "Flexão de Pernas Unilateral",
+    "Elevação de Gémeos em Pé",
+    "Elevação de Gémeos Sentado",
+
+    // GLÚTEOS E POSTERIORES DA COXA
+    "Stiff com Barra",
+    "Peso Morto Romeno com Halteres",
+    "Hip Thrust",
+    "Elevação de Glúteos",
+    "Coice de Glúteo na Polia",
     "Máquina Abdutora",
     "Máquina Adutora",
+    "Abdução da Anca na Máquina",
+    "Adução da Anca na Máquina",
+
+    // ABDOMINAIS E CORE
+    "Prancha",
+    "Prancha Lateral",
+    "Crunch Abdominal",
+    "Crunch Inverso",
+    "Elevação de Pernas",
+    "Elevação de Joelhos Suspenso",
+    "Abdominal Bicicleta",
+    "Russian Twist",
+    "Dead Bug",
+    "Mountain Climbers",
+    "Ab Wheel",
+    "Extensão Lombar",
+    "Superman",
+
+    // CARDIO
     "Passadeira",
+    "Caminhada Inclinada",
+    "Corrida na Passadeira",
+    "Corrida Inclinada na Passadeira",
+    "Intervalos na Passadeira",
     "Bicicleta",
+    "Bicicleta Estática",
+    "Intervalos na Bicicleta",
     "Elíptica",
-    "Máquina de Remo"
+    "Elíptica Intervalada",
+    "Máquina de Remo",
+    "Remo Intervalado",
+    "Saltos à Corda",
+    "Polichinelos",
+    "Burpees",
+    "Corrida no Lugar",
+
+    // MOBILIDADE E FLEXIBILIDADE
+    "Alongamento de Peito",
+    "Alongamento de Ombros",
+    "Alongamento de Costas",
+    "Alongamento de Quadríceps",
+    "Alongamento de Posteriores da Coxa",
+    "Alongamento de Gémeos",
+    "Alongamento de Flexores da Anca",
+    "Mobilidade da Anca",
+    "Rotação Torácica",
+
+    // EXERCÍCIOS ADICIONAIS — PRIORIDADE AO EQUIPAMENTO EXISTENTE
+    "Supino Plano na Smith Machine",
+    "Supino Inclinado na Smith Machine",
+    "Supino com Pegada Fechada na Smith Machine",
+    "Agachamento Sumô na Smith Machine",
+    "Agachamento Búlgaro na Smith Machine",
+    "Passadas para Trás na Smith Machine",
+    "Elevação de Gémeos na Smith Machine",
+    "Peso Morto Romeno na Smith Machine",
+    "Hip Thrust na Smith Machine",
+    "Supino Plano com Barra",
+    "Supino Inclinado com Barra",
+    "Supino Declinado com Barra",
+    "Supino com Pegada Fechada com Barra",
+    "Crucifixo na Polia Multifuncional",
+    "Crucifixo Unilateral na Polia",
+    "Press de Peito em Pé na Polia",
+    "Press de Peito Unilateral na Polia",
+    "Puxada Alta na Polia",
+    "Puxada Alta Unilateral na Polia",
+    "Puxada com Braços Estendidos na Polia",
+    "Remada Unilateral na Polia",
+    "Remada Baixa com Pegada Neutra na Polia",
+    "Remada Baixa com Pegada Aberta na Polia",
+    "Remada Alta na Polia",
+    "Elevação Frontal na Polia",
+    "Elevação Lateral Unilateral na Polia",
+    "Face Pull com Corda na Polia",
+    "Encolhimento de Ombros na Polia",
+    "Curl de Bíceps com Barra na Polia",
+    "Curl de Bíceps Unilateral na Polia",
+    "Curl de Bíceps na Polia Alta",
+    "Extensão de Tríceps com Barra na Polia",
+    "Extensão de Tríceps Unilateral na Polia",
+    "Extensão de Tríceps Acima da Cabeça na Polia",
+    "Kickback de Tríceps na Polia",
+    "Abdominal Crunch na Polia",
+    "Rotação de Tronco na Polia",
+    "Woodchopper na Polia",
+    "Abdução da Anca na Polia",
+    "Extensão de Anca na Polia",
+    "Pull-Through na Polia",
+    "Crucifixo no Peck Deck",
+    "Crucifixo no Peck Deck com Pausa",
+    "Crucifixo Inverso no Peck Deck com Pausa",
+    "Press de Ombros com Pegada Neutra na Máquina",
+    "Press de Ombros Unilateral na Máquina",
+    "Press de Ombros com Pausa na Máquina",
+    "Leg Press Pés Altos",
+    "Leg Press Pés Baixos",
+    "Leg Press Base Aberta",
+    "Leg Press Base Fechada",
+    "Leg Press com Pausa",
+    "Elevação de Gémeos no Leg Press",
+    "Extensão de Pernas com Pausa na Cadeira Extensora",
+    "Extensão de Pernas com Descida Lenta na Cadeira Extensora",
+    "Extensão de Pernas Unilateral na Cadeira Extensora",
+    "Extensão de Pernas com Contração no Topo",
+    "Flexão de Pernas com Pausa na Mesa Flexora",
+    "Flexão de Pernas com Descida Lenta na Mesa Flexora",
+    "Flexão de Pernas Unilateral na Mesa Flexora",
+    "Flexão de Pernas com Amplitude Controlada na Mesa Flexora",
+    "Abdução da Anca na Máquina Abdutora",
+    "Abdução da Anca com Tronco Inclinado na Máquina Abdutora",
+    "Abdução da Anca com Tronco Direito na Máquina Abdutora",
+    "Abdução da Anca com Pausa na Máquina Abdutora",
+    "Caminhada Rápida na Passadeira",
+    "Corrida Contínua na Passadeira",
+    "Corrida Intervalada na Passadeira",
+    "Caminhada de Recuperação na Passadeira",
+    "Sprints Curtos na Passadeira",
+    "Caminhada com Inclinação Variável na Passadeira",
+    "Pedalada Contínua na Bicicleta",
+    "Pedalada Intervalada na Bicicleta",
+    "Sprints na Bicicleta Estática",
+    "Bicicleta com Resistência Progressiva",
+    "Pedalada de Recuperação na Bicicleta",
+    "Treino de Cadência na Bicicleta",
+    "Cardio Contínuo na Elíptica",
+    "Intervalos Rápidos na Elíptica",
+    "Elíptica com Resistência Progressiva",
+    "Elíptica em Ritmo de Recuperação",
+    "Elíptica com Cadência Progressiva",
+    "Elíptica Intervalada em Blocos",
+    "Remo Contínuo",
+    "Remo Intervalado de 500 Metros",
+    "Remo Intervalado de 1 Minuto",
+    "Remo de Recuperação",
+    "Remo com Foco na Técnica",
+    "Remo com Resistência Progressiva",
 ];
 
 
@@ -129,18 +368,13 @@ const TIPOS_EXERCICIO = {
         ]
     },
 
+    // Tipo genérico de recurso; não é um grupo muscular.
     outro: {
-        label: "Outro",
+        label: "Outro tipo",
         params: [
-            "carga",
-            "series",
-            "repeticoes",
-            "tempo",
-            "velocidade",
-            "inclinacao",
-            "distancia",
-            "resistencia",
-            "ritmo"
+            "carga", "pesoHalter", "series", "repeticoes",
+            "tempo", "velocidade", "inclinacao", "distancia",
+            "resistencia", "ritmo"
         ]
     }
 };
@@ -429,54 +663,29 @@ function inferirTipoExercicio(
 
 
 function inferirGrupoExercicio(nome) {
-
     const n = normalizarTexto(nome);
 
-    if (
-        /supino|peito|crucifixo|abertura|press de peito|voador/.test(n)
-    ) {
-        return "Peito";
-    }
+    // Mobilidade deve prevalecer mesmo quando o nome menciona um músculo.
+    if (/alongamento|mobilidade|rotacao toracica|flexibilidade/.test(n)) return "Mobilidade";
 
-    if (
-        /costas|puxada|remada|pulldown|pull up|barra fixa/.test(n)
-    ) {
-        return "Costas";
-    }
+    if (/passadeira|corrida|caminhada|bicicleta|eliptica|remo|saltos a corda|polichinelos|burpees|cardio|pedalada|sprints/.test(n)) return "Cardio";
 
-    if (
-        /perna|agachamento|leg press|quadric|femoral|glute|abdutora|adutora|panturrilha|peso morto|deadlift/.test(n)
-    ) {
-        return "Pernas";
-    }
+    if (/abdominal|abdominais|prancha|crunch|russian twist|dead bug|mountain climber|ab wheel|superman|extensao lombar|elevacao de pernas|elevacao de joelhos|woodchopper|rotacao de tronco/.test(n)) return "Core";
 
-    if (
-        /ombro|elevacao lateral|elevacao frontal|militar|press de ombro/.test(n)
-    ) {
-        return "Ombros";
-    }
+    if (/glute|hip thrust|coice de gluteo|elevacao de gluteos|abducao da anca|extensao de anca|pull-through/.test(n)) return "Glúteos";
 
-    if (
-        /bicep|biceps|tricep|triceps|braco|curl|rosca|polia/.test(n)
-    ) {
-        return "Braços";
-    }
+    if (/crucifixo inverso|face pull|encolhimento de ombros|press de ombros|prensa de ombros|desenvolvimento militar|elevacao lateral|elevacao frontal|desenvolvimento com halteres|ombros|remada alta/.test(n)) return "Ombros";
 
-    if (
-        /abdom|core|prancha|crunch|lombar/.test(n)
-    ) {
-        return "Core";
-    }
+    if (/supino|peito|crucifixo|abertura|press de peito|voador|crossover|flexoes|flexao de bracos|fundos para peito/.test(n)) return "Peito";
 
-    if (
-        /passadeira|bicicleta|eliptica|remo|cardio/.test(n)
-    ) {
-        return "Cardio";
-    }
+    if (/costas|puxada|remada|pulldown|pull up|pull-up|chin-up|barra fixa|pullover/.test(n)) return "Costas";
+
+    if (/bicep|tricep|braco|curl|rosca|punhos|kickback|francesa/.test(n)) return "Braços";
+
+    if (/perna|agachamento|leg press|quadriceps|femoral|posteriores da coxa|anca|peso morto|stiff|passadas|gemeos|panturrilha|abdutora|adutora|extensora|flexora/.test(n)) return "Pernas";
 
     return "Outro";
 }
-
 
 function metadadosExercicio(
     nome,
@@ -509,61 +718,34 @@ function metadadosExercicio(
    ========================================================= */
 
 function maquinaPorExercicio(nome) {
-
     const n = normalizarTexto(nome);
 
-    if (/peck deck|crucifixo|abertura/.test(n)) {
-        return "Peck Deck";
-    }
+    // Específicos primeiro, para não confundir máquinas com peso livre.
+    if (/smith/.test(n)) return "Smith Machine";
+    if (/press de ombros.*maquina|prensa de ombros/.test(n)) return "Prensa de Ombros";
+    if (/leg press/.test(n)) return "Leg Press";
+    if (/extensao de pernas|extensora|cadeira extensora/.test(n)) return "Cadeira Extensora";
+    if (/flexao de pernas|flexora|mesa flexora/.test(n)) return "Mesa Flexora";
+    if (/maquina abdutora|abducao da anca.*maquina|maquina adutora|aducao da anca.*maquina|abdutora|adutora/.test(n)) return "Máquina Abdutora";
 
-    if (/supino|press de peito/.test(n)) {
-        return "Banco de Peso";
-    }
+    // Cardio: cada opção usa o nome exato da página Equipamentos.
+    if (/passadeira|treadmill|caminhada inclinada/.test(n)) return "Passadeira";
+    if (/bicicleta|pedalada/.test(n)) return "Bicicleta";
+    if (/eliptica/.test(n)) return "Elíptica";
+    if (/remo|rowing|ergometro/.test(n)) return "Máquina de Remo";
 
-    if (/puxada|remada sentada|triceps na polia|tríceps na polia/.test(n)) {
-        return "Polia Multifuncional";
-    }
+    // Máquinas de membros superiores.
+    if (/peck deck|voador|crucifixo.*peck deck|peck deck.*crucifixo/.test(n)) return "Peck Deck";
+    if (/polia|crossover|puxada|remada baixa|remada sentada|face pull|pull-through|woodchopper/.test(n)) return "Polia Multifuncional";
 
-    if (/remada com halteres|halteres|halter|curl|rosca|elevacao lateral|elevação lateral|peso livre|agachamento/.test(n)) {
-        return "Peso Livre";
-    }
+    // Banco com suporte para barra / banco de treino.
+    if (/supino|press de peito|na smith machine/.test(n) || /no banco|banco inclinado|banco plano/.test(n)) return "Banco de Peso";
 
-    if (/leg press/.test(n)) {
-        return "Leg Press";
-    }
+    // Exercícios sem carga/equipamento dedicado.
+    if (/flexoes|flexao de bracos|barra fixa|chin-up|pull-up|fundos|burpees|polichinelos|mountain climbers|dead bug|superman|prancha|crunch|russian twist|ab wheel|abdominal bicicleta|elevacao de pernas|elevacao de joelhos|corrida no lugar|saltos a corda/.test(n)) return "Peso Corporal";
+    if (/alongamento|mobilidade|rotacao toracica|flexibilidade/.test(n)) return "Sem equipamento";
 
-    if (/extensao de pernas|extensão de pernas/.test(n)) {
-        return "Cadeira Extensora";
-    }
-
-    if (/flexao de pernas|flexão de pernas/.test(n)) {
-        return "Mesa Flexora";
-    }
-
-    if (/abdutora|adutora/.test(n)) {
-        return "Máquina Abdutora/Adutora";
-    }
-
-    if (/passadeira|caminhada|corrida/.test(n)) {
-        return "Passadeira";
-    }
-
-    if (/bicicleta|pedal/.test(n)) {
-        return "Bicicleta";
-    }
-
-    if (/eliptica|elíptica/.test(n)) {
-        return "Elíptica";
-    }
-
-    if (/remo/.test(n)) {
-        return "Máquina de Remo";
-    }
-
-    if (/smith/.test(n)) {
-        return "Smith Machine";
-    }
-
+    // Restantes movimentos de força usam o material de peso livre.
     return "Peso Livre";
 }
 
@@ -604,8 +786,9 @@ function construirBibliotecaExercicios() {
                 {
                     ...meta,
                     maquina:
-                        item.maquina ||
-                        maquinaPorExercicio(item.nome),
+                        (item.maquina && (EQUIPAMENTOS_GINASIO.includes(item.maquina) || ["Peso Corporal", "Sem equipamento"].includes(item.maquina)))
+                            ? item.maquina
+                            : maquinaPorExercicio(item.nome),
                     descricao: item.descricao || ""
                 }
             );
@@ -620,10 +803,16 @@ function construirBibliotecaExercicios() {
                 return;
             }
 
+            const grupoGuardado = item.grupo;
+            const grupoInferido = inferirGrupoExercicio(item.nome);
+            const grupoValido = grupoGuardado && grupoGuardado !== "Outro"
+                ? grupoGuardado
+                : (grupoInferido !== "Outro" ? grupoInferido : "");
+
             const meta = metadadosExercicio(
                 item.nome,
                 {
-                    grupo: item.grupo,
+                    grupo: grupoValido,
                     tipo: item.tipo,
                     personalizado: true,
                     id: item.id
@@ -635,8 +824,9 @@ function construirBibliotecaExercicios() {
                 {
                     ...meta,
                     maquina:
-                        item.maquina ||
-                        maquinaPorExercicio(item.nome),
+                        (item.maquina && (EQUIPAMENTOS_GINASIO.includes(item.maquina) || ["Peso Corporal", "Sem equipamento"].includes(item.maquina)))
+                            ? item.maquina
+                            : maquinaPorExercicio(item.nome),
                     descricao: item.descricao || ""
                 }
             );
@@ -1704,30 +1894,30 @@ function renderExercicioCard(
             }
         );
 
-    const seriesHtml =
-        series
-            .map(
-                (s, n) => `
-                    <div class="series-card-line">
+        const parametrosSerie = (
+            TIPOS_EXERCICIO[meta.tipo]?.params ||
+            TIPOS_EXERCICIO.outro.params
+        ).filter(p => p !== "series");
 
-                        <span>
-                            Série ${n + 1}
-                        </span>
+        const seriesHtml = series.map((s, n) => {
+            const valores = parametrosSerie
+                .filter(p => s?.[p] !== "" && s?.[p] != null)
+                .map(p => `
+                    <span>
+                        ${PARAMETROS[p].label}: ${formatarValor(p, s[p])}
+                    </span>
+                `)
+                .join("");
 
-                        <strong>
-                            ${escapeHtml(
-                                serieResumo(
-                                    meta.tipo,
-                                    s
-                                ) ||
-                                "Sem valores"
-                            )}
-                        </strong>
-
-                    </div>
-                `
-            )
-            .join("");
+            return `
+                <div class="series-card-line">
+                    <span>Série ${n + 1}</span>
+                    <strong class="series-card-values">
+                        ${valores || "Sem valores"}
+                    </strong>
+                </div>
+            `;
+        }).join("");
 
     return `
         <article class="exercise-card">
@@ -1786,14 +1976,14 @@ function renderExercicioCard(
                     class="secondary-btn update-exercise-button"
                     data-index="${i}"
                 >
-                    🔵 Atualizar
+                    Atualizar
                 </button>
 
                 <button
                     class="progress-button"
                     data-index="${i}"
                 >
-                    🟣 Ver progressão →
+                    Ver progressão →
                 </button>
 
             </div>
@@ -2252,9 +2442,19 @@ function garantirEstilosBiblioteca() {
         }
 
         body[data-theme="dark"] .custom-create-control {
-            background: rgba(214, 112, 188, .12);
-            color: #e1a5d3;
-            border-color: rgba(214, 112, 188, .28);
+            grid-column: 1 / -1;
+            justify-self: center;
+            width: min(88%, 420px);
+            max-width: 420px;
+            height: auto;
+            min-height: 44px;
+            margin: 5px 0 8px;
+            padding: 10px 14px;
+            white-space: normal;
+            background: linear-gradient(135deg, rgba(195,79,118,.30), rgba(104,64,111,.30), rgba(62,157,154,.22));
+            color: #f5d8e9;
+            border-color: rgba(214,112,188,.58);
+            font-weight: 850;
         }
 
         body[data-theme="dark"] .custom-exercise-modal {
@@ -2278,15 +2478,15 @@ function garantirEstilosBiblioteca() {
         }
 
         body[data-theme="dark"] .exercise-picker-control {
-            background: #111824;
-            color: #aab5c9;
-            border-color: var(--line);
+            background: linear-gradient(135deg, rgba(124,77,255,.20), rgba(230,57,155,.12));
+            color: #eadff0;
+            border-color: rgba(161,132,180,.38);
         }
 
         body[data-theme="dark"] .exercise-picker-control.active {
-            background: rgba(104,64,111,.18);
-            color: #d2b9d7;
-            border-color: rgba(104,64,111,.30);
+            background: linear-gradient(135deg, #68406f, #3e9d9a);
+            color: #ffffff;
+            border-color: transparent;
         }
 
         body[data-theme="dark"] .exercise-filter-options {
@@ -2294,9 +2494,9 @@ function garantirEstilosBiblioteca() {
         }
 
         body[data-theme="dark"] .exercise-filter-option {
-            background: #111824;
-            color: #aab5c9;
-            border-color: var(--line);
+            background: linear-gradient(135deg, rgba(124,77,255,.17), rgba(230,57,155,.10));
+            color: #e5d9eb;
+            border-color: rgba(161,132,180,.34);
         }
 
         body[data-theme="light"] .exercise-picker-control {
@@ -2556,7 +2756,7 @@ function renderOpcoesFiltroBiblioteca(tipo) {
             ...new Set(
                 biblioteca
                     .map(item => item.grupo)
-                    .filter(Boolean)
+                    .filter(grupo => grupo && grupo !== "Outro")
             )
         ];
     }
@@ -2564,11 +2764,7 @@ function renderOpcoesFiltroBiblioteca(tipo) {
     if (tipo === "maquinas") {
         opcoes = [
             "Todos",
-            ...new Set(
-                biblioteca
-                    .map(item => item.maquina)
-                    .filter(Boolean)
-            )
+            ...EQUIPAMENTOS_GINASIO
         ];
     }
 
@@ -2629,33 +2825,39 @@ function abrirPopupExercicioPersonalizado() {
     const grupos = [
         "Peito",
         "Costas",
-        "Pernas",
         "Ombros",
         "Braços",
+        "Pernas",
+        "Glúteos",
         "Core",
         "Cardio",
-        "Outro"
+        "Mobilidade"
     ];
 
     const maquinas = [
         "Sem equipamento",
-        ...new Set(
-            construirBibliotecaExercicios()
-                .map(item => item.maquina)
-                .filter(Boolean)
-        )
+        "Peso Corporal",
+        ...EQUIPAMENTOS_GINASIO
     ];
 
-    const grupoInicial =
-        grupos.includes(inferirGrupoExercicio(searchValue))
-            ? inferirGrupoExercicio(searchValue)
-            : "Outro";
+    const grupoInferido = inferirGrupoExercicio(searchValue);
+    const grupoInicial = grupos.includes(grupoInferido)
+        ? grupoInferido
+        : "";
 
-    const tipoInicial =
+    const tipoInferidoInicial =
         inferirTipoExercicio(
             searchValue || "Novo exercício",
             grupoInicial
         );
+
+    // "outro" continua disponível internamente para compatibilidade,
+    // mas não é uma opção apresentada ao utilizador.
+    const tipoInicial =
+        tipoInferidoInicial !== "outro" &&
+        TIPOS_EXERCICIO[tipoInferidoInicial]
+            ? tipoInferidoInicial
+            : "musculacao";
 
     const maquinaInferida =
         searchValue
@@ -2733,7 +2935,9 @@ function abrirPopupExercicioPersonalizado() {
                     <select
                         id="customExerciseGroup"
                         class="input"
+                        required
                     >
+                        <option value="" disabled ${!grupoInicial ? "selected" : ""}>Seleciona um grupo muscular</option>
                         ${grupos
                             .map(grupo => `
                                 <option
@@ -2761,6 +2965,7 @@ function abrirPopupExercicioPersonalizado() {
                         class="input"
                     >
                         ${Object.entries(TIPOS_EXERCICIO)
+                            .filter(([key]) => key !== "outro")
                             .map(([key, value]) => `
                                 <option
                                     value="${escaparAtributo(key)}"
@@ -2871,7 +3076,7 @@ function abrirPopupExercicioPersonalizado() {
             nameInput?.value.trim() || "";
 
         const grupo =
-            document.getElementById("customExerciseGroup")?.value || "Outro";
+            document.getElementById("customExerciseGroup")?.value || "";
 
         const tipo =
             document.getElementById("customExerciseType")?.value ||
@@ -2887,6 +3092,12 @@ function abrirPopupExercicioPersonalizado() {
         if (!nome) {
             alert("Indica o nome do exercício.");
             nameInput?.focus();
+            return;
+        }
+
+        if (!grupo || grupo === "Outro" || !grupos.includes(grupo)) {
+            alert("Seleciona um grupo muscular válido.");
+            document.getElementById("customExerciseGroup")?.focus();
             return;
         }
 
@@ -3194,12 +3405,17 @@ function selecionarExercicio(
     }
 
 
+    const tipoGuardado = item?.tipo;
+
     const tipo =
-        item?.tipo ||
-        inferirTipoExercicio(
-            nome,
-            item?.grupo
-        );
+        tipoGuardado &&
+        tipoGuardado !== "outro" &&
+        TIPOS_EXERCICIO[tipoGuardado]
+            ? tipoGuardado
+            : inferirTipoExercicio(
+                nome,
+                item?.grupo
+            );
 
 
     input.value =
@@ -3284,9 +3500,8 @@ function selecionarExercicio(
                     class="input"
                 >
 
-                    ${Object.entries(
-                        TIPOS_EXERCICIO
-                    )
+                    ${Object.entries(TIPOS_EXERCICIO)
+                        .filter(([key]) => key !== "outro")
                         .map(
                             ([key, v]) => `
 
