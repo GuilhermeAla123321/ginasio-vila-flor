@@ -634,7 +634,7 @@
 
                     <span class="eyebrow">TREINO</span>
 
-                    <h2>Temporizador </h2>
+                    <h2>Timer</h2>
 
                     <p class="muted">Define o teu próprio tempo de descanso.</p>
 
@@ -1378,6 +1378,30 @@ window.addEventListener("appinstalled", hidePopup);
 
 })();
 
+</script>
+
+<script>
+/* Microanimação visual da navegação: não interfere na mudança de página. */
+(() => {
+  const nav = document.querySelector(".bottom-nav");
+  if (!nav) return;
+
+  nav.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const button = target?.closest(".nav-item");
+    if (!button || !nav.contains(button)) return;
+
+    const icon = button.querySelector(".nav-icon svg");
+    if (!icon || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    icon.classList.remove("nav-icon-pop");
+    void icon.getBoundingClientRect();
+    icon.classList.add("nav-icon-pop");
+    icon.addEventListener("animationend", () => {
+      icon.classList.remove("nav-icon-pop");
+    }, { once: true });
+  });
+})();
 </script>
 
 </body>

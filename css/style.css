@@ -5343,3 +5343,26 @@ body[data-theme="light"] .bottom-nav .nav-item:hover:not(.active) { color: #4636
   .bottom-nav .nav-item, .bottom-nav .nav-item .nav-icon { transition: none !important; }
 }
 
+
+
+/* ==========================================================
+   MICROINTERAÇÃO — seleção da navegação inferior
+   ========================================================== */
+.bottom-nav .nav-item .nav-icon svg.nav-icon-pop {
+  animation: navIconSelection 240ms cubic-bezier(.2, .8, .2, 1) both;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes navIconSelection {
+  0% { transform: scale(1); }
+  38% { transform: scale(1.13); }
+  72% { transform: scale(.98); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav .nav-item .nav-icon svg.nav-icon-pop {
+    animation: none !important;
+  }
+}
