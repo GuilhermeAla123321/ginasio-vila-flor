@@ -1983,7 +1983,7 @@ function renderExercicioCard(
                     class="progress-button"
                     data-index="${i}"
                 >
-                    Ver progressão →
+                    Ver progressão
                 </button>
 
             </div>
