@@ -3050,38 +3050,6 @@ const resetModo = () => {
     resetLabel("modo");
 };
 
-// Ao tocar num filtro, mostra imediatamente toda a biblioteca,
-// sem alterar o valor do <select> que está a ser aberto.
-// Isto é importante no telemóvel: repor o select durante pointerdown
-// pode cancelar/interferir com o menu nativo do iOS/Android.
-const prepararFiltro = nome => {
-    input.value = "";
-    favoritosApenas = false;
-    filtroBiblioteca = "todos";
-    valorFiltroBiblioteca = "Todos";
-
-    // Repor apenas os outros controlos. Nunca alterar o select tocado
-    // antes de o utilizador conseguir escolher uma opção no menu.
-    controlElements.forEach(el => {
-        const controlo = el.dataset.control;
-        if (controlo === nome) return;
-
-        const select = el.querySelector(".exercise-filter-native-select");
-        if (select) {
-            select.value = controlo === "modo" ? "todos" : "Todos";
-        }
-        resetLabel(controlo);
-        el.classList.remove("active");
-    });
-
-    // Repor visualmente o título sem mexer no valor interno do select.
-    resetLabel(nome);
-    controlElements.forEach(el => el.classList.remove("active"));
-    getControl(nome)?.classList.add("active");
-
-    render();
-};
-
 const ativarModo = modo => {
     input.value = "";
     resetMusculosEMaquinas();
@@ -3113,9 +3081,8 @@ controlElements.forEach(element => {
     const select = element.querySelector(".exercise-filter-native-select");
     if (!select) return;
 
-    // Antes de abrir qualquer menu, limpar o filtro anterior e mostrar tudo.
-    select.addEventListener("pointerdown", () => prepararFiltro(control));
-
+    // Nos telemóveis, não alterar a lista no pointerdown: isso pode impedir
+    // que o menu nativo do select abra. Aplicar a mudança apenas no change.
     if (control === "modo") {
         select.addEventListener("change", () => {
             ativarModo(select.value || "todos");
