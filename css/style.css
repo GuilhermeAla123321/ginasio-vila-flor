@@ -4850,15 +4850,15 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-picker-control-label {
 
 /* ==========================================================
    CORREÇÃO FINAL — MESMO TAMANHO DOS FILTROS NOS DOIS TEMAS
-   Desktop: 34px; telemóvel: 42px, tanto no tema claro como escuro.
+   Desktop: 32px; telemóvel: 38px, tanto no tema claro como escuro.
    Aplica-se apenas aos três botões de filtro, não ao botão de criar exercício.
    ========================================================== */
 html body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control),
 html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) {
     box-sizing: border-box !important;
-    height: 34px !important;
-    min-height: 34px !important;
-    max-height: 34px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
     padding: 0 5px !important;
     align-self: stretch !important;
 }
@@ -4875,9 +4875,9 @@ html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls >
 @media (max-width: 560px) {
     html body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control),
     html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) {
-        height: 42px !important;
-        min-height: 42px !important;
-        max-height: 42px !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        max-height: 38px !important;
         padding: 2px 4px !important;
     }
 
