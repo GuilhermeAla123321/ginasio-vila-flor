@@ -2901,32 +2901,48 @@ function abrirSeletorExercicio() {
 
             <div class="exercise-picker-controls">
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="modo">
-                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
-                        <span class="filter-control-title">Todos</span>
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label"
+                        data-filter-control="modo"
+                        aria-label="Filtrar exercícios"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenu"
+                    >
+                        <span class="filter-control-title">Exercícios</span>
+                        <span class="exercise-picker-control-chevron" aria-hidden="true">⌄</span>
                     </button>
-                    <select class="exercise-filter-native-select" aria-label="Filtrar exercícios" data-control="modo">
-                        <option value="todos">Todos</option>
-                        <option value="favoritos">Favoritos</option>
-                        <option value="criados">Exercícios Criados</option>
-                    </select>
                 </div>
 
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="musculos">
-                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label"
+                        data-filter-control="musculos"
+                        aria-label="Filtrar por músculo"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenu"
+                    >
                         <span class="filter-control-title">Músculos</span>
+                        <span class="exercise-picker-control-chevron" aria-hidden="true">⌄</span>
                     </button>
-                    <select class="exercise-filter-native-select" aria-label="Selecionar grupo muscular" data-control="musculos">
-                        ${opcoesFiltroMusculos}
-                    </select>
                 </div>
 
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="maquinas">
-                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label"
+                        data-filter-control="maquinas"
+                        aria-label="Filtrar por máquina"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenu"
+                    >
                         <span class="filter-control-title">Máquinas</span>
+                        <span class="exercise-picker-control-chevron" aria-hidden="true">⌄</span>
                     </button>
-                    <select class="exercise-filter-native-select" aria-label="Selecionar máquina" data-control="maquinas">
-                        ${opcoesFiltroMaquinas}
-                    </select>
                 </div>
 
             </div>
@@ -3030,156 +3046,48 @@ function abrirSeletorExercicio() {
         ".exercise-picker-controls > .exercise-picker-control"
     );
 
-    const getControl = name => overlay.querySelector(`[data-control="${name}"]`);
-    const getSelect = name => getControl(name)?.querySelector(".exercise-filter-native-select");
+    const getControl = name => overlay.querySelector(`.exercise-picker-controls [data-control="${name}"]`);
     const getTitle = name => getControl(name)?.querySelector(".filter-control-title");
 
     const resetLabel = name => {
         const title = getTitle(name);
-        if (title) {
-            title.textContent = name === "musculos" ? "Músculos" : name === "maquinas" ? "Máquinas" : "Todos";
-        }
+        if (!title) return;
+        title.textContent = name === "modo"
+            ? "Exercícios"
+            : name === "musculos"
+                ? "Músculos"
+                : "Máquinas";
     };
 
-    const resetMusculosEMaquinas = () => {
-        ["musculos", "maquinas"].forEach(name => {
-            const select = getSelect(name);
-            if (select) select.value = "Todos";
-            resetLabel(name);
-            getControl(name)?.classList.remove("active");
-        });
-    };
-
-    const resetModo = () => {
-        const select = getSelect("modo");
-        if (select) select.value = "todos";
-        resetLabel("modo");
-    };
-
-const ativarModo = modo => {
-    // Limpar a pesquisa anterior
-    input.value = "";
-
-    resetMusculosEMaquinas();
-
-    controlElements.forEach(el =>
-        el.classList.remove("active")
-    );
-
-    getControl("modo")?.classList.add("active");
-
-    resetModo();
-
-    const modeSelect = getSelect("modo");
-
-    if (modeSelect) {
-        modeSelect.value = modo;
-    }
-
-    const title = getTitle("modo");
-
-    if (title) {
-        title.textContent =
-            modo === "favoritos"
-                ? "Favoritos"
-                : modo === "criados"
-                    ? "Exercícios Criados"
-                    : "Todos";
-    }
-
-    favoritosApenas = modo === "favoritos";
-    filtroBiblioteca = modo === "criados" ? "criados" : "todos";
-    valorFiltroBiblioteca = "Todos";
-
-    // Atualizar a lista de exercícios
-    render();
-};
-
-    // Ao abrir qualquer filtro, limpar a seleção anterior e mostrar novamente
-    // todos os exercícios antes de o utilizador escolher uma nova opção.
-    const prepararModo = () => {
+    const prepararControloFiltro = control => {
+        // Ao tocar num filtro, limpar o anterior e mostrar a biblioteca completa.
+        // Os filtros são botões reais, sem <select> transparente por cima;
+        // isto evita que os menus nativos falhem no Safari/Chrome móvel.
         input.value = "";
-        resetMusculosEMaquinas();
-        resetModo();
-
-        controlElements.forEach(el => el.classList.remove("active"));
-        getControl("modo")?.classList.add("active");
-
         favoritosApenas = false;
-        filtroBiblioteca = "todos";
         valorFiltroBiblioteca = "Todos";
-        render();
+        filtroBiblioteca = control === "modo" ? "todos" : control;
+
+        controlElements.forEach(el => {
+            el.classList.remove("active");
+            const button = el.querySelector(".exercise-picker-control-label");
+            if (button) button.setAttribute("aria-expanded", "false");
+        });
+
+        ["modo", "musculos", "maquinas"].forEach(resetLabel);
+        getControl(control)?.classList.add("active");
+
+        renderResultadosPesquisa("");
+        renderOpcoesFiltroBiblioteca(control, true);
     };
 
-    controlElements.forEach(element => {
-        const control = element.dataset.control;
-        const select = element.querySelector(".exercise-filter-native-select");
-        if (!select) return;
-
-        if (control === "modo") {
-            // O reset acontece logo ao tocar no botão, e não apenas depois
-            // de escolher uma opção do menu nativo.
-            select.addEventListener("pointerdown", prepararModo);
-            select.addEventListener("change", () => {
-                ativarModo(select.value || "todos");
-            });
-            return;
-        }
-
-        if (control === "musculos" || control === "maquinas") {
-            const resetOtherFilter = () => {
-                const other = control === "musculos" ? "maquinas" : "musculos";
-                const otherSelect = getSelect(other);
-                if (otherSelect) otherSelect.value = "Todos";
-                resetLabel(other);
-                getControl(other)?.classList.remove("active");
-            };
-
-            const activateThisFilter = (resetCurrentSelection = true) => {
-                input.value = "";
-                resetOtherFilter();
-                resetModo();
-
-                // Ao abrir este filtro, repor também a sua seleção anterior.
-                // No evento change, preservar a nova opção escolhida.
-                if (resetCurrentSelection) {
-                    select.value = "Todos";
-                    resetLabel(control);
-                }
-
-                valorFiltroBiblioteca = "Todos";
-
-                controlElements.forEach(el => el.classList.remove("active"));
-                element.classList.add("active");
-
-                favoritosApenas = false;
-                filtroBiblioteca = control;
-
-                // Mostrar a biblioteca completa antes de uma nova escolha.
-                render();
-            };
-
-            select.addEventListener("pointerdown", () => {
-                activateThisFilter(true);
-            });
-
-            select.addEventListener("change", () => {
-                const selectedValue = select.value || "Todos";
-
-                // Ativar o filtro sem apagar a opção que acabou de ser escolhida.
-                activateThisFilter(false);
-                valorFiltroBiblioteca = selectedValue;
-
-                const title = getTitle(control);
-                if (title) {
-                    title.textContent = selectedValue === "Todos"
-                        ? (control === "musculos" ? "Músculos" : "Máquinas")
-                        : selectedValue;
-                }
-
-                render();
-            });
-        }
+    overlay.querySelectorAll(".exercise-picker-control-label").forEach(button => {
+        button.addEventListener("click", () => {
+            const control = button.dataset.filterControl;
+            if (["modo", "musculos", "maquinas"].includes(control)) {
+                prepararControloFiltro(control);
+            }
+        });
     });
 
     document.getElementById(
@@ -3196,7 +3104,13 @@ const ativarModo = modo => {
 
     render();
 
-    requestAnimationFrame(() => input.focus());
+    // Não abrir automaticamente o teclado virtual em telemóveis: ele pode
+    // ocupar o ecrã e esconder/interceptar a zona dos filtros. No desktop,
+    // manter o foco automático para permitir pesquisa imediata pelo teclado.
+    requestAnimationFrame(() => {
+        const dispositivoTátil = window.matchMedia?.("(pointer: coarse)")?.matches;
+        if (!dispositivoTátil) input.focus();
+    });
 }
 
 
@@ -3232,15 +3146,21 @@ function fecharSeletorExercicio() {
    PESQUISA DE EXERCÍCIOS
    ========================================================= */
 
-function renderOpcoesFiltroBiblioteca(tipo) {
-
+function renderOpcoesFiltroBiblioteca(tipo, abrirImediatamente = false) {
     const container = document.getElementById("exerciseFilterOptions");
-    if (!container) return;
+    const overlay = document.getElementById("exercisePickerOverlay");
+    if (!container || !overlay) return;
 
     const biblioteca = construirBibliotecaExercicios();
     let opcoes = [];
 
-    if (tipo === "musculos") {
+    if (tipo === "modo") {
+        opcoes = [
+            { value: "todos", label: "Todos" },
+            { value: "favoritos", label: "Favoritos" },
+            { value: "criados", label: "Exercícios Criados" }
+        ];
+    } else if (tipo === "musculos") {
         opcoes = [
             "Todos",
             ...new Set(
@@ -3248,15 +3168,25 @@ function renderOpcoesFiltroBiblioteca(tipo) {
                     .map(item => item.grupo)
                     .filter(grupo => grupo && grupo !== "Outro")
             )
-        ];
+        ].map(valor => ({ value: valor, label: valor }));
     } else if (tipo === "maquinas") {
-        opcoes = ["Todos", ...EQUIPAMENTOS_GINASIO];
+        opcoes = ["Todos", ...EQUIPAMENTOS_GINASIO]
+            .map(valor => ({ value: valor, label: valor }));
     }
 
-    const rotulo = tipo === "musculos" ? "Grupo muscular" : "Equipamento";
-    if (!opcoes.includes(valorFiltroBiblioteca)) {
+    const valorAtual = tipo === "modo"
+        ? (favoritosApenas ? "favoritos" : filtroBiblioteca === "criados" ? "criados" : "todos")
+        : valorFiltroBiblioteca;
+
+    if (!opcoes.some(opcao => opcao.value === valorAtual)) {
         valorFiltroBiblioteca = "Todos";
     }
+
+    const rotulo = tipo === "modo"
+        ? "Tipo de exercícios"
+        : tipo === "musculos"
+            ? "Grupo muscular"
+            : "Equipamento";
 
     container.dataset.mode = tipo;
     container.innerHTML = `
@@ -3272,7 +3202,9 @@ function renderOpcoesFiltroBiblioteca(tipo) {
                     aria-expanded="false"
                     aria-controls="exerciseFilterMenu"
                 >
-                    <span class="exercise-filter-current">${escapeHtml(valorFiltroBiblioteca)}</span>
+                    <span class="exercise-filter-current">${escapeHtml(
+                        opcoes.find(opcao => opcao.value === valorAtual)?.label || "Todos"
+                    )}</span>
                     <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
                 </button>
                 <div
@@ -3285,13 +3217,13 @@ function renderOpcoesFiltroBiblioteca(tipo) {
                     ${opcoes.map(opcao => `
                         <button
                             type="button"
-                            class="exercise-filter-menu-option${opcao === valorFiltroBiblioteca ? " active" : ""}"
+                            class="exercise-filter-menu-option${opcao.value === valorAtual ? " active" : ""}"
                             role="option"
-                            aria-selected="${opcao === valorFiltroBiblioteca ? "true" : "false"}"
-                            data-filter-value="${escaparAtributo(opcao)}"
+                            aria-selected="${opcao.value === valorAtual ? "true" : "false"}"
+                            data-filter-value="${escaparAtributo(opcao.value)}"
                         >
-                            <span>${escapeHtml(opcao)}</span>
-                            <span class="exercise-filter-option-check" aria-hidden="true">${opcao === valorFiltroBiblioteca ? "✓" : ""}</span>
+                            <span>${escapeHtml(opcao.label)}</span>
+                            <span class="exercise-filter-option-check" aria-hidden="true">${opcao.value === valorAtual ? "✓" : ""}</span>
                         </button>
                     `).join("")}
                 </div>
@@ -3309,37 +3241,85 @@ function renderOpcoesFiltroBiblioteca(tipo) {
         trigger.setAttribute("aria-expanded", "false");
     };
 
+    const abrirMenu = () => {
+        if (!menu || !trigger) return;
+        menu.hidden = false;
+        menu.classList.add("open");
+        trigger.setAttribute("aria-expanded", "true");
+    };
+
     trigger?.addEventListener("click", () => {
         if (!menu || !trigger) return;
-        const vaiAbrir = menu.hidden;
-        menu.hidden = !vaiAbrir;
-        menu.classList.toggle("open", vaiAbrir);
-        trigger.setAttribute("aria-expanded", vaiAbrir ? "true" : "false");
+        if (menu.hidden) abrirMenu();
+        else fecharMenu();
     });
 
     menu?.querySelectorAll(".exercise-filter-menu-option").forEach(option => {
         option.addEventListener("click", () => {
-            valorFiltroBiblioteca = option.dataset.filterValue || "Todos";
+            const selectedValue = option.dataset.filterValue || "Todos";
+            const search = overlay.querySelector("#exerciseSearch");
+            if (search) search.value = "";
 
-            if (trigger) {
-                const current = trigger.querySelector(".exercise-filter-current");
-                if (current) current.textContent = valorFiltroBiblioteca;
+            const getControl = name => overlay.querySelector(`.exercise-picker-controls [data-control="${name}"]`);
+            const getTitle = name => getControl(name)?.querySelector(".filter-control-title");
+            const resetLabel = name => {
+                const title = getTitle(name);
+                if (!title) return;
+                title.textContent = name === "modo"
+                    ? "Exercícios"
+                    : name === "musculos"
+                        ? "Músculos"
+                        : "Máquinas";
+            };
+            const controls = overlay.querySelectorAll(".exercise-picker-controls > .exercise-picker-control");
+
+            if (tipo === "modo") {
+                favoritosApenas = selectedValue === "favoritos";
+                filtroBiblioteca = selectedValue === "criados" ? "criados" : "todos";
+                valorFiltroBiblioteca = "Todos";
+                ["musculos", "maquinas"].forEach(resetLabel);
+                controls.forEach(el => el.classList.remove("active"));
+                getControl("modo")?.classList.add("active");
+                const title = getTitle("modo");
+                if (title) {
+                    title.textContent = selectedValue === "favoritos"
+                        ? "Favoritos"
+                        : selectedValue === "criados"
+                            ? "Exercícios Criados"
+                            : "Exercícios";
+                }
+            } else {
+                favoritosApenas = false;
+                filtroBiblioteca = tipo;
+                valorFiltroBiblioteca = selectedValue;
+                controls.forEach(el => el.classList.remove("active"));
+                getControl(tipo)?.classList.add("active");
+                resetLabel("modo");
+                resetLabel(tipo === "musculos" ? "maquinas" : "musculos");
+                const title = getTitle(tipo);
+                if (title) {
+                    title.textContent = selectedValue === "Todos"
+                        ? (tipo === "musculos" ? "Músculos" : "Máquinas")
+                        : selectedValue;
+                }
             }
 
-            menu.querySelectorAll(".exercise-filter-menu-option").forEach(item => {
-                const ativo = item.dataset.filterValue === valorFiltroBiblioteca;
+            container.querySelectorAll(".exercise-filter-menu-option").forEach(item => {
+                const ativo = item.dataset.filterValue === selectedValue;
                 item.classList.toggle("active", ativo);
                 item.setAttribute("aria-selected", ativo ? "true" : "false");
                 const check = item.querySelector(".exercise-filter-option-check");
                 if (check) check.textContent = ativo ? "✓" : "";
             });
 
+            const current = trigger?.querySelector(".exercise-filter-current");
+            if (current) current.textContent = option.textContent.trim().replace(/✓/g, "").trim();
             fecharMenu();
-            renderResultadosPesquisa(
-                document.getElementById("exerciseSearch")?.value || ""
-            );
+            renderResultadosPesquisa(search?.value || "");
         });
     });
+
+    if (abrirImediatamente) abrirMenu();
 }
 
 function abrirPopupExercicioPersonalizado() {
