@@ -1071,6 +1071,177 @@
     </script>
 
     <script defer src="/_vercel/insights/script.js"></script>
+<!-- POP-UP PARA ADICIONAR AO ECRÃ PRINCIPAL -->
+<style>
+  #installPopup[hidden] {
+    display: none !important;
+  }
+
+  #installPopup {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: calc(95px + env(safe-area-inset-bottom));
+    z-index: 9999;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid rgba(124, 77, 255, 0.35);
+    border-radius: 20px;
+    background: #101422;
+    color: #f6f7fb;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    font-family: inherit;
+    animation: installPopupIn 0.25s ease-out;
+  }
+
+  #installPopup h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+  }
+
+  #installPopup p {
+    margin: 0 0 16px;
+    color: #aab2c8;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  #installPopup button {
+    border: 0;
+    border-radius: 11px;
+    padding: 12px 15px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  #installPopupAdd {
+    width: 100%;
+    color: white;
+    background: linear-gradient(135deg, #7c4dff, #3fa9f5);
+  }
+
+  #installPopupLater {
+    display: block;
+    margin: 8px auto 0;
+    padding: 8px !important;
+    background: transparent;
+    color: #aab2c8;
+    font-size: 12px;
+  }
+
+  @keyframes installPopupIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #installPopup {
+      animation: none;
+    }
+  }
+</style>
+
+<div id="installPopup" role="dialog"
+     aria-labelledby="installPopupTitle"
+     aria-describedby="installPopupDescription"
+     hidden>
+  <h3 id="installPopupTitle">📲 Adiciona a app ao teu ecrã</h3>
+
+  <p id="installPopupDescription">
+    Instala o Ginásio Municipal para acederes rapidamente aos teus treinos.
+  </p>
+
+  <button type="button" id="installPopupAdd">
+    Adicionar ao ecrã principal
+  </button>
+
+  <button type="button" id="installPopupLater">
+    Agora não
+  </button>
+</div>
+
+<script>
+(() => {
+  const popup = document.getElementById("installPopup");
+  const addButton = document.getElementById("installPopupAdd");
+  const laterButton = document.getElementById("installPopupLater");
+
+  let installPromptEvent = null;
+  let popupDismissed = false;
+
+  const isIOS =
+    /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  const isInstalled =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+  if (isInstalled) return;
+
+  function showPopup() {
+    if (popupDismissed) return;
+    popup.hidden = false;
+  }
+
+  function hidePopup() {
+    popup.hidden = true;
+    popupDismissed = true;
+  }
+
+  // Android e navegadores compatíveis com instalação PWA
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    installPromptEvent = event;
+    showPopup();
+  });
+
+  // No iPhone, a instalação é feita através do menu Partilhar
+  if (isIOS) {
+    window.addEventListener("load", () => {
+      setTimeout(showPopup, 800);
+    });
+  }
+
+  addButton.addEventListener("click", async () => {
+    // O pop-up desaparece imediatamente ao clicar
+    hidePopup();
+
+    if (installPromptEvent) {
+      const event = installPromptEvent;
+      installPromptEvent = null;
+
+      try {
+        await event.prompt();
+        await event.userChoice;
+      } catch (error) {
+        console.error("Não foi possível abrir a instalação:", error);
+      }
+    } else if (isIOS) {
+      alert(
+        'Para adicionar a app ao ecrã principal:\n\n' +
+        '1. Abre esta página no Safari.\n' +
+        '2. Carrega em Partilhar.\n' +
+        '3. Escolhe "Adicionar ao ecrã principal".'
+      );
+    }
+  });
+
+  laterButton.addEventListener("click", hidePopup);
+
+  // Esconde o pop-up quando a app fica instalada
+  window.addEventListener("appinstalled", hidePopup);
+})();
+</script>
+    
 
 </body>
 

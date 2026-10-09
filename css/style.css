@@ -4618,3 +4618,60 @@ html body #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
   user-select: none;
   -webkit-user-select: none;
 }
+
+
+/* ==========================================================
+   PWA INSTALL POPUP — adicionar ao ecrã principal
+   ========================================================== */
+.pwa-install-overlay[hidden], .pwa-install-toast[hidden] { display: none !important; }
+.pwa-install-overlay {
+  position: fixed; inset: 0; z-index: 250; display: flex;
+  align-items: center; justify-content: center; padding: 22px;
+  background: rgba(3, 6, 12, .70); -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px); opacity: 0; transition: opacity .22s ease;
+}
+.pwa-install-overlay.is-visible { opacity: 1; }
+.pwa-install-card {
+  position: relative; width: min(100%, 390px); padding: 30px 23px 22px;
+  border-radius: 25px; border: 1px solid rgba(124, 77, 255, .28);
+  background: linear-gradient(155deg, #121a2b 0%, #0a101b 100%); color: #f6f7fb;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .48); text-align: center;
+  transform: translateY(14px) scale(.98); transition: transform .22s ease;
+}
+.pwa-install-overlay.is-visible .pwa-install-card { transform: translateY(0) scale(1); }
+.pwa-install-close {
+  position: absolute; top: 11px; right: 12px; width: 34px; height: 34px;
+  border: 1px solid rgba(255,255,255,.10); border-radius: 11px;
+  background: rgba(255,255,255,.05); color: #c6cee0; font-size: 23px; line-height: 1;
+}
+.pwa-install-icon {
+  width: 58px; height: 58px; display: grid; place-items: center; margin: 0 auto 16px;
+  border-radius: 18px; color: #fff; font-size: 34px; font-weight: 400;
+  background: linear-gradient(135deg, #7c4dff 0%, #3fa9f5 100%);
+  box-shadow: 0 10px 28px rgba(92, 87, 255, .30);
+}
+.pwa-install-eyebrow { margin: 0 0 8px; color: #9c8bff; font-size: 9px; font-weight: 850; letter-spacing: 2px; }
+.pwa-install-card h2 { margin: 0 0 10px; color: #fff; font-size: 22px; line-height: 1.2; letter-spacing: -.45px; }
+.pwa-install-card > p:not(.pwa-install-eyebrow) { margin: 0 auto 22px; max-width: 300px; color: #aab4c8; font-size: 13px; line-height: 1.55; }
+.pwa-install-add {
+  width: 100%; min-height: 49px; display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 12px 16px; border: 0; border-radius: 14px;
+  background: linear-gradient(135deg, #7c4dff 0%, #3fa9f5 100%); color: #fff;
+  font-size: 13px; font-weight: 850; box-shadow: 0 10px 25px rgba(80,104,255,.22); touch-action: manipulation;
+}
+.pwa-install-add span { font-size: 18px; line-height: 1; }
+.pwa-install-later { width: 100%; margin-top: 8px; padding: 10px; border: 0; border-radius: 12px; background: transparent; color: #8e9ab0; font-size: 12px; font-weight: 700; touch-action: manipulation; }
+.pwa-install-toast {
+  position: fixed; z-index: 260; left: 16px; right: 16px; bottom: calc(104px + env(safe-area-inset-bottom));
+  width: min(520px, calc(100% - 32px)); margin: 0 auto; padding: 13px 16px;
+  border: 1px solid rgba(124,77,255,.28); border-radius: 14px; background: #11192a;
+  color: #eff2fa; box-shadow: 0 12px 35px rgba(0,0,0,.38); font-size: 12px; line-height: 1.5;
+}
+.pwa-install-toast.is-visible { animation: pwaToastIn .2s ease both; }
+@keyframes pwaToastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+body[data-theme="light"] .pwa-install-card { background: linear-gradient(155deg,#fff 0%,#f3f5fc 100%); color: #171a28; border-color: rgba(124,77,255,.20); }
+body[data-theme="light"] .pwa-install-card h2 { color: #171a28; }
+body[data-theme="light"] .pwa-install-card > p:not(.pwa-install-eyebrow) { color: #626b80; }
+body[data-theme="light"] .pwa-install-close { color: #4c5368; background: rgba(30,38,60,.04); border-color: rgba(30,38,60,.10); }
+body[data-theme="light"] .pwa-install-toast { color: #202438; background: #fff; }
+@media (prefers-reduced-motion: reduce) { .pwa-install-overlay, .pwa-install-card { transition: none; } }
