@@ -2915,7 +2915,6 @@ function abrirSeletorExercicio() {
                         aria-controls="exerciseFilterMenu"
                     >
                         <span class="filter-control-title">Exercícios</span>
-                        <span class="exercise-picker-control-chevron" aria-hidden="true">⌄</span>
                     </button>
                 </div>
 
@@ -2930,7 +2929,6 @@ function abrirSeletorExercicio() {
                         aria-controls="exerciseFilterMenu"
                     >
                         <span class="filter-control-title">Músculos</span>
-                        <span class="exercise-picker-control-chevron" aria-hidden="true">⌄</span>
                     </button>
                 </div>
 
@@ -2945,7 +2943,6 @@ function abrirSeletorExercicio() {
                         aria-controls="exerciseFilterMenu"
                     >
                         <span class="filter-control-title">Máquinas</span>
-                        <span class="exercise-picker-control-chevron" aria-hidden="true">⌄</span>
                     </button>
                 </div>
 
@@ -3209,7 +3206,6 @@ function renderOpcoesFiltroBiblioteca(tipo, abrirImediatamente = false) {
                     <span class="exercise-filter-current">${escapeHtml(
                         opcoes.find(opcao => opcao.value === valorAtual)?.label || "Todos"
                     )}</span>
-                    <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
                 </button>
                 <div
                     id="exerciseFilterMenu"

@@ -4847,3 +4847,45 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-picker-control-label {
     height: 100% !important;
     min-height: 42px !important;
 }
+
+/* ==========================================================
+   CORREÇÃO FINAL — MESMO TAMANHO DOS FILTROS NOS DOIS TEMAS
+   Desktop: 34px; telemóvel: 42px, tanto no tema claro como escuro.
+   Aplica-se apenas aos três botões de filtro, não ao botão de criar exercício.
+   ========================================================== */
+html body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control),
+html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) {
+    box-sizing: border-box !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    padding: 0 5px !important;
+    align-self: stretch !important;
+}
+
+html body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) .exercise-picker-control-label,
+html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) .exercise-picker-control-label {
+    box-sizing: border-box !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+}
+
+@media (max-width: 560px) {
+    html body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control),
+    html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) {
+        height: 42px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+        padding: 2px 4px !important;
+    }
+
+    html body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) .exercise-picker-control-label,
+    html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control:not(.custom-create-control) .exercise-picker-control-label {
+        height: 100% !important;
+        min-height: 0 !important;
+        max-height: 100% !important;
+        padding: 0 2px !important;
+    }
+}
