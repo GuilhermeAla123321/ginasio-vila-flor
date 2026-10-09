@@ -3261,47 +3261,22 @@ function renderOpcoesFiltroBiblioteca(tipo, abrirImediatamente = false) {
             if (search) search.value = "";
 
             const getControl = name => overlay.querySelector(`.exercise-picker-controls [data-control="${name}"]`);
-            const getTitle = name => getControl(name)?.querySelector(".filter-control-title");
-            const resetLabel = name => {
-                const title = getTitle(name);
-                if (!title) return;
-                title.textContent = name === "modo"
-                    ? "Exercícios"
-                    : name === "musculos"
-                        ? "Músculos"
-                        : "Máquinas";
-            };
             const controls = overlay.querySelectorAll(".exercise-picker-controls > .exercise-picker-control");
 
+            // Os títulos dos botões superiores são fixos. A opção escolhida
+            // aparece apenas no seletor intermédio (.exercise-filter-current).
             if (tipo === "modo") {
                 favoritosApenas = selectedValue === "favoritos";
                 filtroBiblioteca = selectedValue === "criados" ? "criados" : "todos";
                 valorFiltroBiblioteca = "Todos";
-                ["musculos", "maquinas"].forEach(resetLabel);
                 controls.forEach(el => el.classList.remove("active"));
                 getControl("modo")?.classList.add("active");
-                const title = getTitle("modo");
-                if (title) {
-                    title.textContent = selectedValue === "favoritos"
-                        ? "Favoritos"
-                        : selectedValue === "criados"
-                            ? "Exercícios Criados"
-                            : "Exercícios";
-                }
             } else {
                 favoritosApenas = false;
                 filtroBiblioteca = tipo;
                 valorFiltroBiblioteca = selectedValue;
                 controls.forEach(el => el.classList.remove("active"));
                 getControl(tipo)?.classList.add("active");
-                resetLabel("modo");
-                resetLabel(tipo === "musculos" ? "maquinas" : "musculos");
-                const title = getTitle(tipo);
-                if (title) {
-                    title.textContent = selectedValue === "Todos"
-                        ? (tipo === "musculos" ? "Músculos" : "Máquinas")
-                        : selectedValue;
-                }
             }
 
             container.querySelectorAll(".exercise-filter-menu-option").forEach(item => {
