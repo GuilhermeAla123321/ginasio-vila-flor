@@ -3076,13 +3076,31 @@ const ativarModo = modo => {
     render();
 };
 
+// Ao tocar num filtro, limpar o estado anterior e mostrar a biblioteca completa.
+// Importante: não alterar o value do <select> durante pointerdown, porque isso
+// pode impedir o menu nativo de abrir em alguns telemóveis.
+const prepararFiltro = nome => {
+    input.value = "";
+    favoritosApenas = false;
+    filtroBiblioteca = "todos";
+    valorFiltroBiblioteca = "Todos";
+
+    // Atualizar apenas os títulos e o estado visual, sem tocar nos selects.
+    ["modo", "musculos", "maquinas"].forEach(resetLabel);
+    controlElements.forEach(el => el.classList.remove("active"));
+    getControl(nome)?.classList.add("active");
+
+    render();
+};
+
 controlElements.forEach(element => {
     const control = element.dataset.control;
     const select = element.querySelector(".exercise-filter-native-select");
     if (!select) return;
 
-    // Nos telemóveis, não alterar a lista no pointerdown: isso pode impedir
-    // que o menu nativo do select abra. Aplicar a mudança apenas no change.
+    // Reset imediato ao tocar, sem bloquear o menu nativo no telemóvel.
+    select.addEventListener("pointerdown", () => prepararFiltro(control));
+
     if (control === "modo") {
         select.addEventListener("change", () => {
             ativarModo(select.value || "todos");
@@ -3094,7 +3112,7 @@ controlElements.forEach(element => {
         select.addEventListener("change", () => {
             const valorSelecionado = select.value || "Todos";
 
-            // Limpar a pesquisa e o filtro de modo, mantendo o valor escolhido.
+            // Limpar a pesquisa e os outros filtros, mantendo a opção escolhida.
             input.value = "";
             favoritosApenas = false;
             resetModo();
