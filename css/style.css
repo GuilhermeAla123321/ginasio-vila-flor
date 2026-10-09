@@ -5349,3 +5349,79 @@ body[data-theme="light"] .custom-characteristic-option:has(input:checked) {
     grid-template-columns: minmax(0,1fr);
   }
 }
+
+/* ALINHAMENTO DEFINITIVO DA BIBLIOTECA
+   Cabeçalho, pesquisa, filtros, filtro secundário e botão personalizado
+   partilham exatamente a mesma largura útil e as mesmas margens laterais. */
+#exercisePickerOverlay .exercise-picker-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    width: calc(100% - 36px) !important;
+    margin: 0 auto !important;
+    padding: 8px 0 12px !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+}
+
+#exercisePickerOverlay .exercise-picker-header > div:first-child {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+#exercisePickerOverlay .exercise-picker-header .eyebrow,
+#exercisePickerOverlay .exercise-picker-header h2 {
+    display: block !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: left !important;
+}
+
+#exercisePickerOverlay .exercise-search-wrap {
+    width: calc(100% - 36px) !important;
+    margin: 0 auto 8px !important;
+    box-sizing: border-box !important;
+}
+
+#exercisePickerOverlay .exercise-picker-controls {
+    width: calc(100% - 36px) !important;
+    margin: 0 auto !important;
+    padding: 0 0 8px !important;
+    box-sizing: border-box !important;
+}
+
+#exercisePickerOverlay .exercise-filter-options {
+    width: calc(100% - 36px) !important;
+    margin: 0 auto !important;
+    padding: 0 0 8px !important;
+    box-sizing: border-box !important;
+}
+
+#exercisePickerOverlay .exercise-filter-options > .exercise-filter-select-wrap {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#exercisePickerOverlay .exercise-picker > .custom-create-control {
+    align-self: center !important;
+    width: calc(100% - 36px) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 5px auto 8px !important;
+    box-sizing: border-box !important;
+}
+
+#exercisePickerOverlay .exercise-filter-menu {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}

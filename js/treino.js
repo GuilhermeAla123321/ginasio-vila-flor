@@ -4738,6 +4738,33 @@ document.addEventListener(
     renderTreino
 );
 /* =========================================================
+   FIX ZOOM AUTOMÁTICO EM CAMPOS E BOTÕES NO TELEMÓVEL
+   - O input fica com 16px para o Safari não ampliar ao focar.
+   - Os dias da semana usam touch-action: manipulation para evitar
+     o zoom de duplo toque, preservando o zoom manual por pinça.
+   ========================================================= */
+(function instalarAjustesZoomToque() {
+    if (document.getElementById("vf-mobile-zoom-fix")) return;
+
+    const style = document.createElement("style");
+    style.id = "vf-mobile-zoom-fix";
+    style.textContent = `
+        @media (max-width: 768px) {
+            #customExerciseName {
+                font-size: 16px !important;
+            }
+        }
+
+        .days-selector .day-button,
+        .days-selector .day-button * {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+    `;
+    document.head.appendChild(style);
+})();
+
+/* =========================================================
    FIX iPHONE: bloquear gestos de zoom dentro da aplicação
    Mantém o scroll normal com um dedo; bloqueia pinça/multitoque.
    ========================================================= */
