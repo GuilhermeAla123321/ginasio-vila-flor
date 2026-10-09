@@ -4675,3 +4675,20 @@ body[data-theme="light"] .pwa-install-card > p:not(.pwa-install-eyebrow) { color
 body[data-theme="light"] .pwa-install-close { color: #4c5368; background: rgba(30,38,60,.04); border-color: rgba(30,38,60,.10); }
 body[data-theme="light"] .pwa-install-toast { color: #202438; background: #fff; }
 @media (prefers-reduced-motion: reduce) { .pwa-install-overlay, .pwa-install-card { transition: none; } }
+
+/* ==========================================================
+   CORREÇÃO — mesma dimensão dos filtros nos dois temas
+   O tema escuro usa botões de 34px; aplicar essa dimensão
+   também no tema claro sem alterar cores nem funcionalidades.
+   ========================================================== */
+body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls .exercise-picker-control {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 7px !important;
+  box-sizing: border-box !important;
+}
+
+body[data-theme="light"] #exercisePickerOverlay .exercise-picker-control-label {
+  height: 34px !important;
+  min-height: 34px !important;
+}

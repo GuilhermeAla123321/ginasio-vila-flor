@@ -3050,18 +3050,32 @@ const resetModo = () => {
     resetLabel("modo");
 };
 
-// Cada toque num controlo limpa imediatamente a pesquisa/filtros anteriores
-// e mostra toda a biblioteca. O menu nativo continua disponível para quem
-// quiser escolher Favoritos, Exercícios Criados, um músculo ou uma máquina.
+// Ao tocar num filtro, mostra imediatamente toda a biblioteca,
+// sem alterar o valor do <select> que está a ser aberto.
+// Isto é importante no telemóvel: repor o select durante pointerdown
+// pode cancelar/interferir com o menu nativo do iOS/Android.
 const prepararFiltro = nome => {
     input.value = "";
     favoritosApenas = false;
     filtroBiblioteca = "todos";
     valorFiltroBiblioteca = "Todos";
 
-    resetModo();
-    resetMusculosEMaquinas();
+    // Repor apenas os outros controlos. Nunca alterar o select tocado
+    // antes de o utilizador conseguir escolher uma opção no menu.
+    controlElements.forEach(el => {
+        const controlo = el.dataset.control;
+        if (controlo === nome) return;
 
+        const select = el.querySelector(".exercise-filter-native-select");
+        if (select) {
+            select.value = controlo === "modo" ? "todos" : "Todos";
+        }
+        resetLabel(controlo);
+        el.classList.remove("active");
+    });
+
+    // Repor visualmente o título sem mexer no valor interno do select.
+    resetLabel(nome);
     controlElements.forEach(el => el.classList.remove("active"));
     getControl(nome)?.classList.add("active");
 
