@@ -4579,10 +4579,14 @@ html body #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
 /* ==========================================================
    CORREÇÕES CONFIRMADAS — barra superior e navegação inferior
    ========================================================== */
-/* Desloca a barra superior para baixo, também quando fica sticky. */
+/* Barra superior mais baixa, sem criar uma faixa vazia acima.
+   O fundo pertence à própria barra e mantém a continuidade visual. */
 .topbar {
-  margin-top: 12px !important;
-  top: 12px !important;
+  margin-top: 0 !important;
+  top: 0 !important;
+  height: 96px !important;
+  padding: 36px 18px 12px !important;
+  box-sizing: border-box !important;
 }
 
 /* Remove o ponto decorativo que aparecia sobre o separador ativo. */
