@@ -687,17 +687,6 @@ function inferirGrupoExercicio(nome) {
     return "Outro";
 }
 
-// Categoria específica usada apenas pelo filtro da biblioteca.
-// Mantém "grupo" original para não alterar treinos guardados nem outras páginas.
-function grupoFiltroMuscular(item) {
-    const nome = normalizarTexto(item?.nome || "");
-
-    if (/bicep|curl|rosca/.test(nome)) return "Bíceps";
-    if (/tricep|kickback|francesa/.test(nome)) return "Tríceps";
-
-    return item?.grupo || inferirGrupoExercicio(item?.nome || "");
-}
-
 function metadadosExercicio(
     nome,
     meta = {}
@@ -1004,6 +993,13 @@ function normalizarDadosHistorico(
         base.reps != null
     ) {
         base.repeticoes = base.reps;
+    }
+
+    if (
+        base.series == null &&
+        base.series != null
+    ) {
+        base.series = base.series;
     }
 
     base.tipo =
@@ -1987,7 +1983,7 @@ function renderExercicioCard(
                     class="progress-button"
                     data-index="${i}"
                 >
-                    Ver progressão
+                    Ver progressão →
                 </button>
 
             </div>
@@ -2832,55 +2828,6 @@ function garantirEstilosBiblioteca() {
                 min-height: 42px !important;
             }
         }
-
-        /* Filtros com botões reais: compatíveis com toque em Android e iOS. */
-        #exercisePickerOverlay .exercise-picker-controls {
-            position: relative !important;
-            z-index: 20 !important;
-            overflow: visible !important;
-        }
-        #exercisePickerOverlay .exercise-picker-select-control {
-            position: relative !important;
-            min-width: 0 !important;
-            overflow: visible !important;
-        }
-        #exercisePickerOverlay .exercise-picker-select-control.menu-open {
-            z-index: 10081 !important;
-        }
-        #exercisePickerOverlay .exercise-picker-control-label {
-            pointer-events: auto !important;
-            cursor: pointer !important;
-            touch-action: manipulation !important;
-            -webkit-tap-highlight-color: transparent;
-        }
-        #exercisePickerOverlay .exercise-filter-trigger {
-            min-height: 42px !important;
-            padding: 4px 6px !important;
-            gap: 3px !important;
-            font-size: 10px !important;
-            line-height: 1.1 !important;
-        }
-        #exercisePickerOverlay .exercise-filter-trigger .filter-control-title {
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        #exercisePickerOverlay .exercise-filter-select-chevron {
-            flex: 0 0 auto;
-            font-size: 12px;
-        }
-        #exercisePickerOverlay .exercise-filter-menu {
-            z-index: 10082 !important;
-            max-height: min(280px, 38vh) !important;
-            -webkit-overflow-scrolling: touch !important;
-            touch-action: pan-y !important;
-        }
-        #exercisePickerOverlay .exercise-filter-menu-option {
-            min-height: 40px !important;
-            touch-action: manipulation !important;
-            -webkit-tap-highlight-color: transparent;
-        }
     `;
 
     document.head.appendChild(style);
@@ -2899,12 +2846,16 @@ function abrirSeletorExercicio() {
         "Todos",
         ...new Set(
             construirBibliotecaExercicios()
-                .map(grupoFiltroMuscular)
+                .map(item => item.grupo)
                 .filter(grupo => grupo && grupo !== "Outro")
         )
     ];
-    const opcoesFiltroMusculos = gruposFiltroMusculos;
-    const opcoesFiltroMaquinas = ["Todos", ...EQUIPAMENTOS_GINASIO];
+    const opcoesFiltroMusculos = gruposFiltroMusculos.map(grupo =>
+        `<option value="${escaparAtributo(grupo)}">${escapeHtml(grupo)}</option>`
+    ).join("");
+    const opcoesFiltroMaquinas = ["Todos", ...EQUIPAMENTOS_GINASIO].map(maquina =>
+        `<option value="${escaparAtributo(maquina)}">${escapeHtml(maquina)}</option>`
+    ).join("");
 
     const overlay = document.createElement("div");
     overlay.className = "exercise-picker-overlay open";
@@ -2950,82 +2901,32 @@ function abrirSeletorExercicio() {
 
             <div class="exercise-picker-controls">
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="modo">
-                    <button
-                        type="button"
-                        class="exercise-picker-control-label filter-control-trigger"
-                        data-filter-trigger="modo"
-                        aria-label="Filtrar exercícios"
-                        aria-haspopup="listbox"
-                        aria-expanded="false"
-                        aria-controls="exerciseFilterMenuModo"
-                    >
-                        <span class="filter-control-title exercise-filter-current">Exercícios</span>
-                        <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
+                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
+                        <span class="filter-control-title">Todos</span>
                     </button>
-                    <div id="exerciseFilterMenuModo" class="exercise-filter-menu" role="listbox" aria-label="Opções de exercícios" hidden>
-                        ${[
-                            { value: "todos", label: "Todos" },
-                            { value: "favoritos", label: "Favoritos" },
-                            { value: "criados", label: "Exercícios Criados" }
-                        ].map(opcao => `
-                            <button type="button" class="exercise-filter-menu-option" role="option"
-                                data-filter-control="modo" data-filter-value="${escaparAtributo(opcao.value)}"
-                                aria-selected="false">
-                                <span>${escapeHtml(opcao.label)}</span>
-                                <span class="exercise-filter-option-check" aria-hidden="true"></span>
-                            </button>
-                        `).join("")}
-                    </div>
+                    <select class="exercise-filter-native-select" aria-label="Filtrar exercícios" data-control="modo">
+                        <option value="todos">Todos</option>
+                        <option value="favoritos">Favoritos</option>
+                        <option value="criados">Exercícios Criados</option>
+                    </select>
                 </div>
 
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="musculos">
-                    <button
-                        type="button"
-                        class="exercise-picker-control-label filter-control-trigger"
-                        data-filter-trigger="musculos"
-                        aria-label="Filtrar por músculo"
-                        aria-haspopup="listbox"
-                        aria-expanded="false"
-                        aria-controls="exerciseFilterMenuMusculos"
-                    >
-                        <span class="filter-control-title exercise-filter-current">Músculos</span>
-                        <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
+                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
+                        <span class="filter-control-title">Músculos</span>
                     </button>
-                    <div id="exerciseFilterMenuMusculos" class="exercise-filter-menu" role="listbox" aria-label="Grupos musculares" hidden>
-                        ${opcoesFiltroMusculos.map(opcao => `
-                            <button type="button" class="exercise-filter-menu-option" role="option"
-                                data-filter-control="musculos" data-filter-value="${escaparAtributo(opcao)}"
-                                aria-selected="false">
-                                <span>${escapeHtml(opcao)}</span>
-                                <span class="exercise-filter-option-check" aria-hidden="true"></span>
-                            </button>
-                        `).join("")}
-                    </div>
+                    <select class="exercise-filter-native-select" aria-label="Selecionar grupo muscular" data-control="musculos">
+                        ${opcoesFiltroMusculos}
+                    </select>
                 </div>
 
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="maquinas">
-                    <button
-                        type="button"
-                        class="exercise-picker-control-label filter-control-trigger"
-                        data-filter-trigger="maquinas"
-                        aria-label="Filtrar por máquina"
-                        aria-haspopup="listbox"
-                        aria-expanded="false"
-                        aria-controls="exerciseFilterMenuMaquinas"
-                    >
-                        <span class="filter-control-title exercise-filter-current">Máquinas</span>
-                        <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
+                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
+                        <span class="filter-control-title">Máquinas</span>
                     </button>
-                    <div id="exerciseFilterMenuMaquinas" class="exercise-filter-menu" role="listbox" aria-label="Máquinas e equipamentos" hidden>
-                        ${opcoesFiltroMaquinas.map(opcao => `
-                            <button type="button" class="exercise-filter-menu-option" role="option"
-                                data-filter-control="maquinas" data-filter-value="${escaparAtributo(opcao)}"
-                                aria-selected="false">
-                                <span>${escapeHtml(opcao)}</span>
-                                <span class="exercise-filter-option-check" aria-hidden="true"></span>
-                            </button>
-                        `).join("")}
-                    </div>
+                    <select class="exercise-filter-native-select" aria-label="Selecionar máquina" data-control="maquinas">
+                        ${opcoesFiltroMaquinas}
+                    </select>
                 </div>
 
             </div>
@@ -3078,11 +2979,11 @@ function abrirSeletorExercicio() {
             ? event.target
             : event.target?.parentElement;
         const scroller = target?.closest(
-            ".exercise-search-results, .exercise-filter-menu, .exercise-picker-controls"
+            ".exercise-search-results, .exercise-filter-menu"
         );
 
         if (scroller) {
-            // Preserva o scroll das listas e não cancela o toque inicial nos filtros.
+            // Não chamar preventDefault dentro dos elementos roláveis.
             event.stopPropagation();
             return;
         }
@@ -3110,170 +3011,131 @@ function abrirSeletorExercicio() {
 
     });
 
-const controlElements = Array.from(
-    overlay.querySelectorAll(".exercise-picker-controls > .exercise-picker-control")
-);
+    const controlElements = overlay.querySelectorAll(
+        ".exercise-picker-controls > .exercise-picker-control"
+    );
 
-const getControl = nome =>
-    overlay.querySelector(`.exercise-picker-controls [data-control="${nome}"]`);
+    const getControl = name => overlay.querySelector(`[data-control="${name}"]`);
+    const getSelect = name => getControl(name)?.querySelector(".exercise-filter-native-select");
+    const getTitle = name => getControl(name)?.querySelector(".filter-control-title");
 
-const getTitle = nome =>
-    getControl(nome)?.querySelector(".filter-control-title");
-
-const getMenu = nome =>
-    getControl(nome)?.querySelector(".exercise-filter-menu");
-
-const getTrigger = nome =>
-    getControl(nome)?.querySelector("[data-filter-trigger]");
-
-const resetLabel = nome => {
-    const title = getTitle(nome);
-    if (!title) return;
-    title.textContent = nome === "modo"
-        ? "Exercícios"
-        : nome === "musculos" ? "Músculos" : "Máquinas";
-};
-
-const closeAllFilterMenus = () => {
-    controlElements.forEach(element => {
-        const menu = element.querySelector(".exercise-filter-menu");
-        const trigger = element.querySelector("[data-filter-trigger]");
-        if (menu) {
-            menu.hidden = true;
-            menu.classList.remove("open");
+    const resetLabel = name => {
+        const title = getTitle(name);
+        if (title) {
+            title.textContent = name === "musculos" ? "Músculos" : name === "maquinas" ? "Máquinas" : "Todos";
         }
-        if (trigger) trigger.setAttribute("aria-expanded", "false");
-        element.classList.remove("menu-open");
-    });
-};
+    };
 
-const resetMusculosEMaquinas = () => {
-    ["musculos", "maquinas"].forEach(nome => {
-        resetLabel(nome);
-        getControl(nome)?.classList.remove("active");
-    });
-};
-
-const resetModo = () => {
-    resetLabel("modo");
-    getControl("modo")?.classList.remove("active");
-};
-
-const estadoModoAtual = () => favoritosApenas
-    ? "favoritos"
-    : filtroBiblioteca === "criados" ? "criados" : "todos";
-
-const atualizarOpcoesAtivas = () => {
-    controlElements.forEach(element => {
-        const control = element.dataset.control;
-        element.querySelectorAll(".exercise-filter-menu-option").forEach(option => {
-            const value = option.dataset.filterValue || "";
-            let active = false;
-
-            if (control === "modo") {
-                active = value === estadoModoAtual();
-            } else if (filtroBiblioteca === control) {
-                active = value === valorFiltroBiblioteca;
-            } else {
-                active = value === "Todos";
-            }
-
-            option.classList.toggle("active", active);
-            option.setAttribute("aria-selected", active ? "true" : "false");
-            const check = option.querySelector(".exercise-filter-option-check");
-            if (check) check.textContent = active ? "✓" : "";
+    const resetMusculosEMaquinas = () => {
+        ["musculos", "maquinas"].forEach(name => {
+            const select = getSelect(name);
+            if (select) select.value = "Todos";
+            resetLabel(name);
+            getControl(name)?.classList.remove("active");
         });
-    });
-};
+    };
+
+    const resetModo = () => {
+        const select = getSelect("modo");
+        if (select) select.value = "todos";
+        resetLabel("modo");
+    };
 
 const ativarModo = modo => {
+    // Limpar a pesquisa anterior
     input.value = "";
+
+    resetMusculosEMaquinas();
+
+    controlElements.forEach(el =>
+        el.classList.remove("active")
+    );
+
+    getControl("modo")?.classList.add("active");
+
+    resetModo();
+
+    const modeSelect = getSelect("modo");
+
+    if (modeSelect) {
+        modeSelect.value = modo;
+    }
+
+    const title = getTitle("modo");
+
+    if (title) {
+        title.textContent =
+            modo === "favoritos"
+                ? "Favoritos"
+                : modo === "criados"
+                    ? "Exercícios Criados"
+                    : "Todos";
+    }
+
     favoritosApenas = modo === "favoritos";
     filtroBiblioteca = modo === "criados" ? "criados" : "todos";
     valorFiltroBiblioteca = "Todos";
 
-    resetMusculosEMaquinas();
-    resetLabel("modo");
-    const title = getTitle("modo");
-    if (title) {
-        title.textContent = modo === "favoritos"
-            ? "Favoritos"
-            : modo === "criados" ? "Exercícios Criados" : "Exercícios";
-    }
-
-    controlElements.forEach(element => element.classList.remove("active"));
-    getControl("modo")?.classList.add("active");
-    closeAllFilterMenus();
-    atualizarOpcoesAtivas();
+    // Atualizar a lista de exercícios
     render();
 };
 
-const aplicarFiltroDeGrupo = (control, valorSelecionado, element) => {
-    input.value = "";
-    favoritosApenas = false;
-    filtroBiblioteca = control;
-    valorFiltroBiblioteca = valorSelecionado;
+    controlElements.forEach(element => {
+        const control = element.dataset.control;
+        const select = element.querySelector(".exercise-filter-native-select");
+        if (!select) return;
 
-    resetModo();
-    resetMusculosEMaquinas();
+        if (control === "modo") {
+            select.addEventListener("change", () => {
+                ativarModo(select.value || "todos");
+            });
+            return;
+        }
 
-    const title = getTitle(control);
-    if (title) {
-        title.textContent = valorSelecionado === "Todos"
-            ? (control === "musculos" ? "Músculos" : "Máquinas")
-            : valorSelecionado;
-    }
+        if (control === "musculos" || control === "maquinas") {
+            const resetOtherFilter = () => {
+                const other = control === "musculos" ? "maquinas" : "musculos";
+                const otherSelect = getSelect(other);
+                if (otherSelect) otherSelect.value = "Todos";
+                resetLabel(other);
+                getControl(other)?.classList.remove("active");
+            };
 
-    controlElements.forEach(el => el.classList.remove("active"));
-    element.classList.add("active");
-    closeAllFilterMenus();
-    atualizarOpcoesAtivas();
-    render();
+    const activateThisFilter = () => {
+        // Limpar a pesquisa anterior
+        input.value = "";
+
+        // Repor o outro filtro
+        resetOtherFilter();
+        resetModo();
+
+        valorFiltroBiblioteca = "Todos";
+
+        // Remover a seleção dos outros botões
+        controlElements.forEach(el =>
+            el.classList.remove("active")
+        );
+
+        // Ativar o filtro selecionado
+        element.classList.add("active");
+
+        favoritosApenas = false;
+        filtroBiblioteca = control;
 };
-
-controlElements.forEach(element => {
-    const control = element.dataset.control;
-    const trigger = element.querySelector("[data-filter-trigger]");
-    const menu = element.querySelector(".exercise-filter-menu");
-    if (!trigger || !menu) return;
-
-    trigger.addEventListener("click", event => {
-        event.preventDefault();
-        event.stopPropagation();
-        const abrir = menu.hidden;
-        closeAllFilterMenus();
-        if (abrir) {
-            menu.hidden = false;
-            menu.classList.add("open");
-            trigger.setAttribute("aria-expanded", "true");
-            element.classList.add("menu-open");
-            atualizarOpcoesAtivas();
+            select.addEventListener("pointerdown", activateThisFilter);
+            select.addEventListener("change", () => {
+                activateThisFilter();
+                valorFiltroBiblioteca = select.value || "Todos";
+                const title = getTitle(control);
+                if (title) {
+                    title.textContent = valorFiltroBiblioteca === "Todos"
+                        ? (control === "musculos" ? "Músculos" : "Máquinas")
+                        : valorFiltroBiblioteca;
+                }
+                render();
+            });
         }
     });
-
-    menu.querySelectorAll(".exercise-filter-menu-option").forEach(option => {
-        option.addEventListener("click", event => {
-            event.preventDefault();
-            event.stopPropagation();
-            const value = option.dataset.filterValue || (control === "modo" ? "todos" : "Todos");
-
-            if (control === "modo") {
-                ativarModo(value);
-            } else {
-                aplicarFiltroDeGrupo(control, value, element);
-            }
-        });
-    });
-});
-
-// Tocar noutra zona do seletor fecha o menu sem interferir com os filtros.
-overlay.addEventListener("click", event => {
-    if (!event.target.closest(".exercise-picker-control")) {
-        closeAllFilterMenus();
-    }
-});
-
-atualizarOpcoesAtivas();
 
     document.getElementById(
         "openCustomExerciseCreator"
@@ -3807,13 +3669,9 @@ function renderResultadosPesquisa(termo) {
         filtroBiblioteca === "musculos" &&
         valorFiltroBiblioteca !== "Todos"
     ) {
-        lista = lista.filter(item => {
-            const grupo = grupoFiltroMuscular(item);
-            if (valorFiltroBiblioteca === "Braços") {
-                return item.grupo === "Braços" || grupo === "Bíceps" || grupo === "Tríceps";
-            }
-            return grupo === valorFiltroBiblioteca;
-        });
+        lista = lista.filter(item =>
+            item.grupo === valorFiltroBiblioteca
+        );
     }
 
     if (
