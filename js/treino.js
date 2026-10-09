@@ -687,6 +687,17 @@ function inferirGrupoExercicio(nome) {
     return "Outro";
 }
 
+// Categoria específica usada apenas pelo filtro da biblioteca.
+// Mantém "grupo" original para não alterar treinos guardados nem outras páginas.
+function grupoFiltroMuscular(item) {
+    const nome = normalizarTexto(item?.nome || "");
+
+    if (/bicep|curl|rosca/.test(nome)) return "Bíceps";
+    if (/tricep|kickback|francesa/.test(nome)) return "Tríceps";
+
+    return item?.grupo || inferirGrupoExercicio(item?.nome || "");
+}
+
 function metadadosExercicio(
     nome,
     meta = {}
@@ -2846,7 +2857,7 @@ function abrirSeletorExercicio() {
         "Todos",
         ...new Set(
             construirBibliotecaExercicios()
-                .map(item => item.grupo)
+                .map(grupoFiltroMuscular)
                 .filter(grupo => grupo && grupo !== "Outro")
         )
     ];
@@ -3076,8 +3087,13 @@ const ativarModo = modo => {
     render();
 };
 
-// Ao tocar num filtro, limpar o estado anterior e mostrar a biblioteca completa.
-// Importante: não alterar o value do <select> durante pointerdown, porque isso
+// Limpa o filtro anterior apenas depois de o clique ter sido processado pelo
+// navegador. Fazer render() durante pointerdown pode impedir o menu nativo
+// de abrir em alguns telemóveis.
+const valorPadraoSelect = nome => nome === "modo" ? "todos" : "Todos";
+
+// Limpa o estado anterior quando o controlo é tocado, mas não redesenha a lista
+// nem altera o select que está prestes a abrir. Redesenhar durante pointerdown
 // pode impedir o menu nativo de abrir em alguns telemóveis.
 const prepararFiltro = nome => {
     input.value = "";
@@ -3085,12 +3101,55 @@ const prepararFiltro = nome => {
     filtroBiblioteca = "todos";
     valorFiltroBiblioteca = "Todos";
 
-    // Atualizar apenas os títulos e o estado visual, sem tocar nos selects.
-    ["modo", "musculos", "maquinas"].forEach(resetLabel);
+    controlElements.forEach(el => {
+        const controlo = el.dataset.control;
+        if (controlo === nome) return;
+
+        const selectOutro = el.querySelector(".exercise-filter-native-select");
+        if (selectOutro) selectOutro.value = valorPadraoSelect(controlo);
+        resetLabel(controlo);
+        el.classList.remove("active");
+    });
+
+    resetLabel(nome);
     controlElements.forEach(el => el.classList.remove("active"));
     getControl(nome)?.classList.add("active");
+};
 
+const aplicarFiltroDeGrupo = (control, valorSelecionado, element) => {
+    input.value = "";
+    favoritosApenas = false;
+
+    resetModo();
+    resetMusculosEMaquinas();
+
+    const selectAtual = getSelect(control);
+    if (selectAtual) selectAtual.value = valorSelecionado;
+
+    filtroBiblioteca = control;
+    valorFiltroBiblioteca = valorSelecionado;
+
+    const title = getTitle(control);
+    if (title) {
+        title.textContent = valorSelecionado === "Todos"
+            ? (control === "musculos" ? "Músculos" : "Máquinas")
+            : valorSelecionado;
+    }
+
+    controlElements.forEach(el => el.classList.remove("active"));
+    element.classList.add("active");
     render();
+};
+
+// Depois de uma escolha, repomos o valor interno do select para a opção neutra.
+// O título e o estado do filtro ficam intactos. Assim, escolher a mesma opção
+// outra vez continua a gerar um evento change em navegadores móveis.
+const prepararSelectParaProximaEscolha = select => {
+    window.setTimeout(() => {
+        if (select?.isConnected) {
+            select.value = valorPadraoSelect(select.dataset.control);
+        }
+    }, 0);
 };
 
 controlElements.forEach(element => {
@@ -3098,42 +3157,27 @@ controlElements.forEach(element => {
     const select = element.querySelector(".exercise-filter-native-select");
     if (!select) return;
 
-    // Reset imediato ao tocar, sem bloquear o menu nativo no telemóvel.
     select.addEventListener("pointerdown", () => prepararFiltro(control));
+
+    // Se o utilizador cancelar/sair do seletor sem escolher, renderiza o estado
+    // reposto. Este evento ocorre depois de o menu nativo deixar de estar ativo.
+    select.addEventListener("blur", () => {
+        select.value = valorPadraoSelect(control);
+        render();
+    });
 
     if (control === "modo") {
         select.addEventListener("change", () => {
             ativarModo(select.value || "todos");
+            prepararSelectParaProximaEscolha(select);
         });
         return;
     }
 
     if (control === "musculos" || control === "maquinas") {
         select.addEventListener("change", () => {
-            const valorSelecionado = select.value || "Todos";
-
-            // Limpar a pesquisa e os outros filtros, mantendo a opção escolhida.
-            input.value = "";
-            favoritosApenas = false;
-            resetModo();
-            resetMusculosEMaquinas();
-
-            const selectAtual = getSelect(control);
-            if (selectAtual) selectAtual.value = valorSelecionado;
-
-            filtroBiblioteca = control;
-            valorFiltroBiblioteca = valorSelecionado;
-
-            const title = getTitle(control);
-            if (title) {
-                title.textContent = valorSelecionado === "Todos"
-                    ? (control === "musculos" ? "Músculos" : "Máquinas")
-                    : valorSelecionado;
-            }
-
-            controlElements.forEach(el => el.classList.remove("active"));
-            element.classList.add("active");
-            render();
+            aplicarFiltroDeGrupo(control, select.value || "Todos", element);
+            prepararSelectParaProximaEscolha(select);
         });
     }
 });
@@ -3670,9 +3714,13 @@ function renderResultadosPesquisa(termo) {
         filtroBiblioteca === "musculos" &&
         valorFiltroBiblioteca !== "Todos"
     ) {
-        lista = lista.filter(item =>
-            item.grupo === valorFiltroBiblioteca
-        );
+        lista = lista.filter(item => {
+            const grupo = grupoFiltroMuscular(item);
+            if (valorFiltroBiblioteca === "Braços") {
+                return item.grupo === "Braços" || grupo === "Bíceps" || grupo === "Tríceps";
+            }
+            return grupo === valorFiltroBiblioteca;
+        });
     }
 
     if (
