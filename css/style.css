@@ -4515,3 +4515,62 @@ html body #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
         font-size: 32px;
     }
 }
+
+/* ==========================================================
+   AJUSTES FINAIS — barra inferior maior e pesquisa sem zoom
+   ========================================================== */
+.bottom-nav {
+  height: calc(88px + env(safe-area-inset-bottom)) !important;
+  padding: 7px 5px calc(7px + env(safe-area-inset-bottom)) !important;
+  box-sizing: border-box !important;
+}
+
+/* Dá mais espaço aos quatro atalhos sem alterar a grelha. */
+.bottom-nav .nav-item {
+  min-height: 0 !important;
+  gap: 5px !important;
+  padding: 3px 0 !important;
+}
+
+.bottom-nav .nav-item span,
+.bottom-nav .nav-item svg {
+  font-size: 22px !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+}
+
+.bottom-nav .nav-item small {
+  font-size: 10px !important;
+  line-height: 1.1 !important;
+}
+
+/* Evita que o conteúdo final fique escondido atrás da barra maior. */
+.app {
+  padding-bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+}
+
+/*
+  iOS Safari amplia a página ao focar inputs com letra inferior a 16px.
+  Manter 16px na pesquisa de Adicionar exercício impede esse zoom automático.
+*/
+#exercisePickerOverlay .exercise-search-input,
+.exercise-picker .exercise-search-input {
+  font-size: 16px !important;
+  line-height: 1.35 !important;
+  max-width: 100%;
+  touch-action: manipulation;
+}
+
+@media (max-width: 560px) {
+  #exercisePickerOverlay .exercise-search-input,
+  .exercise-picker .exercise-search-input {
+    font-size: 16px !important;
+  }
+
+  .bottom-nav .nav-item small {
+    font-size: 9.5px !important;
+  }
+}
+
