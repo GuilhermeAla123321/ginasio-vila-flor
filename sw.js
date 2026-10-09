@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v44';
+const CACHE_NAME = 'vf-ginasio-v45';
 
 const APP_SHELL = [
     './',

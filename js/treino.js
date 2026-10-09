@@ -1006,13 +1006,6 @@ function normalizarDadosHistorico(
         base.repeticoes = base.reps;
     }
 
-    if (
-        base.series == null &&
-        base.series != null
-    ) {
-        base.series = base.series;
-    }
-
     base.tipo =
         base.tipo || tipo;
 
@@ -2839,6 +2832,55 @@ function garantirEstilosBiblioteca() {
                 min-height: 42px !important;
             }
         }
+
+        /* Filtros com botões reais: compatíveis com toque em Android e iOS. */
+        #exercisePickerOverlay .exercise-picker-controls {
+            position: relative !important;
+            z-index: 20 !important;
+            overflow: visible !important;
+        }
+        #exercisePickerOverlay .exercise-picker-select-control {
+            position: relative !important;
+            min-width: 0 !important;
+            overflow: visible !important;
+        }
+        #exercisePickerOverlay .exercise-picker-select-control.menu-open {
+            z-index: 10081 !important;
+        }
+        #exercisePickerOverlay .exercise-picker-control-label {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #exercisePickerOverlay .exercise-filter-trigger {
+            min-height: 42px !important;
+            padding: 4px 6px !important;
+            gap: 3px !important;
+            font-size: 10px !important;
+            line-height: 1.1 !important;
+        }
+        #exercisePickerOverlay .exercise-filter-trigger .filter-control-title {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        #exercisePickerOverlay .exercise-filter-select-chevron {
+            flex: 0 0 auto;
+            font-size: 12px;
+        }
+        #exercisePickerOverlay .exercise-filter-menu {
+            z-index: 10082 !important;
+            max-height: min(280px, 38vh) !important;
+            -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-y !important;
+        }
+        #exercisePickerOverlay .exercise-filter-menu-option {
+            min-height: 40px !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent;
+        }
     `;
 
     document.head.appendChild(style);
@@ -2861,12 +2903,8 @@ function abrirSeletorExercicio() {
                 .filter(grupo => grupo && grupo !== "Outro")
         )
     ];
-    const opcoesFiltroMusculos = gruposFiltroMusculos.map(grupo =>
-        `<option value="${escaparAtributo(grupo)}">${escapeHtml(grupo)}</option>`
-    ).join("");
-    const opcoesFiltroMaquinas = ["Todos", ...EQUIPAMENTOS_GINASIO].map(maquina =>
-        `<option value="${escaparAtributo(maquina)}">${escapeHtml(maquina)}</option>`
-    ).join("");
+    const opcoesFiltroMusculos = gruposFiltroMusculos;
+    const opcoesFiltroMaquinas = ["Todos", ...EQUIPAMENTOS_GINASIO];
 
     const overlay = document.createElement("div");
     overlay.className = "exercise-picker-overlay open";
@@ -2912,32 +2950,82 @@ function abrirSeletorExercicio() {
 
             <div class="exercise-picker-controls">
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="modo">
-                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
-                        <span class="filter-control-title">Exercícios</span>
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label filter-control-trigger"
+                        data-filter-trigger="modo"
+                        aria-label="Filtrar exercícios"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenuModo"
+                    >
+                        <span class="filter-control-title exercise-filter-current">Exercícios</span>
+                        <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
                     </button>
-                    <select class="exercise-filter-native-select" aria-label="Filtrar exercícios" data-control="modo">
-                        <option value="todos">Todos</option>
-                        <option value="favoritos">Favoritos</option>
-                        <option value="criados">Exercícios Criados</option>
-                    </select>
+                    <div id="exerciseFilterMenuModo" class="exercise-filter-menu" role="listbox" aria-label="Opções de exercícios" hidden>
+                        ${[
+                            { value: "todos", label: "Todos" },
+                            { value: "favoritos", label: "Favoritos" },
+                            { value: "criados", label: "Exercícios Criados" }
+                        ].map(opcao => `
+                            <button type="button" class="exercise-filter-menu-option" role="option"
+                                data-filter-control="modo" data-filter-value="${escaparAtributo(opcao.value)}"
+                                aria-selected="false">
+                                <span>${escapeHtml(opcao.label)}</span>
+                                <span class="exercise-filter-option-check" aria-hidden="true"></span>
+                            </button>
+                        `).join("")}
+                    </div>
                 </div>
 
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="musculos">
-                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
-                        <span class="filter-control-title">Músculos</span>
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label filter-control-trigger"
+                        data-filter-trigger="musculos"
+                        aria-label="Filtrar por músculo"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenuMusculos"
+                    >
+                        <span class="filter-control-title exercise-filter-current">Músculos</span>
+                        <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
                     </button>
-                    <select class="exercise-filter-native-select" aria-label="Selecionar grupo muscular" data-control="musculos">
-                        ${opcoesFiltroMusculos}
-                    </select>
+                    <div id="exerciseFilterMenuMusculos" class="exercise-filter-menu" role="listbox" aria-label="Grupos musculares" hidden>
+                        ${opcoesFiltroMusculos.map(opcao => `
+                            <button type="button" class="exercise-filter-menu-option" role="option"
+                                data-filter-control="musculos" data-filter-value="${escaparAtributo(opcao)}"
+                                aria-selected="false">
+                                <span>${escapeHtml(opcao)}</span>
+                                <span class="exercise-filter-option-check" aria-hidden="true"></span>
+                            </button>
+                        `).join("")}
+                    </div>
                 </div>
 
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="maquinas">
-                    <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
-                        <span class="filter-control-title">Máquinas</span>
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label filter-control-trigger"
+                        data-filter-trigger="maquinas"
+                        aria-label="Filtrar por máquina"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenuMaquinas"
+                    >
+                        <span class="filter-control-title exercise-filter-current">Máquinas</span>
+                        <span class="exercise-filter-select-chevron" aria-hidden="true">⌄</span>
                     </button>
-                    <select class="exercise-filter-native-select" aria-label="Selecionar máquina" data-control="maquinas">
-                        ${opcoesFiltroMaquinas}
-                    </select>
+                    <div id="exerciseFilterMenuMaquinas" class="exercise-filter-menu" role="listbox" aria-label="Máquinas e equipamentos" hidden>
+                        ${opcoesFiltroMaquinas.map(opcao => `
+                            <button type="button" class="exercise-filter-menu-option" role="option"
+                                data-filter-control="maquinas" data-filter-value="${escaparAtributo(opcao)}"
+                                aria-selected="false">
+                                <span>${escapeHtml(opcao)}</span>
+                                <span class="exercise-filter-option-check" aria-hidden="true"></span>
+                            </button>
+                        `).join("")}
+                    </div>
                 </div>
 
             </div>
@@ -2990,11 +3078,11 @@ function abrirSeletorExercicio() {
             ? event.target
             : event.target?.parentElement;
         const scroller = target?.closest(
-            ".exercise-search-results, .exercise-filter-menu"
+            ".exercise-search-results, .exercise-filter-menu, .exercise-picker-controls"
         );
 
         if (scroller) {
-            // Não chamar preventDefault dentro dos elementos roláveis.
+            // Preserva o scroll das listas e não cancela o toque inicial nos filtros.
             event.stopPropagation();
             return;
         }
@@ -3022,112 +3110,112 @@ function abrirSeletorExercicio() {
 
     });
 
-const controlElements = overlay.querySelectorAll(
-    ".exercise-picker-controls > .exercise-picker-control"
+const controlElements = Array.from(
+    overlay.querySelectorAll(".exercise-picker-controls > .exercise-picker-control")
 );
 
 const getControl = nome =>
     overlay.querySelector(`.exercise-picker-controls [data-control="${nome}"]`);
 
-const getSelect = nome =>
-    getControl(nome)?.querySelector(".exercise-filter-native-select");
-
 const getTitle = nome =>
     getControl(nome)?.querySelector(".filter-control-title");
+
+const getMenu = nome =>
+    getControl(nome)?.querySelector(".exercise-filter-menu");
+
+const getTrigger = nome =>
+    getControl(nome)?.querySelector("[data-filter-trigger]");
 
 const resetLabel = nome => {
     const title = getTitle(nome);
     if (!title) return;
+    title.textContent = nome === "modo"
+        ? "Exercícios"
+        : nome === "musculos" ? "Músculos" : "Máquinas";
+};
 
-    if (nome === "modo") {
-        title.textContent = "Exercícios";
-    } else {
-        title.textContent = nome === "musculos" ? "Músculos" : "Máquinas";
-    }
+const closeAllFilterMenus = () => {
+    controlElements.forEach(element => {
+        const menu = element.querySelector(".exercise-filter-menu");
+        const trigger = element.querySelector("[data-filter-trigger]");
+        if (menu) {
+            menu.hidden = true;
+            menu.classList.remove("open");
+        }
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+        element.classList.remove("menu-open");
+    });
 };
 
 const resetMusculosEMaquinas = () => {
     ["musculos", "maquinas"].forEach(nome => {
-        const select = getSelect(nome);
-        if (select) select.value = "Todos";
         resetLabel(nome);
         getControl(nome)?.classList.remove("active");
     });
 };
 
 const resetModo = () => {
-    const select = getSelect("modo");
-    if (select) select.value = "todos";
     resetLabel("modo");
+    getControl("modo")?.classList.remove("active");
+};
+
+const estadoModoAtual = () => favoritosApenas
+    ? "favoritos"
+    : filtroBiblioteca === "criados" ? "criados" : "todos";
+
+const atualizarOpcoesAtivas = () => {
+    controlElements.forEach(element => {
+        const control = element.dataset.control;
+        element.querySelectorAll(".exercise-filter-menu-option").forEach(option => {
+            const value = option.dataset.filterValue || "";
+            let active = false;
+
+            if (control === "modo") {
+                active = value === estadoModoAtual();
+            } else if (filtroBiblioteca === control) {
+                active = value === valorFiltroBiblioteca;
+            } else {
+                active = value === "Todos";
+            }
+
+            option.classList.toggle("active", active);
+            option.setAttribute("aria-selected", active ? "true" : "false");
+            const check = option.querySelector(".exercise-filter-option-check");
+            if (check) check.textContent = active ? "✓" : "";
+        });
+    });
 };
 
 const ativarModo = modo => {
     input.value = "";
-    resetMusculosEMaquinas();
-
-    controlElements.forEach(el => el.classList.remove("active"));
-    getControl("modo")?.classList.add("active");
-
-    const modeSelect = getSelect("modo");
-    if (modeSelect) modeSelect.value = modo;
-
-    const title = getTitle("modo");
-    if (title) {
-        title.textContent =
-            modo === "favoritos"
-                ? "Favoritos"
-                : modo === "criados"
-                    ? "Exercícios Criados"
-                    : "Exercícios";
-    }
-
     favoritosApenas = modo === "favoritos";
     filtroBiblioteca = modo === "criados" ? "criados" : "todos";
     valorFiltroBiblioteca = "Todos";
+
+    resetMusculosEMaquinas();
+    resetLabel("modo");
+    const title = getTitle("modo");
+    if (title) {
+        title.textContent = modo === "favoritos"
+            ? "Favoritos"
+            : modo === "criados" ? "Exercícios Criados" : "Exercícios";
+    }
+
+    controlElements.forEach(element => element.classList.remove("active"));
+    getControl("modo")?.classList.add("active");
+    closeAllFilterMenus();
+    atualizarOpcoesAtivas();
     render();
-};
-
-// Limpa o filtro anterior apenas depois de o clique ter sido processado pelo
-// navegador. Fazer render() durante pointerdown pode impedir o menu nativo
-// de abrir em alguns telemóveis.
-const valorPadraoSelect = nome => nome === "modo" ? "todos" : "Todos";
-
-// Limpa o estado anterior quando o controlo é tocado, mas não redesenha a lista
-// nem altera o select que está prestes a abrir. Redesenhar durante pointerdown
-// pode impedir o menu nativo de abrir em alguns telemóveis.
-const prepararFiltro = nome => {
-    input.value = "";
-    favoritosApenas = false;
-    filtroBiblioteca = "todos";
-    valorFiltroBiblioteca = "Todos";
-
-    controlElements.forEach(el => {
-        const controlo = el.dataset.control;
-        if (controlo === nome) return;
-
-        const selectOutro = el.querySelector(".exercise-filter-native-select");
-        if (selectOutro) selectOutro.value = valorPadraoSelect(controlo);
-        resetLabel(controlo);
-        el.classList.remove("active");
-    });
-
-    resetLabel(nome);
-    controlElements.forEach(el => el.classList.remove("active"));
-    getControl(nome)?.classList.add("active");
 };
 
 const aplicarFiltroDeGrupo = (control, valorSelecionado, element) => {
     input.value = "";
     favoritosApenas = false;
+    filtroBiblioteca = control;
+    valorFiltroBiblioteca = valorSelecionado;
 
     resetModo();
     resetMusculosEMaquinas();
-
-    const selectAtual = getSelect(control);
-    if (selectAtual) selectAtual.value = valorSelecionado;
-
-    filtroBiblioteca = control;
-    valorFiltroBiblioteca = valorSelecionado;
 
     const title = getTitle(control);
     if (title) {
@@ -3138,49 +3226,54 @@ const aplicarFiltroDeGrupo = (control, valorSelecionado, element) => {
 
     controlElements.forEach(el => el.classList.remove("active"));
     element.classList.add("active");
+    closeAllFilterMenus();
+    atualizarOpcoesAtivas();
     render();
-};
-
-// Depois de uma escolha, repomos o valor interno do select para a opção neutra.
-// O título e o estado do filtro ficam intactos. Assim, escolher a mesma opção
-// outra vez continua a gerar um evento change em navegadores móveis.
-const prepararSelectParaProximaEscolha = select => {
-    window.setTimeout(() => {
-        if (select?.isConnected) {
-            select.value = valorPadraoSelect(select.dataset.control);
-        }
-    }, 0);
 };
 
 controlElements.forEach(element => {
     const control = element.dataset.control;
-    const select = element.querySelector(".exercise-filter-native-select");
-    if (!select) return;
+    const trigger = element.querySelector("[data-filter-trigger]");
+    const menu = element.querySelector(".exercise-filter-menu");
+    if (!trigger || !menu) return;
 
-    select.addEventListener("pointerdown", () => prepararFiltro(control));
-
-    // Se o utilizador cancelar/sair do seletor sem escolher, renderiza o estado
-    // reposto. Este evento ocorre depois de o menu nativo deixar de estar ativo.
-    select.addEventListener("blur", () => {
-        select.value = valorPadraoSelect(control);
-        render();
+    trigger.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+        const abrir = menu.hidden;
+        closeAllFilterMenus();
+        if (abrir) {
+            menu.hidden = false;
+            menu.classList.add("open");
+            trigger.setAttribute("aria-expanded", "true");
+            element.classList.add("menu-open");
+            atualizarOpcoesAtivas();
+        }
     });
 
-    if (control === "modo") {
-        select.addEventListener("change", () => {
-            ativarModo(select.value || "todos");
-            prepararSelectParaProximaEscolha(select);
-        });
-        return;
-    }
+    menu.querySelectorAll(".exercise-filter-menu-option").forEach(option => {
+        option.addEventListener("click", event => {
+            event.preventDefault();
+            event.stopPropagation();
+            const value = option.dataset.filterValue || (control === "modo" ? "todos" : "Todos");
 
-    if (control === "musculos" || control === "maquinas") {
-        select.addEventListener("change", () => {
-            aplicarFiltroDeGrupo(control, select.value || "Todos", element);
-            prepararSelectParaProximaEscolha(select);
+            if (control === "modo") {
+                ativarModo(value);
+            } else {
+                aplicarFiltroDeGrupo(control, value, element);
+            }
         });
+    });
+});
+
+// Tocar noutra zona do seletor fecha o menu sem interferir com os filtros.
+overlay.addEventListener("click", event => {
+    if (!event.target.closest(".exercise-picker-control")) {
+        closeAllFilterMenus();
     }
 });
+
+atualizarOpcoesAtivas();
 
     document.getElementById(
         "openCustomExerciseCreator"
