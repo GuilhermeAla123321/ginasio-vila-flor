@@ -2978,17 +2978,32 @@ function abrirSeletorExercicio() {
         const target = event.target instanceof Element
             ? event.target
             : event.target?.parentElement;
-        const scroller = target?.closest(
-            ".exercise-search-results, .exercise-filter-menu"
-        );
 
+        // Permite que os menus/listas mantenham o scroll táctil nativo.
+        const scroller = target?.closest(
+            ".exercise-search-results, .exercise-filter-menu, .exercise-filter-options"
+        );
         if (scroller) {
-            // Não chamar preventDefault dentro dos elementos roláveis.
             event.stopPropagation();
             return;
         }
 
-        // Gestos fora da lista não devem mover a página que está por trás.
+        // Nunca cancelar gestos que começam nos filtros ou noutros controlos
+        // interativos. Em telemóveis, preventDefault aqui pode fazer parecer
+        // que existe uma camada por cima dos botões e impedir a seleção.
+        const controlInteractivo = target?.closest(
+            "#exercisePickerOverlay .exercise-picker-controls, " +
+            "#exercisePickerOverlay .exercise-picker-control, " +
+            "#exercisePickerOverlay .exercise-filter-native-select, " +
+            "#exercisePickerOverlay button, " +
+            "#exercisePickerOverlay input, " +
+            "#exercisePickerOverlay select"
+        );
+        if (controlInteractivo) {
+            return;
+        }
+
+        // Bloqueia apenas os gestos no fundo do popup, não nos controlos.
         event.preventDefault();
     }, { passive: false });
 

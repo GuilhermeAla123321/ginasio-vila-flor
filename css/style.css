@@ -4692,3 +4692,44 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-picker-control-label {
   height: 34px !important;
   min-height: 34px !important;
 }
+
+/* =========================================================
+   CORREÇÃO DE TOQUE DOS FILTROS NO TELEMÓVEL
+   Os filtros ficam acima dos elementos seguintes e o select
+   transparente continua a receber o toque.
+   ========================================================= */
+#exercisePickerOverlay .exercise-picker-controls {
+    position: relative !important;
+    z-index: 30 !important;
+    isolation: isolate !important;
+    pointer-events: auto !important;
+}
+
+#exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
+    position: relative !important;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+}
+
+#exercisePickerOverlay .exercise-picker-select-control {
+    position: relative !important;
+    pointer-events: auto !important;
+}
+
+#exercisePickerOverlay .exercise-filter-native-select {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 5 !important;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0.01 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+}
+
+#exercisePickerOverlay .exercise-filter-options {
+    position: relative !important;
+    z-index: 1 !important;
+}
