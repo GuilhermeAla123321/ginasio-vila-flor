@@ -456,6 +456,23 @@ const PARAMETROS = {
         placeholder: ""
     }
 };
+
+/* Parâmetros definidos pelo utilizador para cada série personalizada. */
+function parametrosDoExercicio(exercicio, tipoFallback = null) {
+    const escolhidos = Array.isArray(exercicio?.parametrosSeries)
+        ? [...new Set(exercicio.parametrosSeries)]
+            .filter(p => p !== "series" && Object.prototype.hasOwnProperty.call(PARAMETROS, p))
+        : [];
+    if (escolhidos.length) return escolhidos;
+
+    const tipo = tipoFallback || exercicio?.tipo || inferirTipoExercicio(
+        exercicio?.nome || "",
+        exercicio?.grupo || ""
+    );
+    return (TIPOS_EXERCICIO[tipo]?.params || TIPOS_EXERCICIO.outro.params)
+        .filter(p => p !== "series");
+}
+
 /* =========================================================
    ESTADO DA APLICAÇÃO
    ========================================================= */
@@ -827,7 +844,10 @@ function construirBibliotecaExercicios() {
                         (item.maquina && (EQUIPAMENTOS_GINASIO.includes(item.maquina) || ["Peso Corporal", "Sem equipamento"].includes(item.maquina)))
                             ? item.maquina
                             : maquinaPorExercicio(item.nome),
-                    descricao: item.descricao || ""
+                    descricao: item.descricao || "",
+                    parametrosSeries: Array.isArray(item.parametrosSeries)
+                        ? [...item.parametrosSeries]
+                        : undefined
                 }
             );
         });
@@ -1005,6 +1025,10 @@ function normalizarDadosHistorico(
     base.tipo =
         base.tipo || tipo;
 
+    if (!Array.isArray(base.parametrosSeries) && Array.isArray(exercicio?.parametrosSeries)) {
+        base.parametrosSeries = [...exercicio.parametrosSeries];
+    }
+
     return base;
 }
 
@@ -1087,10 +1111,7 @@ function resumoRegisto(x) {
         );
 
     return meta.tipo
-        ? TIPOS_EXERCICIO[
-              meta.tipo
-          ]
-              .params
+        ? parametrosDoExercicio(x, meta.tipo)
               .map(
                   p =>
                       formatarValor(
@@ -1151,16 +1172,7 @@ function extrairSeriesExercicio(
             exercicio?.grupo || ""
         );
 
-    const params =
-        (
-            TIPOS_EXERCICIO[
-                tipo
-            ]?.params ||
-            TIPOS_EXERCICIO.outro.params
-        )
-        .filter(
-            p => p !== "series"
-        );
+    const params = parametrosDoExercicio(exercicio, tipo);
 
     if (
         Array.isArray(
@@ -1211,19 +1223,14 @@ function extrairSeriesExercicio(
 
 function validarSeries(
     tipo,
-    seriesData
+    seriesData,
+    parametrosSeries = null
 ) {
 
-    const params =
-        (
-            TIPOS_EXERCICIO[
-                tipo
-            ]?.params ||
-            TIPOS_EXERCICIO.outro.params
-        )
-        .filter(
-            p => p !== "series"
-        );
+    const params = parametrosDoExercicio(
+        { tipo, parametrosSeries },
+        tipo
+    );
 
     if (
         !Array.isArray(
@@ -1320,16 +1327,7 @@ function renderLinhasSeries(
             exercicio?.grupo || ""
         );
 
-    const params =
-        (
-            TIPOS_EXERCICIO[
-                tipo
-            ]?.params ||
-            TIPOS_EXERCICIO.outro.params
-        )
-        .filter(
-            p => p !== "series"
-        );
+    const params = parametrosDoExercicio(exercicio, tipo);
 
     const existing =
         Array.isArray(
@@ -1436,19 +1434,14 @@ function renderLinhasSeries(
 
 function recolherSeries(
     container,
-    tipo
+    tipo,
+    parametrosSeries = null
 ) {
 
-    const params =
-        (
-            TIPOS_EXERCICIO[
-                tipo
-            ]?.params ||
-            TIPOS_EXERCICIO.outro.params
-        )
-        .filter(
-            p => p !== "series"
-        );
+    const params = parametrosDoExercicio(
+        { tipo, parametrosSeries },
+        tipo
+    );
 
     const count =
         [
@@ -1498,19 +1491,14 @@ function recolherSeries(
 
 function serieResumo(
     tipo,
-    serie
+    serie,
+    parametrosSeries = null
 ) {
 
-    const params =
-        (
-            TIPOS_EXERCICIO[
-                tipo
-            ]?.params ||
-            TIPOS_EXERCICIO.outro.params
-        )
-        .filter(
-            p => p !== "series"
-        );
+    const params = parametrosDoExercicio(
+        { tipo, parametrosSeries },
+        tipo
+    );
 
     return params
         .map(
@@ -1894,10 +1882,7 @@ function renderExercicioCard(
             }
         );
 
-        const parametrosSerie = (
-            TIPOS_EXERCICIO[meta.tipo]?.params ||
-            TIPOS_EXERCICIO.outro.params
-        ).filter(p => p !== "series");
+        const parametrosSerie = parametrosDoExercicio(x, meta.tipo);
 
         const seriesHtml = series.map((s, n) => {
             const valores = parametrosSerie
@@ -2213,13 +2198,20 @@ function abrirAdicionar() {
         ).value = n;
 
 
+        let parametrosSeries = [];
+        try {
+            parametrosSeries = JSON.parse(input.dataset.parametrosSeries || "[]");
+        } catch (_) {
+            parametrosSeries = [];
+        }
+
         renderLinhasSeries(
-            document.getElementById(
-                "exerciseFields"
-            ),
+            document.getElementById("exerciseFields"),
             {
                 nome: input.value,
-                tipo
+                grupo: input.dataset.grupo || "",
+                tipo,
+                parametrosSeries
             },
             n
         );
@@ -2461,6 +2453,50 @@ function garantirEstilosBiblioteca() {
 
         .custom-exercise-actions button {
             min-height: 44px;
+        }
+
+        .custom-characteristics-exercise {
+            display: grid;
+            gap: 4px;
+            padding: 11px 12px;
+            margin: -3px 0 16px;
+            border: 1px solid rgba(104,64,111,.16);
+            border-radius: 13px;
+            background: linear-gradient(135deg, rgba(124,77,255,.07), rgba(62,157,154,.07));
+        }
+        .custom-characteristics-exercise strong { font-size: 13px; line-height: 1.35; overflow-wrap: anywhere; }
+        .custom-characteristics-exercise span,
+        .custom-characteristics-heading small,
+        .custom-characteristic-option small,
+        .custom-characteristics-note { color: #847789; font-size: 10px; line-height: 1.4; }
+        .custom-characteristics-heading { display: grid; gap: 3px; margin-bottom: 10px; }
+        .custom-characteristics-heading strong { font-size: 12px; }
+        .custom-characteristics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+        .custom-characteristic-option {
+            display: flex; align-items: flex-start; gap: 9px; min-width: 0; padding: 10px;
+            border: 1px solid rgba(104,64,111,.16); border-radius: 12px;
+            background: rgba(255,255,255,.72); cursor: pointer;
+        }
+        .custom-characteristic-option:has(input:checked) {
+            border-color: rgba(62,157,154,.65);
+            background: linear-gradient(135deg, rgba(124,77,255,.09), rgba(62,157,154,.12));
+        }
+        .custom-characteristic-option input { width: 16px; height: 16px; flex: 0 0 16px; margin: 2px 0 0; accent-color: #3e9d9a; }
+        .custom-characteristic-option > span { display: grid; gap: 3px; min-width: 0; }
+        .custom-characteristic-option strong { font-size: 10.5px; line-height: 1.3; }
+        .custom-characteristics-note { margin: 11px 0 3px; }
+        body[data-theme="dark"] .custom-characteristics-exercise { background: linear-gradient(135deg, rgba(124,77,255,.13), rgba(62,157,154,.10)); border-color: rgba(177,145,196,.26); }
+        body[data-theme="dark"] .custom-characteristics-exercise span,
+        body[data-theme="dark"] .custom-characteristics-heading small,
+        body[data-theme="dark"] .custom-characteristic-option small,
+        body[data-theme="dark"] .custom-characteristics-note { color: #a99cad; }
+        body[data-theme="dark"] .custom-characteristic-option { background: rgba(255,255,255,.035); border-color: rgba(177,145,196,.24); }
+        body[data-theme="dark"] .custom-characteristic-option:has(input:checked) { background: linear-gradient(135deg, rgba(124,77,255,.21), rgba(62,157,154,.17)); border-color: rgba(62,157,154,.72); }
+        @media (max-width: 390px) {
+            .custom-exercise-modal { padding: 16px; }
+            .custom-characteristics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+            .custom-characteristic-option { padding: 8px; gap: 6px; }
+            .custom-characteristic-option strong { font-size: 10px; }
         }
 
         .custom-create-control {
@@ -3298,337 +3334,198 @@ function renderOpcoesFiltroBiblioteca(tipo, abrirImediatamente = false) {
 }
 
 function abrirPopupExercicioPersonalizado() {
+    document.getElementById("customExerciseOverlay")?.remove();
 
-    document
-        .getElementById("customExerciseOverlay")
-        ?.remove();
-
-    const searchValue =
-        document.getElementById("exerciseSearch")?.value?.trim() || "";
-
-    const grupos = [
-        "Peito",
-        "Costas",
-        "Ombros",
-        "Braços",
-        "Pernas",
-        "Glúteos",
-        "Core",
-        "Cardio",
-        "Mobilidade"
-    ];
-
-    const maquinas = [
-        "Sem equipamento",
-        "Peso Corporal",
-        ...EQUIPAMENTOS_GINASIO
-    ];
-
+    const searchValue = document.getElementById("exerciseSearch")?.value?.trim() || "";
+    const grupos = ["Peito", "Costas", "Ombros", "Braços", "Pernas", "Glúteos", "Core", "Cardio", "Mobilidade"];
+    const maquinas = ["Sem equipamento", "Peso Corporal", ...EQUIPAMENTOS_GINASIO];
     const grupoInferido = inferirGrupoExercicio(searchValue);
-    const grupoInicial = grupos.includes(grupoInferido)
-        ? grupoInferido
-        : "";
-
-    const tipoInferidoInicial =
-        inferirTipoExercicio(
-            searchValue || "Novo exercício",
-            grupoInicial
-        );
-
-    // "outro" continua disponível internamente para compatibilidade,
-    // mas não é uma opção apresentada ao utilizador.
-    const tipoInicial =
-        tipoInferidoInicial !== "outro" &&
-        TIPOS_EXERCICIO[tipoInferidoInicial]
-            ? tipoInferidoInicial
-            : "musculacao";
-
-    const maquinaInferida =
-        searchValue
-            ? maquinaPorExercicio(searchValue)
-            : "Sem equipamento";
-
-    const maquinaInicial =
-        maquinas.includes(maquinaInferida)
-            ? maquinaInferida
-            : "Sem equipamento";
+    const grupoInicial = grupos.includes(grupoInferido) ? grupoInferido : "";
+    const tipoInferidoInicial = inferirTipoExercicio(searchValue || "Novo exercício", grupoInicial);
+    const tipoInicial = tipoInferidoInicial !== "outro" && TIPOS_EXERCICIO[tipoInferidoInicial] ? tipoInferidoInicial : "musculacao";
+    const maquinaInferida = searchValue ? maquinaPorExercicio(searchValue) : "Sem equipamento";
+    const maquinaInicial = maquinas.includes(maquinaInferida) ? maquinaInferida : "Sem equipamento";
 
     const overlay = document.createElement("div");
     overlay.className = "custom-exercise-overlay open";
     overlay.id = "customExerciseOverlay";
-
-    overlay.innerHTML = `
-
-        <div
-            class="custom-exercise-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="customExerciseTitle"
-        >
-
-            <div class="custom-exercise-modal-top">
-
-                <div>
-                    <span class="eyebrow">
-                        NOVO EXERCÍCIO
-                    </span>
-
-                    <h2 id="customExerciseTitle">
-                        Adicionar exercício personalizado
-                    </h2>
-
-                    <p class="muted">
-                        Cria o exercício e guarda-o na tua biblioteca.
-                    </p>
-                </div>
-
-                <button
-                    type="button"
-                    class="exercise-picker-close"
-                    id="closeCustomExercise"
-                    aria-label="Fechar"
-                >
-                    ×
-                </button>
-
-            </div>
-
-            <div class="custom-exercise-form">
-
-                <div class="custom-exercise-field">
-                    <label for="customExerciseName">
-                        Nome do exercício
-                    </label>
-
-                    <input
-                        id="customExerciseName"
-                        class="input"
-                        type="text"
-                        maxlength="80"
-                        placeholder="Ex.: Agachamento búlgaro"
-                        value="${escapeHtml(searchValue)}"
-                        autocomplete="off"
-                    >
-                </div>
-
-                <div class="custom-exercise-field">
-                    <label for="customExerciseGroup">
-                        Grupo muscular
-                    </label>
-
-                    <select
-                        id="customExerciseGroup"
-                        class="input"
-                        required
-                    >
-                        <option value="" disabled ${!grupoInicial ? "selected" : ""}>Seleciona um grupo muscular</option>
-                        ${grupos
-                            .map(grupo => `
-                                <option
-                                    value="${escaparAtributo(grupo)}"
-                                    ${
-                                        grupo === grupoInicial
-                                            ? "selected"
-                                            : ""
-                                    }
-                                >
-                                    ${escapeHtml(grupo)}
-                                </option>
-                            `)
-                            .join("")}
-                    </select>
-                </div>
-
-                <div class="custom-exercise-field">
-                    <label for="customExerciseType">
-                        Tipo de exercício
-                    </label>
-
-                    <select
-                        id="customExerciseType"
-                        class="input"
-                    >
-                        ${Object.entries(TIPOS_EXERCICIO)
-                            .filter(([key]) => key !== "outro")
-                            .map(([key, value]) => `
-                                <option
-                                    value="${escaparAtributo(key)}"
-                                    ${
-                                        key === tipoInicial
-                                            ? "selected"
-                                            : ""
-                                    }
-                                >
-                                    ${escapeHtml(value.label)}
-                                </option>
-                            `)
-                            .join("")}
-                    </select>
-                </div>
-
-                <div class="custom-exercise-field">
-                    <label for="customExerciseMachine">
-                        Equipamento
-                    </label>
-
-                    <select
-                        id="customExerciseMachine"
-                        class="input"
-                    >
-                        ${maquinas
-                            .map(maquina => `
-                                <option
-                                    value="${escaparAtributo(maquina)}"
-                                    ${
-                                        maquina === maquinaInicial
-                                            ? "selected"
-                                            : ""
-                                    }
-                                >
-                                    ${escapeHtml(maquina)}
-                                </option>
-                            `)
-                            .join("")}
-                    </select>
-                </div>
-
-
-
-                <div class="custom-exercise-actions">
-                    <button
-                        type="button"
-                        class="secondary-btn"
-                        id="cancelCustomExercise"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="button"
-                        class="primary-btn"
-                        id="saveCustomExercise"
-                    >
-                        Adicionar exercício
-                    </button>
-                </div>
-
-            </div>
-
-        </div>
-    `;
-
+    overlay.innerHTML = `<div class="custom-exercise-modal" id="customExerciseModal" role="dialog" aria-modal="true" aria-labelledby="customExerciseTitle"></div>`;
     document.body.appendChild(overlay);
-
-    const nameInput =
-        document.getElementById("customExerciseName");
-
+    const modal = document.getElementById("customExerciseModal");
     let escapeHandler;
 
     const close = () => {
         overlay.remove();
-        if (escapeHandler) {
-            document.removeEventListener(
-                "keydown",
-                escapeHandler
+        if (escapeHandler) document.removeEventListener("keydown", escapeHandler);
+    };
+    overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
+    escapeHandler = e => { if (e.key === "Escape") close(); };
+    document.addEventListener("keydown", escapeHandler);
+
+    function bindCloseButtons() {
+        document.getElementById("closeCustomExercise")?.addEventListener("click", close);
+        document.getElementById("cancelCustomExercise")?.addEventListener("click", close);
+    }
+
+    function renderDetailsStep(values = {}) {
+        modal.innerHTML = `
+            <div class="custom-exercise-modal-top">
+                <div>
+                    <span class="eyebrow">NOVO EXERCÍCIO</span>
+                    <h2 id="customExerciseTitle">Adicionar exercício personalizado</h2>
+                    <p class="muted">Cria o exercício e guarda-o na tua biblioteca.</p>
+                </div>
+                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
+            </div>
+            <div class="custom-exercise-form">
+                <div class="custom-exercise-field">
+                    <label for="customExerciseName">Nome do exercício</label>
+                    <input id="customExerciseName" class="input" type="text" maxlength="80"
+                        placeholder="Ex.: Agachamento búlgaro" value="${escapeHtml(values.nome ?? searchValue)}" autocomplete="off">
+                </div>
+                <div class="custom-exercise-field">
+                    <label for="customExerciseGroup">Grupo muscular</label>
+                    <select id="customExerciseGroup" class="input" required>
+                        <option value="" disabled ${!(values.grupo ?? grupoInicial) ? "selected" : ""}>Seleciona um grupo muscular</option>
+                        ${grupos.map(grupo => `<option value="${escaparAtributo(grupo)}" ${grupo === (values.grupo ?? grupoInicial) ? "selected" : ""}>${escapeHtml(grupo)}</option>`).join("")}
+                    </select>
+                </div>
+                <div class="custom-exercise-field">
+                    <label for="customExerciseType">Tipo de exercício</label>
+                    <select id="customExerciseType" class="input">
+                        ${Object.entries(TIPOS_EXERCICIO).filter(([key]) => key !== "outro").map(([key, value]) => `<option value="${escaparAtributo(key)}" ${key === (values.tipo ?? tipoInicial) ? "selected" : ""}>${escapeHtml(value.label)}</option>`).join("")}
+                    </select>
+                </div>
+                <div class="custom-exercise-field">
+                    <label for="customExerciseMachine">Equipamento</label>
+                    <select id="customExerciseMachine" class="input">
+                        ${maquinas.map(maquina => `<option value="${escaparAtributo(maquina)}" ${maquina === (values.maquina ?? maquinaInicial) ? "selected" : ""}>${escapeHtml(maquina)}</option>`).join("")}
+                    </select>
+                </div>
+                <div class="custom-exercise-actions">
+                    <button type="button" class="secondary-btn" id="cancelCustomExercise">Cancelar</button>
+                    <button type="button" class="primary-btn" id="saveCustomExercise">Adicionar exercício</button>
+                </div>
+            </div>
+        `;
+        bindCloseButtons();
+        const nameInput = document.getElementById("customExerciseName");
+
+        document.getElementById("saveCustomExercise").onclick = () => {
+            const draft = {
+                nome: nameInput?.value.trim() || "",
+                grupo: document.getElementById("customExerciseGroup")?.value || "",
+                tipo: document.getElementById("customExerciseType")?.value || "musculacao",
+                maquina: document.getElementById("customExerciseMachine")?.value || "Sem equipamento",
+                descricao: ""
+            };
+            if (!draft.nome) {
+                alert("Indica o nome do exercício.");
+                nameInput?.focus();
+                return;
+            }
+            if (!draft.grupo || !grupos.includes(draft.grupo)) {
+                alert("Seleciona um grupo muscular válido.");
+                document.getElementById("customExerciseGroup")?.focus();
+                return;
+            }
+            const jaExiste = construirBibliotecaExercicios().some(item =>
+                normalizarTexto(item.nome) === normalizarTexto(draft.nome)
             );
-        }
-    };
-
-    document.getElementById("closeCustomExercise").onclick = close;
-    document.getElementById("cancelCustomExercise").onclick = close;
-
-    overlay.addEventListener("click", e => {
-        if (e.target === overlay) {
-            close();
-        }
-    });
-
-    escapeHandler = e => {
-        if (e.key === "Escape") {
-            close();
-        }
-    };
-
-    document.addEventListener(
-        "keydown",
-        escapeHandler
-    );
-
-    document.getElementById("saveCustomExercise").onclick = () => {
-
-        const nome =
-            nameInput?.value.trim() || "";
-
-        const grupo =
-            document.getElementById("customExerciseGroup")?.value || "";
-
-        const tipo =
-            document.getElementById("customExerciseType")?.value ||
-            inferirTipoExercicio(nome, grupo);
-
-        const maquina =
-            document.getElementById("customExerciseMachine")?.value ||
-            "Sem equipamento";
-
-        const descricao =
-            document.getElementById("customExerciseDescription")?.value.trim() || "";
-
-        if (!nome) {
-            alert("Indica o nome do exercício.");
-            nameInput?.focus();
-            return;
-        }
-
-        if (!grupo || grupo === "Outro" || !grupos.includes(grupo)) {
-            alert("Seleciona um grupo muscular válido.");
-            document.getElementById("customExerciseGroup")?.focus();
-            return;
-        }
-
-        const biblioteca = construirBibliotecaExercicios();
-
-        const jaExiste = biblioteca.some(
-            item =>
-                normalizarTexto(item.nome) ===
-                normalizarTexto(nome)
-        );
-
-        if (jaExiste) {
-            alert("Já existe um exercício com esse nome na biblioteca.");
-            nameInput?.focus();
-            return;
-        }
-
-        const id =
-            `custom-${Date.now()}`;
-
-        const novo = {
-            id,
-            nome,
-            grupo,
-            tipo,
-            maquina,
-            descricao,
-            personalizado: true,
-            criadoEm: new Date().toISOString()
+            if (jaExiste) {
+                alert("Já existe um exercício com esse nome na biblioteca.");
+                nameInput?.focus();
+                return;
+            }
+            renderCharacteristicsStep(draft, values.parametrosSeries || []);
         };
 
-        exerciciosPersonalizados.push(novo);
-        saveExerciciosPersonalizados();
+        requestAnimationFrame(() => {
+            const current = document.getElementById("customExerciseName");
+            current?.focus();
+            if (current && !values.nome) current.select();
+        });
+    }
 
-        close();
+    function renderCharacteristicsStep(draft, previouslySelected = []) {
+        const options = Object.entries(PARAMETROS).filter(([key]) => key !== "series");
+        const selected = new Set(previouslySelected);
+        const descricao = {
+            carga: "Peso utilizado no exercício",
+            pesoHalter: "Peso de cada halter",
+            repeticoes: "Número de repetições",
+            tempo: "Duração",
+            velocidade: "Velocidade executada",
+            inclinacao: "Inclinação da passadeira",
+            distancia: "Distância percorrida",
+            resistencia: "Nível de resistência",
+            ritmo: "Ritmo de execução"
+        };
+        modal.innerHTML = `
+            <div class="custom-exercise-modal-top">
+                <div>
+                    <span class="eyebrow">CONFIGURAR EXERCÍCIO</span>
+                    <h2 id="customExerciseTitle">Características das séries</h2>
+                    <p class="muted">Escolhe os valores que queres registar em cada série. A aplicação não escolhe por ti.</p>
+                </div>
+                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
+            </div>
+            <div class="custom-characteristics-exercise">
+                <strong>${escapeHtml(draft.nome)}</strong>
+                <span>${escapeHtml(draft.grupo)} · ${escapeHtml(TIPOS_EXERCICIO[draft.tipo]?.label || "Exercício")}</span>
+            </div>
+            <div class="custom-characteristics-heading">
+                <strong>O que queres acompanhar?</strong>
+                <small>Podes escolher uma ou várias opções.</small>
+            </div>
+            <div class="custom-characteristics-grid">
+                ${options.map(([key, cfg]) => {
+                    const label = key === "carga" ? "Peso / carga" : cfg.label;
+                    const unit = cfg.unit ? ` (${cfg.unit})` : "";
+                    return `<label class="custom-characteristic-option" for="custom-param-${key}">
+                        <input type="checkbox" id="custom-param-${key}" data-custom-param="${key}" ${selected.has(key) ? "checked" : ""}>
+                        <span><strong>${escapeHtml(label)}${unit}</strong><small>${escapeHtml(descricao[key] || "")}</small></span>
+                    </label>`;
+                }).join("")}
+            </div>
+            <div class="custom-characteristics-note">O número de séries será escolhido no passo seguinte.</div>
+            <div class="custom-exercise-actions">
+                <button type="button" class="secondary-btn" id="backCustomExercise">Voltar</button>
+                <button type="button" class="primary-btn" id="confirmCustomCharacteristics">Guardar e continuar</button>
+            </div>
+        `;
+        bindCloseButtons();
+        document.getElementById("backCustomExercise").onclick = () => {
+            const selectedNow = [...modal.querySelectorAll("[data-custom-param]:checked")].map(input => input.dataset.customParam);
+            renderDetailsStep({ ...draft, parametrosSeries: selectedNow });
+        };
+        document.getElementById("confirmCustomCharacteristics").onclick = () => {
+            const parametrosSeries = [...modal.querySelectorAll("[data-custom-param]:checked")]
+                .map(input => input.dataset.customParam)
+                .filter(key => Object.prototype.hasOwnProperty.call(PARAMETROS, key) && key !== "series");
+            if (!parametrosSeries.length) {
+                alert("Seleciona pelo menos uma característica para as séries.");
+                return;
+            }
+            const novo = {
+                id: `custom-${Date.now()}`,
+                nome: draft.nome,
+                grupo: draft.grupo,
+                tipo: draft.tipo,
+                parametrosSeries,
+                maquina: draft.maquina,
+                descricao: draft.descricao || "",
+                personalizado: true,
+                criadoEm: new Date().toISOString()
+            };
+            exerciciosPersonalizados.push(novo);
+            saveExerciciosPersonalizados();
+            close();
+            selecionarExercicio(novo.nome, true, novo);
+        };
+    }
 
-        selecionarExercicio(
-            nome,
-            true,
-            novo
-        );
-    };
-
-    requestAnimationFrame(() => {
-        nameInput?.focus();
-        nameInput?.select();
-    });
+    renderDetailsStep();
 }
 
 function renderResultadosPesquisa(termo) {
@@ -3993,6 +3890,10 @@ function selecionarExercicio(
         item?.descricao ||
         "";
 
+    input.dataset.parametrosSeries = JSON.stringify(
+        Array.isArray(item?.parametrosSeries) ? item.parametrosSeries : []
+    );
+
 
     const hint =
         document.getElementById(
@@ -4009,7 +3910,9 @@ function selecionarExercicio(
                         ✦ Exercício personalizado
                     </span>
 
-                    Escolhe o tipo abaixo.
+                    ${Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length
+                        ? "Características configuradas. Define o número de séries."
+                        : "Escolhe o tipo abaixo."}
                 `
                 : `
                     <span class="existing-selected-badge">
@@ -4035,7 +3938,7 @@ function selecionarExercicio(
         );
 
 
-    if (personalizado) {
+    if (personalizado && !(Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length)) {
 
         wrap.innerHTML = `
 
@@ -4149,17 +4052,27 @@ function guardarExercicio() {
         );
 
 
+    let parametrosSeries = [];
+    try {
+        parametrosSeries = JSON.parse(nameInput?.dataset.parametrosSeries || "[]");
+    } catch (_) {
+        parametrosSeries = [];
+    }
+    if (!parametrosSeries.length) parametrosSeries = null;
+
     const seriesData =
         recolherSeries(
             container,
-            tipo
+            tipo,
+            parametrosSeries
         );
 
 
     const error =
         validarSeries(
             tipo,
-            seriesData
+            seriesData,
+            parametrosSeries
         );
 
 
@@ -4173,42 +4086,26 @@ function guardarExercicio() {
         "true";
 
 
-    if (
-        personal &&
-        !exerciciosPersonalizados.some(
-            x =>
-                normalizarTexto(
-                    x.nome
-                ) ===
-                normalizarTexto(
-                    nome
-                )
-        )
-    ) {
+    if (personal) {
+        const existentePersonalizado = exerciciosPersonalizados.find(
+            x => normalizarTexto(x.nome) === normalizarTexto(nome)
+        );
 
-        exerciciosPersonalizados.push({
-
-            id:
-                `custom-${Date.now()}`,
-
-            nome,
-
-            grupo,
-
-            tipo,
-
-            maquina:
-                nameInput.dataset.maquina ||
-                maquinaPorExercicio(nome),
-
-            descricao:
-                nameInput.dataset.descricao ||
-                "",
-
-            criadoEm:
-                new Date().toISOString()
-        });
-
+        if (existentePersonalizado) {
+            existentePersonalizado.tipo = tipo;
+            if (parametrosSeries) existentePersonalizado.parametrosSeries = [...parametrosSeries];
+        } else {
+            exerciciosPersonalizados.push({
+                id: `custom-${Date.now()}`,
+                nome,
+                grupo,
+                tipo,
+                parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
+                maquina: nameInput.dataset.maquina || maquinaPorExercicio(nome),
+                descricao: nameInput.dataset.descricao || "",
+                criadoEm: new Date().toISOString()
+            });
+        }
 
         saveExerciciosPersonalizados();
     }
@@ -4230,6 +4127,8 @@ function guardarExercicio() {
 
         tipo,
 
+        parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
+
         series:
             seriesData.length,
 
@@ -4249,6 +4148,8 @@ function guardarExercicio() {
 
         personalizado:
             personal,
+
+        parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
 
         series:
             seriesData.length,
@@ -4487,19 +4388,23 @@ function guardarAtualizacaoExercicio(
         );
 
 
+    const parametrosSeries = Array.isArray(exercicio.parametrosSeries)
+        ? [...exercicio.parametrosSeries]
+        : null;
+
     const seriesData =
         recolherSeries(
-            document.getElementById(
-                "exerciseEditorFields"
-            ),
-            tipo
+            document.getElementById("exerciseEditorFields"),
+            tipo,
+            parametrosSeries
         );
 
 
     const err =
         validarSeries(
             tipo,
-            seriesData
+            seriesData,
+            parametrosSeries
         );
 
 
@@ -4517,6 +4422,8 @@ function guardarAtualizacaoExercicio(
             formatarData(),
 
         tipo,
+
+        parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
 
         series:
             seriesData.length,
@@ -4548,6 +4455,10 @@ function guardarAtualizacaoExercicio(
 
     exercicio.seriesData =
         seriesData;
+
+    if (parametrosSeries) {
+        exercicio.parametrosSeries = [...parametrosSeries];
+    }
 
 
     Object.keys(
@@ -4672,7 +4583,8 @@ function mostrarProgressao(
                                                           ${escapeHtml(
                                                               serieResumo(
                                                                   tipo,
-                                                                  s
+                                                                  s,
+                                                                  row.parametrosSeries || exercicio.parametrosSeries
                                                               ) ||
                                                               "Sem valores"
                                                           )}
