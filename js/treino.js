@@ -1983,7 +1983,7 @@ function renderExercicioCard(
                     class="progress-button"
                     data-index="${i}"
                 >
-                    Ver progressão →
+                    Ver progressão
                 </button>
 
             </div>
@@ -2902,7 +2902,7 @@ function abrirSeletorExercicio() {
             <div class="exercise-picker-controls">
                 <div class="exercise-picker-control exercise-picker-select-control" data-control="modo">
                     <button type="button" class="exercise-picker-control-label" tabindex="-1" aria-hidden="true">
-                        <span class="filter-control-title">Todos</span>
+                        <span class="filter-control-title">Exercícios</span>
                     </button>
                     <select class="exercise-filter-native-select" aria-label="Filtrar exercícios" data-control="modo">
                         <option value="todos">Todos</option>
@@ -3011,100 +3011,133 @@ function abrirSeletorExercicio() {
 
     });
 
-    const controlElements = overlay.querySelectorAll(
-        ".exercise-picker-controls > .exercise-picker-control"
-    );
+const controlElements = overlay.querySelectorAll(
+    ".exercise-picker-controls > .exercise-picker-control"
+);
 
-    const getControl = name => overlay.querySelector(`[data-control="${name}"]`);
-    const getSelect = name => getControl(name)?.querySelector(".exercise-filter-native-select");
-    const getTitle = name => getControl(name)?.querySelector(".filter-control-title");
+const getControl = nome =>
+    overlay.querySelector(`.exercise-picker-controls [data-control="${nome}"]`);
 
-    const resetLabel = name => {
-        const title = getTitle(name);
-        if (title) {
-            title.textContent = name === "musculos" ? "Músculos" : name === "maquinas" ? "Máquinas" : "Todos";
-        }
-    };
+const getSelect = nome =>
+    getControl(nome)?.querySelector(".exercise-filter-native-select");
 
-    const resetMusculosEMaquinas = () => {
-        ["musculos", "maquinas"].forEach(name => {
-            const select = getSelect(name);
-            if (select) select.value = "Todos";
-            resetLabel(name);
-            getControl(name)?.classList.remove("active");
-        });
-    };
+const getTitle = nome =>
+    getControl(nome)?.querySelector(".filter-control-title");
 
-    const resetModo = () => {
-        const select = getSelect("modo");
-        if (select) select.value = "todos";
-        resetLabel("modo");
-    };
+const resetLabel = nome => {
+    const title = getTitle(nome);
+    if (!title) return;
 
-    const ativarModo = modo => {
-        resetMusculosEMaquinas();
-        controlElements.forEach(el => el.classList.remove("active"));
-        getControl("modo")?.classList.add("active");
-        resetModo();
-        const modeSelect = getSelect("modo");
-        if (modeSelect) {
-            modeSelect.value = modo;
-        }
-        const title = getTitle("modo");
-        if (title) {
-            title.textContent = modo === "favoritos" ? "Favoritos" : modo === "criados" ? "Exercícios Criados" : "Todos";
-        }
-        favoritosApenas = modo === "favoritos";
-        filtroBiblioteca = modo === "criados" ? "criados" : "todos";
-        valorFiltroBiblioteca = "Todos";
-        render();
-    };
+    if (nome === "modo") {
+        title.textContent = "Exercícios";
+    } else {
+        title.textContent = nome === "musculos" ? "Músculos" : "Máquinas";
+    }
+};
 
-    controlElements.forEach(element => {
-        const control = element.dataset.control;
-        const select = element.querySelector(".exercise-filter-native-select");
-        if (!select) return;
-
-        if (control === "modo") {
-            select.addEventListener("change", () => {
-                ativarModo(select.value || "todos");
-            });
-            return;
-        }
-
-        if (control === "musculos" || control === "maquinas") {
-            const resetOtherFilter = () => {
-                const other = control === "musculos" ? "maquinas" : "musculos";
-                const otherSelect = getSelect(other);
-                if (otherSelect) otherSelect.value = "Todos";
-                resetLabel(other);
-                getControl(other)?.classList.remove("active");
-            };
-
-            const activateThisFilter = () => {
-                resetOtherFilter();
-                resetModo();
-                valorFiltroBiblioteca = "Todos";
-                controlElements.forEach(el => el.classList.remove("active"));
-                element.classList.add("active");
-                favoritosApenas = false;
-                filtroBiblioteca = control;
-            };
-
-            select.addEventListener("pointerdown", activateThisFilter);
-            select.addEventListener("change", () => {
-                activateThisFilter();
-                valorFiltroBiblioteca = select.value || "Todos";
-                const title = getTitle(control);
-                if (title) {
-                    title.textContent = valorFiltroBiblioteca === "Todos"
-                        ? (control === "musculos" ? "Músculos" : "Máquinas")
-                        : valorFiltroBiblioteca;
-                }
-                render();
-            });
-        }
+const resetMusculosEMaquinas = () => {
+    ["musculos", "maquinas"].forEach(nome => {
+        const select = getSelect(nome);
+        if (select) select.value = "Todos";
+        resetLabel(nome);
+        getControl(nome)?.classList.remove("active");
     });
+};
+
+const resetModo = () => {
+    const select = getSelect("modo");
+    if (select) select.value = "todos";
+    resetLabel("modo");
+};
+
+// Cada toque num controlo limpa imediatamente a pesquisa/filtros anteriores
+// e mostra toda a biblioteca. O menu nativo continua disponível para quem
+// quiser escolher Favoritos, Exercícios Criados, um músculo ou uma máquina.
+const prepararFiltro = nome => {
+    input.value = "";
+    favoritosApenas = false;
+    filtroBiblioteca = "todos";
+    valorFiltroBiblioteca = "Todos";
+
+    resetModo();
+    resetMusculosEMaquinas();
+
+    controlElements.forEach(el => el.classList.remove("active"));
+    getControl(nome)?.classList.add("active");
+
+    render();
+};
+
+const ativarModo = modo => {
+    input.value = "";
+    resetMusculosEMaquinas();
+
+    controlElements.forEach(el => el.classList.remove("active"));
+    getControl("modo")?.classList.add("active");
+
+    const modeSelect = getSelect("modo");
+    if (modeSelect) modeSelect.value = modo;
+
+    const title = getTitle("modo");
+    if (title) {
+        title.textContent =
+            modo === "favoritos"
+                ? "Favoritos"
+                : modo === "criados"
+                    ? "Exercícios Criados"
+                    : "Exercícios";
+    }
+
+    favoritosApenas = modo === "favoritos";
+    filtroBiblioteca = modo === "criados" ? "criados" : "todos";
+    valorFiltroBiblioteca = "Todos";
+    render();
+};
+
+controlElements.forEach(element => {
+    const control = element.dataset.control;
+    const select = element.querySelector(".exercise-filter-native-select");
+    if (!select) return;
+
+    // Antes de abrir qualquer menu, limpar o filtro anterior e mostrar tudo.
+    select.addEventListener("pointerdown", () => prepararFiltro(control));
+
+    if (control === "modo") {
+        select.addEventListener("change", () => {
+            ativarModo(select.value || "todos");
+        });
+        return;
+    }
+
+    if (control === "musculos" || control === "maquinas") {
+        select.addEventListener("change", () => {
+            const valorSelecionado = select.value || "Todos";
+
+            // Limpar a pesquisa e o filtro de modo, mantendo o valor escolhido.
+            input.value = "";
+            favoritosApenas = false;
+            resetModo();
+            resetMusculosEMaquinas();
+
+            const selectAtual = getSelect(control);
+            if (selectAtual) selectAtual.value = valorSelecionado;
+
+            filtroBiblioteca = control;
+            valorFiltroBiblioteca = valorSelecionado;
+
+            const title = getTitle(control);
+            if (title) {
+                title.textContent = valorSelecionado === "Todos"
+                    ? (control === "musculos" ? "Músculos" : "Máquinas")
+                    : valorSelecionado;
+            }
+
+            controlElements.forEach(el => el.classList.remove("active"));
+            element.classList.add("active");
+            render();
+        });
+    }
+});
 
     document.getElementById(
         "openCustomExerciseCreator"

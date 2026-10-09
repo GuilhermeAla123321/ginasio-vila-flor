@@ -1072,6 +1072,7 @@
 
     <script defer src="/_vercel/insights/script.js"></script>
 <!-- POP-UP PARA ADICIONAR AO ECRÃ PRINCIPAL -->
+```html
 <style>
   #installPopup[hidden] {
     display: none !important;
@@ -1086,11 +1087,18 @@
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid rgba(124, 77, 255, 0.35);
+
+    /* Fundo rosa-malva mais transparente */
+    border: 1px solid rgba(255, 183, 220, 0.40);
     border-radius: 20px;
-    background: #101422;
-    color: #f6f7fb;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    background: rgba(153, 59, 113, 0.70);
+    color: #fff7fc;
+
+    /* Efeito de vidro */
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+
+    box-shadow: 0 12px 40px rgba(65, 15, 43, 0.28);
     font-family: inherit;
     animation: installPopupIn 0.25s ease-out;
   }
@@ -1098,11 +1106,12 @@
   #installPopup h3 {
     margin: 0 0 8px;
     font-size: 17px;
+    color: #ffffff;
   }
 
   #installPopup p {
     margin: 0 0 16px;
-    color: #aab2c8;
+    color: rgba(255, 241, 249, 0.92);
     font-size: 13px;
     line-height: 1.5;
   }
@@ -1116,35 +1125,65 @@
     cursor: pointer;
   }
 
+  /* Botão principal: rosa suave com lilás */
   #installPopupAdd {
     width: 100%;
-    color: white;
-    background: linear-gradient(135deg, #7c4dff, #3fa9f5);
+    color: #ffffff;
+
+    background: linear-gradient(
+      135deg,
+      #dc83b2,
+      #d56da6,
+      #a77bd0
+    );
+
+    box-shadow: 0 4px 12px rgba(190, 95, 150, 0.20);
+    transition: transform 0.2s ease, filter 0.2s ease;
   }
 
+  #installPopupAdd:hover {
+    filter: brightness(1.06);
+  }
+
+  #installPopupAdd:active {
+    transform: scale(0.98);
+  }
+
+  /* Botão secundário: Agora não */
   #installPopupLater {
     display: block;
     margin: 8px auto 0;
     padding: 8px !important;
     background: transparent;
-    color: #aab2c8;
+    color: rgba(255, 230, 244, 0.90);
     font-size: 12px;
   }
 
+  #installPopupLater:hover {
+    color: #ffffff;
+  }
+
+  /* Animação de entrada */
   @keyframes installPopupIn {
     from {
       opacity: 0;
       transform: translateY(12px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
 
+  /* Respeitar a preferência por movimento reduzido */
   @media (prefers-reduced-motion: reduce) {
     #installPopup {
       animation: none;
+    }
+
+    #installPopupAdd {
+      transition: none;
     }
   }
 </style>
