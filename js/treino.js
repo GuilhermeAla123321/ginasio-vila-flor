@@ -3080,12 +3080,31 @@ const ativarModo = modo => {
     render();
 };
 
+    // Ao abrir qualquer filtro, limpar a seleção anterior e mostrar novamente
+    // todos os exercícios antes de o utilizador escolher uma nova opção.
+    const prepararModo = () => {
+        input.value = "";
+        resetMusculosEMaquinas();
+        resetModo();
+
+        controlElements.forEach(el => el.classList.remove("active"));
+        getControl("modo")?.classList.add("active");
+
+        favoritosApenas = false;
+        filtroBiblioteca = "todos";
+        valorFiltroBiblioteca = "Todos";
+        render();
+    };
+
     controlElements.forEach(element => {
         const control = element.dataset.control;
         const select = element.querySelector(".exercise-filter-native-select");
         if (!select) return;
 
         if (control === "modo") {
+            // O reset acontece logo ao tocar no botão, e não apenas depois
+            // de escolher uma opção do menu nativo.
+            select.addEventListener("pointerdown", prepararModo);
             select.addEventListener("change", () => {
                 ativarModo(select.value || "todos");
             });
@@ -3101,37 +3120,48 @@ const ativarModo = modo => {
                 getControl(other)?.classList.remove("active");
             };
 
-    const activateThisFilter = () => {
-        // Limpar a pesquisa anterior
-        input.value = "";
+            const activateThisFilter = (resetCurrentSelection = true) => {
+                input.value = "";
+                resetOtherFilter();
+                resetModo();
 
-        // Repor o outro filtro
-        resetOtherFilter();
-        resetModo();
+                // Ao abrir este filtro, repor também a sua seleção anterior.
+                // No evento change, preservar a nova opção escolhida.
+                if (resetCurrentSelection) {
+                    select.value = "Todos";
+                    resetLabel(control);
+                }
 
-        valorFiltroBiblioteca = "Todos";
+                valorFiltroBiblioteca = "Todos";
 
-        // Remover a seleção dos outros botões
-        controlElements.forEach(el =>
-            el.classList.remove("active")
-        );
+                controlElements.forEach(el => el.classList.remove("active"));
+                element.classList.add("active");
 
-        // Ativar o filtro selecionado
-        element.classList.add("active");
+                favoritosApenas = false;
+                filtroBiblioteca = control;
 
-        favoritosApenas = false;
-        filtroBiblioteca = control;
-};
-            select.addEventListener("pointerdown", activateThisFilter);
+                // Mostrar a biblioteca completa antes de uma nova escolha.
+                render();
+            };
+
+            select.addEventListener("pointerdown", () => {
+                activateThisFilter(true);
+            });
+
             select.addEventListener("change", () => {
-                activateThisFilter();
-                valorFiltroBiblioteca = select.value || "Todos";
+                const selectedValue = select.value || "Todos";
+
+                // Ativar o filtro sem apagar a opção que acabou de ser escolhida.
+                activateThisFilter(false);
+                valorFiltroBiblioteca = selectedValue;
+
                 const title = getTitle(control);
                 if (title) {
-                    title.textContent = valorFiltroBiblioteca === "Todos"
+                    title.textContent = selectedValue === "Todos"
                         ? (control === "musculos" ? "Músculos" : "Máquinas")
-                        : valorFiltroBiblioteca;
+                        : selectedValue;
                 }
+
                 render();
             });
         }
