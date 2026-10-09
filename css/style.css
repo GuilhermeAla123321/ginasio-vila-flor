@@ -4601,3 +4601,20 @@ html body #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
 .exercise-picker .exercise-search-input {
   font-size: 16px !important;
 }
+
+
+/* ==========================================================
+   CORREÇÃO — impedir zoom por toque duplo na barra inferior
+   Mantém o scroll/zoom normal noutras zonas da página.
+   ========================================================== */
+.bottom-nav,
+.bottom-nav .nav-item,
+.bottom-nav .nav-item * {
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav .nav-item {
+  user-select: none;
+  -webkit-user-select: none;
+}
