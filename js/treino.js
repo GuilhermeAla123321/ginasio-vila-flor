@@ -2725,9 +2725,99 @@ function garantirEstilosBiblioteca() {
             -webkit-appearance: menulist !important;
             border: 0 !important;
         }
+        #exercisePickerOverlay .exercise-picker {
+            height: min(90dvh, 900px) !important;
+            max-height: 90dvh !important;
+            min-height: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+        }
+        @supports not (height: 90dvh) {
+            #exercisePickerOverlay .exercise-picker {
+                height: 90vh !important;
+                max-height: 90vh !important;
+            }
+        }
         #exercisePickerOverlay .exercise-search-results {
-            overscroll-behavior: contain !important;
+            flex: 1 1 0% !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            overscroll-behavior-y: contain !important;
             -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-y !important;
+            position: relative !important;
+        }
+        #exercisePickerOverlay .exercise-filter-menu {
+            overscroll-behavior-y: contain !important;
+            -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-y !important;
+        }
+        #exercisePickerOverlay .exercise-add-button {
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            display: grid !important;
+            place-items: center !important;
+            flex: 0 0 39px !important;
+            width: 39px !important;
+            height: 39px !important;
+            min-width: 39px !important;
+            min-height: 39px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 12px !important;
+            background: transparent !important;
+            color: inherit !important;
+            box-shadow: none !important;
+            cursor: pointer !important;
+            touch-action: manipulation !important;
+        }
+        #exercisePickerOverlay .exercise-add-button .exercise-search-result-icon {
+            pointer-events: none !important;
+            position: relative !important;
+            display: grid !important;
+            place-items: center !important;
+            flex: 0 0 39px !important;
+            width: 39px !important;
+            height: 39px !important;
+            min-width: 39px !important;
+            min-height: 39px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            font-size: 0 !important;
+            line-height: 0 !important;
+            text-indent: 0 !important;
+            transform: none !important;
+        }
+
+        #exercisePickerOverlay .exercise-add-button .exercise-search-result-icon::before {
+            content: none !important;
+            display: none !important;
+        }
+
+        #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
+            display: block !important;
+            width: 18px !important;
+            height: 18px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            fill: none !important;
+            stroke: currentColor !important;
+            stroke-width: 2.2 !important;
+            stroke-linecap: round !important;
+            stroke-linejoin: round !important;
+            transform: none !important;
+            flex: none !important;
+        }
+        #exercisePickerOverlay .exercise-search-result-copy {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
         }
         @media (max-width: 560px) {
             #exercisePickerOverlay .exercise-picker-controls {
@@ -2881,24 +2971,25 @@ function abrirSeletorExercicio() {
 
     document.body.appendChild(overlay);
 
-    // Impede gestos fora da lista rolável de deslocarem o conteúdo de fundo.
+    // Mantém o fundo bloqueado, mas deixa o navegador gerir o scroll nativo
+    // da lista e dos menus. A lógica manual anterior podia cancelar o primeiro
+    // movimento do dedo e deixar o scroll aparentemente preso no iOS.
     overlay.addEventListener("touchmove", event => {
-        const scroller = event.target.closest(".exercise-search-results, .exercise-filter-menu");
-        if (!scroller) {
-            event.preventDefault();
+        const target = event.target instanceof Element
+            ? event.target
+            : event.target?.parentElement;
+        const scroller = target?.closest(
+            ".exercise-search-results, .exercise-filter-menu"
+        );
+
+        if (scroller) {
+            // Não chamar preventDefault dentro dos elementos roláveis.
+            event.stopPropagation();
             return;
         }
-        event.stopPropagation();
-        const canScroll = scroller.scrollHeight > scroller.clientHeight;
-        if (!canScroll) {
-            event.preventDefault();
-            return;
-        }
-        const atTop = scroller.scrollTop <= 0;
-        const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 1;
-        const movingDown = event.touches.length && event.touches[0].clientY > (scroller._lastTouchY || event.touches[0].clientY);
-        if ((atTop && movingDown) || (atBottom && !movingDown)) event.preventDefault();
-        if (event.touches.length) scroller._lastTouchY = event.touches[0].clientY;
+
+        // Gestos fora da lista não devem mover a página que está por trás.
+        event.preventDefault();
     }, { passive: false });
 
     const input = document.getElementById("exerciseSearch");
@@ -3586,42 +3677,35 @@ function renderResultadosPesquisa(termo) {
 
                         <button
                             type="button"
-                            class="exercise-search-main"
-                            data-exercise-name="${escaparAtributo(
-                                item.nome
-                            )}"
+                            class="exercise-add-button"
+                            data-exercise-name="${escaparAtributo(item.nome)}"
+                            aria-label="Adicionar ${escaparAtributo(item.nome)} ao treino"
+                            title="Adicionar ao treino"
                         >
+                            <span class="exercise-search-result-icon" aria-hidden="true">
+                                <svg class="exercise-add-glyph" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg>
+                            </span>
+                        </button>
 
-                            <span class="exercise-search-result-icon">
+                        <div class="exercise-search-result-copy">
+                            <strong>
+                                ${escapeHtml(item.nome)}
+                            </strong>
+
+                            <small>
+                                ${escapeHtml(item.grupo)}
+                                ·
+                                ${escapeHtml(item.maquina)}
                                 ${
                                     item.personalizado
-                                        ? "✦"
-                                        : "＋"
+                                        ? " · Personalizado"
+                                        : ""
                                 }
-                            </span>
+                            </small>
+                        </div>
 
-                            <span class="exercise-search-result-copy">
-                                <strong>
-                                    ${escapeHtml(item.nome)}
-                                </strong>
-
-                                <small>
-                                    ${escapeHtml(item.grupo)}
-                                    ·
-                                    ${escapeHtml(item.maquina)}
-                                    ${
-                                        item.personalizado
-                                            ? " · Personalizado"
-                                            : ""
-                                    }
-                                </small>
-                            </span>
-
-                            <span class="exercise-search-result-arrow">
-                                ›
-                            </span>
-
-                        </button>
 
                         <button
                             type="button"
@@ -3701,22 +3785,20 @@ function renderResultadosPesquisa(termo) {
                 </div>
             `;
 
+    // Só o botão + adiciona um exercício. Tocar no nome ou na seta
+    // não seleciona nem altera o treino.
     results
-        .querySelectorAll(".exercise-search-main")
+        .querySelectorAll(".exercise-add-button")
         .forEach(btn => {
 
-            btn.onclick = () => {
+            btn.onclick = event => {
+                event.preventDefault();
+                event.stopPropagation();
 
-                const nome =
-                    btn.dataset.exerciseName;
-
-                const item =
-                    construirBibliotecaExercicios()
-                        .find(
-                            x =>
-                                normalizarTexto(x.nome) ===
-                                normalizarTexto(nome)
-                        );
+                const nome = btn.dataset.exerciseName;
+                const item = construirBibliotecaExercicios().find(
+                    x => normalizarTexto(x.nome) === normalizarTexto(nome)
+                );
 
                 selecionarExercicio(
                     item?.nome || nome,
@@ -4712,3 +4794,27 @@ document.addEventListener(
     "DOMContentLoaded",
     renderTreino
 );
+/* =========================================================
+   FIX iPHONE: bloquear gestos de zoom dentro da aplicação
+   Mantém o scroll normal com um dedo; bloqueia pinça/multitoque.
+   ========================================================= */
+(function instalarProtecaoZoomAplicacao() {
+    if (window.__vfGymZoomProtectionInstalled) return;
+    window.__vfGymZoomProtectionInstalled = true;
+
+    const impedirZoomGestual = event => {
+        if (event && event.cancelable) event.preventDefault();
+    };
+
+    // Eventos de gesto específicos do Safari/WebKit.
+    ["gesturestart", "gesturechange", "gestureend"].forEach(tipo => {
+        document.addEventListener(tipo, impedirZoomGestual, { passive: false });
+    });
+
+    // Fallback para browsers que expõem a pinça como multitouch.
+    document.addEventListener("touchmove", event => {
+        if (event.touches && event.touches.length > 1) {
+            impedirZoomGestual(event);
+        }
+    }, { passive: false });
+})();

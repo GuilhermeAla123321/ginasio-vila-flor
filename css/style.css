@@ -4221,3 +4221,179 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
         font-size: 9px !important;
     }
 }
+
+
+/* Correção de scroll móvel e botão + separado na biblioteca de exercícios */
+#exercisePickerOverlay .exercise-picker {
+    height: min(90dvh, 900px) !important;
+    max-height: 90dvh !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+@supports not (height: 90dvh) {
+    #exercisePickerOverlay .exercise-picker {
+        height: 90vh !important;
+        max-height: 90vh !important;
+    }
+}
+#exercisePickerOverlay .exercise-search-results {
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    position: relative !important;
+}
+#exercisePickerOverlay .exercise-filter-menu {
+    overscroll-behavior-y: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+}
+#exercisePickerOverlay .exercise-add-button {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    display: grid !important;
+    place-items: center !important;
+    flex: 0 0 39px !important;
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px !important;
+    min-height: 39px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+}
+#exercisePickerOverlay .exercise-add-button .exercise-search-result-icon {
+    pointer-events: none !important;
+}
+#exercisePickerOverlay .exercise-search-result-copy {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+}
+
+
+/* Alinhamento exato do símbolo + no botão de adicionar exercício */
+#exercisePickerOverlay .exercise-add-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+}
+
+#exercisePickerOverlay .exercise-add-button .exercise-search-result-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px !important;
+    min-height: 39px !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    transform: none !important;
+    flex: 0 0 39px !important;
+}
+
+/* Ícone SVG do botão de adicionar exercício: centragem geométrica sem desvios. */
+html body #exercisePickerOverlay .exercise-add-button {
+    display: grid !important;
+    place-items: center !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+}
+
+html body #exercisePickerOverlay .exercise-add-button .exercise-search-result-icon {
+    position: relative !important;
+    display: grid !important;
+    place-items: center !important;
+    flex: 0 0 39px !important;
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px !important;
+    min-height: 39px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    text-indent: 0 !important;
+    transform: none !important;
+}
+
+html body #exercisePickerOverlay .exercise-add-button .exercise-search-result-icon::before {
+    content: none !important;
+    display: none !important;
+}
+
+html body #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2.2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+    transform: none !important;
+    flex: none !important;
+}
+
+/* =========================================================
+   FIX iPHONE: evitar zoom ao focar campos e por gestos
+   ========================================================= */
+html,
+body,
+body .app,
+#exercisePickerOverlay,
+#exercisePickerOverlay .exercise-picker,
+#exercisePickerOverlay .exercise-search-results {
+    touch-action: pan-x pan-y !important;
+}
+
+/* O Safari no iPhone amplia automaticamente campos com letra < 16px.
+   Mantém os campos de introdução a pelo menos 16px em ecrãs táteis. */
+@media (pointer: coarse), (max-width: 768px) {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    textarea,
+    select,
+    [contenteditable="true"] {
+        font-size: 16px !important;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    #exercisePickerOverlay .exercise-search-input,
+    .help-search-input,
+    .exercise-name-input,
+    .input,
+    .custom-exercise-field textarea.input {
+        font-size: 16px !important;
+    }
+}
