@@ -4136,3 +4136,88 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
         font-size: 7.5px !important;
     }
 }
+
+
+/* CORREÇÃO FINAL 2026-10-09: três filtros principais e bloqueio de scroll de fundo. */
+#exercisePickerOverlay .exercise-picker-controls {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+#exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
+    min-width: 0 !important;
+    min-height: 42px !important;
+    height: auto !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+#exercisePickerOverlay .exercise-picker-select-control {
+    position: relative !important;
+    display: flex !important;
+    min-width: 0 !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+}
+#exercisePickerOverlay .exercise-picker-control-label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 4px 5px !important;
+    border: 0 !important;
+    border-radius: inherit !important;
+    background: transparent !important;
+    color: inherit !important;
+    font: inherit !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+    pointer-events: none !important;
+}
+#exercisePickerOverlay .filter-control-title {
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+#exercisePickerOverlay .exercise-filter-native-select {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 3 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+    appearance: auto !important;
+    -webkit-appearance: menulist !important;
+    border: 0 !important;
+}
+#exercisePickerOverlay .exercise-search-results {
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+@media (max-width: 560px) {
+    #exercisePickerOverlay .exercise-picker-controls {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 5px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+    #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
+        min-height: 42px !important;
+        padding: 2px !important;
+    }
+    #exercisePickerOverlay .exercise-picker-control-label {
+        font-size: 9px !important;
+    }
+}
