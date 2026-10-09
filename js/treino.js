@@ -1015,13 +1015,6 @@ function normalizarDadosHistorico(
         base.repeticoes = base.reps;
     }
 
-    if (
-        base.series == null &&
-        base.series != null
-    ) {
-        base.series = base.series;
-    }
-
     base.tipo =
         base.tipo || tipo;
 
@@ -1520,14 +1513,6 @@ function historicoComSeries(
     exercicio,
     row
 ) {
-
-    const tipo =
-        row?.tipo ||
-        exercicio?.tipo ||
-        inferirTipoExercicio(
-            exercicio?.nome || "",
-            exercicio?.grupo || ""
-        );
 
     if (
         Array.isArray(
@@ -2882,21 +2867,6 @@ function abrirSeletorExercicio() {
     valorFiltroBiblioteca = "Todos";
     favoritosApenas = false;
 
-    const gruposFiltroMusculos = [
-        "Todos",
-        ...new Set(
-            construirBibliotecaExercicios()
-                .map(item => item.grupo)
-                .filter(grupo => grupo && grupo !== "Outro")
-        )
-    ];
-    const opcoesFiltroMusculos = gruposFiltroMusculos.map(grupo =>
-        `<option value="${escaparAtributo(grupo)}">${escapeHtml(grupo)}</option>`
-    ).join("");
-    const opcoesFiltroMaquinas = ["Todos", ...EQUIPAMENTOS_GINASIO].map(maquina =>
-        `<option value="${escaparAtributo(maquina)}">${escapeHtml(maquina)}</option>`
-    ).join("");
-
     const overlay = document.createElement("div");
     overlay.className = "exercise-picker-overlay open";
     overlay.id = "exercisePickerOverlay";
@@ -4045,13 +4015,6 @@ function guardarExercicio() {
         );
 
 
-    const grupo =
-        nameInput.dataset.grupo ||
-        inferirGrupoExercicio(
-            nome
-        );
-
-
     let parametrosSeries = [];
     try {
         parametrosSeries = JSON.parse(nameInput?.dataset.parametrosSeries || "[]");
@@ -4199,14 +4162,6 @@ function abrirEditorExercicio(
 
     overlay.id =
         "exerciseEditorOverlay";
-
-
-    const tipo =
-        exercicio.tipo ||
-        inferirTipoExercicio(
-            exercicio.nome,
-            exercicio.grupo
-        );
 
 
     const count =

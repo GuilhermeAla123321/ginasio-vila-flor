@@ -90,13 +90,8 @@ button:focus-visible,.nav-item:focus-visible,.filter-btn:focus-visible,input:foc
 }
 
 .brand-mark {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
   overflow: hidden;
   background: #fff;
-  display: grid;
-  place-items: center;
   flex-shrink: 0;
 }
 
@@ -108,9 +103,7 @@ button:focus-visible,.nav-item:focus-visible,.filter-btn:focus-visible,input:foc
 }
 
 .topbar-actions {
-  display: flex;
   align-items: center;
-  gap: 8px;
   position: relative;
   z-index: 30;
 }
@@ -127,7 +120,6 @@ button:focus-visible,.nav-item:focus-visible,.filter-btn:focus-visible,input:foc
 }
 
 .icon-btn:hover {
-  border-color: var(--line-bright);
   transform: translateY(-1px);
   background: #131e2d
 }
@@ -199,7 +191,6 @@ h3 {
   font-size: 13px
 }
 .hero {
-  margin: 14px;
   border-radius: 26px;
   height: 350px;
   overflow: hidden;
@@ -241,8 +232,6 @@ h3 {
 .hero-overlay {
   position: absolute;
   z-index: 2;
-  left: 21px;
-  right: 21px;
   bottom: 22px
 }
 .hero h1 {
@@ -254,8 +243,6 @@ h3 {
 .hero h1 em {
   font-style: normal;
   background: var(--gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
   color: transparent
 }
 .hero p {
@@ -324,7 +311,6 @@ h3 {
   display: block;
   font-size: 22px;
   background: var(--gradient);
-  -webkit-background-clip: text;
   color: transparent;
   letter-spacing: -1px
 }
@@ -340,8 +326,6 @@ h3 {
   height: 145px;
   border-radius: 20px;
   margin: 9px 0;
-  position: relative;
-  overflow: hidden;
   border: 1px solid var(--line);
   transition: .25s;
 }
@@ -371,7 +355,6 @@ h3 {
 .zone-card h3 {
   margin: 4px 0 4px;
   font-size: 24px;
-  font-weight: 900;
   line-height: 1.05;
   background: linear-gradient(90deg, #3185ff, #8d4dff);
   -webkit-background-clip: text;
@@ -381,9 +364,7 @@ h3 {
 }
 
 .zone-card p {
-  margin: 0;
   font-size: 13px;
-  font-weight: 600;
   color: #ffffff;
   text-shadow: 0 2px 8px rgba(0,0,0,.65);
 }
@@ -884,7 +865,6 @@ body[data-theme="light"] .equipment-info small {
   border: 0
 }
 .exercise-stats small {
-  display: block;
   color: #718099;
   font-size: 8px
 }
@@ -894,8 +874,6 @@ body[data-theme="light"] .equipment-info small {
   font-size: 14px
 }
 .exercise-stats strong span {
-  color: var(--muted);
-  font-size: 9px;
   font-weight: 400
 }
 .progress-button,.add-exercise-main {
@@ -978,7 +956,6 @@ body[data-theme="light"] .equipment-info small {
   transition: transform .18s ease,filter .18s ease,box-shadow .18s ease
 }
 .primary-btn {
-  background: var(--gradient);
   box-shadow: 0 10px 26px rgba(124,77,255,.28)
 }
 .secondary-btn {
@@ -1009,21 +986,13 @@ body[data-theme="light"] .equipment-info small {
 .timer-display {
   text-align: center;
   font-size: 64px;
-  font-weight: 950;
   letter-spacing: -3px;
   margin: 23px 0 18px;
-  font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg,#fff,#9db9e6);
-  -webkit-background-clip: text;
-  color: transparent
+  background: linear-gradient(180deg,#fff,#9db9e6)
 }
 .timer-actions {
-  display: flex;
   gap: 8px;
   margin-top: 10px
-}
-.timer-actions button {
-  flex: 1
 }
 .info-card {
   padding: 15px;
@@ -1790,13 +1759,9 @@ body[data-theme="light"] .exercise-modal-close {
 .exercise-search-results {
   overflow-y: auto;
   padding: 0 12px 18px;
-  min-height: 0;
   -webkit-overflow-scrolling: touch
 }
 .exercise-search-result {
-  width: 100%;
-  display: flex;
-  align-items: center;
   gap: 10px;
   text-align: left;
   padding: 12px 9px;
@@ -3573,17 +3538,8 @@ body[data-theme="dark"] .exercise-filters select option {
 
 /* Filtros da biblioteca: geometria consistente */
 #exercisePickerOverlay .exercise-picker-controls {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    align-items: stretch !important;
-    gap: 8px !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 18px 8px !important;
-    box-sizing: border-box !important;
     border: 0 !important;
     box-shadow: none !important;
-    flex-shrink: 0 !important;
 }
 
 /* Botões Todos, Favoritos, Músculos e Máquinas — modo escuro */
@@ -3658,13 +3614,9 @@ body[data-theme="dark"] #exercisePickerOverlay .exercise-picker-controls .custom
 
 /* Opções secundárias dos filtros de músculos/máquinas */
 #exercisePickerOverlay .exercise-filter-options {
-    height: auto !important;
-    min-height: 0 !important;
-    margin: 0 !important;
     padding: 0 18px 4px !important;
     border: 0 !important;
     box-shadow: none !important;
-    background: transparent !important;
     overflow-x: auto !important;
 }
 
@@ -3694,7 +3646,6 @@ body[data-theme="dark"] #exercisePickerOverlay .exercise-filter-option.active {
 /* Lista de resultados — sem faixa/fundo extra */
 #exercisePickerOverlay .exercise-search-results {
     position: relative;
-    min-height: 0 !important;
     margin: 0 !important;
     padding: 0 12px 18px !important;
     border: 0 !important;
@@ -3716,14 +3667,9 @@ body[data-theme="dark"] #exercisePickerOverlay .exercise-filter-option.active {
    Os chips quebram linha e ficam dentro da área visível do popup.
    ========================================================= */
 #exercisePickerOverlay .exercise-picker-controls {
-    display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    align-items: stretch !important;
-    gap: 8px !important;
-    width: 100% !important;
     margin: 0 !important;
     padding: 0 18px 8px !important;
-    box-sizing: border-box !important;
     flex-shrink: 0 !important;
 }
 
@@ -3733,12 +3679,8 @@ body[data-theme="dark"] #exercisePickerOverlay .exercise-filter-option.active {
     align-content: flex-start !important;
     align-items: center !important;
     gap: 6px !important;
-    width: 100% !important;
     max-height: min(22vh, 145px) !important;
-    min-height: 0 !important;
-    margin: 0 !important;
     padding: 0 18px 8px !important;
-    box-sizing: border-box !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
@@ -3816,10 +3758,7 @@ body[data-theme="light"] #exercisePickerOverlay .custom-create-control {
    Filtros secundários num único seletor, sem dezenas de chips.
    ========================================================= */
 #exercisePickerOverlay .exercise-picker-controls {
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
     gap: 7px !important;
-    align-items: stretch !important;
     padding: 0 18px 10px !important;
 }
 
@@ -3854,14 +3793,11 @@ body[data-theme="light"] #exercisePickerOverlay .custom-create-control {
 
 #exercisePickerOverlay .exercise-filter-options {
     display: block !important;
-    width: 100% !important;
     max-height: none !important;
     min-height: 0 !important;
     height: auto !important;
-    overflow: visible !important;
     margin: 0 !important;
     padding: 0 18px 10px !important;
-    box-sizing: border-box !important;
     background: transparent !important;
 }
 
@@ -3961,8 +3897,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-select option {
 
 @media (max-width: 560px) {
     #exercisePickerOverlay .exercise-picker-controls {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 6px !important;
         padding-left: 14px !important;
         padding-right: 14px !important;
     }
@@ -3987,7 +3921,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-select option {
 
 
 #exercisePickerOverlay .exercise-filter-options:empty {
-    display: none !important;
     padding: 0 !important;
     margin: 0 !important;
 }
@@ -4038,44 +3971,18 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
 
 /* Biblioteca móvel: cinco filtros compactos numa única linha. */
 #exercisePickerOverlay .exercise-picker-controls {
-    display: grid !important;
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
     gap: 5px !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
 }
 #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
-    position: relative !important;
-    min-width: 0 !important;
-    min-height: 42px !important;
     padding: 3px 2px !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-}
-#exercisePickerOverlay .exercise-picker-select-control {
-    display: flex !important;
-    align-items: stretch !important;
-    justify-content: stretch !important;
 }
 #exercisePickerOverlay .exercise-picker-control-label {
-    display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
     gap: 2px !important;
-    width: 100% !important;
-    min-width: 0 !important;
     min-height: 100% !important;
     padding: 2px !important;
-    border: 0 !important;
-    border-radius: inherit !important;
-    background: transparent !important;
-    color: inherit !important;
-    font: inherit !important;
     font-size: 9px !important;
-    font-weight: 800 !important;
-    line-height: 1.1 !important;
-    text-align: center !important;
     pointer-events: none !important;
 }
 #exercisePickerOverlay .filter-control-title,
@@ -4090,21 +3997,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
     font-size: 8px !important;
     font-weight: 700 !important;
     opacity: .88 !important;
-}
-#exercisePickerOverlay .exercise-filter-native-select {
-    position: absolute !important;
-    inset: 0 !important;
-    z-index: 3 !important;
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    opacity: 0 !important;
-    cursor: pointer !important;
-    appearance: auto !important;
-    -webkit-appearance: menulist !important;
-    border: 0 !important;
 }
 #exercisePickerOverlay .exercise-created-control {
     gap: 2px !important;
@@ -4125,7 +4017,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
         padding-right: 10px !important;
     }
     #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
-        min-height: 42px !important;
         padding: 2px 1px !important;
         border-radius: 10px !important;
     }
@@ -4149,38 +4040,14 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
 }
 #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
     min-width: 0 !important;
-    min-height: 42px !important;
-    height: auto !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
 }
 #exercisePickerOverlay .exercise-picker-select-control {
-    position: relative !important;
     display: flex !important;
     min-width: 0 !important;
     align-items: stretch !important;
     justify-content: stretch !important;
-}
-#exercisePickerOverlay .exercise-picker-control-label {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 42px !important;
-    padding: 4px 5px !important;
-    border: 0 !important;
-    border-radius: inherit !important;
-    background: transparent !important;
-    color: inherit !important;
-    font: inherit !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-    line-height: 1.1 !important;
-    text-align: center !important;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-    cursor: pointer !important;
 }
 #exercisePickerOverlay .filter-control-title {
     display: block !important;
@@ -4190,37 +4057,24 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
     white-space: nowrap !important;
 }
 #exercisePickerOverlay .exercise-filter-native-select {
-    position: absolute !important;
-    inset: 0 !important;
     z-index: 3 !important;
     display: block !important;
-    width: 100% !important;
-    height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     opacity: 0 !important;
-    cursor: pointer !important;
     appearance: auto !important;
     -webkit-appearance: menulist !important;
     border: 0 !important;
 }
 #exercisePickerOverlay .exercise-search-results {
     overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: touch !important;
 }
 @media (max-width: 560px) {
     #exercisePickerOverlay .exercise-picker-controls {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         gap: 5px !important;
-        padding-left: 12px !important;
-        padding-right: 12px !important;
     }
     #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
-        min-height: 42px !important;
         padding: 2px !important;
-    }
-    #exercisePickerOverlay .exercise-picker-control-label {
-        font-size: 9px !important;
     }
 }
 
@@ -4267,7 +4121,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
     min-width: 39px !important;
     min-height: 39px !important;
     margin: 0 !important;
-    padding: 0 !important;
     border: 0 !important;
     border-radius: 12px !important;
     background: transparent !important;
@@ -4700,19 +4553,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-picker-control-label {
    Os filtros ficam acima dos elementos seguintes e o select
    transparente continua a receber o toque.
    ========================================================= */
-#exercisePickerOverlay .exercise-picker-controls {
-    position: relative !important;
-    z-index: 30 !important;
-    isolation: isolate !important;
-    pointer-events: auto !important;
-}
-
-#exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
-    position: relative !important;
-    z-index: 1 !important;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-}
 
 #exercisePickerOverlay .exercise-picker-select-control {
     position: relative !important;
@@ -4732,7 +4572,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-picker-control-label {
 }
 
 #exercisePickerOverlay .exercise-filter-options {
-    position: relative !important;
     z-index: 1 !important;
 }
 
@@ -4807,7 +4646,6 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-picker-control-label {
 #exercisePickerOverlay .exercise-filter-options {
     position: relative !important;
     z-index: 10 !important;
-    width: 100% !important;
     overflow: visible !important;
     pointer-events: auto !important;
     touch-action: pan-y !important;
@@ -4927,17 +4765,13 @@ html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls >
     margin-right: 0 !important;
     padding-left: 18px !important;
     padding-right: 18px !important;
-    box-sizing: border-box !important;
 }
 
 #exercisePickerOverlay .exercise-picker > .custom-create-control {
     display: block !important;
     align-self: stretch !important;
     width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
     margin: 5px 18px 8px !important;
-    box-sizing: border-box !important;
 }
 
 @media (max-width: 560px) {
@@ -4972,11 +4806,7 @@ html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls >
 #exercisePickerOverlay .exercise-filter-menu {
     position: absolute !important;
     top: calc(100% + 7px) !important;
-    left: 0 !important;
-    right: 0 !important;
     width: auto !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
     z-index: 10080 !important;
 }
 
@@ -4989,24 +4819,11 @@ html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls >
     margin-right: 0 !important;
     padding-left: 8px !important;
     padding-right: 8px !important;
-    box-sizing: border-box !important;
 }
 
 #exercisePickerOverlay .exercise-filter-options > .exercise-filter-select-wrap {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    box-sizing: border-box !important;
-}
-
-#exercisePickerOverlay .exercise-filter-menu {
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
 }
 
 /* ==========================================================
@@ -5425,3 +5242,104 @@ body[data-theme="light"] .custom-characteristic-option:has(input:checked) {
     min-width: 0 !important;
     box-sizing: border-box !important;
 }
+
+/* ==========================================================
+   REFINAMENTO VISUAL — ícones e navegação móvel
+   Mantém os seletores funcionais e a identidade cromática atual.
+   ========================================================== */
+.brand-mark { color: #fff; isolation: isolate; }
+.brand-symbol {
+  display: block; width: 25px; height: 25px; fill: none; stroke: currentColor;
+  stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+}
+.bottom-nav {
+  background: rgba(22, 17, 25, .96) !important;
+  border-top: 1px solid rgba(236, 227, 238, .09) !important;
+  padding: 8px 9px calc(8px + env(safe-area-inset-bottom)) !important;
+  gap: 5px;
+  -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+  backdrop-filter: blur(24px) saturate(140%) !important;
+}
+.bottom-nav:before {
+  left: 18% !important; right: 18% !important; opacity: .32 !important;
+  background: linear-gradient(90deg, transparent, var(--vf-purple), var(--vf-turquoise), transparent) !important;
+}
+.bottom-nav .nav-item {
+  min-width: 0 !important; min-height: 58px !important;
+  align-self: stretch !important; justify-self: stretch !important;
+  padding: 6px 2px !important; gap: 4px !important;
+  border: 1px solid transparent !important; border-radius: 17px !important;
+  color: #a79aa9 !important; background: transparent !important;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease !important;
+}
+.bottom-nav .nav-item .nav-icon {
+  width: 30px !important; height: 29px !important; min-width: 30px !important; min-height: 29px !important;
+  display: grid !important; place-items: center !important; line-height: 0 !important;
+  transform: none !important; transition: color .2s ease, transform .2s ease !important;
+}
+.bottom-nav .nav-item .nav-icon svg {
+  display: block !important; width: 21px !important; height: 21px !important;
+  min-width: 21px !important; min-height: 21px !important; fill: none; stroke: currentColor;
+  stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; overflow: visible;
+}
+.bottom-nav .nav-item small {
+  color: inherit !important; font-size: 9.5px !important; line-height: 1.1 !important;
+  font-weight: 700 !important; letter-spacing: -.08px; white-space: nowrap !important;
+}
+.bottom-nav .nav-item.active {
+  color: #f3eaf5 !important;
+  background: linear-gradient(145deg, rgba(104, 64, 111, .31), rgba(62, 157, 154, .09)) !important;
+  border-color: rgba(195, 79, 118, .16) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.045), 0 5px 18px rgba(12, 7, 16, .10) !important;
+}
+.bottom-nav .nav-item.active .nav-icon { color: #dfc2e3 !important; transform: translateY(-1px) !important; }
+.bottom-nav .nav-item:hover:not(.active) { color: #e6d9e8 !important; background: rgba(255,255,255,.035) !important; }
+.bottom-nav .nav-item:active { transform: scale(.975) !important; }
+.amenity-icon { display: grid !important; place-items: center !important; font-size: 0 !important; line-height: 0 !important; }
+.amenity-icon svg {
+  display: block; width: 21px; height: 21px; fill: none; stroke: currentColor;
+  stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round;
+}
+.hero-btn span { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; line-height: 0; }
+.hero-btn .ui-icon {
+  display: block; width: 16px; height: 16px; fill: none; stroke: currentColor;
+  stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+}
+.exercise-modal-close svg {
+  display: block; width: 18px; height: 18px; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.install-title-icon {
+  display: inline-grid; place-items: center; width: 25px; height: 25px;
+  margin-right: 7px; vertical-align: middle; border-radius: 8px; background: rgba(255,255,255,.13);
+}
+.install-title-icon svg, .install-instructions-icon svg {
+  display: block; width: 20px; height: 20px; fill: none; stroke: currentColor;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+}
+#installPopup h3 { display: flex; align-items: center; gap: 8px; }
+#installPopup .install-title-icon { flex: 0 0 25px; margin-right: 0; }
+.install-instructions-icon {
+  display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 14px;
+  border-radius: 16px; color: #fff; background: linear-gradient(135deg, var(--vf-purple), var(--vf-turquoise));
+}
+.install-instructions-icon svg { width: 29px; height: 29px; }
+body[data-theme="light"] .bottom-nav { background: rgba(255,255,255,.94) !important; border-top-color: rgba(49,35,56,.11) !important; }
+body[data-theme="light"] .bottom-nav .nav-item { color: #716578 !important; }
+body[data-theme="light"] .bottom-nav .nav-item.active {
+  color: #49324f !important;
+  background: linear-gradient(145deg, rgba(104,64,111,.12), rgba(62,157,154,.10)) !important;
+  border-color: rgba(104,64,111,.13) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.75), 0 4px 16px rgba(49,30,55,.05) !important;
+}
+body[data-theme="light"] .bottom-nav .nav-item.active .nav-icon { color: #68406f !important; }
+body[data-theme="light"] .bottom-nav .nav-item:hover:not(.active) { color: #46364e !important; background: rgba(104,64,111,.045) !important; }
+@media (max-width: 380px) {
+  .bottom-nav { padding-left: 6px !important; padding-right: 6px !important; gap: 3px; }
+  .bottom-nav .nav-item small { font-size: 8.8px !important; }
+  .bottom-nav .nav-item .nav-icon svg { width: 20px !important; height: 20px !important; min-width: 20px !important; min-height: 20px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav .nav-item, .bottom-nav .nav-item .nav-icon { transition: none !important; }
+}
+
