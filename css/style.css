@@ -4366,34 +4366,152 @@ html body #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
     flex: none !important;
 }
 
-/* =========================================================
-   FIX iPHONE: evitar zoom ao focar campos e por gestos
-   ========================================================= */
-html,
-body,
-body .app,
-#exercisePickerOverlay,
-#exercisePickerOverlay .exercise-picker,
-#exercisePickerOverlay .exercise-search-results {
-    touch-action: pan-x pan-y !important;
+/* Temporizador com seletor tipo roda (minutos/segundos) */
+.timer-wheel-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+    padding: 24px 18px;
+    overflow: hidden;
+}
+.timer-wheel-picker {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 520px;
+    align-self: center;
+}
+.timer-wheel-column { min-width: 0; position: relative; }
+.timer-wheel {
+    --wheel-row-height: 44px;
+    position: relative;
+    height: 220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 88px 0;
+    box-sizing: border-box;
+    scroll-snap-type: y mandatory;
+    scroll-padding-block: 88px;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-y;
+    outline: none;
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+.timer-wheel::-webkit-scrollbar { display: none; }
+.timer-wheel-options { position: relative; z-index: 1; }
+.timer-wheel-option {
+    height: var(--wheel-row-height);
+    min-height: var(--wheel-row-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-sizing: border-box;
+    scroll-snap-align: center;
+    color: var(--text-muted, #77717d);
+    opacity: .35;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.timer-wheel-option.selected {
+    opacity: 1;
+    color: var(--text, #f7f3fa);
+    font-size: 30px;
+    font-weight: 600;
+}
+.timer-wheel-unit {
+    font-size: 22px;
+    font-weight: 600;
+}
+.timer-wheel-selection {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: var(--wheel-row-height);
+    transform: translateY(-50%);
+    border-radius: 999px;
+    background: var(--card-2, rgba(130,130,140,.13));
+    pointer-events: none;
+}
+.timer-wheel-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+.timer-wheel-actions button {
+    min-height: 48px;
+    font-size: 15px;
+    touch-action: manipulation;
+}
+.timer-wheel-status {
+    margin: -12px 0 0;
+    min-height: 1em;
+    text-align: center;
+    color: var(--text-muted, #888);
+    font-size: 12px;
+}
+.timer-wheel-hidden-display {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+.timer-wheel-card.is-running .timer-wheel-selection {
+    border: 1px solid var(--accent, #45b8b3);
+}
+.timer-wheel-card.timer-nudge .timer-wheel-selection {
+    border: 1px solid #e59a4b;
+}
+@media (max-width: 420px) {
+    .timer-wheel-card { padding: 18px 12px; gap: 16px; }
+    .timer-wheel-picker { gap: 6px; }
+    .timer-wheel { height: 200px; padding-block: 78px; scroll-padding-block: 78px; }
+    .timer-wheel-option { font-size: 25px; }
+    .timer-wheel-option.selected { font-size: 28px; }
+    .timer-wheel-unit { font-size: 19px; }
 }
 
-/* O Safari no iPhone amplia automaticamente campos com letra < 16px.
-   Mantém os campos de introdução a pelo menos 16px em ecrãs táteis. */
-@media (pointer: coarse), (max-width: 768px) {
-    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
-    textarea,
-    select,
-    [contenteditable="true"] {
-        font-size: 16px !important;
-        -webkit-text-size-adjust: 100%;
-    }
 
-    #exercisePickerOverlay .exercise-search-input,
-    .help-search-input,
-    .exercise-name-input,
-    .input,
-    .custom-exercise-field textarea.input {
-        font-size: 16px !important;
+/* Contagem circular visível por cima do seletor em roda */
+.timer-wheel-countdown {
+    width: min(176px, 48vw);
+    height: min(176px, 48vw);
+    margin: 0 auto -4px;
+    flex-shrink: 0;
+}
+.timer-wheel-countdown .timer-display {
+    font-size: clamp(30px, 8vw, 39px);
+    line-height: 1;
+    letter-spacing: -1.5px;
+    margin: 0;
+}
+.timer-wheel-card .timer-wheel-picker {
+    margin-top: -2px;
+}
+.timer-wheel-svg-defs {
+    position: absolute;
+    pointer-events: none;
+}
+@media (max-width: 420px) {
+    .timer-wheel-countdown {
+        width: 148px;
+        height: 148px;
+        margin-bottom: -6px;
+    }
+    .timer-wheel-countdown .timer-display {
+        font-size: 32px;
     }
 }
