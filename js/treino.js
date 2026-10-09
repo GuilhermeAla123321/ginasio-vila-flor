@@ -2703,7 +2703,11 @@ function garantirEstilosBiblioteca() {
             font-weight: 800 !important;
             line-height: 1.1 !important;
             text-align: center !important;
-            pointer-events: none !important;
+            /* CRÍTICO: este elemento é um botão. Não pode ignorar os toques. */
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            cursor: pointer !important;
+            -webkit-tap-highlight-color: transparent !important;
         }
         #exercisePickerOverlay .filter-control-title {
             display: block !important;

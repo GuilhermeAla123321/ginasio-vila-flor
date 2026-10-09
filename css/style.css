@@ -4178,7 +4178,9 @@ body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.act
     font-weight: 800 !important;
     line-height: 1.1 !important;
     text-align: center !important;
-    pointer-events: none !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
 }
 #exercisePickerOverlay .filter-control-title {
     display: block !important;
