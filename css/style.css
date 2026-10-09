@@ -4574,3 +4574,26 @@ html body #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
   }
 }
 
+
+
+/* ==========================================================
+   CORREÇÕES CONFIRMADAS — barra superior e navegação inferior
+   ========================================================== */
+/* Desloca a barra superior para baixo, também quando fica sticky. */
+.topbar {
+  margin-top: 12px !important;
+  top: 12px !important;
+}
+
+/* Remove o ponto decorativo que aparecia sobre o separador ativo. */
+.bottom-nav .nav-item.active::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Garante que a pesquisa não provoca zoom automático ao receber foco. */
+#exercisePickerOverlay .exercise-search-input,
+.exercise-picker-overlay .exercise-search-input,
+.exercise-picker .exercise-search-input {
+  font-size: 16px !important;
+}
