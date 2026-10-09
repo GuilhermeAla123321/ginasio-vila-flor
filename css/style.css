@@ -4918,3 +4918,64 @@ html body[data-theme="light"] #exercisePickerOverlay .exercise-picker-controls >
 #exercisePickerOverlay .exercise-filter-trigger[aria-expanded="true"] .exercise-filter-select-chevron {
     transform: translateY(-50%) rotate(180deg) !important;
 }
+
+
+/* ALINHAMENTO FINAL — filtros e botão personalizado com os mesmos limites do título/pesquisa */
+#exercisePickerOverlay .exercise-picker-controls {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    box-sizing: border-box !important;
+}
+
+#exercisePickerOverlay .exercise-picker > .custom-create-control {
+    display: block !important;
+    align-self: stretch !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 5px 18px 8px !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 560px) {
+    #exercisePickerOverlay .exercise-picker-controls {
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    #exercisePickerOverlay .exercise-picker > .custom-create-control {
+        width: auto !important;
+        max-width: none !important;
+        margin-left: 18px !important;
+        margin-right: 18px !important;
+    }
+}
+
+
+/* ALINHAMENTO DO MENU ABERTO — ocupar a largura total do campo de filtro */
+#exercisePickerOverlay .exercise-filter-select-wrap {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* O menu passa a posicionar-se relativamente à linha completa,
+   em vez de ficar limitado apenas à coluna do seletor. */
+#exercisePickerOverlay .exercise-filter-dropdown {
+    position: static !important;
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+#exercisePickerOverlay .exercise-filter-menu {
+    position: absolute !important;
+    top: calc(100% + 7px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    z-index: 10080 !important;
+}
