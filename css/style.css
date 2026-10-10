@@ -5670,3 +5670,280 @@ body[data-theme="light"] .workout-limit-notice { color: #49324f; }
 @media (prefers-reduced-motion: reduce) {
   .workout-group-card .delete-workout-btn { transition: none; }
 }
+
+
+/*
+  Corrige o zoom acidental por toque duplo na zona do filtro de treinos.
+  `touch-action: manipulation` mantém os toques rápidos responsivos sem
+  desativar o zoom manual por pinça do navegador.
+*/
+.workout-filter-toggle,
+.workout-filter-toggle *,
+.workout-filter-menu button,
+.workout-filter-menu button *,
+.add-workout-btn,
+.add-workout-btn * {
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.workout-filter-toggle,
+.workout-filter-menu button,
+.add-workout-btn {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ==========================================================
+   REDESIGN LOCAL — PÁGINA ADICIONAR EXERCÍCIO
+   Escopo limitado ao formulário de adição para preservar
+   os restantes formulários e os fluxos de edição.
+   ========================================================== */
+#workout-root > #backWorkout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  margin: 0 auto 10px;
+  padding: 8px 12px;
+  border-radius: 11px;
+  font-size: 11px;
+  font-weight: 750;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+#workout-root > #backWorkout:hover {
+  transform: translateY(-1px);
+  border-color: var(--line-bright);
+}
+.workout-add-header {
+  max-width: 500px;
+  margin: 0 auto 16px;
+  text-align: center;
+}
+.workout-add-header .eyebrow {
+  font-size: 8px;
+  letter-spacing: 1.6px;
+}
+.workout-add-header h2 {
+  margin: 4px 0 0;
+  font-size: clamp(22px, 5vw, 27px);
+  line-height: 1.12;
+  letter-spacing: -.6px;
+}
+.workout-add-header .muted {
+  max-width: 370px;
+  margin: 8px auto 0;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.workout-add-form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 15px;
+  border-radius: 20px;
+  border-color: rgba(177,145,196,.16);
+  box-shadow: 0 10px 28px rgba(10,7,20,.10);
+  text-align: left;
+}
+.workout-add-form > label[for="exerciseName"] {
+  display: block;
+  margin: 0 0 7px 2px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .15px;
+}
+.workout-add-form .exercise-picker-trigger-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 8px;
+  position: relative;
+}
+.workout-add-form .exercise-name-input {
+  min-width: 0;
+  min-height: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border-color: rgba(177,145,196,.20);
+  font-size: 13px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+}
+.workout-add-form .exercise-picker-trigger {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 44px;
+  height: auto;
+  margin: 0;
+  padding: 0 12px;
+  border-radius: 12px;
+  font-size: 10.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+.workout-add-form .exercise-picker-trigger svg {
+  display: block;
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.workout-add-form .exercise-picker-trigger:hover {
+  transform: translateY(-1px);
+}
+.workout-add-form .exercise-selection-hint {
+  min-height: 0;
+  margin: 8px 2px 3px;
+  color: var(--muted);
+  font-size: 9.5px;
+  line-height: 1.4;
+}
+.workout-add-form .custom-selected-badge,
+.workout-add-form .existing-selected-badge {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 9.5px;
+}
+.workout-add-form .series-setup {
+  margin-top: 14px;
+  padding: 13px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+.workout-add-form .series-count-row {
+  align-items: center;
+  gap: 12px;
+}
+.workout-add-form .series-count-row > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.workout-add-form .series-count-row label {
+  margin: 0;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 800;
+}
+.workout-add-form .series-count-input {
+  flex: 0 0 80px;
+  width: 80px !important;
+  min-height: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 8px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 850;
+}
+.workout-add-form #continueSeries,
+.workout-add-form #saveExercise {
+  min-height: 44px;
+  margin-top: 13px;
+  border-radius: 12px;
+  font-size: 12px;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+.workout-add-form #continueSeries:hover,
+.workout-add-form #saveExercise:hover {
+  transform: translateY(-1px);
+}
+.workout-add-form #continueSeries:active,
+.workout-add-form #saveExercise:active {
+  transform: scale(.99);
+}
+.workout-add-form .exercise-type-block {
+  margin: 10px 0 0;
+}
+.workout-add-form .exercise-type-block label {
+  margin-bottom: 6px;
+  font-size: 10px;
+}
+.workout-add-form #exerciseType {
+  min-height: 44px;
+  margin-bottom: 0;
+  border-radius: 12px;
+}
+body[data-theme="light"] .workout-add-form {
+  border-color: rgba(57,40,61,.13);
+  box-shadow: 0 12px 28px rgba(79,53,71,.055);
+}
+body[data-theme="light"] .workout-add-form .exercise-name-input {
+  background: #fffdf9;
+  color: #2a2230;
+  border-color: rgba(57,40,61,.14);
+}
+body[data-theme="light"] .workout-add-form .exercise-picker-trigger {
+  background: rgba(104,64,111,.065);
+  color: #68406f;
+  border-color: rgba(104,64,111,.20);
+}
+body[data-theme="light"] .workout-add-form .exercise-picker-trigger:hover {
+  background: rgba(104,64,111,.11);
+  border-color: rgba(104,64,111,.32);
+}
+body[data-theme="light"] .workout-add-form .series-count-input,
+body[data-theme="light"] .workout-add-form #exerciseType {
+  background: #fffdf9;
+  color: #2a2230;
+  border-color: rgba(57,40,61,.15);
+}
+@media (max-width: 430px) {
+  #workout-root > #backWorkout {
+    margin-bottom: 8px;
+  }
+  .workout-add-header {
+    margin-bottom: 13px;
+  }
+  .workout-add-header h2 {
+    font-size: 23px;
+  }
+  .workout-add-header .muted {
+    max-width: 320px;
+    font-size: 10.5px;
+  }
+  .workout-add-form {
+    padding: 13px;
+    border-radius: 18px;
+  }
+  .workout-add-form .exercise-picker-trigger-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+  }
+  .workout-add-form .exercise-name-input {
+    width: 100%;
+  }
+  .workout-add-form .exercise-picker-trigger {
+    width: 100%;
+    min-height: 42px;
+    white-space: normal;
+  }
+  .workout-add-form .series-count-input {
+    flex-basis: 76px;
+    width: 76px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #workout-root > #backWorkout,
+  .workout-add-form .exercise-picker-trigger,
+  .workout-add-form #continueSeries,
+  .workout-add-form #saveExercise {
+    transition: none;
+  }
+}
+

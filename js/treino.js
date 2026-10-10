@@ -1859,7 +1859,15 @@ function renderTreino() {
 
     document.getElementById("toggleWorkoutFilter").onclick = () => {
         filtroTreinosAberto = !filtroTreinosAberto;
-        renderTreino();
+
+        // Abrir/fechar o menu não altera os dados; evita reconstruir todo o DOM
+        // durante o toque, o que também reduz problemas de toque duplo em móveis.
+        const toggle = document.getElementById("toggleWorkoutFilter");
+        const menu = document.getElementById("workoutFilterMenu");
+        if (!toggle || !menu) return;
+
+        menu.hidden = !filtroTreinosAberto;
+        toggle.setAttribute("aria-expanded", String(filtroTreinosAberto));
     };
 
     r.querySelectorAll("[data-workout-filter], [data-workout-filter-id]").forEach(b => {
@@ -2118,7 +2126,7 @@ function abrirAdicionar() {
         </button>
 
 
-        <div class="workout-header">
+        <div class="workout-header workout-add-header">
 
             <span class="eyebrow">
                 NOVO EXERCÍCIO
@@ -2129,9 +2137,7 @@ function abrirAdicionar() {
             </h2>
 
             <p class="muted">
-                Escolhe primeiro o exercício.
-                Depois define o número de séries
-                e os valores de cada série.
+                Escolhe o exercício e define o número de séries.
             </p>
 
         </div>
@@ -2139,7 +2145,7 @@ function abrirAdicionar() {
 
         <div class="form-card workout-add-form">
 
-            <label>
+            <label for="exerciseName">
                 Exercício
             </label>
 
@@ -2159,7 +2165,10 @@ function abrirAdicionar() {
                     class="exercise-picker-trigger"
                     id="openExercisePicker"
                 >
-                    <span>⌕</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <circle cx="10.8" cy="10.8" r="6.2"></circle>
+                        <path d="m15.4 15.4 4.1 4.1"></path>
+                    </svg>
                     Escolher exercício
                 </button>
 
@@ -2170,8 +2179,7 @@ function abrirAdicionar() {
                 class="exercise-selection-hint"
                 id="exerciseSelectionHint"
             >
-                Procura um exercício existente
-                ou cria um novo.
+                Seleciona um exercício da biblioteca ou cria um personalizado.
             </div>
 
 
@@ -2191,12 +2199,6 @@ function abrirAdicionar() {
                         <label for="seriesCount">
                             Número de séries
                         </label>
-
-                        <small>
-                            Depois poderás definir
-                            os valores de cada série
-                            individualmente.
-                        </small>
 
                     </div>
 
@@ -2514,7 +2516,7 @@ function garantirEstilosBiblioteca() {
             margin-bottom: 18px;
         }
 
-        .custom-exercise-modal-top h2 {
+        .custom-exercise-modal.characteristics-step .custom-exercise-modal-top h2 {
             margin: 4px 0 0;
         }
 
@@ -2555,48 +2557,185 @@ function garantirEstilosBiblioteca() {
             min-height: 44px;
         }
 
+        /* Configuração das características: cartões compactos, claros e acessíveis. */
+        .custom-exercise-modal.characteristics-step {
+            width: min(100%, 460px);
+            max-height: min(92vh, 720px);
+            max-height: min(92dvh, 720px);
+            padding: 18px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-modal-top {
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .custom-exercise-modal-top h2 {
+            margin: 4px 0 0;
+            font-size: 21px;
+            line-height: 1.15;
+            letter-spacing: -.55px;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions {
+            gap: 9px;
+            margin-top: 14px;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button {
+            min-height: 46px;
+            border-radius: 13px;
+            font-size: 11.5px;
+            font-weight: 800;
+            transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button:hover { filter: brightness(1.04); }
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button:active { transform: scale(.985); }
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button:focus-visible {
+            outline: 2px solid #3e9d9a;
+            outline-offset: 3px;
+        }
+
         .custom-characteristics-exercise {
             display: grid;
-            gap: 4px;
-            padding: 11px 12px;
-            margin: -3px 0 16px;
-            border: 1px solid rgba(104,64,111,.16);
-            border-radius: 13px;
-            background: linear-gradient(135deg, rgba(124,77,255,.07), rgba(62,157,154,.07));
+            gap: 3px;
+            padding: 11px 13px;
+            margin: 0 0 15px;
+            border: 1px solid rgba(104,64,111,.14);
+            border-radius: 14px;
+            background: #f3f4f8;
         }
-        .custom-characteristics-exercise strong { font-size: 13px; line-height: 1.35; overflow-wrap: anywhere; }
+
+        .custom-characteristics-exercise strong {
+            font-size: 14px;
+            line-height: 1.3;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
         .custom-characteristics-exercise span,
-        .custom-characteristics-heading small,
-        .custom-characteristic-option small,
-        .custom-characteristics-note { color: #847789; font-size: 10px; line-height: 1.4; }
-        .custom-characteristics-heading { display: grid; gap: 3px; margin-bottom: 10px; }
-        .custom-characteristics-heading strong { font-size: 12px; }
-        .custom-characteristics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+        .custom-characteristics-note {
+            color: #787486;
+            font-size: 10.5px;
+            line-height: 1.4;
+        }
+
+        .custom-characteristics-heading {
+            display: grid;
+            gap: 0;
+            margin-bottom: 9px;
+        }
+
+        .custom-characteristics-heading strong { font-size: 12.5px; line-height: 1.3; }
+
+        .custom-characteristics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+
         .custom-characteristic-option {
-            display: flex; align-items: flex-start; gap: 9px; min-width: 0; padding: 10px;
-            border: 1px solid rgba(104,64,111,.16); border-radius: 12px;
-            background: rgba(255,255,255,.72); cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+            min-height: 56px;
+            padding: 10px 11px;
+            border: 1px solid rgba(104,64,111,.15);
+            border-radius: 13px;
+            background: #f8f8fb;
+            cursor: pointer;
+            transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease, transform .16s ease;
         }
+
+        .custom-characteristic-option:hover {
+            border-color: rgba(62,157,154,.45);
+            transform: translateY(-1px);
+        }
+
         .custom-characteristic-option:has(input:checked) {
-            border-color: rgba(62,157,154,.65);
-            background: linear-gradient(135deg, rgba(124,77,255,.09), rgba(62,157,154,.12));
+            border-color: #3e9d9a;
+            background: #edf7f6;
+            box-shadow: inset 0 0 0 1px rgba(62,157,154,.12);
         }
-        .custom-characteristic-option input { width: 16px; height: 16px; flex: 0 0 16px; margin: 2px 0 0; accent-color: #3e9d9a; }
-        .custom-characteristic-option > span { display: grid; gap: 3px; min-width: 0; }
-        .custom-characteristic-option strong { font-size: 10.5px; line-height: 1.3; }
-        .custom-characteristics-note { margin: 11px 0 3px; }
-        body[data-theme="dark"] .custom-characteristics-exercise { background: linear-gradient(135deg, rgba(124,77,255,.13), rgba(62,157,154,.10)); border-color: rgba(177,145,196,.26); }
+
+        .custom-characteristic-option:focus-within {
+            outline: 2px solid rgba(62,157,154,.72);
+            outline-offset: 2px;
+        }
+
+        .custom-characteristic-option input {
+            width: 17px;
+            height: 17px;
+            min-width: 17px;
+            flex: 0 0 17px;
+            margin: 0;
+            accent-color: #3e9d9a;
+            cursor: pointer;
+        }
+
+        .custom-characteristic-option > span { display: block; min-width: 0; }
+
+        .custom-characteristic-option strong {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 750;
+            line-height: 1.28;
+            overflow-wrap: anywhere;
+        }
+
+        .custom-characteristics-note {
+            margin: 11px 0 0;
+            padding: 9px 11px;
+            border-radius: 11px;
+            background: rgba(104,64,111,.055);
+        }
+
+        body[data-theme="dark"] .custom-characteristics-exercise {
+            background: #172131;
+            border-color: rgba(177,145,196,.20);
+        }
+
         body[data-theme="dark"] .custom-characteristics-exercise span,
-        body[data-theme="dark"] .custom-characteristics-heading small,
-        body[data-theme="dark"] .custom-characteristic-option small,
-        body[data-theme="dark"] .custom-characteristics-note { color: #a99cad; }
-        body[data-theme="dark"] .custom-characteristic-option { background: rgba(255,255,255,.035); border-color: rgba(177,145,196,.24); }
-        body[data-theme="dark"] .custom-characteristic-option:has(input:checked) { background: linear-gradient(135deg, rgba(124,77,255,.21), rgba(62,157,154,.17)); border-color: rgba(62,157,154,.72); }
+        body[data-theme="dark"] .custom-characteristics-note { color: #aeb8c9; }
+
+        body[data-theme="dark"] .custom-characteristics-heading strong { color: #f3f5fa; }
+
+        body[data-theme="dark"] .custom-characteristic-option {
+            background: #171e2b;
+            border-color: rgba(164,176,197,.18);
+            color: #eef2f8;
+        }
+
+        body[data-theme="dark"] .custom-characteristic-option:hover {
+            border-color: rgba(62,157,154,.60);
+        }
+
+        body[data-theme="dark"] .custom-characteristic-option:has(input:checked) {
+            background: rgba(62,157,154,.14);
+            border-color: #3e9d9a;
+            box-shadow: inset 0 0 0 1px rgba(62,157,154,.12);
+        }
+
+        body[data-theme="dark"] .custom-characteristics-note { background: rgba(255,255,255,.035); }
+
         @media (max-width: 390px) {
-            .custom-exercise-modal { padding: 16px; }
+            .custom-exercise-overlay:has(.custom-exercise-modal.characteristics-step) { padding: 10px; }
+            .custom-exercise-modal.characteristics-step { padding: 14px; border-radius: 19px; }
+            .custom-exercise-modal.characteristics-step .custom-exercise-modal-top h2 { font-size: 20px; }
             .custom-characteristics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-            .custom-characteristic-option { padding: 8px; gap: 6px; }
-            .custom-characteristic-option strong { font-size: 10px; }
+            .custom-characteristic-option { min-height: 54px; padding: 9px; gap: 7px; }
+            .custom-characteristic-option strong { font-size: 10.75px; }
+            .custom-exercise-modal.characteristics-step .custom-exercise-actions { gap: 7px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .custom-characteristic-option,
+            .custom-exercise-modal.characteristics-step .custom-exercise-actions button { transition: none !important; }
         }
 
         .custom-create-control {
@@ -3453,6 +3592,7 @@ function abrirPopupExercicioPersonalizado() {
     }
 
     function renderDetailsStep(values = {}) {
+        modal.classList.remove("characteristics-step");
         modal.innerHTML = `
             <div class="custom-exercise-modal-top">
                 <div>
@@ -3466,7 +3606,6 @@ function abrirPopupExercicioPersonalizado() {
                 <div class="custom-exercise-field">
                     <label for="customExerciseName">Nome do exercício</label>
                     <input id="customExerciseName" class="input" type="text" maxlength="80"
-                        placeholder="Ex.: Agachamento búlgaro" value="${escapeHtml(values.nome ?? searchValue)}" autocomplete="off">
                 </div>
                 <div class="custom-exercise-field">
                     <label for="customExerciseGroup">Grupo muscular</label>
@@ -3533,25 +3672,14 @@ function abrirPopupExercicioPersonalizado() {
     }
 
     function renderCharacteristicsStep(draft, previouslySelected = []) {
+        modal.classList.add("characteristics-step");
         const options = Object.entries(PARAMETROS).filter(([key]) => key !== "series");
         const selected = new Set(previouslySelected);
-        const descricao = {
-            carga: "Peso utilizado no exercício",
-            pesoHalter: "Peso de cada halter",
-            repeticoes: "Número de repetições",
-            tempo: "Duração",
-            velocidade: "Velocidade executada",
-            inclinacao: "Inclinação da passadeira",
-            distancia: "Distância percorrida",
-            resistencia: "Nível de resistência",
-            ritmo: "Ritmo de execução"
-        };
         modal.innerHTML = `
             <div class="custom-exercise-modal-top">
                 <div>
                     <span class="eyebrow">CONFIGURAR EXERCÍCIO</span>
                     <h2 id="customExerciseTitle">Características das séries</h2>
-                    <p class="muted">Escolhe os valores que queres registar em cada série. A aplicação não escolhe por ti.</p>
                 </div>
                 <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
             </div>
@@ -3560,8 +3688,7 @@ function abrirPopupExercicioPersonalizado() {
                 <span>${escapeHtml(draft.grupo)} · ${escapeHtml(TIPOS_EXERCICIO[draft.tipo]?.label || "Exercício")}</span>
             </div>
             <div class="custom-characteristics-heading">
-                <strong>O que queres acompanhar?</strong>
-                <small>Podes escolher uma ou várias opções.</small>
+                <strong>Dados a registar</strong>
             </div>
             <div class="custom-characteristics-grid">
                 ${options.map(([key, cfg]) => {
@@ -3569,11 +3696,11 @@ function abrirPopupExercicioPersonalizado() {
                     const unit = cfg.unit ? ` (${cfg.unit})` : "";
                     return `<label class="custom-characteristic-option" for="custom-param-${key}">
                         <input type="checkbox" id="custom-param-${key}" data-custom-param="${key}" ${selected.has(key) ? "checked" : ""}>
-                        <span><strong>${escapeHtml(label)}${unit}</strong><small>${escapeHtml(descricao[key] || "")}</small></span>
+                        <span><strong>${escapeHtml(label)}${unit}</strong></span>
                     </label>`;
                 }).join("")}
             </div>
-            <div class="custom-characteristics-note">O número de séries será escolhido no passo seguinte.</div>
+            <div class="custom-characteristics-note">O número de séries é definido a seguir.</div>
             <div class="custom-exercise-actions">
                 <button type="button" class="secondary-btn" id="backCustomExercise">Voltar</button>
                 <button type="button" class="primary-btn" id="confirmCustomCharacteristics">Guardar e continuar</button>
@@ -3996,8 +4123,8 @@ function selecionarExercicio(
                     </span>
 
                     ${Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length
-                        ? "Características configuradas. Define o número de séries."
-                        : "Escolhe o tipo abaixo."}
+                        ? "Características já definidas."
+                        : "Seleciona o tipo de exercício."}
                 `
                 : `
                     <span class="existing-selected-badge">
