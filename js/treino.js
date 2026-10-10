@@ -477,7 +477,20 @@ function parametrosDoExercicio(exercicio, tipoFallback = null) {
    ESTADO DA APLICAÇÃO
    ========================================================= */
 
-let treinos = carregarJSON(STORAGE_TREINOS, {});
+const STORAGE_TREINOS_BACKUP = `${STORAGE_TREINOS}_backup_pre_multitreino_v1`;
+
+function lerRawTreinos() {
+    try {
+        return localStorage.getItem(STORAGE_TREINOS);
+    } catch (e) {
+        console.warn("Não foi possível ler o armazenamento original dos treinos:", e);
+        return null;
+    }
+}
+
+let treinosRawOriginal = lerRawTreinos();
+let treinosPrecisaBackup = treinosNecessitamBackup(treinosRawOriginal);
+let treinos = normalizarTreinosMultiplos(carregarJSON(STORAGE_TREINOS, {}));
 let exerciciosPersonalizados =
     carregarJSON(STORAGE_EXERCICIOS_PERSONALIZADOS, []);
 let favoritosExercicios =
@@ -492,6 +505,9 @@ let valorFiltroBiblioteca = "Todos";
 let favoritosApenas = false;
 
 let diaSelecionado = "segunda";
+let treinoSelecionadoId = null;
+let filtroTreinosDia = null; // null = todos os treinos; caso contrário, ID do treino filtrado.
+let filtroTreinosAberto = false;
 
 
 /* =========================================================
@@ -522,20 +538,21 @@ function carregarJSON(chave, valorPadrao) {
 
 
 function save() {
-
     try {
+        // Guarda o conteúdo original antes de substituir a estrutura antiga por múltiplos treinos.
+        if (treinosPrecisaBackup && treinosRawOriginal !== null) {
+            const backupExistente = localStorage.getItem(STORAGE_TREINOS_BACKUP);
+            if (backupExistente === null) {
+                localStorage.setItem(STORAGE_TREINOS_BACKUP, treinosRawOriginal);
+            }
+        }
 
-        localStorage.setItem(
-            STORAGE_TREINOS,
-            JSON.stringify(treinos)
-        );
-
+        const dados = JSON.stringify(treinos);
+        localStorage.setItem(STORAGE_TREINOS, dados);
+        treinosRawOriginal = dados;
+        treinosPrecisaBackup = false;
     } catch (e) {
-
-        console.warn(
-            "Treinos localStorage:",
-            e
-        );
+        console.warn("Treinos localStorage:", e);
     }
 }
 
@@ -559,17 +576,164 @@ function saveExerciciosPersonalizados() {
 }
 
 
-function treinoAtual() {
+function treinosNecessitamBackup(raw) {
+    if (raw === null) return false;
 
-    if (!treinos[diaSelecionado]) {
-
-        treinos[diaSelecionado] = {
-            nome: "Treino",
-            exercicios: []
-        };
+    let dados;
+    try {
+        dados = JSON.parse(raw);
+    } catch (_) {
+        return true;
     }
 
-    return treinos[diaSelecionado];
+    if (!dados || typeof dados !== "object" || Array.isArray(dados)) return true;
+
+    const ids = new Set();
+    for (const [dia, valor] of Object.entries(dados)) {
+        // O formato atual exige que cada dia contenha uma lista de treinos.
+        if (!Array.isArray(valor)) return true;
+
+        for (const treino of valor) {
+            if (!treino || typeof treino !== "object" || Array.isArray(treino) ||
+                !treino.id || typeof treino.nome !== "string" || !Array.isArray(treino.exercicios)) {
+                return true;
+            }
+            const id = String(treino.id);
+            if (ids.has(id)) return true;
+            ids.add(id);
+        }
+    }
+
+    return false;
+}
+
+function criarIdTreino() {
+    return `treino-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function normalizarTreinosMultiplos(dados) {
+    if (!dados || typeof dados !== "object" || Array.isArray(dados)) return {};
+
+    const resultado = { ...dados };
+    const idsUsados = new Set();
+
+    Object.entries(dados).forEach(([dia, valor]) => {
+        let lista;
+
+        if (Array.isArray(valor)) {
+            lista = valor;
+        } else if (valor && typeof valor === "object" &&
+            (Object.prototype.hasOwnProperty.call(valor, "nome") ||
+             Object.prototype.hasOwnProperty.call(valor, "exercicios"))) {
+            // Formato antigo: um único treino diretamente associado ao dia.
+            lista = [valor];
+        } else {
+            // Preserva campos desconhecidos em memória; a cópia de segurança protege o original.
+            return;
+        }
+
+        resultado[dia] = lista
+            .filter(t => t && typeof t === "object" && !Array.isArray(t))
+            .map((t, indice) => {
+                let id = t.id != null && String(t.id).trim()
+                    ? String(t.id)
+                    : `migrado-${dia}-${indice + 1}`;
+
+                if (idsUsados.has(id)) {
+                    id = `migrado-${dia}-${indice + 1}`;
+                    let sufixo = 2;
+                    while (idsUsados.has(id)) {
+                        id = `migrado-${dia}-${indice + 1}-${sufixo++}`;
+                    }
+                }
+                idsUsados.add(id);
+
+                return {
+                    ...t,
+                    id,
+                    nome: typeof t.nome === "string" && t.nome.trim()
+                        ? t.nome
+                        : `Treino ${indice + 1}`,
+                    exercicios: Array.isArray(t.exercicios) ? t.exercicios : []
+                };
+            });
+    });
+
+    return resultado;
+}
+
+function treinosDoDia(dia = diaSelecionado) {
+    if (!Array.isArray(treinos[dia])) {
+        treinos[dia] = [];
+    }
+    return treinos[dia];
+}
+
+function garantirTreinoInicial(dia = diaSelecionado) {
+    const lista = treinosDoDia(dia);
+    if (!lista.length) {
+        lista.push({
+            id: criarIdTreino(),
+            nome: "Treino 1",
+            exercicios: []
+        });
+    }
+    return lista;
+}
+
+function encontrarTreinoDia(id, dia = diaSelecionado) {
+    return treinosDoDia(dia).find(t => String(t.id) === String(id)) || null;
+}
+
+const MAX_TREINOS_POR_DIA = 4;
+
+function criarTreinoDia(dia = diaSelecionado) {
+    const lista = treinosDoDia(dia);
+    // A validação também existe na lógica, não apenas no botão da interface.
+    if (lista.length >= MAX_TREINOS_POR_DIA) return null;
+
+    const novo = {
+        id: criarIdTreino(),
+        nome: `Treino ${lista.length + 1}`,
+        exercicios: []
+    };
+    lista.push(novo);
+    return novo;
+}
+
+function aplicarFiltroTreinos(lista, filtro = filtroTreinosDia) {
+    if (filtro == null) return lista;
+    return lista.filter(treino => String(treino.id) === String(filtro));
+}
+
+function eliminarTreinoDia(id, confirmar, dia = diaSelecionado) {
+    const lista = treinosDoDia(dia);
+    const indice = lista.findIndex(t => String(t.id) === String(id));
+    if (indice < 0 || typeof confirmar !== "function") return false;
+
+    const treino = lista[indice];
+    if (!confirmar(treino)) return false;
+
+    lista.splice(indice, 1);
+    if (String(dia) === String(diaSelecionado)) {
+        if (String(treinoSelecionadoId) === String(id)) {
+            treinoSelecionadoId = lista[0]?.id ?? null;
+        }
+        if (filtroTreinosDia !== null && String(filtroTreinosDia) === String(id)) {
+            filtroTreinosDia = null;
+        }
+        filtroTreinosAberto = false;
+    }
+    save();
+    return true;
+}
+
+function treinoAtual() {
+    const lista = treinosDoDia(diaSelecionado);
+    const atual = lista.find(t => String(t.id) === String(treinoSelecionadoId));
+    if (!atual) return null;
+    treinoSelecionadoId = atual.id;
+    return atual;
 }
 
 
@@ -1542,296 +1706,243 @@ function historicoComSeries(
    ========================================================= */
 
 function renderTreino() {
+    const r = document.getElementById("workout-root");
+    if (!r) return;
 
-    const r =
-        document.getElementById(
-            "workout-root"
-        );
-
-    if (!r) {
-        return;
+    const todosTreinos = treinosDoDia(diaSelecionado);
+    if (!todosTreinos.some(t => String(t.id) === String(treinoSelecionadoId))) {
+        treinoSelecionadoId = todosTreinos[0]?.id || null;
     }
 
-    const t =
-        treinos[diaSelecionado] || {
-            nome: "Treino",
-            exercicios: []
-        };
-
-    const d =
-        diasSemana.find(
-            x =>
-                x[0] === diaSelecionado
-        ) ||
-        diasSemana[0];
-
+    const d = diasSemana.find(x => x[0] === diaSelecionado) || diasSemana[0];
+    const totalExerciciosDia = todosTreinos.reduce(
+        (total, treino) => total + (Array.isArray(treino.exercicios) ? treino.exercicios.length : 0),
+        0
+    );
+    const treinosVisiveis = aplicarFiltroTreinos(todosTreinos, filtroTreinosDia);
+    const limiteTreinosAtingido = todosTreinos.length >= MAX_TREINOS_POR_DIA;
+    const diaAcimaDoLimite = todosTreinos.length > MAX_TREINOS_POR_DIA;
 
     r.innerHTML = `
-
         <div class="days-selector">
-
-            ${diasSemana
-                .map(
-                    x => `
-                        <button
-                            class="day-button ${
-                                x[0] === diaSelecionado
-                                    ? "active"
-                                    : ""
-                            }"
-                            data-day="${x[0]}"
-                        >
-
-                            <strong>
-                                ${x[1]}
-                            </strong>
-
-                            <span>
-                                ${
-                                    treinos[x[0]]
-                                        ?.exercicios
-                                        ?.length || ""
-                                }
-                            </span>
-
-                        </button>
-                    `
-                )
-                .join("")}
-
+            ${diasSemana.map(x => {
+                const listaDia = Array.isArray(treinos[x[0]]) ? treinos[x[0]] : [];
+                const total = listaDia.reduce((n, treino) => n + (Array.isArray(treino.exercicios) ? treino.exercicios.length : 0), 0);
+                return `
+                    <button class="day-button ${x[0] === diaSelecionado ? "active" : ""}" data-day="${x[0]}">
+                        <strong>${x[1]}</strong>
+                        <span>${total || ""}</span>
+                    </button>
+                `;
+            }).join("")}
         </div>
 
+        ${diaSelecionado === "domingo" ? `
+            <div class="gym-closed-message"><strong>Ginásio Encerrado</strong></div>
+        ` : ""}
 
-        ${
-            diaSelecionado === "domingo"
-                ? `
-                    <div class="gym-closed-message">
-
-                        <strong>
-                            Ginásio Encerrado
-                        </strong>
-
-
-                    </div>
-                `
-                : ""
-        }
-
-
-        <div class="selected-day">
-
-            <div>
-
-                <span class="eyebrow">
-                    DIA SELECIONADO
-                </span>
-
-                <h3>
-                    ${d[2]}
-                </h3>
-
+        <div class="selected-day workout-day-toolbar">
+            <div class="selected-day-title">
+                <span class="eyebrow">DIA SELECIONADO</span>
+                <h3>${d[2]}</h3>
+                <span class="workout-day-count">${todosTreinos.length} ${todosTreinos.length === 1 ? "treino" : "treinos"} · ${totalExerciciosDia} ${totalExerciciosDia === 1 ? "exercício" : "exercícios"}</span>
             </div>
 
-            <button
-                class="edit-workout-btn"
-                id="editWorkoutName"
-            >
-                Editar nome
-            </button>
-
+            <div class="workout-toolbar-actions">
+                <button type="button" class="add-workout-btn" id="addWorkout" ${limiteTreinosAtingido ? "disabled" : ""} aria-disabled="${limiteTreinosAtingido}" title="${limiteTreinosAtingido ? "Limite máximo de 4 treinos por dia" : "Adicionar treino"}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    <span>Adicionar Treino</span>
+                </button>
+                <div class="workout-filter-wrap">
+                    <button type="button" class="workout-filter-toggle" id="toggleWorkoutFilter" aria-label="Filtrar treinos" aria-expanded="${filtroTreinosAberto ? "true" : "false"}" aria-controls="workoutFilterMenu">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6.4 7.1v5.2l-3.2 1.7v-6.9L4 5Z"/></svg>
+                    </button>
+                    <div class="workout-filter-menu" id="workoutFilterMenu" role="group" aria-label="Filtrar treinos" ${filtroTreinosAberto ? "" : "hidden"}>
+                        <button type="button" data-workout-filter="todos" class="${filtroTreinosDia === null ? "active" : ""}" aria-pressed="${filtroTreinosDia === null}">Todos os treinos</button>
+                        ${todosTreinos.map((treino, indice) => {
+                            const nomeTreino = treino.nome || `Treino ${indice + 1}`;
+                            const selecionado = filtroTreinosDia !== null && String(filtroTreinosDia) === String(treino.id);
+                            return `<button type="button" data-workout-filter-id="${escaparAtributo(treino.id)}" class="${selecionado ? "active" : ""}" aria-pressed="${selecionado}" aria-label="Filtrar ${escapeHtml(nomeTreino)}, entrada ${indice + 1}">${escapeHtml(nomeTreino)}</button>`;
+                        }).join("")}
+                    </div>
+                </div>
+            </div>
         </div>
 
+        ${limiteTreinosAtingido ? `
+            <div class="workout-limit-notice ${diaAcimaDoLimite ? "over-limit" : ""}" role="status">
+                ${diaAcimaDoLimite
+                    ? `<strong>Este dia já tem ${todosTreinos.length} treinos.</strong><p>O limite atual é 4. Os dados existentes foram preservados; elimina manualmente os treinos excedentes para voltares a adicionar.</p>`
+                    : `<strong>Atingiste o limite máximo de 4 treinos para este dia.</strong>`}
+            </div>
+        ` : ""}
 
-        <div class="workout-name-card">
-
-            <strong>
-                ${escapeHtml(
-                    t.nome || "Treino"
-                )}
-            </strong>
-
-            <span>
-                ${t.exercicios.length}
-                exercício(s)
-            </span>
-
-        </div>
-
-
-        <div class="exercise-list">
-
-            ${
-                t.exercicios.length
-                    ? t.exercicios
-                          .map(
-                              (x, i) =>
-                                  renderExercicioCard(
-                                      x,
-                                      i
-                                  )
-                          )
-                          .join("")
-                    : `
-                        <div class="empty-workout">
-
-                            <strong>
-                                Este dia ainda não tem exercícios
-                            </strong>
-
-                            <p>
-                                Adiciona vários exercícios
-                                para construir o teu treino.
-                            </p>
-
+        <div class="workout-group-list">
+            ${treinosVisiveis.length ? treinosVisiveis.map((treino, indiceVisivel) => {
+                const trainId = escaparAtributo(treino.id);
+                const exercicios = Array.isArray(treino.exercicios) ? treino.exercicios : [];
+                const idEditar = indiceVisivel === 0 ? 'id="editWorkoutName"' : "";
+                const idAdicionar = indiceVisivel === 0 ? 'id="addExercise"' : "";
+                return `
+                    <section class="workout-group-card" data-train-id="${trainId}">
+                        <div class="workout-name-card workout-card-heading">
+                            <div class="workout-title-info">
+                                <strong>${escapeHtml(treino.nome || `Treino ${indiceVisivel + 1}`)}</strong>
+                                <span>${exercicios.length} ${exercicios.length === 1 ? "exercício" : "exercícios"}</span>
+                            </div>
+                            <div class="workout-card-actions">
+                                <button type="button" class="edit-workout-btn" ${idEditar} data-edit-workout="${trainId}">Editar nome</button>
+                                <button type="button" class="delete-workout-btn" data-delete-workout="${trainId}" aria-label="Eliminar treino ${escapeHtml(treino.nome || `Treino ${indiceVisivel + 1}`)}" title="Eliminar treino">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5"/></svg>
+                                </button>
+                            </div>
                         </div>
-                    `
-            }
 
+                        ${exercicios.length ? `
+                            <div class="workout-exercise-list">
+                                ${exercicios.map((x, i) => renderExercicioCard(x, i, treino.id)).join("")}
+                            </div>
+                        ` : `
+                            <div class="empty-workout workout-card-empty">
+                                <strong>Este treino ainda não tem exercícios</strong>
+                                <p>Adiciona exercícios para construir este treino.</p>
+                            </div>
+                        `}
+
+                        <button type="button" class="add-exercise-main" ${idAdicionar} data-add-exercise data-train-id="${trainId}">
+                            + Adicionar Exercício
+                        </button>
+                    </section>
+                `;
+            }).join("") : (todosTreinos.length === 0 ? `
+                <div class="workout-filter-empty">
+                    <strong>Ainda não existem treinos neste dia.</strong>
+                    <p>Usa “Adicionar Treino” para criar o primeiro treino.</p>
+                </div>
+            ` : `
+                <div class="workout-filter-empty">
+                    <strong>Não existem treinos com este filtro.</strong>
+                    <p>Os restantes treinos continuam guardados.</p>
+                    <button type="button" class="workout-filter-reset">Mostrar todos os treinos</button>
+                </div>
+            `)}
         </div>
-
-
-        <button
-            class="add-exercise-main"
-            id="addExercise"
-        >
-            + Adicionar exercício
-        </button>
-
     `;
 
-
-    /* =====================================================
-       EVENTOS DOS DIAS
-       ===================================================== */
-
-    document
-        .querySelectorAll(".day-button")
-        .forEach(
-            b => {
-
-                b.onclick = () => {
-
-                    diaSelecionado =
-                        b.dataset.day;
-
-                    renderTreino();
-                };
-            }
-        );
-
-
-    /* =====================================================
-       ADICIONAR EXERCÍCIO
-       ===================================================== */
-
-    document.getElementById(
-        "addExercise"
-    ).onclick =
-        abrirAdicionar;
-
-
-    /* =====================================================
-       EDITAR NOME
-       ===================================================== */
-
-    document.getElementById(
-        "editWorkoutName"
-    ).onclick = () => {
-
-        const n =
-            prompt(
-                "Nome do treino:",
-                t.nome
-            );
-
-        if (n?.trim()) {
-
-            t.nome =
-                n.trim();
-
-            save();
+    r.querySelectorAll(".day-button").forEach(b => {
+        b.onclick = () => {
+            diaSelecionado = b.dataset.day;
+            treinoSelecionadoId = null;
+            filtroTreinosDia = null;
+            filtroTreinosAberto = false;
             renderTreino();
+        };
+    });
+
+    document.getElementById("addWorkout").onclick = () => {
+        const listaDia = treinosDoDia(diaSelecionado);
+        if (listaDia.length >= MAX_TREINOS_POR_DIA) {
+            alert(listaDia.length > MAX_TREINOS_POR_DIA
+                ? `Este dia já tem ${listaDia.length} treinos. Os dados foram preservados; elimina treinos excedentes antes de adicionar outro.`
+                : "Atingiste o limite máximo de 4 treinos para este dia.");
+            return;
         }
+
+        const novo = criarTreinoDia(diaSelecionado);
+        if (!novo) return;
+        treinoSelecionadoId = novo.id;
+        filtroTreinosDia = null;
+        filtroTreinosAberto = false;
+        save();
+        renderTreino();
     };
 
+    document.getElementById("toggleWorkoutFilter").onclick = () => {
+        filtroTreinosAberto = !filtroTreinosAberto;
+        renderTreino();
+    };
 
-    /* =====================================================
-       REMOVER EXERCÍCIO
-       ===================================================== */
+    r.querySelectorAll("[data-workout-filter], [data-workout-filter-id]").forEach(b => {
+        b.onclick = () => {
+            filtroTreinosDia = b.hasAttribute("data-workout-filter-id")
+                ? b.dataset.workoutFilterId
+                : null;
+            filtroTreinosAberto = false;
+            renderTreino();
+        };
+    });
 
-    document
-        .querySelectorAll(
-            ".delete-exercise"
-        )
-        .forEach(
-            b => {
+    r.querySelectorAll(".workout-filter-reset").forEach(b => {
+        b.onclick = () => {
+            filtroTreinosDia = null;
+            filtroTreinosAberto = false;
+            renderTreino();
+        };
+    });
 
-                b.onclick = () => {
+    r.querySelectorAll("[data-add-exercise]").forEach(b => {
+        b.onclick = () => {
+            treinoSelecionadoId = b.dataset.trainId;
+            abrirAdicionar();
+        };
+    });
 
-                    t.exercicios.splice(
-                        Number(
-                            b.dataset.index
-                        ),
-                        1
-                    );
-
-                    save();
-                    renderTreino();
-                };
+    r.querySelectorAll("[data-edit-workout]").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.editWorkout);
+            if (!treino) return;
+            const nome = prompt("Nome do treino:", treino.nome);
+            if (nome?.trim()) {
+                treino.nome = nome.trim();
+                treinoSelecionadoId = treino.id;
+                save();
+                renderTreino();
             }
-        );
+        };
+    });
 
+    r.querySelectorAll("[data-delete-workout]").forEach(b => {
+        b.onclick = () => {
+            const eliminado = eliminarTreinoDia(
+                b.dataset.deleteWorkout,
+                () => window.confirm(
+                    "Tens a certeza de que pretendes eliminar este treino? Todos os exercícios associados serão removidos."
+                )
+            );
+            if (!eliminado) return;
+            renderTreino();
+        };
+    });
 
-    /* =====================================================
-       VER PROGRESSÃO
-       ===================================================== */
+    r.querySelectorAll(".delete-exercise").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.trainId);
+            const indice = Number(b.dataset.index);
+            if (!treino || !Number.isInteger(indice) || indice < 0 || indice >= treino.exercicios.length) return;
+            treino.exercicios.splice(indice, 1);
+            treinoSelecionadoId = treino.id;
+            save();
+            renderTreino();
+        };
+    });
 
-    document
-        .querySelectorAll(
-            ".progress-button"
-        )
-        .forEach(
-            b => {
+    r.querySelectorAll(".progress-button").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.trainId);
+            const exercicio = treino?.exercicios?.[Number(b.dataset.index)];
+            mostrarProgressao(exercicio);
+        };
+    });
 
-                b.onclick = () => {
-
-                    mostrarProgressao(
-                        t.exercicios[
-                            Number(
-                                b.dataset.index
-                            )
-                        ]
-                    );
-                };
-            }
-        );
-
-
-    /* =====================================================
-       ATUALIZAR EXERCÍCIO
-       ===================================================== */
-
-    document
-        .querySelectorAll(
-            ".update-exercise-button"
-        )
-        .forEach(
-            b => {
-
-                b.onclick = () => {
-
-                    abrirEditorExercicio(
-                        t.exercicios[
-                            Number(
-                                b.dataset.index
-                            )
-                        ]
-                    );
-                };
-            }
-        );
+    r.querySelectorAll(".update-exercise-button").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.trainId);
+            const exercicio = treino?.exercicios?.[Number(b.dataset.index)];
+            if (treino) treinoSelecionadoId = treino.id;
+            abrirEditorExercicio(exercicio);
+        };
+    });
 }
-
 
 /* =========================================================
    CARTÃO DE EXERCÍCIO
@@ -1839,7 +1950,8 @@ function renderTreino() {
 
 function renderExercicioCard(
     x,
-    i
+    i,
+    treinoId = ""
 ) {
 
     const meta =
@@ -1925,6 +2037,7 @@ function renderExercicioCard(
                 <button
                     class="delete-exercise"
                     data-index="${i}"
+                    data-train-id="${escaparAtributo(treinoId)}"
                     aria-label="Remover exercício"
                 >
                     ×
@@ -1945,6 +2058,7 @@ function renderExercicioCard(
                 <button
                     class="secondary-btn update-exercise-button"
                     data-index="${i}"
+                    data-train-id="${escaparAtributo(treinoId)}"
                 >
                     Atualizar
                 </button>
@@ -1952,6 +2066,7 @@ function renderExercicioCard(
                 <button
                     class="progress-button"
                     data-index="${i}"
+                    data-train-id="${escaparAtributo(treinoId)}"
                 >
                     Ver progressão
                 </button>
@@ -4047,6 +4162,7 @@ function guardarExercicio() {
     const personal =
         nameInput.dataset.personalizado ===
         "true";
+    const grupo = nameInput.dataset.grupo || inferirGrupoExercicio(nome);
 
 
     if (personal) {
@@ -4076,6 +4192,9 @@ function guardarExercicio() {
 
     const t =
         treinoAtual();
+    if (!t) {
+        return alert("Seleciona um treino antes de adicionar um exercício.");
+    }
 
     const now =
         Date.now();
