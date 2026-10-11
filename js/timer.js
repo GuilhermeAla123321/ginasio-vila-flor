@@ -107,7 +107,8 @@ function updateTimer() {
         card.classList.toggle("is-running", timerRunning);
         card.classList.toggle("is-finished", !timerRunning && timerSeconds === 0 && timerTotal > 0);
     }
-    if (state) state.textContent = timerRunning ? "Em curso" : (timerSeconds === 0 && timerTotal > 0 ? "Concluído" : "Pronto");
+    // Mantém o estado acessível, mas não mostra a mensagem redundante "Pronto".
+    if (state) state.textContent = timerRunning ? "Em curso" : (timerSeconds === 0 && timerTotal > 0 ? "Concluído" : "");
     if (startButton) {
         startButton.textContent = timerRunning ? "Parar" : "Iniciar";
         startButton.setAttribute("aria-label", timerRunning ? "Parar temporizador" : "Iniciar temporizador");
@@ -130,7 +131,7 @@ function resetTimer() {
 document.addEventListener("DOMContentLoaded", () => {
     const minutesWheel = document.getElementById("timerMinutesWheel");
     const secondsWheel = document.getElementById("timerSecondsWheel");
-    createTimerWheel(minutesWheel, 99, "min");
+    createTimerWheel(minutesWheel, 59, "min");
     createTimerWheel(secondsWheel, 59, "s");
 
     [minutesWheel, secondsWheel].forEach(wheel => {

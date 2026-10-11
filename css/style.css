@@ -6025,3 +6025,189 @@ body[data-theme="light"] .workout-add-form #exerciseType {
   }
 }
 
+
+/* ==========================================================
+   TIMER — apresentação compacta e refinada
+   Regras limitadas à página Timer para evitar efeitos noutras secções.
+   ========================================================== */
+#page-timer .section {
+    padding: 18px 16px 14px;
+}
+
+#page-timer > .section > .eyebrow {
+    display: inline-block;
+    margin-bottom: 2px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+}
+
+#page-timer h2 {
+    margin: 3px 0 5px;
+    font-size: 23px;
+    letter-spacing: -.5px;
+}
+
+#page-timer > .section > p.muted {
+    margin: 0 0 12px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.timer-wheel-card {
+    gap: 10px;
+    padding: 14px 14px 12px;
+    border-radius: 17px;
+}
+
+.timer-wheel-picker {
+    gap: 10px;
+    max-width: 380px;
+    margin-top: 0;
+}
+
+.timer-wheel-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.timer-wheel-label {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .35px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.timer-wheel {
+    height: 176px;
+    padding-block: 66px;
+    scroll-padding-block: 66px;
+    border-radius: 13px;
+    background: rgba(255,255,255,.012);
+}
+
+.timer-wheel-option {
+    font-size: 22px;
+    font-weight: 500;
+    opacity: .38;
+}
+
+.timer-wheel-option.selected {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.timer-wheel-unit {
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.timer-wheel-selection {
+    height: 40px;
+    border: 1px solid rgba(124,77,255,.12);
+    background: rgba(124,77,255,.055);
+}
+
+.timer-wheel-countdown {
+    width: min(154px, 42vw);
+    height: min(154px, 42vw);
+    margin: 0 auto -8px;
+}
+
+.timer-wheel-countdown .timer-ring-bg,
+.timer-wheel-countdown .timer-ring-progress {
+    stroke-width: 8;
+}
+
+.timer-wheel-countdown .timer-display {
+    font-size: clamp(29px, 7vw, 34px);
+    letter-spacing: -1.3px;
+}
+
+.timer-wheel-card .timer-wheel-picker {
+    margin-top: -2px;
+}
+
+.timer-wheel-actions {
+    gap: 8px;
+}
+
+.timer-wheel-actions button {
+    min-height: 44px;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 12px;
+    touch-action: manipulation;
+}
+
+.timer-wheel-status {
+    margin: 0;
+    min-height: 0;
+    font-size: 11px;
+    line-height: 1.25;
+}
+
+.timer-wheel-status:empty {
+    display: none;
+}
+
+body[data-theme="light"] .timer-wheel {
+    background: rgba(35,44,72,.018);
+}
+
+body[data-theme="light"] .timer-wheel-selection {
+    background: rgba(124,77,255,.055);
+    border-color: rgba(124,77,255,.13);
+}
+
+@media (max-width: 420px) {
+    #page-timer .section {
+        padding: 16px 12px 12px;
+    }
+
+    .timer-wheel-card {
+        gap: 8px;
+        padding: 12px 10px 10px;
+    }
+
+    .timer-wheel-picker {
+        gap: 8px;
+    }
+
+    .timer-wheel {
+        height: 164px;
+        padding-block: 60px;
+        scroll-padding-block: 60px;
+    }
+
+    .timer-wheel-option {
+        font-size: 20px;
+    }
+
+    .timer-wheel-option.selected {
+        font-size: 23px;
+    }
+
+    .timer-wheel-unit {
+        font-size: 12px;
+    }
+
+    .timer-wheel-countdown {
+        width: 132px;
+        height: 132px;
+        margin-bottom: -6px;
+    }
+
+    .timer-wheel-countdown .timer-display {
+        font-size: 29px;
+    }
+
+    .timer-wheel-actions button {
+        min-height: 44px;
+        padding: 9px 8px;
+        font-size: 12px;
+    }
+}
