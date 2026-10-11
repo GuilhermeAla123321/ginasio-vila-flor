@@ -2,7 +2,7 @@
     "use strict";
 
     const CONFIG = window.GINASIO_TIMER_PUSH_CONFIG || { appId: "" };
-    const APP_ID = typeof CONFIG.appId === "string" ? CONFIG.appId.trim() : "";
+    let APP_ID = typeof CONFIG.appId === "string" ? CONFIG.appId.trim() : "";
     const MESSAGE_ID_KEY = "vf_timer_background_push_message_id";
     const PUSH_DELAY_MS = 1200; // margem para cancelar um push se a página terminar em primeiro plano
 
@@ -60,8 +60,14 @@
 
     async function checkBackend() {
         try {
-            const result = await requestJson(`/api/timer/status?appId=${encodeURIComponent(APP_ID)}`, { method: "GET" });
+            // O App ID é público e pode ser entregue pelo endpoint de estado do servidor.
+            // Assim, não é necessário editar manualmente o JS do cliente após configurar Vercel.
+            const result = await requestJson("/api/timer/status", { method: "GET" });
             backendConfigured = result.configured === true;
+            if (backendConfigured && typeof result.appId === "string" && result.appId.trim()) {
+                APP_ID = result.appId.trim();
+            }
+            backendConfigured = backendConfigured && Boolean(APP_ID);
             return backendConfigured;
         } catch (_) {
             backendConfigured = false;
@@ -162,8 +168,10 @@
 
     function renderCurrentState() {
         if (!APP_ID || !backendConfigured) {
-            setButton("Ativar alertas", false);
-            setStatus("Configuração inicial necessária no projeto (ver CONFIGURAR_ALERTAS_EM_SEGUNDO_PLANO.md). O temporizador local continua disponível.");
+            // Mantém o botão acionável: um controlo desativado parecia não responder
+            // e escondia a causa real, que é a configuração do serviço remoto.
+            setButton("Verificar configuração", true);
+            setStatus("Os alertas com ecrã bloqueado ainda não estão configurados no servidor. No Vercel, define ONESIGNAL_APP_ID, ONESIGNAL_REST_API_KEY e TIMER_APP_ORIGIN. Depois publica novamente. O Timer local continua disponível.");
             return;
         }
 
@@ -203,8 +211,8 @@
         setStatus("A preparar notificações do sistema…");
 
         try {
-            if (!backendConfigured && !(await checkBackend())) {
-                throw new Error("O serviço de envio em segundo plano ainda não está configurado no alojamento.");
+            if ((!backendConfigured || !APP_ID) && !(await checkBackend())) {
+                throw new Error("Não foi possível ativar os alertas: falta configurar o serviço no Vercel. Define ONESIGNAL_APP_ID, ONESIGNAL_REST_API_KEY e TIMER_APP_ORIGIN e publica novamente. Nenhuma permissão foi pedida; o Timer local continua a funcionar.");
             }
             if (!oneSignalInstance) {
                 // Carregamos o fornecedor apenas após o utilizador pedir para ativar a função.
@@ -237,7 +245,7 @@
             renderCurrentState();
         } catch (error) {
             // Permite repetir a verificação se o primeiro pedido falhou por rede/configuração.
-            setButton("Tentar novamente", Boolean(APP_ID));
+            setButton(APP_ID && backendConfigured ? "Tentar novamente" : "Verificar configuração", true);
             setStatus(error?.message || "Não foi possível ativar os alertas. O Timer continua a funcionar nesta página.");
         }
     }
@@ -316,21 +324,14 @@
         const enableButton = button();
         if (enableButton) enableButton.addEventListener("click", enable);
 
-        if (!APP_ID) {
-            renderCurrentState();
-            return;
-        }
-
-        setStatus("A verificar configuração das notificações…");
-        const ready = await checkBackend();
-        if (!ready) {
-            renderCurrentState();
-            return;
-        }
-
-        // Não carregar o SDK de terceiros em todas as visitas. O carregamento só começa
-        // depois de o utilizador tocar no controlo para ativar alertas em segundo plano.
+        // Confirma sempre o servidor, mesmo quando o App ID ainda não está no JS público.
+        // Se o backend estiver configurado, o endpoint devolve apenas o App ID público.
+        setButton("A verificar…", false);
+        setStatus("A verificar a configuração das notificações…");
+        await checkBackend();
         renderCurrentState();
+
+        // O SDK de terceiros só será carregado após interação explícita do utilizador.
     }
 
     window.TimerBackgroundAlerts = Object.freeze({
