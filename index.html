@@ -4,1199 +4,1233 @@
 
 <head>
 
-          <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-          <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-          <meta name="theme-color" content="#6a3b61">
+    <meta name="theme-color" content="#6a3b61">
 
-          <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
-          <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
-          <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
 
-          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-          <meta name="apple-mobile-web-app-title" content="Ginásio Vila Flor">
+    <meta name="apple-mobile-web-app-title" content="Ginásio Vila Flor">
 
-          <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
 
-          <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
 
-          <title>Ginásio Municipal de Vila Flor</title>
+    <title>Ginásio Municipal de Vila Flor</title>
 
-          <script>try{const t=localStorage.getItem("vf_ginasio_tema");document.documentElement.dataset.theme=t==="light"?"light":"dark";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+    <script>try{const t=localStorage.getItem("vf_ginasio_tema");document.documentElement.dataset.theme=t==="light"?"light":"dark";}catch(e){document.documentElement.dataset.theme="dark";}</script>
 
-          <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
 
-          <div class="app">
+    <div class="app">
 
-                    <header class="topbar">
+        <header class="topbar">
 
-                              <div class="brand">
+            <div class="brand">
 
-                                        <div class="brand-mark"><svg class="brand-symbol" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h16M6.5 8.5v7M4.5 10v4M9 9.5v5M15 9.5v5M17.5 8.5v7M19.5 10v4"/></svg></div>
+                <div class="brand-mark"><svg class="brand-symbol" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h16M6.5 8.5v7M4.5 10v4M9 9.5v5M15 9.5v5M17.5 8.5v7M19.5 10v4"/></svg></div>
 
-                                        <div class="brand-text">
+                <div class="brand-text">
 
-                                                  <strong>Ginásio Municipal</strong>
+                    <strong>Ginásio Municipal</strong>
 
-                                                  <span>Vila Flor</span>
+                    <span>Vila Flor</span>
 
-                                        </div>
+                </div>
 
-                              </div>
+            </div>
 
-                              <div class="topbar-actions">
+            <div class="topbar-actions">
 
-                                        <button class="icon-btn theme-toggle" id="themeToggle"
+                <button class="icon-btn theme-toggle" id="themeToggle"
 
-                                                            aria-label="Mudar tema"
+                        aria-label="Mudar tema"
 
-                                                            title="Mudar tema">
+                        title="Mudar tema">
 
-                                                  <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+                    <span class="theme-toggle-icon" aria-hidden="true">☾</span>
 
-                                        </button>
+                </button>
 
-                                        <button class="icon-btn" id="infoBtn" aria-label="Informações">
+                <button class="icon-btn" id="infoBtn" aria-label="Informações">
 
-                                                  <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24">
 
-                                                            <circle cx="12" cy="12" r="9"/>
+                        <circle cx="12" cy="12" r="9"/>
 
-                                                            <path d="M12 10v6M12 7h.01"/>
+                        <path d="M12 10v6M12 7h.01"/>
 
-                                                  </svg>
+                    </svg>
 
-                                        </button>
+                </button>
 
-                              </div>
+            </div>
 
-                    </header>
+        </header>
 
-                    <main id="app-content">
+        <main id="app-content">
 
-                              <section class="page active" id="page-home">
+            <section class="page active" id="page-home">
 
-                                        <div class="hero">
+                <div class="hero">
 
-                                                  <div class="hero-glow"></div>
+                    <div class="hero-glow"></div>
 
-                                                  <div class="hero-grid"></div>
+                    <div class="hero-grid"></div>
 
-                                                  <div class="petal-decoration petal-one" aria-hidden="true"></div>
+                    <div class="petal-decoration petal-one" aria-hidden="true"></div>
 
-                                                  <div class="petal-decoration petal-two" aria-hidden="true"></div>
+                    <div class="petal-decoration petal-two" aria-hidden="true"></div>
 
-                                                  <div class="petal-decoration petal-three" aria-hidden="true"></div>
+                    <div class="petal-decoration petal-three" aria-hidden="true"></div>
 
-                                                  <div class="justthis">
+                    <div class="justthis">
 
-                                                            <h3>VILA FLOR</h3>
+                        <h3>VILA FLOR</h3>
 
-                                                            <span>TERRA DE ALMA E COR</span>
-
-                                                  </div>
-
-                                                  <div class="hero-overlay">
-
-                                                            <h1>
-
-                                                                      Treina melhor.<br>
-
-                                                                      <em>Vive melhor.</em>
-
-                                                            </h1>
-
-                                                            <p>
-
-                                                                      O teu espaço para força, cardio e evolução.
-
-                                                                      Tudo o que precisas para treinar num só lugar.
-
-                                                            </p>
-
-                                                  <div class="hero-actions">
-
-                                                            <button class="hero-btn" data-page-jump="equipment">
-
-                                                                      Ver equipamentos <span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M13 6.5l5.5 5.5-5.5 5.5"/></svg></span>
-
-                                                            </button>
-
-                                                            <button class="hero-link" data-page-jump="workout">
-
-                                                                      Meu treino
-
-                                                            </button>
-
-                                        </div>
-
-                                                  </div>
-
-                                        </div>
-
-                                        <section class="section intro-section">
-
-                                                  <div class="section-heading">
-
-                                                            <span class="eyebrow">SOBRE O ESPAÇO</span>
-
-                                                            <span class="heading-line"></span>
-
-                                                  </div>
-
-                                                  <h2>O Ginásio</h2>
-
-                                                  <p class="muted">Espaço desportivo do Município de Vila Flor, equipado para treino de força, resistência e condicionamento físico.</p>
-
-                                                  <div class="stats">
-
-                                                            <div>
-
-                                                                      <b>15+</b>
-
-                                                                      <span>Equipamentos</span>
-
-                                                            </div>
-
-                                                            <div>
-
-                                                                      <b>2</b>
-
-                                                                      <span>Instrutores</span>
-
-                                                            </div>
-
-                                                            <div>
-
-                                                                      <b>4</b>
-
-                                                                      <span>Anos aberto</span>
-
-                                                            </div>
-
-                                                  </div>
-
-                                        </section>
-
-                                        <section class="section">
-
-                                                  <div class="section-heading">
-
-                                                            <span class="eyebrow">ESPAÇO</span>
-
-                                                            <span class="heading-line"></span>
-
-                                                  </div>
-
-                                                  <h2>Zonas de treino</h2>
-
-                                                  <div class="zone-card zone-muscle">
-
-                                                            <div>
-
-                                                                      <h3>Zona de Musculação</h3>
-
-                                                                      <p>Máquinas, resistência e pesos livres.</p>
-
-                                                            </div>
-
-                                                  </div>
-
-                                                  <div class="zone-card zone-cardio">
-
-                                                            <div>
-
-                                                                      <h3>Zona de Cardio</h3>
-
-                                                                      <p>Passadeiras, bicicletas, elípticas e remo.</p>
-
-                                                            </div>
-
-                                                  </div>
-
-                                        </section>
-
-                                        <section class="section">
-
-                                                  <div class="section-heading">
-
-                                                            <span class="eyebrow">COMODIDADES</span>
-
-                                                            <span class="heading-line"></span>
-
-                                                  </div>
-
-                                                  <h2>Conforto</h2>
-
-                                                  <div class="amenities">
-
-                                                            <div class="amenity">
-
-                                                                      <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9 5l3 3 3-3M9 19l3-3 3 3M4.5 10.5l4.2-.4-.4-4.2M19.5 13.5l-4.2.4.4 4.2M4.5 13.5l4.2.4-.4 4.2M19.5 10.5l-4.2-.4.4-4.2"/></svg></div>
-
-                                                                      <div>
-
-                                                                                <b>Ar Condicionado</b>
-
-                                                                                <small>Temperatura confortável</small>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                            <div class="amenity">
-
-                                                                      <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="13" rx="2"/><path d="m9 21 3-3.5 3 3.5M8.5 8.5l7 5M15.5 8.5l-7 5"/></svg></div>
-
-                                                                      <div>
-
-                                                                                <b>Televisão</b>
-
-                                                                                <small>Entretenimento</small>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                            <div class="amenity">
-
-                                                                      <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 10.5a8.5 8.5 0 0 1 17 0H3.5ZM6 14v.5M10 14v1.5M14 14v.5M18 14v1.5M8 18v.5M16 18v.5M12 2.5v2"/></svg></div>
-
-                                                                      <div>
-
-                                                                                <b>Balneários</b>
-
-                                                                                <small>Masculino e feminino</small>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                            <div class="amenity">
-
-                                                                      <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3" width="7.5" height="18" rx="1.3"/><rect x="13" y="3" width="7.5" height="18" rx="1.3"/><path d="M7.7 7.5h.1M17.2 7.5h.1M6 11.5h2.5M15.5 11.5H18"/></svg></div>
-
-                                                                      <div>
-
-                                                                                <b>Cacifos</b>
-
-                                                                                <small>Espaço para objetos</small>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                            <div class="amenity">
-
-                                                                      <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8.8a14 14 0 0 1 18 0M6.5 12.3a8.5 8.5 0 0 1 11 0M9.7 15.5a3.7 3.7 0 0 1 4.6 0"/><circle cx="12" cy="19" r=".8" fill="currentColor" stroke="none"/></svg></div>
-
-                                                                      <div>
-
-                                                                                <b>WiFi Gratuito</b>
-
-                                                                                <small>Ligação disponível</small>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                            <div class="amenity">
-
-                                                                      <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 17V7h4.2a3.2 3.2 0 0 1 0 6.4H9"/></svg></div>
-
-                                                                      <div>
-
-                                                                                <b>Estacionamento</b>
-
-                                                                                <small>Próximo do espaço</small>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                  </div>
-
-                                        </section>
-
-                              </section>
-
-                              <section class="page" id="page-equipment">
-
-                                        <section class="section">
-
-                                                  <span class="eyebrow">EQUIPAMENTOS/AJUDA</span>
-
-                                                  <h2>Conhece o espaço</h2>
-
-                                                  <p class="muted">Consulta os equipamentos disponíveis no ginásio e, se precisares de ajuda, clica em cada um para conhecer os exercícios disponíveis.</p>
-
-                                                  <div class="equipment-filters">
-
-                                                            <button class="filter-btn active" data-filter="Todos">Todos</button>
-
-                                                            <button class="filter-btn" data-filter="Musculação">Musculação</button>
-
-                                                            <button class="filter-btn" data-filter="Cardio">Cardio</button>
-
-                                                  </div>
-
-                                                  <div id="equipment-list" class="equipment-list">
-
-                                                            <article class="equipment-card" data-category="Cardio">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/passadeira.png" alt="Passadeira">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Passadeira</h3>
-
-                                                                                <p>Corrida e caminhada com velocidade e inclinação ajustáveis.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Cardio">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/bicicleta.png" alt="Bicicleta">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Bicicleta</h3>
-
-                                                                                <p>Treino cardiovascular de baixo impacto.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Cardio">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/eliptica.png" alt="Elíptica">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Elíptica</h3>
-
-                                                                                <p>Treino cardiovascular de corpo inteiro e baixo impacto.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Cardio">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/remo.png" alt="Máquina de Remo">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Máquina de Remo</h3>
-
-                                                                                <p>Trabalho cardiovascular e muscular de corpo inteiro.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/smith.png" alt="Smith Machine">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Smith Machine</h3>
-
-                                                                                <p>Treino de força guiado com maior estabilidade.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/banco-peso.png" alt="Banco de Peso">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Banco de Peso</h3>
-
-                                                                                <p>Treino com pesos livres e exercícios variados.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/polia.png" alt="Polia Multifuncional">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Polia Multifuncional</h3>
-
-                                                                                <p>Exercícios de força para diferentes grupos musculares.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/abdutora.png" alt="Máquina Abdutora">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Máquina Abdutora</h3>
-
-                                                                                <p>Trabalho específico dos músculos abdutores da anca.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                                <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/prensa.png" alt="Prensa de Ombros">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Prensa de Ombros</h3>
-
-                                                                                <p>Trabalho específico para a região dos Ombros.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                                          <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/peckdeck.png" alt="Peck Deck">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Peck Deck</h3>
-
-                                                                                <p>Trabalho específico para a região do Peito e Costas.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/peso-livre.png" alt="Peso Livre">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Peso Livre</h3>
-
-                                                                                <p>Halteres e cargas livres para treino de força.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/legpress.png" alt="Leg Press">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Leg Press</h3>
-
-                                                                                <p>Treino de força direcionado aos principais músculos das pernas.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/extensora .png" alt="Leg Press">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Cadeira Extensora</h3>
-
-                                                                                <p>Fortalece e isola os músculos da parte da frente da coxa.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                            <article class="equipment-card" data-category="Musculação">
-
-                                                                      <div class="equipment-icon">
-
-                                                                                <img src="assets/mesa.png" alt="Leg Press">
-
-                                                                      </div>
-
-                                                                      <div class="equipment-info">
-
-                                                                                <h3>Mesa Flexora</h3>
-
-                                                                                <p>Exercício focado no fortalecimento dos posteriores da coxa.</p>
-
-                                                                      </div>
-
-                                                            </article>
-
-                                                  </div>
-
-                                        </section>
-
-                              </section>
-
-                              <section class="page" id="page-workout">
-
-                                        <section class="section workout-page">
-
-                                                  <div class="workout-header">
-
-                                                            <span class="eyebrow">TREINO</span>
-
-                                                            <h2>Meu treino</h2>
-
-                                                            <p class="muted">Escolhe o dia e cria um treino com vários exercícios.</p>
-
-                                                  </div>
-
-                                                  <div id="workout-root"></div>
-
-                                        </section>
-
-                              </section>
-
-                              <section class="page" id="page-timer">
-
-                                        <section class="section">
-
-                                                  <span class="eyebrow">TREINO</span>
-
-                                                  <h2>Timer</h2>
-
-                                                  <p class="muted">Tempo de descanso</p>
-
-                                                  <div class="timer-card timer-wheel-card" id="timerCard">
-
-                                                            <!-- Contagem decrescente circular visível acima do seletor em roda -->
-
-                                                            <svg class="timer-wheel-svg-defs" width="0" height="0" aria-hidden="true">
-
-                                                                      <defs>
-
-                                                                                <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-
-                                                                                          <stop offset="0%" stop-color="#7c4dff"/>
-
-                                                                                          <stop offset="100%" stop-color="#3fa9f5"/>
-
-                                                                                </linearGradient>
-
-                                                                                <linearGradient id="timerGradientActive" x1="0%" y1="0%" x2="100%" y2="100%">
-
-                                                                                          <stop offset="0%" stop-color="#2ecc8f"/>
-
-                                                                                          <stop offset="100%" stop-color="#3fa9f5"/>
-
-                                                                                </linearGradient>
-
-                                                                      </defs>
-
-                                                            </svg>
-
-                                                            <div class="timer-ring-wrap timer-wheel-countdown" aria-label="Tempo restante">
-
-                                                                      <svg class="timer-ring" viewBox="0 0 220 220" aria-hidden="true">
-
-                                                                                <circle class="timer-ring-bg" cx="110" cy="110" r="100"/>
-
-                                                                                <circle id="timerRingProgress" class="timer-ring-progress" cx="110" cy="110" r="100"/>
-
-                                                                      </svg>
-
-                                                                      <div class="timer-center">
-
-                                                                                <div id="timerDisplay" class="timer-display">00:00</div>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                            <div class="timer-wheel-picker" aria-label="Selecionar duração do temporizador">
-
-                                                                      <div class="timer-wheel-column">
-
-                                                                                <span class="timer-wheel-label">Minutos</span>
-
-                                                                                <div class="timer-wheel" id="timerMinutesWheel" tabindex="0" aria-label="Minutos"></div>
-
-                                                                      </div>
-
-                                                                      <div class="timer-wheel-column">
-
-                                                                                <span class="timer-wheel-label">Segundos</span>
-
-                                                                                <div class="timer-wheel" id="timerSecondsWheel" tabindex="0" aria-label="Segundos"></div>
-
-                                                                      </div>
-
-                                                            </div>
-
-                                                            <div class="timer-wheel-actions">
-
-                                                                      <button id="timerStart" class="primary-btn" type="button">Iniciar</button>
-
-                                                                      <button id="timerReset" class="secondary-btn" type="button">Reiniciar</button>
-
-                                                            </div>
-
-                                                            <p class="timer-wheel-status" id="timerState" aria-live="polite"></p>
-
-                                                  </div>
-
-                                        </section>
-
-                              </section>
-
-                              <section class="page" id="page-info">
-
-                                        <section class="section">
-
-                                                  <span class="eyebrow">INFORMAÇÃO</span>
-
-                                                  <h2>Ginásio Municipal</h2>
-
-                                                  <div class="info-card">
-
-                                                            <h3>Localização</h3>
-
-                                                            <p>
-
-                                                                      Ginásio Municipal de Vila Flor<br>
-
-                                                                      Rua do Olival n.º 40<br>
-
-                                                                      5360-374 Vila Flor
-
-                                                            </p>
-
-                                                            <a
-
-                                                                      href="https://www.google.com/maps/search/?api=1&query=Ginásio+Municipal+de+Vila+Flor,+Rua+do+Olival+40,+5360-374+Vila+Flor"
-
-                                                                      target="_blank"
-
-                                                                      rel="noopener noreferrer"
-
-                                                                      class="location-button"
-
-                                                            >
-
-                                                                      Ver localização
-
-                                                            </a>
-
-                                                  </div>
-
-                                                 <div class="info-card">
-
-                                                            <h3>Horário</h3>
-
-                                                            <p>
-
-                                                                      Segunda a sexta: 09:00–12:30 e 16:00–20:30<br>
-
-                                                                      Sábado: 15:00–19:00<br>
-
-                                                                      Domingo: Encerrado
-
-                                                            </p>
-
-                                                  </div>
-
-                                                  <div class="info-card">
-
-                                                            <h3>Contacto</h3>
-
-                                                            <p>Contacta o Município para informações, ou dúvidas:<br>
-
-                                                                      Email: geral@cm-vilaflor.pt<br>
-
-                                                                      Telefone: 278 510 100
-
-                                                            </p>
-
-                                                  </div>
-
-                                        <div class="info-card">
-
-                                                  <h3>Sobre a aplicação</h3>
-
-                                                  <p>
-
-                                                            Uma forma simples de acompanhar os teus treinos,
-
-                                                            consultar exercícios, equipamentos e acompanhar a tua evolução.
-
-                                                  </p>
-
-                                        </div>
-
-                                        </section>
-
-                              </section>
-
-                    </main>
-
-                    <div class="exercise-modal-overlay" id="exerciseModalOverlay">
-
-                              <div class="exercise-modal" role="dialog" aria-modal="true" aria-labelledby="exerciseModalTitle">
-
-                                        <div class="exercise-modal-handle"></div>
-
-                                        <div class="exercise-modal-top">
-
-                                                  <div>
-
-                                                            <span class="help-exercise-tag" id="exerciseModalTag">Grupo</span>
-
-                                                            <h2 id="exerciseModalTitle">Exercício</h2>
-
-                                                  </div>
-
-                                                  <button class="exercise-modal-close"
-
-                                                                      id="exerciseModalClose"
-
-                                                                      aria-label="Fechar"
-
-                                                                      onclick="fecharExercicioModal()">
-
-                                                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg>
-
-                                                  </button>
-
-                                        </div>
-
-                                        <div class="exercise-modal-video" id="exerciseModalVideo"></div>
-
-                                        <div class="exercise-modal-section">
-
-                                                  <h4>Descrição</h4>
-
-                                                  <p id="exerciseModalDesc"></p>
-
-                                        </div>
-
-                                        <div class="exercise-modal-section">
-
-                                                  <h4>Como executar</h4>
-
-                                                  <ul id="exerciseModalSteps"></ul>
-
-                                        </div>
-
-                                        <div class="exercise-modal-section errors">
-
-                                                  <h4>Erros a evitar</h4>
-
-                                                  <ul id="exerciseModalErrors"></ul>
-
-                                        </div>
-
-                                        <div class="exercise-modal-section">
-
-                                                  <h4>Músculos trabalhados</h4>
-
-                                                  <ul id="exerciseModalMuscles"></ul>
-
-                                        </div>
-
-                                        <div class="exercise-modal-section">
-
-                                                  <h4>Benefícios</h4>
-
-                                                  <ul id="exerciseModalBenefits"></ul>
-
-                                        </div>
-
-                                        <div class="exercise-modal-section">
-
-                                                  <h4>Dificuldade</h4>
-
-                                                  <p id="exerciseModalDifficulty"></p>
-
-                                        </div>
-
-                                        <div class="exercise-modal-section">
-
-                                                  <h4>Cuidados</h4>
-
-                                                  <ul id="exerciseModalCare"></ul>
-
-                                        </div>
-
-                                        <div class="exercise-modal-section">
-
-                                                  <h4>Sugestões</h4>
-
-                                                  <ul id="exerciseModalSuggestions"></ul>
-
-                                        </div>
-
-                              </div>
+                        <span>TERRA DE ALMA E COR</span>
 
                     </div>
 
-                    <nav class="bottom-nav">
+                    <div class="hero-overlay">
 
-                              <button class="nav-item active" data-page="home">
+                        <h1>
 
-                                        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3.5 10 8.5-7 8.5 7"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9.5 21v-6h5v6"/></svg></span>
+                            Treina melhor.<br>
 
-                                        <small>Início</small>
+                            <em>Vive melhor.</em>
 
-                              </button>
+                        </h1>
 
-                              <button class="nav-item" data-page="equipment">
+                        <p>
 
-                                        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 7.5v9M3.5 9.5v5M8.5 9.5v5M18 7.5v9M15.5 9.5v5M20.5 9.5v5M8.5 12h7"/></svg></span>
+                            O teu espaço para força, cardio e evolução.
 
-                                        <small>Equipamentos</small>
+                            Tudo o que precisas para treinar num só lugar.
 
-                              </button>
+                        </p>
 
-                              <button class="nav-item" data-page="workout">
+                    <div class="hero-actions">
 
-                                        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="4.5" width="14" height="17" rx="2.5"/><path d="M9 4.5v-1h6v1M8 11.5l1.5 1.5 3-3M8 17h8"/></svg></span>
+                        <button class="hero-btn" data-page-jump="equipment">
 
-                                        <small>Meu treino</small>
+                            Ver equipamentos <span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M13 6.5l5.5 5.5-5.5 5.5"/></svg></span>
 
-                              </button>
+                        </button>
 
-                              <button class="nav-item" data-page="timer">
+                        <button class="hero-link" data-page-jump="workout">
 
-                                        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13" r="8.2"/><path d="M12 8.5V13l3 1.8M9 2.5h6M12 2.5v2.2"/></svg></span>
+                            Meu treino
 
-                                        <small>Timer</small>
+                        </button>
 
-                              </button>
+                </div>
 
-                    </nav>
+                    </div>
 
-          </div>
+                </div>
 
-          <script src="js/equipamentos.js?v=fixfiltros"></script>
+                <section class="section intro-section">
 
-          <script src="js/treino.js"></script>
+                    <div class="section-heading">
 
-          <script src="js/exercicios.js"></script>
+                        <span class="eyebrow">SOBRE O ESPAÇO</span>
 
-          <script src="js/navegacao.js"></script>
+                        <span class="heading-line"></span>
 
-          <script src="js/timer.js"></script>
+                    </div>
 
-          <script src="js/tema.js"></script>
+                    <h2>O Ginásio</h2>
 
-          <script src="js/app.js"></script>
+                    <p class="muted">Espaço desportivo do Município de Vila Flor, equipado para treino de força, resistência e condicionamento físico.</p>
 
-          <!-- Vercel Analytics -->
+                    <div class="stats">
 
-          <script>
+                        <div>
 
-                    window.va = window.va || function () {
+                            <b>15+</b>
 
-                              (window.vaq = window.vaq || []).push(arguments);
+                            <span>Equipamentos</span>
 
-                    };
+                        </div>
 
-          </script>
+                        <div>
 
-          <script defer src="/_vercel/insights/script.js"></script>
+                            <b>2</b>
+
+                            <span>Instrutores</span>
+
+                        </div>
+
+                        <div>
+
+                            <b>4</b>
+
+                            <span>Anos aberto</span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <section class="section">
+
+                    <div class="section-heading">
+
+                        <span class="eyebrow">ESPAÇO</span>
+
+                        <span class="heading-line"></span>
+
+                    </div>
+
+                    <h2>Zonas de treino</h2>
+
+                    <div class="zone-card zone-muscle">
+
+                        <div>
+
+                            <h3>Zona de Musculação</h3>
+
+                            <p>Máquinas, resistência e pesos livres.</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="zone-card zone-cardio">
+
+                        <div>
+
+                            <h3>Zona de Cardio</h3>
+
+                            <p>Passadeiras, bicicletas, elípticas e remo.</p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <section class="section">
+
+                    <div class="section-heading">
+
+                        <span class="eyebrow">COMODIDADES</span>
+
+                        <span class="heading-line"></span>
+
+                    </div>
+
+                    <h2>Conforto</h2>
+
+                    <div class="amenities">
+
+                        <div class="amenity">
+
+                            <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9 5l3 3 3-3M9 19l3-3 3 3M4.5 10.5l4.2-.4-.4-4.2M19.5 13.5l-4.2.4.4 4.2M4.5 13.5l4.2.4-.4 4.2M19.5 10.5l-4.2-.4.4-4.2"/></svg></div>
+
+                            <div>
+
+                                <b>Ar Condicionado</b>
+
+                                <small>Temperatura confortável</small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amenity">
+
+                            <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="13" rx="2"/><path d="m9 21 3-3.5 3 3.5M8.5 8.5l7 5M15.5 8.5l-7 5"/></svg></div>
+
+                            <div>
+
+                                <b>Televisão</b>
+
+                                <small>Entretenimento</small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amenity">
+
+                            <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 10.5a8.5 8.5 0 0 1 17 0H3.5ZM6 14v.5M10 14v1.5M14 14v.5M18 14v1.5M8 18v.5M16 18v.5M12 2.5v2"/></svg></div>
+
+                            <div>
+
+                                <b>Balneários</b>
+
+                                <small>Masculino e feminino</small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amenity">
+
+                            <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3" width="7.5" height="18" rx="1.3"/><rect x="13" y="3" width="7.5" height="18" rx="1.3"/><path d="M7.7 7.5h.1M17.2 7.5h.1M6 11.5h2.5M15.5 11.5H18"/></svg></div>
+
+                            <div>
+
+                                <b>Cacifos</b>
+
+                                <small>Espaço para objetos</small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amenity">
+
+                            <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8.8a14 14 0 0 1 18 0M6.5 12.3a8.5 8.5 0 0 1 11 0M9.7 15.5a3.7 3.7 0 0 1 4.6 0"/><circle cx="12" cy="19" r=".8" fill="currentColor" stroke="none"/></svg></div>
+
+                            <div>
+
+                                <b>WiFi Gratuito</b>
+
+                                <small>Ligação disponível</small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amenity">
+
+                            <div class="amenity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9 17V7h4.2a3.2 3.2 0 0 1 0 6.4H9"/></svg></div>
+
+                            <div>
+
+                                <b>Estacionamento</b>
+
+                                <small>Próximo do espaço</small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+            <section class="page" id="page-equipment">
+
+                <section class="section">
+
+                    <span class="eyebrow">EQUIPAMENTOS/AJUDA</span>
+
+                    <h2>Conhece o espaço</h2>
+
+                    <p class="muted">Consulta os equipamentos disponíveis no ginásio e, se precisares de ajuda, clica em cada um para conhecer os exercícios disponíveis.</p>
+
+                    <div class="equipment-filters">
+
+                        <button class="filter-btn active" data-filter="Todos">Todos</button>
+
+                        <button class="filter-btn" data-filter="Musculação">Musculação</button>
+
+                        <button class="filter-btn" data-filter="Cardio">Cardio</button>
+
+                    </div>
+
+                    <div id="equipment-list" class="equipment-list">
+
+                        <article class="equipment-card" data-category="Cardio">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/passadeira.png" alt="Passadeira">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Passadeira</h3>
+
+                                <p>Corrida e caminhada com velocidade e inclinação ajustáveis.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Cardio">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/bicicleta.png" alt="Bicicleta">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Bicicleta</h3>
+
+                                <p>Treino cardiovascular de baixo impacto.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Cardio">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/eliptica.png" alt="Elíptica">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Elíptica</h3>
+
+                                <p>Treino cardiovascular de corpo inteiro e baixo impacto.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Cardio">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/remo.png" alt="Máquina de Remo">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Máquina de Remo</h3>
+
+                                <p>Trabalho cardiovascular e muscular de corpo inteiro.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/smith.png" alt="Smith Machine">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Smith Machine</h3>
+
+                                <p>Treino de força guiado com maior estabilidade.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/banco-peso.png" alt="Banco de Peso">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Banco de Peso</h3>
+
+                                <p>Treino com pesos livres e exercícios variados.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/polia.png" alt="Polia Multifuncional">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Polia Multifuncional</h3>
+
+                                <p>Exercícios de força para diferentes grupos musculares.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/abdutora.png" alt="Máquina Abdutora">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Máquina Abdutora</h3>
+
+                                <p>Trabalho específico dos músculos abdutores da anca.</p>
+
+                            </div>
+
+                        </article>
+
+                         <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/prensa.png" alt="Prensa de Ombros">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Prensa de Ombros</h3>
+
+                                <p>Trabalho específico para a região dos Ombros.</p>
+
+                            </div>
+
+                        </article>
+
+                             <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/peckdeck.png" alt="Peck Deck">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Peck Deck</h3>
+
+                                <p>Trabalho específico para a região do Peito e Costas.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/peso-livre.png" alt="Peso Livre">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Peso Livre</h3>
+
+                                <p>Halteres e cargas livres para treino de força.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/legpress.png" alt="Leg Press">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Leg Press</h3>
+
+                                <p>Treino de força direcionado aos principais músculos das pernas.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/extensora .png" alt="Leg Press">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Cadeira Extensora</h3>
+
+                                <p>Fortalece e isola os músculos da parte da frente da coxa.</p>
+
+                            </div>
+
+                        </article>
+
+                        <article class="equipment-card" data-category="Musculação">
+
+                            <div class="equipment-icon">
+
+                                <img src="assets/mesa.png" alt="Leg Press">
+
+                            </div>
+
+                            <div class="equipment-info">
+
+                                <h3>Mesa Flexora</h3>
+
+                                <p>Exercício focado no fortalecimento dos posteriores da coxa.</p>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+            <section class="page" id="page-workout">
+
+                <section class="section workout-page">
+
+                    <div class="workout-header">
+
+                        <span class="eyebrow">TREINO</span>
+
+                        <h2>Meu treino</h2>
+
+                        <p class="muted">Escolhe o dia e cria um treino com vários exercícios.</p>
+
+                    </div>
+
+                    <div id="workout-root"></div>
+
+                </section>
+
+            </section>
+
+            <section class="page" id="page-timer">
+
+                <section class="section">
+
+                    <span class="eyebrow">TREINO</span>
+
+                    <h2>Timer</h2>
+
+                    <p class="muted">Tempo de descanso</p>
+
+                    <div class="timer-card timer-wheel-card" id="timerCard">
+
+                        <!-- Contagem decrescente circular visível acima do seletor em roda -->
+
+                        <svg class="timer-wheel-svg-defs" width="0" height="0" aria-hidden="true">
+
+                            <defs>
+
+                                <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+
+                                    <stop offset="0%" stop-color="#7c4dff"/>
+
+                                    <stop offset="100%" stop-color="#3fa9f5"/>
+
+                                </linearGradient>
+
+                                <linearGradient id="timerGradientActive" x1="0%" y1="0%" x2="100%" y2="100%">
+
+                                    <stop offset="0%" stop-color="#2ecc8f"/>
+
+                                    <stop offset="100%" stop-color="#3fa9f5"/>
+
+                                </linearGradient>
+
+                            </defs>
+
+                        </svg>
+
+                        <div class="timer-ring-wrap timer-wheel-countdown" aria-label="Tempo restante">
+
+                            <svg class="timer-ring" viewBox="0 0 220 220" aria-hidden="true">
+
+                                <circle class="timer-ring-bg" cx="110" cy="110" r="100"/>
+
+                                <circle id="timerRingProgress" class="timer-ring-progress" cx="110" cy="110" r="100"/>
+
+                            </svg>
+
+                            <div class="timer-center">
+
+                                <div id="timerDisplay" class="timer-display">00:00</div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timer-wheel-picker" aria-label="Selecionar duração do temporizador">
+
+                            <div class="timer-wheel-column">
+
+                                <span class="timer-wheel-label">Minutos</span>
+
+                                <div class="timer-wheel" id="timerMinutesWheel" tabindex="0" aria-label="Minutos"></div>
+
+                            </div>
+
+                            <div class="timer-wheel-column">
+
+                                <span class="timer-wheel-label">Segundos</span>
+
+                                <div class="timer-wheel" id="timerSecondsWheel" tabindex="0" aria-label="Segundos"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timer-wheel-actions">
+
+                            <button id="timerStart" class="primary-btn" type="button">Iniciar</button>
+
+                            <button id="timerReset" class="secondary-btn" type="button">Reiniciar</button>
+
+                        </div>
+
+                        <div class="timer-tone-settings" aria-labelledby="timerToneTitle">
+                            <div class="timer-tone-heading">
+                                <span class="timer-tone-title" id="timerToneTitle">Toque final</span>
+                                <span class="timer-tone-help" id="timerToneHint">Seleciona para ouvir</span>
+                            </div>
+                            <div class="timer-tone-options" role="group" aria-labelledby="timerToneTitle">
+                                <button class="timer-tone-option active" type="button" data-tone="suave" aria-pressed="true">
+                                    <span class="timer-tone-number" aria-hidden="true">1</span>
+                                    <span class="timer-tone-name">Suave</span>
+                                    <span class="timer-tone-detail">1 sinal</span>
+                                </button>
+                                <button class="timer-tone-option" type="button" data-tone="duplo" aria-pressed="false">
+                                    <span class="timer-tone-number" aria-hidden="true">2</span>
+                                    <span class="timer-tone-name">Duplo</span>
+                                    <span class="timer-tone-detail">2 sinais</span>
+                                </button>
+                                <button class="timer-tone-option" type="button" data-tone="triplo" aria-pressed="false">
+                                    <span class="timer-tone-number" aria-hidden="true">3</span>
+                                    <span class="timer-tone-name">Triplo</span>
+                                    <span class="timer-tone-detail">3 sinais</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="timer-wheel-status" id="timerState" aria-live="polite"></p>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+            <section class="page" id="page-info">
+
+                <section class="section">
+
+                    <span class="eyebrow">INFORMAÇÃO</span>
+
+                    <h2>Ginásio Municipal</h2>
+
+                    <div class="info-card">
+
+                        <h3>Localização</h3>
+
+                        <p>
+
+                            Ginásio Municipal de Vila Flor<br>
+
+                            Rua do Olival n.º 40<br>
+
+                            5360-374 Vila Flor
+
+                        </p>
+
+                        <a
+
+                            href="https://www.google.com/maps/search/?api=1&query=Ginásio+Municipal+de+Vila+Flor,+Rua+do+Olival+40,+5360-374+Vila+Flor"
+
+                            target="_blank"
+
+                            rel="noopener noreferrer"
+
+                            class="location-button"
+
+                        >
+
+                            Ver localização
+
+                        </a>
+
+                    </div>
+
+                   <div class="info-card">
+
+                        <h3>Horário</h3>
+
+                        <p>
+
+                            Segunda a sexta: 09:00–12:30 e 16:00–20:30<br>
+
+                            Sábado: 15:00–19:00<br>
+
+                            Domingo: Encerrado
+
+                        </p>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <h3>Contacto</h3>
+
+                        <p>Contacta o Município para informações, ou dúvidas:<br>
+
+                            Email: geral@cm-vilaflor.pt<br>
+
+                            Telefone: 278 510 100
+
+                        </p>
+
+                    </div>
+
+                <div class="info-card">
+
+                    <h3>Sobre a aplicação</h3>
+
+                    <p>
+
+                        Uma forma simples de acompanhar os teus treinos,
+
+                        consultar exercícios, equipamentos e acompanhar a tua evolução.
+
+                    </p>
+
+                </div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+        <div class="exercise-modal-overlay" id="exerciseModalOverlay">
+
+            <div class="exercise-modal" role="dialog" aria-modal="true" aria-labelledby="exerciseModalTitle">
+
+                <div class="exercise-modal-handle"></div>
+
+                <div class="exercise-modal-top">
+
+                    <div>
+
+                        <span class="help-exercise-tag" id="exerciseModalTag">Grupo</span>
+
+                        <h2 id="exerciseModalTitle">Exercício</h2>
+
+                    </div>
+
+                    <button class="exercise-modal-close"
+
+                            id="exerciseModalClose"
+
+                            aria-label="Fechar"
+
+                            onclick="fecharExercicioModal()">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg>
+                    </button>
+
+                </div>
+
+                <div class="exercise-modal-video" id="exerciseModalVideo"></div>
+
+                <div class="exercise-modal-section">
+
+                    <h4>Descrição</h4>
+
+                    <p id="exerciseModalDesc"></p>
+
+                </div>
+
+                <div class="exercise-modal-section">
+
+                    <h4>Como executar</h4>
+
+                    <ul id="exerciseModalSteps"></ul>
+
+                </div>
+
+                <div class="exercise-modal-section errors">
+
+                    <h4>Erros a evitar</h4>
+
+                    <ul id="exerciseModalErrors"></ul>
+
+                </div>
+
+                <div class="exercise-modal-section">
+
+                    <h4>Músculos trabalhados</h4>
+
+                    <ul id="exerciseModalMuscles"></ul>
+
+                </div>
+
+                <div class="exercise-modal-section">
+
+                    <h4>Benefícios</h4>
+
+                    <ul id="exerciseModalBenefits"></ul>
+
+                </div>
+
+                <div class="exercise-modal-section">
+
+                    <h4>Dificuldade</h4>
+
+                    <p id="exerciseModalDifficulty"></p>
+
+                </div>
+
+                <div class="exercise-modal-section">
+
+                    <h4>Cuidados</h4>
+
+                    <ul id="exerciseModalCare"></ul>
+
+                </div>
+
+                <div class="exercise-modal-section">
+
+                    <h4>Sugestões</h4>
+
+                    <ul id="exerciseModalSuggestions"></ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <nav class="bottom-nav">
+
+            <button class="nav-item active" data-page="home">
+
+                <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3.5 10 8.5-7 8.5 7"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9.5 21v-6h5v6"/></svg></span>
+
+                <small>Início</small>
+
+            </button>
+
+            <button class="nav-item" data-page="equipment">
+
+                <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 7.5v9M3.5 9.5v5M8.5 9.5v5M18 7.5v9M15.5 9.5v5M20.5 9.5v5M8.5 12h7"/></svg></span>
+
+                <small>Equipamentos</small>
+
+            </button>
+
+            <button class="nav-item" data-page="workout">
+
+                <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="4.5" width="14" height="17" rx="2.5"/><path d="M9 4.5v-1h6v1M8 11.5l1.5 1.5 3-3M8 17h8"/></svg></span>
+
+                <small>Meu treino</small>
+
+            </button>
+
+            <button class="nav-item" data-page="timer">
+
+                <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13" r="8.2"/><path d="M12 8.5V13l3 1.8M9 2.5h6M12 2.5v2.2"/></svg></span>
+
+                <small>Timer</small>
+
+            </button>
+
+        </nav>
+
+    </div>
+
+    <div class="timer-completion-popup" id="timerCompletionPopup" role="status" aria-live="polite" aria-atomic="false" hidden>
+        <span class="timer-completion-icon" aria-hidden="true">✓</span>
+        <div class="timer-completion-content">
+            <strong id="timerCompletionTitle">Tempo de descanso terminado</strong>
+            <p>Aviso fecha automaticamente em <span id="timerCompletionCountdown" aria-live="off">3</span> s.</p>
+            <div class="timer-completion-track" aria-hidden="true">
+                <span id="timerCompletionProgress"></span>
+            </div>
+        </div>
+        <button class="timer-completion-dismiss" id="timerCompletionDismiss" type="button" aria-label="Dispensar aviso" title="Dispensar aviso">×</button>
+    </div>
+
+    <script src="js/equipamentos.js?v=fixfiltros"></script>
+
+    <script src="js/treino.js"></script>
+
+    <script src="js/exercicios.js"></script>
+
+    <script src="js/navegacao.js"></script>
+
+    <script src="js/timer.js"></script>
+
+    <script src="js/tema.js"></script>
+
+    <script src="js/app.js"></script>
+
+    <!-- Vercel Analytics -->
+
+    <script>
+
+        window.va = window.va || function () {
+
+            (window.vaq = window.vaq || []).push(arguments);
+
+        };
+
+    </script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
 
 <!-- POP-UP PARA ADICIONAR AO ECRÃ PRINCIPAL -->
 
 <style>
 
-     #installPopup[hidden] {
+  #installPopup[hidden] {
 
-          display: none !important;
+    display: none !important;
 
-     }
+  }
 
-     #installPopup {
+  #installPopup {
 
-          position: fixed;
+    position: fixed;
 
-          left: 16px;
+    left: 16px;
 
-          right: 16px;
+    right: 16px;
 
-          bottom: calc(95px + env(safe-area-inset-bottom));
+    bottom: calc(95px + env(safe-area-inset-bottom));
 
-          z-index: 9999;
+    z-index: 9999;
 
-          max-width: 500px;
+    max-width: 500px;
 
-          margin: 0 auto;
+    margin: 0 auto;
 
-          padding: 20px;
+    padding: 20px;
 
-          /* Fundo rosa-malva mais transparente */
+    /* Fundo rosa-malva mais transparente */
 
-          border: 1px solid rgba(255, 183, 220, 0.40);
+    border: 1px solid rgba(255, 183, 220, 0.40);
 
-          border-radius: 20px;
+    border-radius: 20px;
 
-          background: rgba(153, 59, 113, 0.70);
+    background: rgba(153, 59, 113, 0.70);
 
-          color: #fff7fc;
+    color: #fff7fc;
 
-          /* Efeito de vidro */
+    /* Efeito de vidro */
 
-          -webkit-backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 
-          backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
 
-          box-shadow: 0 12px 40px rgba(65, 15, 43, 0.28);
+    box-shadow: 0 12px 40px rgba(65, 15, 43, 0.28);
 
-          font-family: inherit;
+    font-family: inherit;
 
-          animation: installPopupIn 0.25s ease-out;
+    animation: installPopupIn 0.25s ease-out;
 
-     }
+  }
 
-     #installPopup h3 {
+  #installPopup h3 {
 
-          margin: 0 0 8px;
+    margin: 0 0 8px;
 
-          font-size: 17px;
+    font-size: 17px;
 
-          color: #ffffff;
+    color: #ffffff;
 
-     }
+  }
 
-     #installPopup p {
+  #installPopup p {
 
-          margin: 0 0 16px;
+    margin: 0 0 16px;
 
-          color: rgba(255, 241, 249, 0.92);
+    color: rgba(255, 241, 249, 0.92);
 
-          font-size: 13px;
+    font-size: 13px;
 
-          line-height: 1.5;
+    line-height: 1.5;
 
-     }
+  }
 
-     #installPopup button {
+  #installPopup button {
 
-          border: 0;
+    border: 0;
 
-          border-radius: 11px;
+    border-radius: 11px;
 
-          padding: 12px 15px;
+    padding: 12px 15px;
 
-          font: inherit;
+    font: inherit;
 
-          font-weight: 700;
+    font-weight: 700;
 
-          cursor: pointer;
+    cursor: pointer;
 
-     }
+  }
 
-     /* Botão principal: rosa suave com lilás */
+  /* Botão principal: rosa suave com lilás */
 
-     #installPopupAdd {
+  #installPopupAdd {
 
-          width: 100%;
+    width: 100%;
 
-          color: #ffffff;
+    color: #ffffff;
 
-          background: linear-gradient(
+    background: linear-gradient(
 
-               135deg,
+      135deg,
 
-               #dc83b2,
+      #dc83b2,
 
-               #d56da6,
+      #d56da6,
 
-               #a77bd0
+      #a77bd0
 
-          );
+    );
 
-          box-shadow: 0 4px 12px rgba(190, 95, 150, 0.20);
+    box-shadow: 0 4px 12px rgba(190, 95, 150, 0.20);
 
-          transition: transform 0.2s ease, filter 0.2s ease;
+    transition: transform 0.2s ease, filter 0.2s ease;
 
-     }
+  }
 
-     #installPopupAdd:hover {
+  #installPopupAdd:hover {
 
-          filter: brightness(1.06);
+    filter: brightness(1.06);
 
-     }
+  }
 
-     #installPopupAdd:active {
+  #installPopupAdd:active {
 
-          transform: scale(0.98);
+    transform: scale(0.98);
 
-     }
+  }
 
-     /* Botão secundário: Agora não */
+  /* Botão secundário: Agora não */
 
-     #installPopupLater {
+  #installPopupLater {
 
-          display: block;
+    display: block;
 
-          margin: 8px auto 0;
+    margin: 8px auto 0;
 
-          padding: 8px !important;
+    padding: 8px !important;
 
-          background: transparent;
+    background: transparent;
 
-          color: rgba(255, 230, 244, 0.90);
+    color: rgba(255, 230, 244, 0.90);
 
-          font-size: 12px;
+    font-size: 12px;
 
-     }
+  }
 
-     #installPopupLater:hover {
+  #installPopupLater:hover {
 
-          color: #ffffff;
+    color: #ffffff;
 
-     }
+  }
 
-     /* Animação de entrada */
+  /* Animação de entrada */
 
-     @keyframes installPopupIn {
+  @keyframes installPopupIn {
 
-          from {
+    from {
 
-               opacity: 0;
+      opacity: 0;
 
-               transform: translateY(12px);
+      transform: translateY(12px);
 
-          }
+    }
 
-          to {
+    to {
 
-               opacity: 1;
+      opacity: 1;
 
-               transform: translateY(0);
+      transform: translateY(0);
 
-          }
+    }
 
-     }
+  }
 
-     /* Respeitar a preferência por movimento reduzido */
+  /* Respeitar a preferência por movimento reduzido */
 
-     @media (prefers-reduced-motion: reduce) {
+  @media (prefers-reduced-motion: reduce) {
 
-          #installPopup {
+    #installPopup {
 
-               animation: none;
+      animation: none;
 
-          }
+    }
 
-          #installPopupAdd {
+    #installPopupAdd {
 
-               transition: none;
+      transition: none;
 
-          }
+    }
 
-     }
+  }
 
 </style>
 
 <div id="installPopup" role="dialog"
 
-              aria-labelledby="installPopupTitle"
+     aria-labelledby="installPopupTitle"
 
-              aria-describedby="installPopupDescription"
+     aria-describedby="installPopupDescription"
 
-              hidden>
+     hidden>
 
-     <h3 id="installPopupTitle"><span class="install-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5.5" y="2.5" width="13" height="19" rx="2.5"/><path d="M10 18.2h4M12 6.5v7M9.5 11l2.5 2.5 2.5-2.5"/></svg></span>Adiciona a app ao teu ecrã</h3>
+  <h3 id="installPopupTitle"><span class="install-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5.5" y="2.5" width="13" height="19" rx="2.5"/><path d="M10 18.2h4M12 6.5v7M9.5 11l2.5 2.5 2.5-2.5"/></svg></span>Adiciona a app ao teu ecrã</h3>
 
-     <p id="installPopupDescription">
+  <p id="installPopupDescription">
 
-          Instala o Ginásio Municipal para acederes rapidamente aos teus treinos.
+    Instala o Ginásio Municipal para acederes rapidamente aos teus treinos.
 
-     </p>
+  </p>
 
-     <button type="button" id="installPopupAdd">
+  <button type="button" id="installPopupAdd">
 
-          Adicionar ao ecrã principal
+    Adicionar ao ecrã principal
 
-     </button>
+  </button>
 
-     <button type="button" id="installPopupLater">
+  <button type="button" id="installPopupLater">
 
-          Agora não
+    Agora não
 
-     </button>
+  </button>
 
 </div>
 
@@ -1204,173 +1238,173 @@
 
 (() => {
 
-     const popup = document.getElementById("installPopup");
+  const popup = document.getElementById("installPopup");
 
-     const addButton = document.getElementById("installPopupAdd");
+  const addButton = document.getElementById("installPopupAdd");
 
-     const laterButton = document.getElementById("installPopupLater");
+  const laterButton = document.getElementById("installPopupLater");
 
-     let installPromptEvent = null;
+  let installPromptEvent = null;
 
-     let popupDismissed = false;
+  let popupDismissed = false;
 
-     const isIOS =
+  const isIOS =
 
-          /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
 
-          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-     const isInstalled =
+  const isInstalled =
 
-          window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: standalone)").matches ||
 
-          window.navigator.standalone === true;
+    window.navigator.standalone === true;
 
-     if (isInstalled) return;
+  if (isInstalled) return;
 
-     function showPopup() {
+  function showPopup() {
 
-          if (popupDismissed) return;
+    if (popupDismissed) return;
 
-          popup.hidden = false;
+    popup.hidden = false;
 
-     }
+  }
 
-     function hidePopup() {
+  function hidePopup() {
 
-          popup.hidden = true;
+    popup.hidden = true;
 
-          popupDismissed = true;
+    popupDismissed = true;
 
-     }
+  }
 
-     // Android e navegadores compatíveis com instalação PWA
+  // Android e navegadores compatíveis com instalação PWA
 
-     window.addEventListener("beforeinstallprompt", (event) => {
+  window.addEventListener("beforeinstallprompt", (event) => {
 
-          event.preventDefault();
+    event.preventDefault();
 
-          installPromptEvent = event;
+    installPromptEvent = event;
 
-          showPopup();
+    showPopup();
 
-     });
+  });
 
-     // No iPhone, a instalação é feita através do menu Partilhar
+  // No iPhone, a instalação é feita através do menu Partilhar
 
-     if (isIOS) {
+  if (isIOS) {
 
-          window.addEventListener("load", () => {
+    window.addEventListener("load", () => {
 
-               setTimeout(showPopup, 800);
+      setTimeout(showPopup, 800);
 
-          });
+    });
 
-     }
+  }
 
 addButton.addEventListener("click", async () => {
 
-          // Android: abrir a janela nativa de instalação
+    // Android: abrir a janela nativa de instalação
 
-          if (installPromptEvent) {
+    if (installPromptEvent) {
 
-                    const event = installPromptEvent;
+        const event = installPromptEvent;
 
-                    installPromptEvent = null;
+        installPromptEvent = null;
 
-                    hidePopup();
+        hidePopup();
 
-                    try {
+        try {
 
-                              await event.prompt();
+            await event.prompt();
 
-                              await event.userChoice;
+            await event.userChoice;
 
-                    } catch (error) {
+        } catch (error) {
 
-                              console.error("Erro na instalação:", error);
+            console.error("Erro na instalação:", error);
 
-                    }
+        }
 
-                    return;
+        return;
 
-          }
+    }
 
-          // iPhone: mostrar as instruções dentro do próprio pop-up
+    // iPhone: mostrar as instruções dentro do próprio pop-up
 
-          if (isIOS) {
+    if (isIOS) {
 
-                    document.getElementById("installPopupTitle").textContent =
+        document.getElementById("installPopupTitle").textContent =
 
-                              "Instala no teu iPhone";
+            "Instala no teu iPhone";
 
-                    document.getElementById("installPopupDescription").innerHTML = `
+        document.getElementById("installPopupDescription").innerHTML = `
 
-                              <div style="padding:8px 0;">
+            <div style="padding:8px 0;">
 
-                                        <div class="install-instructions-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5.5" y="2.5" width="13" height="19" rx="2.5"/><path d="M10 18.2h4M12 6.5v7M9.5 11l2.5 2.5 2.5-2.5"/></svg></div>
+                <div class="install-instructions-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5.5" y="2.5" width="13" height="19" rx="2.5"/><path d="M10 18.2h4M12 6.5v7M9.5 11l2.5 2.5 2.5-2.5"/></svg></div>
 
-                                        <p style="text-align:center; margin-bottom:18px; color:#f6f7fb;">
+                <p style="text-align:center; margin-bottom:18px; color:#f6f7fb;">
 
-                                                  <strong>Adiciona a app ao teu ecrã principal</strong>
+                    <strong>Adiciona a app ao teu ecrã principal</strong>
 
-                                        </p>
+                </p>
 
-                                        <div style="text-align:left; line-height:1.7;">
+                <div style="text-align:left; line-height:1.7;">
 
-                                                  <p style="margin-bottom:14px;">
+                    <p style="margin-bottom:14px;">
 
-                                                            <strong style="color:#a08bff;">1.</strong>
+                        <strong style="color:#a08bff;">1.</strong>
 
-                                                            Toca nos <strong>três pontos (⋯)</strong> no canto inferior direito do navegador.
+                        Toca nos <strong>três pontos (⋯)</strong> no canto inferior direito do navegador.
 
-                                                  </p>
+                    </p>
 
-                                                  <p style="margin-bottom:14px;">
+                    <p style="margin-bottom:14px;">
 
-                                                            <strong style="color:#a08bff;">2.</strong>
+                        <strong style="color:#a08bff;">2.</strong>
 
-                                                            Carrega em <strong>Partilhar</strong>.
+                        Carrega em <strong>Partilhar</strong>.
 
-                                                  </p>
+                    </p>
 
-                                                  <p style="margin-bottom:14px;">
+                    <p style="margin-bottom:14px;">
 
-                                                            <strong style="color:#a08bff;">3.</strong>
+                        <strong style="color:#a08bff;">3.</strong>
 
-                                                            Procura e seleciona
+                        Procura e seleciona
 
-                                                            <strong>Adicionar ao ecrã principal</strong>.
+                        <strong>Adicionar ao ecrã principal</strong>.
 
-                                                  </p>
+                    </p>
 
-                                                  <p style="margin-bottom:0;">
+                    <p style="margin-bottom:0;">
 
-                                                            <strong style="color:#a08bff;">4.</strong>
+                        <strong style="color:#a08bff;">4.</strong>
 
-                                                            Carrega em <strong>Adicionar</strong> para concluir.
+                        Carrega em <strong>Adicionar</strong> para concluir.
 
-                                                  </p>
+                    </p>
 
-                                        </div>
+                </div>
 
-                              </div>
+            </div>
 
-                    `;
+        `;
 
-                    // Esconde o botão inicial e altera o botão para fechar
+        // Esconde o botão inicial e altera o botão para fechar
 
-                    addButton.hidden = true;
+        addButton.hidden = true;
 
-                    laterButton.textContent = "Já percebi";
+        laterButton.textContent = "Já percebi";
 
-                    return;
+        return;
 
-          }
+    }
 
-          // Outros navegadores sem instalação nativa disponível
+    // Outros navegadores sem instalação nativa disponível
 
-          hidePopup();
+    hidePopup();
 
 });
 
@@ -1387,43 +1421,27 @@ window.addEventListener("appinstalled", hidePopup);
 </script>
 
 <script>
-
 /* Microanimação visual da navegação: não interfere na mudança de página. */
-
 (() => {
+  const nav = document.querySelector(".bottom-nav");
+  if (!nav) return;
 
-     const nav = document.querySelector(".bottom-nav");
+  nav.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const button = target?.closest(".nav-item");
+    if (!button || !nav.contains(button)) return;
 
-     if (!nav) return;
+    const icon = button.querySelector(".nav-icon svg");
+    if (!icon || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-     nav.addEventListener("click", (event) => {
-
-          const target = event.target instanceof Element ? event.target : null;
-
-          const button = target?.closest(".nav-item");
-
-          if (!button || !nav.contains(button)) return;
-
-          const icon = button.querySelector(".nav-icon svg");
-
-          if (!icon || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-          icon.classList.remove("nav-icon-pop");
-
-          void icon.getBoundingClientRect();
-
-          icon.classList.add("nav-icon-pop");
-
-          icon.addEventListener("animationend", () => {
-
-               icon.classList.remove("nav-icon-pop");
-
-          }, { once: true });
-
-     });
-
+    icon.classList.remove("nav-icon-pop");
+    void icon.getBoundingClientRect();
+    icon.classList.add("nav-icon-pop");
+    icon.addEventListener("animationend", () => {
+      icon.classList.remove("nav-icon-pop");
+    }, { once: true });
+  });
 })();
-
 </script>
 
 </body>
