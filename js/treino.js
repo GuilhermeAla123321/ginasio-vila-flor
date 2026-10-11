@@ -2196,18 +2196,53 @@ function abrirAdicionar() {
 
                     <div>
 
-                        <label for="seriesCount">
+                        <span class="series-count-label">
                             Número de séries
-                        </label>
+                        </span>
 
                     </div>
 
+                    <div
+                        class="series-count-control"
+                        role="group"
+                        aria-label="Número de séries"
+                    >
+                        <button
+                            type="button"
+                            class="series-count-step"
+                            id="decreaseSeriesCount"
+                            aria-label="Diminuir número de séries"
+                            disabled
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M5 12h14"></path>
+                            </svg>
+                        </button>
+
+                        <output
+                            id="seriesCountDisplay"
+                            class="series-count-value"
+                            aria-live="polite"
+                            aria-atomic="true"
+                        >1</output>
+
+                        <button
+                            type="button"
+                            class="series-count-step"
+                            id="increaseSeriesCount"
+                            aria-label="Aumentar número de séries"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Mantém o valor no ID usado pelo fluxo atual de continuação. -->
                     <input
                         id="seriesCount"
-                        class="input series-count-input"
-                        type="number"
-                        min="1"
-                        max="30"
+                        type="hidden"
                         value="1"
                     >
 
@@ -2255,6 +2290,40 @@ function abrirAdicionar() {
         abrirSeletorExercicio;
 
 
+    // O valor é alterado por botões, evitando o teclado numérico e o zoom automático móvel.
+    const seriesCountInput = document.getElementById("seriesCount");
+    const seriesCountDisplay = document.getElementById("seriesCountDisplay");
+    const decreaseSeriesCount = document.getElementById("decreaseSeriesCount");
+    const increaseSeriesCount = document.getElementById("increaseSeriesCount");
+    const MAX_SERIES_NOVO_EXERCICIO = 8;
+
+    const updateSeriesCount = value => {
+        const parsed = Number(value);
+        const count = Math.max(
+            1,
+            Math.min(
+                MAX_SERIES_NOVO_EXERCICIO,
+                Number.isFinite(parsed) ? Math.trunc(parsed) : 1
+            )
+        );
+
+        seriesCountInput.value = String(count);
+        seriesCountDisplay.textContent = String(count);
+        decreaseSeriesCount.disabled = count <= 1;
+        increaseSeriesCount.disabled = count >= MAX_SERIES_NOVO_EXERCICIO;
+    };
+
+    decreaseSeriesCount.addEventListener("click", () => {
+        updateSeriesCount(Number(seriesCountInput.value) - 1);
+    });
+
+    increaseSeriesCount.addEventListener("click", () => {
+        updateSeriesCount(Number(seriesCountInput.value) + 1);
+    });
+
+    updateSeriesCount(seriesCountInput.value);
+
+
     document.getElementById(
         "continueSeries"
     ).onclick = () => {
@@ -2285,7 +2354,7 @@ function abrirAdicionar() {
             Math.max(
                 1,
                 Math.min(
-                    30,
+                    MAX_SERIES_NOVO_EXERCICIO,
                     Number(
                         document.getElementById(
                             "seriesCount"
@@ -2295,9 +2364,8 @@ function abrirAdicionar() {
             );
 
 
-        document.getElementById(
-            "seriesCount"
-        ).value = n;
+        // Revalidação na lógica antes de gerar as linhas de séries.
+        updateSeriesCount(n);
 
 
         let parametrosSeries = [];
