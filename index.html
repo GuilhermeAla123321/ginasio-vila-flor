@@ -29,6 +29,7 @@
     <script>try{const t=localStorage.getItem("vf_ginasio_tema");document.documentElement.dataset.theme=t==="light"?"light":"dark";}catch(e){document.documentElement.dataset.theme="dark";}</script>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/exercise-redesign.css">
 
 </head>
 
@@ -338,14 +339,10 @@
 
                     <p class="muted">Consulta os equipamentos disponíveis no ginásio e, se precisares de ajuda, clica em cada um para conhecer os exercícios disponíveis.</p>
 
-                    <div class="equipment-filters">
-
-                        <button class="filter-btn active" data-filter="Todos">Todos</button>
-
-                        <button class="filter-btn" data-filter="Musculação">Musculação</button>
-
-                        <button class="filter-btn" data-filter="Cardio">Cardio</button>
-
+                    <div class="equipment-global-action">
+                        <button class="hero-btn equipment-global-btn" id="openAllExercises" type="button">
+                            Ver todos os exercícios
+                        </button>
                     </div>
 
                     <div id="equipment-list" class="equipment-list">
@@ -713,36 +710,65 @@
                         </div>
 
                         <div class="timer-tone-settings" aria-labelledby="timerToneTitle">
+
                             <div class="timer-tone-heading">
+
                                 <span class="timer-tone-title" id="timerToneTitle">Toque final</span>
+
                                 <span class="timer-tone-help" id="timerToneHint">Seleciona para ouvir</span>
+
                             </div>
+
                             <div class="timer-tone-options" role="group" aria-labelledby="timerToneTitle">
+
                                 <button class="timer-tone-option active" type="button" data-tone="suave" aria-pressed="true">
+
                                     <span class="timer-tone-number" aria-hidden="true">1</span>
+
                                     <span class="timer-tone-name">Suave</span>
+
                                     <span class="timer-tone-detail">1 sinal</span>
+
                                 </button>
+
                                 <button class="timer-tone-option" type="button" data-tone="duplo" aria-pressed="false">
+
                                     <span class="timer-tone-number" aria-hidden="true">2</span>
+
                                     <span class="timer-tone-name">Duplo</span>
+
                                     <span class="timer-tone-detail">2 sinais</span>
+
                                 </button>
+
                                 <button class="timer-tone-option" type="button" data-tone="triplo" aria-pressed="false">
+
                                     <span class="timer-tone-number" aria-hidden="true">3</span>
+
                                     <span class="timer-tone-name">Triplo</span>
+
                                     <span class="timer-tone-detail">3 sinais</span>
+
                                 </button>
+
                             </div>
+
                         </div>
 
                         <div class="timer-background-alerts" aria-labelledby="timerBackgroundTitle">
+
                             <div class="timer-background-alerts-copy">
+
                                 <strong id="timerBackgroundTitle">Alertas com ecrã bloqueado</strong>
+
                                 <p>Pode receber uma notificação do sistema quando o descanso terminar, mesmo que o Timer fique em segundo plano (depende das permissões e do dispositivo).</p>
+
                                 <span id="timerBackgroundStatus" role="status" aria-live="polite">É necessária uma configuração inicial do serviço de notificações.</span>
+
                             </div>
+
                             <button id="timerBackgroundEnable" class="secondary-btn" type="button" aria-disabled="false">Verificar configuração</button>
+
                         </div>
 
                         <p class="timer-wheel-status" id="timerState" aria-live="polite"></p>
@@ -844,101 +870,31 @@
         </main>
 
         <div class="exercise-modal-overlay" id="exerciseModalOverlay">
-
             <div class="exercise-modal" role="dialog" aria-modal="true" aria-labelledby="exerciseModalTitle">
-
                 <div class="exercise-modal-handle"></div>
-
                 <div class="exercise-modal-top">
-
                     <div>
-
                         <span class="help-exercise-tag" id="exerciseModalTag">Grupo</span>
-
                         <h2 id="exerciseModalTitle">Exercício</h2>
-
                     </div>
-
-                    <button class="exercise-modal-close"
-
-                            id="exerciseModalClose"
-
-                            aria-label="Fechar"
-
-                            onclick="fecharExercicioModal()">
+                    <button class="exercise-modal-close" id="exerciseModalClose" type="button" aria-label="Fechar" onclick="fecharExercicioModal()">
                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg>
                     </button>
-
                 </div>
-
                 <div class="exercise-modal-video" id="exerciseModalVideo"></div>
-
-                <div class="exercise-modal-section">
-
-                    <h4>Descrição</h4>
-
-                    <p id="exerciseModalDesc"></p>
-
+                <div class="exercise-modal-equipment" id="exerciseModalEquipmentRow">
+                    <span class="exercise-modal-equipment-label">Equipamento</span>
+                    <strong id="exerciseModalEquipment">Não especificado</strong>
                 </div>
-
-                <div class="exercise-modal-section">
-
+                <div class="exercise-modal-section" id="exerciseModalStepsSection">
                     <h4>Como executar</h4>
-
-                    <ul id="exerciseModalSteps"></ul>
-
+                    <ol id="exerciseModalSteps"></ol>
                 </div>
-
-                <div class="exercise-modal-section errors">
-
-                    <h4>Erros a evitar</h4>
-
-                    <ul id="exerciseModalErrors"></ul>
-
-                </div>
-
-                <div class="exercise-modal-section">
-
-                    <h4>Músculos trabalhados</h4>
-
-                    <ul id="exerciseModalMuscles"></ul>
-
-                </div>
-
-                <div class="exercise-modal-section">
-
-                    <h4>Benefícios</h4>
-
-                    <ul id="exerciseModalBenefits"></ul>
-
-                </div>
-
-                <div class="exercise-modal-section">
-
-                    <h4>Dificuldade</h4>
-
-                    <p id="exerciseModalDifficulty"></p>
-
-                </div>
-
-                <div class="exercise-modal-section">
-
-                    <h4>Cuidados</h4>
-
+                <div class="exercise-modal-section errors" id="exerciseModalCareSection">
+                    <h4>Cuidados importantes</h4>
                     <ul id="exerciseModalCare"></ul>
-
                 </div>
-
-                <div class="exercise-modal-section">
-
-                    <h4>Sugestões</h4>
-
-                    <ul id="exerciseModalSuggestions"></ul>
-
-                </div>
-
             </div>
-
         </div>
 
         <nav class="bottom-nav">
@@ -980,18 +936,27 @@
     </div>
 
     <div class="timer-completion-popup" id="timerCompletionPopup" role="status" aria-live="polite" aria-atomic="false" hidden>
+
         <span class="timer-completion-icon" aria-hidden="true">✓</span>
+
         <div class="timer-completion-content">
+
             <strong id="timerCompletionTitle">Tempo de descanso terminado</strong>
+
             <p>Aviso fecha automaticamente em <span id="timerCompletionCountdown" aria-live="off">3</span> s.</p>
+
             <div class="timer-completion-track" aria-hidden="true">
+
                 <span id="timerCompletionProgress"></span>
+
             </div>
+
         </div>
+
         <button class="timer-completion-dismiss" id="timerCompletionDismiss" type="button" aria-label="Dispensar aviso" title="Dispensar aviso">×</button>
+
     </div>
 
-    <script src="js/equipamentos.js?v=fixfiltros"></script>
 
     <script src="js/treino.js"></script>
 
@@ -1215,6 +1180,8 @@
 
   }
 
+
+/* Os estilos da biblioteca global estão em css/exercise-redesign.css. */
 </style>
 
 <div id="installPopup" role="dialog"
@@ -1434,29 +1401,47 @@ window.addEventListener("appinstalled", hidePopup);
 </script>
 
 <script>
+
 /* Microanimação visual da navegação: não interfere na mudança de página. */
+
 (() => {
+
   const nav = document.querySelector(".bottom-nav");
+
   if (!nav) return;
 
   nav.addEventListener("click", (event) => {
+
     const target = event.target instanceof Element ? event.target : null;
+
     const button = target?.closest(".nav-item");
+
     if (!button || !nav.contains(button)) return;
 
     const icon = button.querySelector(".nav-icon svg");
+
     if (!icon || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     icon.classList.remove("nav-icon-pop");
+
     void icon.getBoundingClientRect();
+
     icon.classList.add("nav-icon-pop");
+
     icon.addEventListener("animationend", () => {
+
       icon.classList.remove("nav-icon-pop");
+
     }, { once: true });
+
   });
+
 })();
+
 </script>
 
+<script src="js/exercicios-biblioteca.js"></script>
+<script src="js/equipamentos.js"></script>
 </body>
 
 </html>

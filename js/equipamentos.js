@@ -1631,7 +1631,6 @@ const EXERCICIOS_EXTRA = {
             ]
         },
 
-        
         {
             
         }
@@ -1797,12 +1796,11 @@ function renderEquipamentos() {
 
     if (!list) return;
 
-
     if (!list.dataset.originalHtml) {
-        list.dataset.originalHtml =
-            list.innerHTML;
+        list.dataset.originalHtml = list.innerHTML;
+    } else {
+        list.innerHTML = list.dataset.originalHtml;
     }
-
 
     list
         .querySelectorAll(
@@ -1820,7 +1818,6 @@ function renderEquipamentos() {
                 "0"
             );
 
-
             card.onclick = () =>
                 abrirEquipamento(
                     card
@@ -1828,7 +1825,6 @@ function renderEquipamentos() {
                         ?.textContent
                         .trim()
                 );
-
 
             card.onkeydown = e => {
 
@@ -1850,7 +1846,6 @@ function renderEquipamentos() {
 
         });
 
-
     configurarFiltrosEquipamentos();
 }
 function abrirEquipamento(nome) {
@@ -1863,7 +1858,7 @@ function abrirEquipamento(nome) {
         filtrosEquipamentos.style.display = "none";
     }
 
-    const exercicios = EQUIPAMENTOS_EXERCICIOS[nome] || [];
+    const exercicios = (EQUIPAMENTOS_EXERCICIOS[nome] || []).map(ex => ({ ...ex, equipamento: nome }));
 
     const gruposMusculares = [
         ...new Set(
@@ -1942,62 +1937,8 @@ function abrirEquipamento(nome) {
 
         if (!exerciseList) return;
 
-        exerciseList.innerHTML =
-            filtrados.length
-                ? filtrados
-                      .map(
-                          (e) =>
-                              `<button type="button"
-                                  class="help-exercise-card equipment-exercise-card"
-                                  data-exercise-index="${exercicios.indexOf(e)}">
+        renderizarCartoesExercicios(exerciseList, filtrados, "equipment-exercise-card");
 
-                               <div class="help-exercise-thumb ${classeExercicio(e.grupo)}">
-
-                            <div class="vila-flor-symbol">
-                                <img
-                                    src="assets/iconvila.png"
-                                    alt="Vila Flor"
-                                >
-                            </div>
-
-                                    <span class="exercise-meta">
-                                        ${(e.grupo || "").toUpperCase()} · ${(e.dificuldade || "").toUpperCase()}
-                                    </span>
-
-                                </div>
-
-                                  <div class="help-exercise-body">
-                                      <span class="help-exercise-tag">${e.grupo}</span>
-
-                                      <h3>${e.nome}</h3>
-
-                                      <p>${e.desc}</p>
-
-                                      <span class="help-exercise-cta">
-                                          Ver exercício
-                                      </span>
-                                  </div>
-
-                              </button>`
-                      )
-                      .join("")
-                : `
-                    <div class="help-empty">
-                        <strong>Nenhum exercício encontrado.</strong>
-                        <p>Experimenta alterar os filtros.</p>
-                    </div>
-                `;
-
-        exerciseList
-            .querySelectorAll(".equipment-exercise-card")
-            .forEach(card => {
-                card.addEventListener("click", () => {
-                    const index =
-                        Number(card.dataset.exerciseIndex);
-
-                    abrirExercicioModal(exercicios[index]);
-                });
-            });
     };
 
     document
@@ -2093,6 +2034,167 @@ function configurarFiltrosEquipamentos() {
         };
     });
 }
+
+/* =========================================
+   CARTÕES E BIBLIOTECA GLOBAL DE EXERCÍCIOS
+   Os ecrãs global e por equipamento reutilizam os mesmos dados e cartões.
+   ========================================= */
+function normalizarTextoBiblioteca(valor) {
+    return String(valor || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-PT").trim();
+}
+
+function escaparHTMLBiblioteca(valor) {
+    return String(valor == null ? "" : valor).replace(/[&<>"']/g, caracter => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[caracter]));
+}
+
+function obterTodosExerciciosBiblioteca() {
+    const porEquipamento = Object.entries(EQUIPAMENTOS_EXERCICIOS || {}).flatMap(([equipamento, exercicios]) =>
+        (exercicios || [])
+            .filter(ex => ex && String(ex.nome || "").trim())
+            .map(ex => ({ ...ex, equipamento }))
+    );
+
+    // A biblioteca-base tem exercícios gerais que nem sempre estão ligados a uma máquina.
+    // Acrescenta apenas os nomes que ainda não existem na biblioteca por equipamento.
+    const nomesExistentes = new Set(porEquipamento.map(ex => normalizarTextoBiblioteca(ex.nome)));
+    const gerais = (window.exerciciosBiblioteca || [])
+        .filter(ex => ex && String(ex.nome || "").trim() && !nomesExistentes.has(normalizarTextoBiblioteca(ex.nome)))
+        .map(ex => ({ ...ex, equipamento: ex.equipamento || "" }));
+
+    return [...porEquipamento, ...gerais];
+}
+
+function gerarCartaoExercicio(ex, indice, classeAdicional = "") {
+    const nome = escaparHTMLBiblioteca(ex.nome || "Exercício");
+    const grupo = escaparHTMLBiblioteca(ex.grupo || "Sem grupo");
+    // Só usamos imagens PNG explicitamente fornecidas nos dados. Sem PNG, a área fica vazia e pronta para receber um.
+    const png = ex.png || ex.imagemPNG || ex.imagemPng || "";
+    const imagem = png
+        ? `<img src="${escaparHTMLBiblioteca(png)}" alt="" loading="lazy">`
+        : "";
+    const mostrarEquipamento = String(classeAdicional).includes("exercise-library-card") && ex.equipamento;
+    const equipamento = mostrarEquipamento
+        ? `<p class="exercise-catalog-equipment">${escaparHTMLBiblioteca(ex.equipamento)}</p>`
+        : "";
+
+    return `<article class="exercise-catalog-card ${escaparHTMLBiblioteca(classeAdicional)}" role="button" tabindex="0" data-exercise-index="${indice}" aria-label="Ver exercício ${nome}">
+        <div class="exercise-catalog-image" aria-hidden="true">${imagem}</div>
+        <div class="exercise-catalog-content">
+            <h3 class="exercise-catalog-title">${nome}</h3>
+            <span class="exercise-catalog-group">${grupo}</span>
+            ${equipamento}
+            <span class="exercise-catalog-action">Ver exercício</span>
+        </div>
+    </article>`;
+}
+
+function renderizarCartoesExercicios(container, exercicios, classeAdicional = "") {
+    if (!container) return;
+    if (!exercicios.length) {
+        container.innerHTML = '<div class="exercise-library-empty">Não foram encontrados exercícios. Altera a pesquisa ou seleciona outro grupo muscular.</div>';
+        return;
+    }
+
+    container.innerHTML = exercicios.map((ex, indice) => gerarCartaoExercicio(ex, indice, classeAdicional)).join("");
+    container.querySelectorAll(".exercise-catalog-card").forEach(card => {
+        const imagem = card.querySelector(".exercise-catalog-image img");
+        if (imagem) {
+            imagem.addEventListener("error", () => {
+                const areaImagem = imagem.closest(".exercise-catalog-image");
+                imagem.remove();
+                areaImagem?.classList.add("is-placeholder");
+            }, { once: true });
+        }
+        const abrir = () => {
+            const ex = exercicios[Number(card.dataset.exerciseIndex)];
+            if (ex && typeof abrirExercicioModal === "function") abrirExercicioModal(ex);
+        };
+        card.addEventListener("click", abrir);
+        card.addEventListener("keydown", evento => {
+            if (evento.key === "Enter" || evento.key === " ") {
+                evento.preventDefault();
+                abrir();
+            }
+        });
+    });
+}
+
+function mostrarBibliotecaGlobal() {
+    const list = document.getElementById("equipment-list");
+    const botaoGlobal = document.getElementById("openAllExercises");
+    const acaoGlobal = document.querySelector(".equipment-global-action");
+    if (!list) return;
+    if (!list.dataset.originalHtml) list.dataset.originalHtml = list.innerHTML;
+    if (botaoGlobal) botaoGlobal.hidden = true;
+    if (acaoGlobal) acaoGlobal.hidden = true;
+
+    const todos = obterTodosExerciciosBiblioteca();
+    const grupos = [...new Set(todos.map(ex => ex.grupo).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b, "pt-PT"));
+
+    list.innerHTML = `
+      <section class="exercise-library-view" aria-label="Biblioteca global de exercícios">
+        <button class="filter-btn equipment-back exercise-library-back" id="backToEquipmentList" type="button">← Voltar aos equipamentos</button>
+        <div class="exercise-library-heading">
+          <h3>Todos os exercícios</h3>
+          <p>Pesquisa por nome ou filtra por grupo muscular.</p>
+        </div>
+        <div class="exercise-library-toolbar">
+          <div class="exercise-library-search">
+            <input id="exerciseLibrarySearch" type="search" placeholder="Pesquisar exercício…" aria-label="Pesquisar exercício" autocomplete="off">
+            <button id="clearExerciseLibrarySearch" type="button" aria-label="Limpar pesquisa" title="Limpar pesquisa">×</button>
+          </div>
+          <select id="exerciseLibraryGroup" aria-label="Filtrar por grupo muscular">
+            <option value="">Todos os grupos</option>
+            ${grupos.map(grupo => `<option value="${escaparHTMLBiblioteca(grupo)}">${escaparHTMLBiblioteca(grupo)}</option>`).join("")}
+          </select>
+        </div>
+        <p class="exercise-library-count" id="exerciseLibraryCount" aria-live="polite"></p>
+        <div class="exercise-library-grid" id="exerciseLibraryResults"></div>
+      </section>`;
+
+    const search = document.getElementById("exerciseLibrarySearch");
+    const group = document.getElementById("exerciseLibraryGroup");
+    const results = document.getElementById("exerciseLibraryResults");
+    const count = document.getElementById("exerciseLibraryCount");
+    const clearButton = document.getElementById("clearExerciseLibrarySearch");
+
+    function renderizarResultados() {
+        const termo = normalizarTextoBiblioteca(search.value);
+        const filtrados = todos.filter(ex =>
+            (!termo || normalizarTextoBiblioteca(ex.nome).includes(termo)) &&
+            (!group.value || ex.grupo === group.value)
+        );
+        count.textContent = `${filtrados.length} ${filtrados.length === 1 ? "exercício" : "exercícios"}`;
+        renderizarCartoesExercicios(results, filtrados, "exercise-library-card");
+    }
+
+    search.addEventListener("input", renderizarResultados);
+    group.addEventListener("change", renderizarResultados);
+    clearButton.addEventListener("click", () => {
+        search.value = "";
+        renderizarResultados();
+        search.focus({ preventScroll: true });
+    });
+    document.getElementById("backToEquipmentList").addEventListener("click", () => {
+        if (botaoGlobal) botaoGlobal.hidden = false;
+        if (acaoGlobal) acaoGlobal.hidden = false;
+        renderEquipamentos();
+    });
+
+    renderizarResultados();
+    search.focus({ preventScroll: true });
+}
+
+function abrirDetalheExercicioBiblioteca(ex) {
+    if (ex && typeof abrirExercicioModal === "function") abrirExercicioModal(ex);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("openAllExercises")?.addEventListener("click", mostrarBibliotecaGlobal);
+});
 
 /* =========================================
    INICIALIZAÇÃO
