@@ -6533,3 +6533,30 @@ body[data-theme="light"] .timer-wheel-option.selected {
     color: #271f31;
 }
 audio.timer-tone-audio { display: none !important; }
+
+
+/* Alertas de temporizador em segundo plano: adição progressiva, sem alterar os controlos existentes. */
+.timer-background-alerts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    padding: 13px 12px;
+    border: 1px solid var(--line, rgba(255,255,255,.08));
+    border-radius: 14px;
+    background: rgba(255,255,255,.025);
+    text-align: left;
+}
+.timer-background-alerts-copy { min-width: 0; flex: 1; }
+.timer-background-alerts-copy strong { display: block; color: var(--text, #f6f7fb); font-size: 11px; font-weight: 800; line-height: 1.35; }
+.timer-background-alerts-copy p { margin: 4px 0 5px; color: var(--muted, #98a0b8); font-size: 10px; line-height: 1.45; }
+.timer-background-alerts-copy span { display: block; color: var(--muted, #98a0b8); font-size: 9px; line-height: 1.45; }
+.timer-background-alerts button { flex: 0 0 auto; min-height: 36px; padding: 8px 11px; white-space: nowrap; font-size: 10px; }
+.timer-background-alerts button:disabled { cursor: not-allowed; opacity: .56; }
+body[data-theme="light"] .timer-background-alerts { border-color: rgba(43,35,66,.12); background: rgba(67,50,91,.025); }
+body[data-theme="light"] .timer-background-alerts-copy strong { color: #31263d; }
+@media (max-width: 380px) {
+    .timer-background-alerts { align-items: stretch; flex-direction: column; gap: 8px; }
+    .timer-background-alerts button { align-self: flex-start; }
+}

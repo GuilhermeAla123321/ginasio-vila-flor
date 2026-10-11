@@ -736,6 +736,15 @@
                             </div>
                         </div>
 
+                        <div class="timer-background-alerts" aria-labelledby="timerBackgroundTitle">
+                            <div class="timer-background-alerts-copy">
+                                <strong id="timerBackgroundTitle">Alertas com ecrã bloqueado</strong>
+                                <p>Pode receber uma notificação do sistema quando o descanso terminar, mesmo que o Timer fique em segundo plano (depende das permissões e do dispositivo).</p>
+                                <span id="timerBackgroundStatus" role="status" aria-live="polite">É necessária uma configuração inicial do serviço de notificações.</span>
+                            </div>
+                            <button id="timerBackgroundEnable" class="secondary-btn" type="button" disabled>Ativar alertas</button>
+                        </div>
+
                         <p class="timer-wheel-status" id="timerState" aria-live="polite"></p>
 
                     </div>
@@ -991,6 +1000,10 @@
     <script src="js/navegacao.js"></script>
 
     <script src="js/timer.js"></script>
+
+    <script src="js/timer-push-config.js"></script>
+
+    <script src="js/timer-background-push.js"></script>
 
     <script src="js/tema.js"></script>
 

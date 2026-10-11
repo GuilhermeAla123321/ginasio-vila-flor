@@ -283,6 +283,7 @@ function createTimerWheel(wheel, max, unit) {
             // Abrange scroll do rato/trackpad, que não dispara pointerdown em todos os casos.
 
             stopTimerInterval();
+            cancelTimerBackgroundNotification();
 
         }
 
@@ -324,7 +325,10 @@ function createTimerWheel(wheel, max, unit) {
 
         event.preventDefault();
 
-        if (timerRunning) stopTimerInterval();
+        if (timerRunning) {
+            stopTimerInterval();
+            cancelTimerBackgroundNotification();
+        }
 
         setWheelValue(wheel, next);
 
@@ -440,6 +444,30 @@ function maybeStopTimerTicker() {
 
 
 
+function cancelTimerBackgroundNotification() {
+    const alerts = window.TimerBackgroundAlerts;
+    if (!alerts || typeof alerts.cancel !== "function") return;
+    try {
+        const result = alerts.cancel();
+        if (result && typeof result.catch === "function") result.catch(() => {});
+    } catch (_) {
+        // A falha do alerta remoto nunca deve interromper o temporizador local.
+    }
+}
+
+
+function scheduleTimerBackgroundNotification() {
+    const alerts = window.TimerBackgroundAlerts;
+    if (!alerts || typeof alerts.schedule !== "function") return;
+    try {
+        const result = alerts.schedule(timerDeadline);
+        if (result && typeof result.catch === "function") result.catch(() => {});
+    } catch (_) {
+        // O temporizador local continua a funcionar se o serviço estiver indisponível.
+    }
+}
+
+
 function stopTimerInterval() {
 
     timerRunning = false;
@@ -508,7 +536,15 @@ function completeTimer() {
 
     showTimerCompletionPopup();
 
-    playTimerTone(selectedTimerTone);
+    if (document.visibilityState === "hidden") {
+        // O serviço remoto trata do alerta do sistema; não tentamos áudio personalizado
+        // numa página suspensa, onde os navegadores podem bloquear a reprodução.
+    } else {
+        // Em primeiro plano, preferimos o toque personalizado local e cancelamos
+        // a notificação remota para reduzir a possibilidade de alertas duplicados.
+        cancelTimerBackgroundNotification();
+        playTimerTone(selectedTimerTone);
+    }
 
 }
 
@@ -517,6 +553,7 @@ function completeTimer() {
 function resetTimer() {
 
     stopTimerInterval();
+    cancelTimerBackgroundNotification();
 
     dismissTimerCompletionPopup();
 
@@ -885,6 +922,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (timerRunning) {
 
                 stopTimerInterval();
+                cancelTimerBackgroundNotification();
 
                 updateTimer();
 
@@ -953,6 +991,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (timerRunning) {
 
                 stopTimerInterval();
+                cancelTimerBackgroundNotification();
 
                 updateTimer();
 
@@ -963,8 +1002,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             dismissTimerCompletionPopup();
+            cancelTimerBackgroundNotification();
 
-                        cancelCurrentToneSequence();
+            cancelCurrentToneSequence();
             timerSeconds = selectedDuration();
 
             timerTotal = timerSeconds;
@@ -1004,6 +1044,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateTimer();
 
             ensureTimerTicker();
+            scheduleTimerBackgroundNotification();
 
         });
 
@@ -1021,7 +1062,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener("visibilitychange", () => {
 
-        if (!document.hidden) tickTimer();
+        if (!document.hidden) {
+            tickTimer();
+            if (timerCompletionHandled) cancelTimerBackgroundNotification();
+        }
 
     });
 

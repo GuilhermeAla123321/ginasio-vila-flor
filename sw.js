@@ -13,6 +13,8 @@ const APP_SHELL = [
     './js/exercicios.js',
     './js/navegacao.js',
     './js/timer.js',
+    './js/timer-push-config.js',
+    './js/timer-background-push.js',
     './js/tema.js',
     './js/app.js',
 
