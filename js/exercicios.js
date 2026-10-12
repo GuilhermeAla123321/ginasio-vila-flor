@@ -2945,17 +2945,11 @@ document.addEventListener("DOMContentLoaded",()=>{
  overlay?.addEventListener("click",e=>{
 
   if(e.target===overlay)
-
    fecharExercicioModal();
-
  });
-
  document.addEventListener("keydown",e=>{
-
   if(e.key==="Escape" && overlay?.classList.contains("open"))
 
    fecharExercicioModal();
-
  });
-
 });
