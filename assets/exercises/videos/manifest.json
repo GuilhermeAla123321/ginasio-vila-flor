@@ -1,210 +1,281 @@
 {
+  
   "localVideos": [
     {
       "id": "hip-abduction",
       "exercise": "Abdução da anca",
-      "equipment": ["Máquina Abdutora/Adutora"],
+      "equipment": [
+        "Máquina Abdutora/Adutora"
+      ],
       "file": "assets/exercises/videos/abducao-de-quadril-gluteos.mp4"
     },
     {
       "id": "hip-adduction",
       "exercise": "Adução da anca",
-      "equipment": ["Máquina Abdutora/Adutora"],
+      "equipment": [
+        "Máquina Abdutora/Adutora"
+      ],
       "file": "assets/exercises/videos/aducao-de-quadril-virilhas.mp4"
     },
     {
       "id": "smith-squat",
       "exercise": "Agachamento na Smith Machine",
-      "equipment": ["Smith Machine"],
+      "equipment": [
+        "Smith Machine"
+      ],
       "file": "assets/exercises/videos/agachamento.mp4"
     },
     {
       "id": "cable-crossover-high",
       "exercise": "Crucifixo na polia alta (peitoral inferior)",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/crucifixo-alto-peitoral-inferior.mp4"
     },
     {
       "id": "cable-crossover-low",
       "exercise": "Crucifixo na polia baixa (peitoral superior)",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/crucifixo-baixo-peitoral-superior.mp4"
     },
     {
       "id": "pec-deck-reverse-fly",
       "exercise": "Crucifixo invertido com pegada neutra",
-      "equipment": ["Peck Deck"],
+      "equipment": [
+        "Peck Deck"
+      ],
       "file": "assets/exercises/videos/crucifixo-invertido-peck-deck.mp4"
     },
     {
       "id": "cable-reverse-fly",
       "exercise": "Crucifixo invertido na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/crucifixo-invertido.mp4"
     },
     {
       "id": "pec-deck-fly",
       "exercise": "Crucifixo",
-      "equipment": ["Peck Deck"],
+      "equipment": [
+        "Peck Deck"
+      ],
       "file": "assets/exercises/videos/crucifixo-peck-deck.mp4"
     },
     {
       "id": "cable-lateral-raise-unilateral",
       "exercise": "Elevação lateral unilateral na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/elevacao-lateral-unilateral.mp4"
     },
     {
       "id": "knee-extension",
       "exercise": "Extensão de pernas",
-      "equipment": ["Cadeira Extensora"],
+      "equipment": [
+        "Cadeira Extensora"
+      ],
       "file": "assets/exercises/videos/extensao-de-quadriceps.mp4"
     },
     {
       "id": "cable-triceps-bar",
       "exercise": "Extensão de tríceps com barra na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/extensao-triceps-com-barra.mp4"
     },
     {
       "id": "cable-triceps-rope",
       "exercise": "Extensão de tríceps com corda na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/extensao-triceps-com-corda.mp4"
     },
     {
       "id": "cable-triceps-unilateral",
       "exercise": "Extensão unilateral de tríceps na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/extensao-triceps-unilateral.mp4"
     },
     {
       "id": "smith-bench-press",
       "exercise": "Supino reto na Smith Machine",
-      "equipment": ["Smith Machine"],
+      "equipment": [
+        "Smith Machine"
+      ],
       "file": "assets/exercises/videos/extensao-triceps.mp4",
       "note": "O nome do ficheiro é antigo; a demonstração corresponde ao supino reto na Smith Machine."
     },
     {
       "id": "smith-calf-raise",
       "exercise": "Elevação de gémeos na Smith Machine",
-      "equipment": ["Smith Machine"],
+      "equipment": [
+        "Smith Machine"
+      ],
       "file": "assets/exercises/videos/flexao-de-gemeos.mp4"
     },
     {
       "id": "leg-curl",
       "exercise": "Flexão de pernas",
-      "equipment": ["Mesa Flexora"],
+      "equipment": [
+        "Mesa Flexora"
+      ],
       "file": "assets/exercises/videos/flexao-de-isquiotibiais.mp4"
     },
     {
       "id": "cable-glute-kickback",
       "exercise": "Coice de glúteo unilateral na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/kickback-unilateral.mp4"
     },
     {
       "id": "shoulder-press-neutral",
       "exercise": "Prensa de ombros com pegada neutra",
-      "equipment": ["Prensa de Ombros"],
+      "equipment": [
+        "Prensa de Ombros"
+      ],
       "file": "assets/exercises/videos/prensa-de-ombros-neutra.mp4"
     },
     {
       "id": "shoulder-press-pronated",
       "exercise": "Prensa de ombros com pegada pronada",
-      "equipment": ["Prensa de Ombros"],
+      "equipment": [
+        "Prensa de Ombros"
+      ],
       "file": "assets/exercises/videos/prensa-de-ombros-pronada.mp4"
     },
     {
       "id": "smith-shoulder-press",
       "exercise": "Press de ombros na Smith Machine",
-      "equipment": ["Smith Machine"],
+      "equipment": [
+        "Smith Machine"
+      ],
       "file": "assets/exercises/videos/press-de-ombros.mp4"
     },
     {
       "id": "cable-straight-arm-pulldown",
       "exercise": "Puxada de braços estendidos na polia",
-      "aliases": ["Puxada frontal de dorsal"],
-      "equipment": ["Polia Multifuncional"],
+      "aliases": [
+        "Puxada frontal de dorsal"
+      ],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/puxada-frontal-de-dorsal.mp4",
-      "note": "A demonstração corresponde a uma puxada com os braços estendidos."
+      "note": "O fotograma mostra uma puxada com os braços estendidos na polia."
     },
     {
       "id": "lat-pulldown-neutral-triangle",
       "exercise": "Puxada neutra com triângulo",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/puxada-neutra-com-triangulo.mp4"
     },
     {
       "id": "lat-pulldown-pronated",
       "exercise": "Puxada frontal pronada com barra",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/puxada-pronada-com-barra.mp4"
     },
     {
       "id": "lat-pulldown-supinated",
       "exercise": "Puxada frontal supinada",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/puxada-supinada.mp4"
     },
     {
       "id": "cable-seated-row-triangle",
       "exercise": "Remada baixa com triângulo",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/remada-baixa-triangulo.mp4"
     },
     {
       "id": "smith-row-pronated",
       "exercise": "Remada curvada pronada na Smith Machine",
-      "equipment": ["Smith Machine"],
+      "equipment": [
+        "Smith Machine"
+      ],
       "file": "assets/exercises/videos/remada-curvada-pronada.mp4"
     },
     {
       "id": "cable-seated-row-neutral-unilateral",
       "exercise": "Remada neutra unilateral na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/remada-neutra-unilateral.mp4"
     },
     {
       "id": "cable-seated-row-pronated",
       "exercise": "Remada baixa pronada com barra",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/remada-pronada-com-barra.mp4"
     },
     {
       "id": "cable-bayesian-curl",
       "exercise": "Rosca Bayesian na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/rosca-bayesian.mp4"
     },
     {
       "id": "cable-biceps-curl",
       "exercise": "Rosca direta na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/rosca-direta.mp4"
     },
     {
       "id": "flat-bench-dumbbell-press",
       "exercise": "Supino reto com halteres",
-      "equipment": ["Banco de Peso"],
+      "equipment": [
+        "Banco de Peso"
+      ],
       "file": "assets/exercises/videos/supino-reto-halteres.mp4"
     },
     {
       "id": "smith-incline-bench-press",
       "exercise": "Supino inclinado na Smith Machine",
-      "equipment": ["Smith Machine"],
+      "equipment": [
+        "Smith Machine"
+      ],
       "file": "assets/exercises/videos/supino-inclinado.mp4"
     },
     {
       "id": "cable-overhead-triceps-rope",
       "exercise": "Tríceps francês com corda na polia",
-      "equipment": ["Polia Multifuncional"],
+      "equipment": [
+        "Polia Multifuncional"
+      ],
       "file": "assets/exercises/videos/triceps-frances-com-corda.mp4"
     },
     {
       "id": "leg-press",
       "exercise": "Leg Press",
-      "equipment": ["Leg Press"],
+      "equipment": [
+        "Leg Press"
+      ],
       "file": "assets/exercises/videos/leg-press.mp4"
     }
   ]

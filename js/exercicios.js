@@ -1209,33 +1209,85 @@ async function carregarManifestoVideosExercicio() {
 }
 
 function normalizarChaveVideoExercicio(valor) {
-  return String(valor || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-PT").trim();
+  return String(valor || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("pt-PT")
+    .trim();
+}
+
+/**
+ * Aceita apenas caminhos locais dentro de assets/exercises/videos.
+ * A validação é deliberadamente explícita para impedir paths inválidos
+ * ou escapados e para não falhar por caracteres HTML/Markdown na expressão.
+ */
+function validarCaminhoVideoExercicio(caminho) {
+  if (typeof caminho !== "string") return "";
+  const normalizado = caminho.trim().replace(/\\/g, "/").replace(/^(?:\.\/)+/, "");
+  return /^assets\/exercises\/videos\/[A-Za-z0-9][A-Za-z0-9._-]*\.mp4$/i.test(normalizado)
+    ? normalizado
+    : "";
 }
 
 function encontrarEntradaVideoExercicio(manifesto, ex) {
-  const videoId = String(ex?.videoId || "").trim();
-  if (videoId) {
-    const porId = manifesto.find(item => item && item.id === videoId);
-    if (porId) return porId;
+  if (!Array.isArray(manifesto) || !ex) return null;
+
+  // 1. Preferir sempre a associação explícita por ID.
+  const ids = [ex.videoId, ex.videoLocalId, ex.id]
+    .map(valor => String(valor || "").trim())
+    .filter(Boolean);
+
+  for (const id of ids) {
+    const porId = manifesto.find(item => item && String(item.id || "") === id);
+    if (porId && validarCaminhoVideoExercicio(porId.file)) {
+      return { ...porId, file: validarCaminhoVideoExercicio(porId.file) };
+    }
   }
 
-  const nome = normalizarChaveVideoExercicio(ex?.nome);
-  if (!nome) return null;
-  const nomesEquipamento = [
-    ...(Array.isArray(ex?.equipamentos) ? ex.equipamentos : []),
-    ...(String(ex?.equipamento || "").split(","))
-  ].map(normalizarChaveVideoExercicio).filter(Boolean);
-  if (!nomesEquipamento.length) return null;
+  // 2. Compatibilidade com registos que guardam diretamente o caminho local.
+  const caminhoDireto = validarCaminhoVideoExercicio(ex.videoLocal || ex.videoPath || "");
+  if (caminhoDireto) {
+    const porCaminho = manifesto.find(item =>
+      item && validarCaminhoVideoExercicio(item.file) === caminhoDireto
+    );
+    if (porCaminho) return { ...porCaminho, file: caminhoDireto };
+  }
 
-  return manifesto.find(item => {
-    if (!item || typeof item.file !== "string") return false;
+  // 3. Fallback por nome exato/alias. Não usar correspondências parciais,
+  // para evitar mostrar a demonstração de outro movimento.
+  const nome = normalizarChaveVideoExercicio(ex.nome);
+  if (!nome) return null;
+
+  const nomesEquipamento = [
+    ...(Array.isArray(ex.equipamentos) ? ex.equipamentos : []),
+    ...String(ex.equipamento || "").split(",")
+  ].map(normalizarChaveVideoExercicio).filter(Boolean);
+
+  const candidatos = manifesto.filter(item => {
+    if (!item || !validarCaminhoVideoExercicio(item.file)) return false;
     const nomes = [item.exercise, ...(Array.isArray(item.aliases) ? item.aliases : [])]
       .map(normalizarChaveVideoExercicio);
-    if (!nomes.includes(nome)) return false;
-    const equipamentosItem = (Array.isArray(item.equipment) ? item.equipment : [])
-      .map(normalizarChaveVideoExercicio);
-    return equipamentosItem.some(equipamento => nomesEquipamento.includes(equipamento));
-  }) || null;
+    return nomes.includes(nome);
+  });
+
+  if (!candidatos.length) return null;
+
+  // Quando o registo informa o equipamento, exigir também compatibilidade.
+  if (nomesEquipamento.length) {
+    const compatíveis = candidatos.filter(item => {
+      const equipamentosItem = (Array.isArray(item.equipment) ? item.equipment : [])
+        .map(normalizarChaveVideoExercicio);
+      return equipamentosItem.some(equipamento => nomesEquipamento.includes(equipamento));
+    });
+    return compatíveis.length === 1
+      ? { ...compatíveis[0], file: validarCaminhoVideoExercicio(compatíveis[0].file) }
+      : null;
+  }
+
+  // Sem equipamento, só usar um nome se for inequívoco no manifesto.
+  return candidatos.length === 1
+    ? { ...candidatos[0], file: validarCaminhoVideoExercicio(candidatos[0].file) }
+    : null;
 }
 
 function mostrarSemDemonstracao(media, mensagem = "Demonstração visual indisponível") {
@@ -1284,7 +1336,8 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
   if (pedido !== requisicaoMediaExercicio || !media.isConnected) return;
 
-  if (entrada && typeof entrada.file === "string" && /^assets\/exercises\/videos\/[A-Za-z0-9._-]+\.mp4$/i.test(entrada.file)) {
+  const caminhoVideo = entrada ? validarCaminhoVideoExercicio(entrada.file) : "";
+  if (entrada && caminhoVideo) {
     const video = document.createElement("video");
     video.className = "exercise-demo-video";
     video.autoplay = true;
@@ -1294,15 +1347,45 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
     video.playsInline = true;
     video.preload = "none";
     video.setAttribute("aria-label", `Demonstração de ${ex.nome || "exercício"}`);
-    video.addEventListener("loadeddata", () => {
-      if (pedido === requisicaoMediaExercicio) {
+    const ocultarIndicadorCarregamento = () => {
+      if (pedido === requisicaoMediaExercicio && video.isConnected) {
         media.classList.remove("is-loading");
         media.querySelector(".exercise-modal-loading")?.remove();
       }
-    }, { once: true });
+    };
+    video.addEventListener("loadeddata", ocultarIndicadorCarregamento, { once: true });
+    video.addEventListener("canplay", ocultarIndicadorCarregamento, { once: true });
+    // Alguns projetos têm os MP4 diretamente em assets/exercises/ e outros em
+    // assets/exercises/videos/. Tenta o caminho publicado no manifesto primeiro;
+    // só após falhar, tenta a pasta alternativa. Isto só acontece depois do clique.
+    const caminhoAlternativo = caminhoVideo.replace(
+      /^assets\/exercises\/videos\/([^/]+)$/i,
+      "assets/exercises/$1"
+    );
+    let tentouCaminhoAlternativo = false;
+
     video.addEventListener("error", () => {
-      if (pedido === requisicaoMediaExercicio) mostrarSemDemonstracao(media, "Não foi possível reproduzir esta demonstração.");
-    }, { once: true });
+      if (pedido !== requisicaoMediaExercicio || !video.isConnected) return;
+
+      if (!tentouCaminhoAlternativo && caminhoAlternativo && caminhoAlternativo !== caminhoVideo) {
+        tentouCaminhoAlternativo = true;
+        video.src = caminhoAlternativo;
+        video.load();
+        try {
+          const tentativaAlternativa = video.play();
+          if (tentativaAlternativa && typeof tentativaAlternativa.catch === "function") {
+            tentativaAlternativa.catch(() => {
+              if (pedido === requisicaoMediaExercicio && video.isConnected) video.controls = true;
+            });
+          }
+        } catch (erro) {
+          video.controls = true;
+        }
+        return;
+      }
+
+      mostrarSemDemonstracao(media, "Não foi possível reproduzir esta demonstração. Verifica o caminho do ficheiro de vídeo.");
+    });
 
     const indicador = document.createElement("div");
     indicador.className = "exercise-modal-loading";
@@ -1312,7 +1395,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
     media.classList.add("is-loading");
 
     // O src só é atribuído agora, após a ação explícita «Ver exercício».
-    video.src = entrada.file;
+    video.src = caminhoVideo;
     video.load();
     try {
       const tentativa = video.play();

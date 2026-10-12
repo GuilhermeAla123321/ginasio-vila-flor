@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v51';
+const CACHE_NAME = 'vf-ginasio-v52';
 
 const APP_SHELL = [
     './',
@@ -202,6 +202,47 @@ self.addEventListener('fetch', event => {
     ) {
 
         return;
+    }
+
+
+    /* =====================================================
+       MANIFESTO DOS VÍDEOS LOCAIS — rede primeiro
+       Evita que a PWA continue a servir um manifesto antigo em cache.
+       Os MP4 continuam a ser carregados apenas quando o utilizador abre um exercício.
+       ===================================================== */
+
+    if (url.pathname.endsWith('/assets/exercises/videos/manifest.json')) {
+
+        event.respondWith(
+
+            fetch(request, { cache: 'no-store' })
+
+                .then(async response => {
+
+                    if (response.ok) {
+                        await guardarNoCache(request, response);
+                    }
+
+                    return response;
+
+                })
+
+                .catch(async () => {
+
+                    const cached = await caches.match(request);
+                    if (cached) return cached;
+
+                    return new Response(
+                        JSON.stringify({ localVideos: [] }),
+                        { status: 503, headers: { 'Content-Type': 'application/json; charset=utf-8' } }
+                    );
+
+                })
+
+        );
+
+        return;
+
     }
 
 

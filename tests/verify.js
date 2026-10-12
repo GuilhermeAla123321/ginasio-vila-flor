@@ -112,7 +112,7 @@ const context = {
 vm.createContext(context);
 
 const librarySource = fs.readFileSync(path.join(root, 'js/exercicios.js'), 'utf8');
-vm.runInContext(librarySource + '\n;globalThis.__openExercise = abrirExercicioModal; globalThis.__closeExercise = fecharExercicioModal;', context);
+vm.runInContext(librarySource + '\n;globalThis.__openExercise = abrirExercicioModal; globalThis.__closeExercise = fecharExercicioModal; globalThis.__validVideoPath = validarCaminhoVideoExercicio;', context);
 const equipmentSource = fs.readFileSync(path.join(root, 'js/equipamentos.js'), 'utf8');
 vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXERCICIOS; globalThis.__getAllExercises = obterTodosExerciciosBiblioteca;', context);
 
@@ -124,6 +124,9 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.equal(fetchCalls, 0, 'Abrir a biblioteca/catalogar exercícios não deve pedir o manifesto de vídeos.');
   assert.equal(assignedVideoSources.length, 0, 'Nenhum src de vídeo deve ser atribuído antes de abrir um exercício.');
 
+  assert.equal(context.__validVideoPath('../videos/agachamento.mp4'), '', 'O validador deve rejeitar caminhos fora da pasta de vídeos.');
+  assert.equal(context.__validVideoPath('assets&#x73;**/videos/agachamento.mp4'), '', 'O validador deve rejeitar caminhos corrompidos com entidades HTML/Markdown.');
+
   const videoItems = manifest.localVideos;
   assert.equal(videoItems.length, 34, 'Devem existir 34 demonstrações locais confirmadas.');
   assert.equal(new Set(videoItems.map(x => x.id)).size, videoItems.length, 'Os IDs das demonstrações devem ser únicos.');
@@ -131,6 +134,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
 
   for (const entry of videoItems) {
     assert.ok(fs.existsSync(path.join(root, entry.file)), `Ficheiro de vídeo em falta: ${entry.file}`);
+    assert.equal(context.__validVideoPath(entry.file), entry.file, `O validador deve aceitar o caminho: ${entry.file}`);
     const found = all.find(ex => ex.videoId === entry.id);
     assert.ok(found, `Exercício com videoId não encontrado no catálogo: ${entry.id} (${entry.exercise})`);
     for (const eq of entry.equipment) {
@@ -171,12 +175,23 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.equal(assignedVideoSources.at(-1), entradaFallback.file, 'Um exercício sem videoId deve encontrar vídeo por nome + equipamento exatos.');
   context.__closeExercise();
 
+  // Exercício legado com nome inequívoco mas sem videoId nem equipamento.
+  const entradaSemEquipamento = videoItems.find(x => x.exercise === "Leg Press");
+  const exerciseWithoutEquipment = { nome: entradaSemEquipamento.exercise, grupo: "Teste", passos: [] };
+  context.__openExercise(exerciseWithoutEquipment);
+  await new Promise(resolve => setImmediate(resolve));
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(assignedVideoSources.at(-1), entradaSemEquipamento.file, 'Um nome único deve funcionar mesmo sem equipamento no objeto.');
+  context.__closeExercise();
+
   assert.equal(fetchCalls, 1, 'O manifesto é carregado uma única vez após o primeiro clique e reutilizado.');
-  assert.equal(assignedVideoSources.length, videoItems.length + 1, 'Os vídeos são atribuídos apenas após a seleção do exercício.');
+  assert.equal(assignedVideoSources.length, videoItems.length + 2, 'Os vídeos são atribuídos apenas após a seleção do exercício.');
 
   const appSource = fs.readFileSync(path.join(root, 'js/app.js'), 'utf8');
   assert.match(appSource, /navigator\.serviceWorker\.register\([\s\S]*?updateViaCache:\s*["']none["']/ , 'O Service Worker deve verificar atualizações sem usar a cache do script.');
-  assert.match(fs.readFileSync(path.join(root, 'sw.js'), 'utf8'), /vf-ginasio-v53/, 'A versão de cache do SW deve ter sido incrementada.');
+  const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
+  assert.match(serviceWorkerSource, /vf-ginasio-v55/, 'A versão de cache do SW deve ter sido incrementada.');
+  assert.match(serviceWorkerSource, /url\.pathname\.endsWith\('\/assets\/exercises\/videos\/manifest\.json'\)[\s\S]*?fetch\(request, \{ cache: 'no-store' \}\)/, 'O manifesto de vídeos deve ser atualizado pela rede antes de usar cache.');
 
   const equipmentRecordCount = Object.values(context.__equipment).flat().filter(ex => ex && ex.nome).length;
   console.log(JSON.stringify({
