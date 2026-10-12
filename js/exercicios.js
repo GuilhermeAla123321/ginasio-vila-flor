@@ -1,8 +1,16 @@
 const exerciciosBiblioteca=[
+
 {
+
  nome:"Supino Reto",
+
  grupo:"Peito",
+
  classe:"t-peito",
+
+
+
+
 
 
 
@@ -10,7 +18,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  desc:"Exercício base para o peitoral, com barra ou halteres, deitado num banco reto.",
+
+
+
+
 
 
 
@@ -18,7 +34,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -26,7 +50,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Pega na barra com uma pegada ligeiramente mais larga que os ombros.",
+
+
+
+
 
 
 
@@ -34,7 +66,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Empurra a barra para cima sem travar os cotovelos por completo no topo."
+
+
+
+
 
 
 
@@ -42,7 +82,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -50,7 +98,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Deixar os cotovelos abrirem demasiado (risco para o ombro).",
+
+
+
+
 
 
 
@@ -58,7 +114,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -66,7 +130,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -74,7 +146,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Pernas",
+
+
+
+
 
 
 
@@ -82,11 +162,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🦵",
 
 
 
+
+
+
+
  desc:"Agachamento sem carga externa, focado na técnica, no controlo e na força das pernas e dos glúteos.",
+
+
+
+
 
 
 
@@ -95,7 +187,16 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -103,7 +204,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Inicia o movimento empurrando a anca para trás, como se fosses sentar numa cadeira.",
+
+
+
+
 
 
 
@@ -111,7 +220,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Sobe empurrando o chão com os calcanhares até à extensão completa."
+
+
+
+
 
 
 
@@ -119,7 +236,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -127,7 +252,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Levantar os calcanhares do chão durante a descida.",
+
+
+
+
 
 
 
@@ -135,7 +268,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -143,7 +284,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -151,7 +300,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Pernas",
+
+
+
+
 
 
 
@@ -159,7 +316,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🏋️",
+
+
+
+
 
 
 
@@ -167,11 +332,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"N3O3gtNM7GY",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -179,7 +356,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Dobra a anca e os joelhos mantendo a barra colada ao corpo.",
+
+
+
+
 
 
 
@@ -187,7 +372,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "No topo, mantém-te ereto sem hiperestender a lombar."
+
+
+
+
 
 
 
@@ -195,7 +388,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -203,7 +404,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Afastar a barra do corpo, sobrecarregando a lombar.",
+
+
+
+
 
 
 
@@ -211,7 +420,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -219,7 +436,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -227,7 +452,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Costas",
+
+
+
+
 
 
 
@@ -235,7 +468,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🎯",
+
+
+
+
 
 
 
@@ -243,11 +484,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"VJHBEy2duVc",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -255,7 +508,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Segura a barra com pegada pronada, ligeiramente mais larga que os ombros.",
+
+
+
+
 
 
 
@@ -263,7 +524,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Desce de forma controlada até à extensão quase completa dos braços."
+
+
+
+
 
 
 
@@ -271,7 +540,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -279,7 +556,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Arredondar as costas durante o movimento.",
+
+
+
+
 
 
 
@@ -287,7 +572,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -295,7 +588,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -303,7 +604,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Braços",
+
+
+
+
 
 
 
@@ -311,7 +620,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"💪",
+
+
+
+
 
 
 
@@ -319,7 +636,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"wThiFR_bPYU",
+
+
+
+
 
 
 
@@ -327,7 +652,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Fica em pé com um haltere em cada mão e os cotovelos junto ao tronco.",
+
+
+
+
 
 
 
@@ -335,7 +668,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Contrai o bíceps no topo do movimento sem balançar o tronco.",
+
+
+
+
 
 
 
@@ -343,7 +684,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ],
+
+
+
+
 
 
 
@@ -351,7 +700,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Balançar o corpo para ajudar a levantar o peso.",
+
+
+
+
 
 
 
@@ -359,7 +716,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Usar carga demasiado pesada, perdendo a amplitude completa."
+
+
+
+
 
 
 
@@ -367,7 +732,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 },
+
+
+
+
 
 
 
@@ -375,7 +748,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  nome:"Tríceps na Polia",
+
+
+
+
 
 
 
@@ -383,7 +764,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  classe:"t-bracos",
+
+
+
+
 
 
 
@@ -391,7 +780,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  desc:"Extensão de cotovelo na polia alta com corda, para isolar o tríceps.",
+
+
+
+
 
 
 
@@ -400,7 +797,16 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -408,7 +814,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Estende os cotovelos empurrando a corda para baixo.",
+
+
+
+
 
 
 
@@ -416,7 +830,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Regressa devagar à posição inicial, sem soltar o peso da pilha."
+
+
+
+
 
 
 
@@ -424,7 +846,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -432,7 +862,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Usar o peso do corpo para ajudar a empurrar a corda.",
+
+
+
+
 
 
 
@@ -440,7 +878,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -448,7 +894,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -456,7 +910,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Ombros",
+
+
+
+
 
 
 
@@ -464,7 +926,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🙆",
+
+
+
+
 
 
 
@@ -472,11 +942,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"jannLx4RxKo",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -484,7 +966,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Eleva os braços lateralmente até à altura dos ombros.",
+
+
+
+
 
 
 
@@ -492,7 +982,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Desce de forma controlada até à posição inicial."
+
+
+
+
 
 
 
@@ -500,7 +998,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -508,7 +1014,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Encolher os trapézios em vez de trabalhar o deltoide.",
+
+
+
+
 
 
 
@@ -516,7 +1030,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -524,7 +1046,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -532,7 +1062,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Pernas",
+
+
+
+
 
 
 
@@ -540,7 +1078,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🦵",
+
+
+
+
 
 
 
@@ -548,11 +1094,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"waAxlYvtCcI",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -560,7 +1118,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Destrava o suporte e controla a descida até um ângulo confortável do joelho.",
+
+
+
+
 
 
 
@@ -568,7 +1134,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Evita travar totalmente os joelhos no topo do movimento."
+
+
+
+
 
 
 
@@ -576,7 +1150,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -584,7 +1166,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Travar os joelhos com força no topo do movimento.",
+
+
+
+
 
 
 
@@ -592,7 +1182,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -600,7 +1198,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -608,7 +1214,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Pernas",
+
+
+
+
 
 
 
@@ -616,7 +1230,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🦵",
+
+
+
+
 
 
 
@@ -624,11 +1246,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"mruTNzILY3U",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -636,7 +1270,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Estende as pernas até à quase extensão completa, sem chocar as pernas contra o batente.",
+
+
+
+
 
 
 
@@ -644,7 +1286,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Regressa devagar à posição inicial, controlando o peso."
+
+
+
+
 
 
 
@@ -652,7 +1302,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -660,7 +1318,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Estender os joelhos com força excessiva (hiperextensão).",
+
+
+
+
 
 
 
@@ -668,7 +1334,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -676,7 +1350,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -684,7 +1366,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Pernas",
+
+
+
+
 
 
 
@@ -692,7 +1382,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🦵",
+
+
+
+
 
 
 
@@ -700,11 +1398,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"8Nat6GRiEoc",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -712,7 +1422,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Flete os joelhos aproximando os calcanhares da anca.",
+
+
+
+
 
 
 
@@ -720,7 +1438,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Desce de forma controlada até à extensão quase total das pernas."
+
+
+
+
 
 
 
@@ -728,7 +1454,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -736,7 +1470,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Deixar o peso cair sem controlo na fase de descida.",
+
+
+
+
 
 
 
@@ -744,7 +1486,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -752,7 +1502,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -760,7 +1518,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Costas",
+
+
+
+
 
 
 
@@ -768,7 +1534,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🎯",
+
+
+
+
 
 
 
@@ -776,11 +1550,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"BOW9my4J_ek",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -788,7 +1574,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Segura a barra com pegada aberta, ligeiramente mais larga que os ombros.",
+
+
+
+
 
 
 
@@ -796,7 +1590,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Regressa devagar até à extensão quase completa dos braços."
+
+
+
+
 
 
 
@@ -804,7 +1606,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -812,7 +1622,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Usar impulso do tronco em vez de força das costas.",
+
+
+
+
 
 
 
@@ -820,7 +1638,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -828,7 +1654,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -836,7 +1670,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Core",
+
+
+
+
 
 
 
@@ -844,7 +1686,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🔥",
+
+
+
+
 
 
 
@@ -852,11 +1702,23 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"c4yjTN9uKRY",
 
 
 
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -864,7 +1726,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Coloca as mãos ao lado da cabeça, sem entrelaçar atrás do pescoço.",
+
+
+
+
 
 
 
@@ -872,7 +1742,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Desce de forma controlada sem relaxar totalmente entre repetições."
+
+
+
+
 
 
 
@@ -880,7 +1758,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -888,7 +1774,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Usar impulso em vez de contração abdominal controlada.",
+
+
+
+
 
 
 
@@ -896,7 +1790,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -904,7 +1806,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 {
+
+
+
+
 
 
 
@@ -912,7 +1822,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  grupo:"Core",
+
+
+
+
 
 
 
@@ -920,7 +1838,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  icon:"🔥",
+
+
+
+
 
 
 
@@ -928,7 +1854,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  video:"Yu0wjtD5FkU",
+
+
+
+
 
 
 
@@ -936,7 +1870,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Apoia os antebraços e as pontas dos pés no chão, cotovelos sob os ombros.",
+
+
+
+
 
 
 
@@ -944,7 +1886,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Contrai o abdómen e os glúteos durante todo o exercício.",
+
+
+
+
 
 
 
@@ -952,7 +1902,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ],
+
+
+
+
 
 
 
@@ -960,7 +1918,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Deixar a anca subir ou descer em relação à linha do corpo.",
+
+
+
+
 
 
 
@@ -968,7 +1934,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Olhar para a frente em vez de manter o pescoço neutro."
+
+
+
+
 
 
 
@@ -976,7 +1950,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 },
+
+
+
+
 
 
 
@@ -984,7 +1966,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  nome:"Elevação de Gémeos",
+
+
+
+
 
 
 
@@ -992,7 +1982,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  classe:"t-pernas",
+
+
+
+
 
 
 
@@ -1000,7 +1998,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  desc:"Exercício para a panturrilha, em pé, com ou sem carga adicional.",
+
+
+
+
 
 
 
@@ -1009,7 +2015,16 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
+
  passos:[
+
+
+
+
 
 
 
@@ -1017,7 +2032,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Eleva os calcanhares o mais alto possível, contraindo a panturrilha.",
+
+
+
+
 
 
 
@@ -1025,7 +2048,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Desce lentamente até sentir um bom alongamento na panturrilha."
+
+
+
+
 
 
 
@@ -1033,7 +2064,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  erros:[
+
+
+
+
 
 
 
@@ -1041,7 +2080,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
   "Reduzir a amplitude, não descendo o suficiente.",
+
+
+
+
 
 
 
@@ -1049,7 +2096,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
  ]
+
+
+
+
 
 
 
@@ -1057,7 +2112,15 @@ const exerciciosBiblioteca=[
 
 
 
+
+
+
+
 ];
+
+
+
+
 
 
 
@@ -1065,7 +2128,15 @@ window.exerciciosBiblioteca = exerciciosBiblioteca;
 
 
 
+
+
+
+
 function gifParaExercicio(ex){
+
+
+
+
 
 
 
@@ -1073,7 +2144,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/passadeira|caminhada|corrida|intervalo/.test(n))
+
+
+
+
 
 
 
@@ -1081,7 +2160,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/bicicleta|pedal|sprint/.test(n))
+
+
+
+
 
 
 
@@ -1089,7 +2176,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/elíptica|elliptica/.test(n))
+
+
+
+
 
 
 
@@ -1097,7 +2192,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/remo|remada/.test(n))
+
+
+
+
 
 
 
@@ -1105,7 +2208,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/agachamento|lunge|leg press/.test(n))
+
+
+
+
 
 
 
@@ -1113,7 +2224,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
    ? 'assets/exercises/legpress.gif'
+
+
+
+
 
 
 
@@ -1121,7 +2240,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/supino|peito|bench/.test(n))
+
+
+
+
 
 
 
@@ -1129,7 +2256,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/shoulder|ombro|press/.test(n))
+
+
+
+
 
 
 
@@ -1137,7 +2272,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/polia|tríceps|triceps|bíceps|biceps|puxada|extensão/.test(n))
+
+
+
+
 
 
 
@@ -1145,11 +2288,23 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/abdutora|abdução|abducao/.test(n))
 
 
 
+
+
+
+
   return 'assets/exercises/abduct.gif';
+
+
+
+
 
 
 
@@ -1161,7 +2316,15 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  if(/gémeos|gemeos|panturrilha/.test(n))
+
+
+
+
 
 
 
@@ -1169,46 +2332,90 @@ function gifParaExercicio(ex){
 
 
 
+
+
+
+
  return 'assets/exercises/generic.gif';
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
 let requisicaoMediaExercicio = 0;
+
 let manifestoVideosPromise = null;
 
+
+
 async function carregarManifestoVideosExercicio() {
+
   if (!manifestoVideosPromise) {
+
     manifestoVideosPromise = fetch("assets/exercises/videos/manifest.json", { cache: "no-store" })
+
       .then(resposta => {
+
         if (!resposta.ok) throw new Error("Não foi possível carregar o manifesto de vídeos.");
+
         return resposta.json();
+
       })
+
       .then(dados => Array.isArray(dados.localVideos) ? dados.localVideos : [])
+
       .catch(erro => {
+
         manifestoVideosPromise = null;
+
         throw erro;
+
       });
+
   }
+
   return manifestoVideosPromise;
+
 }
+
+
 
 function normalizarChaveVideoExercicio(valor) {
+
   return String(valor || "")
+
     .normalize("NFD")
+
     .replace(/[\u0300-\u036f]/g, "")
+
     .toLocaleLowerCase("pt-PT")
+
     .trim();
+
 }
 
+
+
 /**
+
  * Aceita apenas caminhos locais dentro de assets/exercises/videos.
+
  * A validação é deliberadamente explícita para impedir paths inválidos
+
  * ou escapados e para não falhar por caracteres HTML/Markdown na expressão.
+
  */
+
 function validarCaminhoVideoExercicio(caminho) {
   if (typeof caminho !== "string") return "";
   const normalizado = caminho.trim().replace(/\\/g, "/").replace(/^(?:\.\/)+/, "");
@@ -1217,272 +2424,538 @@ function validarCaminhoVideoExercicio(caminho) {
     : "";
 }
 
+
 function encontrarEntradaVideoExercicio(manifesto, ex) {
+
   if (!Array.isArray(manifesto) || !ex) return null;
 
+
+
   // 1. Preferir sempre a associação explícita por ID.
+
   const ids = [ex.videoId, ex.videoLocalId, ex.id]
+
     .map(valor => String(valor || "").trim())
+
     .filter(Boolean);
 
+
+
   for (const id of ids) {
+
     const porId = manifesto.find(item => item && String(item.id || "") === id);
+
     if (porId && validarCaminhoVideoExercicio(porId.file)) {
+
       return { ...porId, file: validarCaminhoVideoExercicio(porId.file) };
+
     }
+
   }
+
+
 
   // 2. Compatibilidade com registos que guardam diretamente o caminho local.
+
   const caminhoDireto = validarCaminhoVideoExercicio(ex.videoLocal || ex.videoPath || "");
+
   if (caminhoDireto) {
+
     const porCaminho = manifesto.find(item =>
+
       item && validarCaminhoVideoExercicio(item.file) === caminhoDireto
+
     );
+
     if (porCaminho) return { ...porCaminho, file: caminhoDireto };
+
   }
 
+
+
   // 3. Fallback por nome exato/alias. Não usar correspondências parciais,
+
   // para evitar mostrar a demonstração de outro movimento.
+
   const nome = normalizarChaveVideoExercicio(ex.nome);
+
   if (!nome) return null;
 
+
+
   const nomesEquipamento = [
+
     ...(Array.isArray(ex.equipamentos) ? ex.equipamentos : []),
+
     ...String(ex.equipamento || "").split(",")
+
   ].map(normalizarChaveVideoExercicio).filter(Boolean);
 
+
+
   const candidatos = manifesto.filter(item => {
+
     if (!item || !validarCaminhoVideoExercicio(item.file)) return false;
+
     const nomes = [item.exercise, ...(Array.isArray(item.aliases) ? item.aliases : [])]
+
       .map(normalizarChaveVideoExercicio);
+
     return nomes.includes(nome);
+
   });
+
+
 
   if (!candidatos.length) return null;
 
+
+
   // Quando o registo informa o equipamento, exigir também compatibilidade.
+
   if (nomesEquipamento.length) {
+
     const compatíveis = candidatos.filter(item => {
+
       const equipamentosItem = (Array.isArray(item.equipment) ? item.equipment : [])
+
         .map(normalizarChaveVideoExercicio);
+
       return equipamentosItem.some(equipamento => nomesEquipamento.includes(equipamento));
+
     });
+
     return compatíveis.length === 1
+
       ? { ...compatíveis[0], file: validarCaminhoVideoExercicio(compatíveis[0].file) }
+
       : null;
+
   }
+
+
 
   // Sem equipamento, só usar um nome se for inequívoco no manifesto.
+
   return candidatos.length === 1
+
     ? { ...candidatos[0], file: validarCaminhoVideoExercicio(candidatos[0].file) }
+
     : null;
+
 }
+
+
 
 function mostrarSemDemonstracao(media, mensagem = "Demonstração visual indisponível") {
+
   if (!media) return;
+
   libertarVideoDemonstracao(media);
+
   const estado = document.createElement("div");
+
   estado.className = "exercise-modal-no-media";
+
   estado.textContent = mensagem;
+
   media.replaceChildren(estado);
+
   media.classList.remove("is-loading");
+
 }
+
+
 
 function libertarVideoDemonstracao(container) {
+
   if (!container) return;
+
   container.querySelectorAll("video").forEach(video => {
+
     video.pause();
+
     video.removeAttribute("src");
+
     video.load();
+
     video.remove();
+
   });
+
 }
 
+
+
 async function carregarDemonstracaoExercicio(ex, media, pedido) {
+
   if (!media) return;
 
+
+
   // A pesquisa ao manifesto ocorre apenas depois de o utilizador abrir um exercício.
+
   // Isto também permite encontrar um vídeo por nome + equipamento quando algum registo
+
   // antigo ainda não tem videoId, sem pré-carregar nenhum MP4 na biblioteca.
+
   media.classList.add("is-loading");
+
   const carregamento = document.createElement("div");
+
   carregamento.className = "exercise-modal-loading";
+
   carregamento.setAttribute("role", "status");
+
   carregamento.textContent = "A preparar demonstração…";
+
   media.replaceChildren(carregamento);
 
+
+
   let entrada = null;
+
   let manifestoDisponivel = false;
+
   try {
+
     const manifesto = await carregarManifestoVideosExercicio();
+
     manifestoDisponivel = true;
+
     if (pedido !== requisicaoMediaExercicio || !document.getElementById("exerciseModalOverlay")?.classList.contains("open")) return;
+
     entrada = encontrarEntradaVideoExercicio(manifesto, ex);
+
   } catch (erro) {
+
     // Abaixo tentamos o GIF já existente como fallback, mesmo quando o manifesto falha.
+
   }
+
+
 
   if (pedido !== requisicaoMediaExercicio || !media.isConnected) return;
 
+
+
   const caminhoVideo = entrada ? validarCaminhoVideoExercicio(entrada.file) : "";
+
   if (entrada && caminhoVideo) {
+
     const video = document.createElement("video");
+
     video.className = "exercise-demo-video";
+
     video.autoplay = true;
+
     video.muted = true;
+
     video.defaultMuted = true;
+
     video.loop = true;
+
     video.playsInline = true;
+
     video.preload = "none";
+
     video.setAttribute("aria-label", `Demonstração de ${ex.nome || "exercício"}`);
+
     const ocultarIndicadorCarregamento = () => {
+
       if (pedido === requisicaoMediaExercicio && video.isConnected) {
+
         media.classList.remove("is-loading");
+
         media.querySelector(".exercise-modal-loading")?.remove();
+
       }
+
     };
+
     video.addEventListener("loadeddata", ocultarIndicadorCarregamento, { once: true });
+
     video.addEventListener("canplay", ocultarIndicadorCarregamento, { once: true });
+
     // Alguns projetos têm os MP4 diretamente em assets/exercises/ e outros em
+
     // assets/exercises/videos/. Tenta o caminho publicado no manifesto primeiro;
+
     // só após falhar, tenta a pasta alternativa. Isto só acontece depois do clique.
+
     const caminhoAlternativo = caminhoVideo.replace(
       /^assets\/exercises\/videos\/([^/]+)$/i,
       "assets/exercises/$1"
     );
+
     let tentouCaminhoAlternativo = false;
 
+
+
     video.addEventListener("error", () => {
+
       if (pedido !== requisicaoMediaExercicio || !video.isConnected) return;
 
+
+
       if (!tentouCaminhoAlternativo && caminhoAlternativo && caminhoAlternativo !== caminhoVideo) {
+
         tentouCaminhoAlternativo = true;
+
         video.src = caminhoAlternativo;
+
         video.load();
+
         try {
+
           const tentativaAlternativa = video.play();
+
           if (tentativaAlternativa && typeof tentativaAlternativa.catch === "function") {
+
             tentativaAlternativa.catch(() => {
+
               if (pedido === requisicaoMediaExercicio && video.isConnected) video.controls = true;
+
             });
+
           }
+
         } catch (erro) {
+
           video.controls = true;
+
         }
+
         return;
+
       }
+
+
 
       mostrarSemDemonstracao(media, "Não foi possível reproduzir esta demonstração. Verifica o caminho do ficheiro de vídeo.");
+
     });
 
+
+
     const indicador = document.createElement("div");
+
     indicador.className = "exercise-modal-loading";
+
     indicador.setAttribute("role", "status");
+
     indicador.textContent = "A carregar demonstração…";
+
     media.replaceChildren(video, indicador);
+
     media.classList.add("is-loading");
 
+
+
     // O src só é atribuído agora, após a ação explícita «Ver exercício».
+
     video.src = caminhoVideo;
+
     video.load();
+
     try {
+
       const tentativa = video.play();
+
       if (tentativa && typeof tentativa.catch === "function") {
+
         tentativa.catch(() => {
+
           if (pedido === requisicaoMediaExercicio && video.isConnected) video.controls = true;
+
         });
+
       }
+
     } catch (erro) {
+
       video.controls = true;
+
     }
+
     return;
+
   }
+
+
 
   // Se não houver vídeo local compatível, manter a demonstração GIF existente.
+
   const gif = ex.gif || (typeof gifParaExercicio === "function" ? gifParaExercicio(ex) : "");
+
   if (gif) {
+
     const imagem = document.createElement("img");
+
     imagem.alt = `Demonstração de ${ex.nome || "exercício"}`;
+
     imagem.loading = "lazy";
+
     imagem.addEventListener("error", () => {
+
       if (pedido === requisicaoMediaExercicio && media.isConnected) {
+
         mostrarSemDemonstracao(media, manifestoDisponivel
+
           ? "Não existe uma demonstração local confirmada para este exercício."
+
           : "Não foi possível carregar a demonstração. Verifica a ligação e tenta novamente.");
+
       }
+
     }, { once: true });
+
     media.replaceChildren(imagem);
+
     media.classList.remove("is-loading");
+
     imagem.src = gif;
+
     return;
+
   }
+
+
 
   mostrarSemDemonstracao(media, manifestoDisponivel
+
     ? "Não existe uma demonstração visual disponível para este exercício."
+
     : "Não foi possível carregar a demonstração. Verifica a ligação e tenta novamente.");
+
 }
+
+
 
 function abrirExercicioModal(ex){
+
   const overlay = document.getElementById("exerciseModalOverlay");
+
   if (!overlay || !ex) return;
 
+
+
   const pedido = ++requisicaoMediaExercicio;
+
   const definirTexto = (id, valor) => {
+
     const elemento = document.getElementById(id);
+
     if (elemento) elemento.textContent = valor == null ? "" : String(valor);
+
   };
+
   definirTexto("exerciseModalTag", ex.grupo || "Exercício");
+
   definirTexto("exerciseModalTitle", ex.nome || "Exercício");
+
   definirTexto("exerciseModalEquipment", ex.equipamento || (Array.isArray(ex.equipamentos) ? ex.equipamentos.join(", ") : "Não especificado na biblioteca"));
 
+
+
   const media = document.getElementById("exerciseModalVideo");
+
   if (media) {
+
     libertarVideoDemonstracao(media);
+
     media.replaceChildren();
+
     media.classList.remove("is-loading");
+
   }
+
+
 
   const passos = document.getElementById("exerciseModalSteps");
+
   if (passos) passos.innerHTML = (ex.passos || []).map(p => `<li>${String(p)}</li>`).join("");
+
   const passosSection = document.getElementById("exerciseModalStepsSection");
+
   if (passosSection) passosSection.hidden = !(ex.passos || []).length;
 
+
+
   const cuidados = [...(ex.cuidados || []), ...(ex.erros || []).map(erro => `Evita: ${erro}`)];
+
   const cuidadosLista = document.getElementById("exerciseModalCare");
+
   if (cuidadosLista) cuidadosLista.innerHTML = cuidados.map(item => `<li>${String(item)}</li>`).join("");
+
   const cuidadosSection = document.getElementById("exerciseModalCareSection");
+
   if (cuidadosSection) cuidadosSection.hidden = cuidados.length === 0;
 
+
+
   overlay.classList.add("open");
+
   document.body.style.overflow = "hidden";
+
   // O manifesto e o vídeo só são solicitados a partir deste clique no cartão de exercício.
+
   carregarDemonstracaoExercicio(ex, media, pedido);
+
 }
+
+
 
 function fecharExercicioModal(){
+
   ++requisicaoMediaExercicio;
+
   const overlay = document.getElementById("exerciseModalOverlay");
+
   if (!overlay) return;
 
+
+
   libertarVideoDemonstracao(overlay);
+
   const media = document.getElementById("exerciseModalVideo");
+
   if (media) {
+
     media.replaceChildren();
+
     media.classList.remove("is-loading");
+
   }
+
   overlay.classList.remove("open");
+
   document.body.style.overflow = "";
+
 }
+
 document.addEventListener("DOMContentLoaded",()=>{
+
  const overlay=document.getElementById("exerciseModalOverlay");
+
  const close=document.getElementById("exerciseModalClose");
+
  close?.addEventListener("click",fecharExercicioModal);
+
  overlay?.addEventListener("click",e=>{
+
   if(e.target===overlay)
+
    fecharExercicioModal();
+
  });
+
  document.addEventListener("keydown",e=>{
+
   if(e.key==="Escape" && overlay?.classList.contains("open"))
+
    fecharExercicioModal();
+
  });
+
 });
