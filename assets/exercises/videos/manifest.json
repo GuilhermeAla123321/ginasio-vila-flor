@@ -246,14 +246,6 @@
       "file": "assets/exercises/videos/rosca-direta.mp4"
     },
     {
-      "id": "flat-bench-dumbbell-press",
-      "exercise": "Supino reto com halteres",
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/supino-reto-halteres.mp4"
-    },
-    {
       "id": "smith-incline-bench-press",
       "exercise": "Supino inclinado na Smith Machine",
       "equipment": [
@@ -268,14 +260,6 @@
         "Polia Multifuncional"
       ],
       "file": "assets/exercises/videos/triceps-frances-com-corda.mp4"
-    },
-    {
-      "id": "leg-press",
-      "exercise": "Leg Press",
-      "equipment": [
-        "Leg Press"
-      ],
-      "file": "assets/exercises/videos/leg-press.mp4"
     },
     {
       "id": "treadmill-walk",
@@ -356,6 +340,14 @@
         "Banco de Peso"
       ],
       "file": "assets/exercises/videos/press-de-ombros-halteres.mp4"
+    },
+    {
+      "id": "bulgarian-split-squat",
+      "exercise": "Agachamento búlgaro",
+      "equipment": [
+        "Banco de Peso"
+      ],
+      "file": "assets/exercises/videos/agachamento-bulgaro.mp4"
     }
   ]
 }

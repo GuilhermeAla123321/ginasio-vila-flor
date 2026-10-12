@@ -1795,6 +1795,26 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
     },
     { equipamento: "Banco de Peso", nome: "Supino inclinado com pesos livres", videoId: "dumbbell-incline-bench-press" },
     { equipamento: "Banco de Peso", nome: "Press de ombros com halteres", videoId: "dumbbell-shoulder-press" },
+    {
+        equipamento: "Banco de Peso",
+        nome: "Agachamento búlgaro",
+        videoId: "bulgarian-split-squat",
+        grupo: "Pernas",
+        icon: "🦵",
+        desc: "Agachamento unilateral com o pé de trás apoiado num banco, para trabalhar quadríceps e glúteos.",
+        passos: [
+            "Coloca o pé de trás apoiado no banco e avança o pé da frente até ficares estável.",
+            "Mantém o tronco controlado e o joelho da frente alinhado com o pé.",
+            "Desce de forma controlada até à amplitude confortável.",
+            "Empurra o chão com o pé da frente para regressar à posição inicial e repete do outro lado."
+        ],
+        erros: ["Perder o equilíbrio por colocar os pés demasiado próximos.", "Deixar o joelho da frente colapsar para dentro.", "Usar impulso ou descer sem controlo."],
+        musculos: ["Quadríceps", "Glúteos", "Posteriores da coxa"],
+        beneficios: ["Desenvolve força unilateral", "Trabalha pernas e glúteos", "Ajuda a melhorar o equilíbrio"],
+        dificuldade: "Intermédio",
+        cuidados: ["Confirma que o banco está estável.", "Começa sem carga e usa uma amplitude controlável."],
+        sugestoes: ["Faz o mesmo número de repetições de cada lado.", "Mantém o pé da frente totalmente apoiado."]
+    },
 ];
 
 (function registarExerciciosComVideoLocal() {
