@@ -1,5 +1,4 @@
 {
-  
   "localVideos": [
     {
       "id": "hip-abduction",
@@ -277,6 +276,86 @@
         "Leg Press"
       ],
       "file": "assets/exercises/videos/leg-press.mp4"
+    },
+    {
+      "id": "treadmill-walk",
+      "exercise": "Caminhada",
+      "equipment": [
+        "Passadeira"
+      ],
+      "file": "assets/exercises/videos/caminhada.mp4"
+    },
+    {
+      "id": "treadmill-incline-walk",
+      "exercise": "Caminhada inclinada",
+      "equipment": [
+        "Passadeira"
+      ],
+      "file": "assets/exercises/videos/caminhada-inclinada.mp4"
+    },
+    {
+      "id": "stationary-bike-cardio",
+      "exercise": "Pedalagem moderada",
+      "equipment": [
+        "Bicicleta"
+      ],
+      "file": "assets/exercises/videos/bicicleta.mp4"
+    },
+    {
+      "id": "elliptical-cardio",
+      "exercise": "Cardio moderado",
+      "equipment": [
+        "Elíptica"
+      ],
+      "file": "assets/exercises/videos/eliptica.mp4"
+    },
+    {
+      "id": "rowing-cardio",
+      "exercise": "Resistência no remo",
+      "equipment": [
+        "Máquina de Remo"
+      ],
+      "file": "assets/exercises/videos/remo.mp4"
+    },
+    {
+      "id": "dumbbell-chest-fly",
+      "exercise": "Crucifixo com halteres",
+      "equipment": [
+        "Banco de Peso"
+      ],
+      "file": "assets/exercises/videos/crucifixo-com-halteres.mp4"
+    },
+    {
+      "id": "dumbbell-incline-row",
+      "exercise": "Remada inclinada com halteres",
+      "equipment": [
+        "Banco de Peso"
+      ],
+      "file": "assets/exercises/videos/remada-inclinada-com-halteres.mp4"
+    },
+    {
+      "id": "dumbbell-incline-curl",
+      "exercise": "Rosca inclinada com halteres",
+      "equipment": [
+        "Banco de Peso"
+      ],
+      "file": "assets/exercises/videos/rosca-inclinada-biceps.mp4"
+    },
+    {
+      "id": "dumbbell-incline-bench-press",
+      "exercise": "Supino inclinado com pesos livres",
+      "equipment": [
+        "Banco de Peso"
+      ],
+      "file": "assets/exercises/videos/supino-inclinado-halteres.mp4"
+    },
+    {
+      "id": "dumbbell-shoulder-press",
+      "exercise": "Press de ombros com halteres",
+      "equipment": [
+        "Banco de Peso"
+      ],
+      "file": "assets/exercises/videos/press-de-ombros-halteres.mp4"
     }
   ]
 }

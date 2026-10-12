@@ -1750,6 +1750,51 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
     { equipamento: "Prensa de Ombros", nome: "Prensa de ombros com pegada pronada", videoId: "shoulder-press-pronated", grupo: "Ombros", icon: "🏋️", desc: "Press de ombros na máquina com pegada pronada.", passos: ["Ajusta o assento e confirma a posição inicial.", "Segura as pegas com as palmas viradas para a frente.", "Empurra para cima sem perder o apoio das costas.", "Regressa lentamente à posição inicial."], erros: ["Arquear a lombar.", "Descer além da amplitude confortável."] },
     { equipamento: "Banco de Peso", nome: "Supino reto com halteres", videoId: "flat-bench-dumbbell-press", grupo: "Peito", icon: "🏋️", desc: "Supino plano com halteres no banco reto.", passos: ["Deita-te no banco com os pés apoiados e halteres acima do peito.", "Desce os halteres de forma controlada para os lados do peito.", "Empurra para cima mantendo os ombros estáveis.", "Termina sem bater os halteres um no outro."], erros: ["Abrir excessivamente os cotovelos.", "Usar carga que comprometa o controlo."] },
     { equipamento: "Leg Press", nome: "Leg Press", videoId: "leg-press", grupo: "Pernas", icon: "🦵", desc: "Press de pernas na máquina para quadríceps e glúteos.", passos: ["Ajusta o banco e coloca os pés à largura confortável na plataforma.", "Desbloqueia a máquina e desce controladamente.", "Empurra a plataforma sem bloquear bruscamente os joelhos.", "Mantém a lombar apoiada durante o movimento."], erros: ["Descer até a bacia rodar.", "Bloquear os joelhos com força."] }
+,
+    // Vídeos adicionais recebidos com nomes corrigidos — associações por equipamento + exercício.
+    { equipamento: "Passadeira", nome: "Caminhada", videoId: "treadmill-walk" },
+    { equipamento: "Passadeira", nome: "Caminhada inclinada", videoId: "treadmill-incline-walk" },
+    { equipamento: "Bicicleta", nome: "Pedalagem moderada", videoId: "stationary-bike-cardio" },
+    { equipamento: "Elíptica", nome: "Cardio moderado", videoId: "elliptical-cardio" },
+    { equipamento: "Máquina de Remo", nome: "Resistência no remo", videoId: "rowing-cardio" },
+    {
+        equipamento: "Banco de Peso",
+        nome: "Crucifixo com halteres",
+        videoId: "dumbbell-chest-fly",
+        grupo: "Peito",
+        icon: "💪",
+        desc: "Crucifixo com halteres num banco para trabalhar o peitoral através de uma abertura controlada dos braços.",
+        passos: ["Deita-te no banco com os pés apoiados e os halteres acima do peito.", "Mantém os cotovelos ligeiramente fletidos.", "Abre os braços em arco até uma amplitude confortável.", "Aproxima os halteres de forma controlada sem os deixar bater."],
+        erros: ["Usar carga excessiva.", "Esticar completamente os cotovelos.", "Descer os braços além da amplitude confortável."],
+        musculos: ["Peitoral maior", "Deltoide anterior"],
+        cuidados: ["Mantém os ombros estáveis e usa uma carga controlável."]
+    },
+    {
+        equipamento: "Banco de Peso",
+        nome: "Remada inclinada com halteres",
+        videoId: "dumbbell-incline-row",
+        grupo: "Costas",
+        icon: "🎯",
+        desc: "Remada com o peito apoiado num banco inclinado para trabalhar as costas, reduzindo o balanço do tronco.",
+        passos: ["Ajusta o banco a uma inclinação confortável e apoia o peito no encosto.", "Deixa os braços estendidos com os halteres alinhados abaixo dos ombros.", "Puxa os cotovelos para trás e aproxima as omoplatas.", "Desce os halteres lentamente até à posição inicial."],
+        erros: ["Usar impulso para levantar os halteres.", "Encolher os ombros.", "Usar uma carga que impeça a descida controlada."],
+        musculos: ["Dorsais", "Romboides", "Trapézio", "Bíceps"],
+        cuidados: ["Mantém o peito apoiado no banco durante a execução."]
+    },
+    {
+        equipamento: "Banco de Peso",
+        nome: "Rosca inclinada com halteres",
+        videoId: "dumbbell-incline-curl",
+        grupo: "Braços",
+        icon: "💪",
+        desc: "Rosca de bíceps sentada num banco inclinado, com os braços ligeiramente atrás do tronco.",
+        passos: ["Ajusta o banco a uma inclinação moderada e apoia as costas.", "Deixa os braços pendurados ao lado do tronco, sem projetar os ombros para a frente.", "Flete os cotovelos para elevar os halteres sem balançar.", "Desce de forma lenta e controlada."],
+        erros: ["Balançar os braços.", "Avançar os cotovelos para ajudar a subida.", "Usar carga que limite a amplitude."],
+        musculos: ["Bíceps", "Braquial", "Antebraços"],
+        cuidados: ["Usa uma carga que permita controlar a descida e evita forçar o ombro."]
+    },
+    { equipamento: "Banco de Peso", nome: "Supino inclinado com pesos livres", videoId: "dumbbell-incline-bench-press" },
+    { equipamento: "Banco de Peso", nome: "Press de ombros com halteres", videoId: "dumbbell-shoulder-press" },
 ];
 
 (function registarExerciciosComVideoLocal() {

@@ -1,0 +1,5059 @@
+/* =========================================================
+   CONFIGURAÇÃO E ARMAZENAMENTO
+   ========================================================= */
+
+const STORAGE_TREINOS = "vf_ginasio_treinos_v2";
+const STORAGE_EXERCICIOS_PERSONALIZADOS =
+    "vf_ginasio_exercicios_personalizados_v1";
+
+const STORAGE_FAVORITOS_EXERCICIOS =
+    "vf_ginasio_favoritos_exercicios_v1";
+
+
+/* =========================================================
+   DIAS DA SEMANA
+   ========================================================= */
+
+const diasSemana = [
+    ["segunda", "SEG", "Segunda-feira"],
+    ["terca", "TER", "Terça-feira"],
+    ["quarta", "QUA", "Quarta-feira"],
+    ["quinta", "QUI", "Quinta-feira"],
+    ["sexta", "SEX", "Sexta-feira"],
+    ["sabado", "SÁB", "Sábado"],
+    ["domingo", "DOM", "Domingo"]
+];
+
+
+/* =========================================================
+   EQUIPAMENTOS DISPONÍVEIS NO GINÁSIO
+   Usar estes nomes exatos nos filtros e formulários.
+   ========================================================= */
+const EQUIPAMENTOS_GINASIO = [
+    "Passadeira",
+    "Bicicleta",
+    "Elíptica",
+    "Máquina de Remo",
+    "Smith Machine",
+    "Banco de Peso",
+    "Polia Multifuncional",
+    "Máquina Abdutora",
+    "Prensa de Ombros",
+    "Peck Deck",
+    "Peso Livre",
+    "Leg Press",
+    "Cadeira Extensora",
+    "Mesa Flexora"
+];
+
+
+
+/* =========================================================
+   BIBLIOTECA DE EXERCÍCIOS
+   ========================================================= */
+
+const exerciciosDisponiveis = [
+
+    // PEITO
+    "Supino Plano",
+    "Supino Inclinado",
+    "Supino Declinado",
+    "Supino Plano com Halteres",
+    "Supino Inclinado com Halteres",
+    "Supino Declinado com Halteres",
+    "Aberturas com Halteres",
+    "Crucifixo com Halteres",
+    "Press de Peito",
+    "Crossover na Polia",
+    "Crossover Baixo para Cima",
+    "Crossover Alto para Baixo",
+    "Flexões",
+    "Flexões Inclinadas",
+    "Flexões Declinadas",
+    "Fundos para Peito",
+
+    // COSTAS
+    "Puxada Frontal",
+    "Puxada Frontal Pegada Aberta",
+    "Puxada Frontal Pegada Fechada",
+    "Puxada com Pegada Neutra",
+    "Puxada Unilateral na Polia",
+    "Remada Sentada",
+    "Remada Baixa na Polia",
+    "Remada com Halteres",
+    "Remada Curvada com Barra",
+    "Remada Unilateral com Halter",
+    "Remada T com Barra",
+    "Pullover na Polia",
+    "Pullover com Halter",
+    "Barra Fixa",
+    "Chin-up",
+    "Peso Morto",
+    "Peso Morto Romeno",
+
+    // OMBROS
+    "Elevação Lateral",
+    "Elevação Lateral na Polia",
+    "Elevação Frontal com Halteres",
+    "Elevação Frontal com Barra",
+    "Press de Ombros",
+    "Press de Ombros na Máquina",
+    "Desenvolvimento com Halteres",
+    "Desenvolvimento Militar com Barra",
+    "Crucifixo Inverso no Peck Deck",
+    "Crucifixo Inverso com Halteres",
+    "Face Pull na Polia",
+    "Encolhimento de Ombros com Halteres",
+
+    // BÍCEPS E ANTEBRAÇOS
+    "Curl de Bíceps",
+    "Curl com Barra",
+    "Curl com Barra EZ",
+    "Curl Alternado com Halteres",
+    "Curl Martelo",
+    "Curl Martelo na Corda",
+    "Curl Concentrado",
+    "Curl Inclinado com Halteres",
+    "Curl Scott",
+    "Curl na Polia Baixa",
+    "Curl Inverso com Barra",
+    "Flexão de Punhos",
+    "Extensão de Punhos",
+
+    // TRÍCEPS
+    "Tríceps na Polia",
+    "Extensão de Tríceps com Corda",
+    "Extensão de Tríceps Acima da Cabeça",
+    "Tríceps Testa",
+    "Extensão Francesa com Halter",
+    "Fundos para Tríceps",
+    "Tríceps Kickback com Halter",
+
+    // QUADRÍCEPS E PERNAS
+    "Agachamento",
+    "Agachamento Goblet",
+    "Agachamento Sumô",
+    "Agachamento Frontal",
+    "Agachamento na Smith Machine",
+    "Agachamento Búlgaro",
+    "Passadas com Halteres",
+    "Passadas a Caminhar",
+    "Leg Press",
+    "Leg Press Unilateral",
+    "Extensão de Pernas",
+    "Extensão de Pernas Unilateral",
+    "Flexão de Pernas",
+    "Flexão de Pernas Unilateral",
+    "Elevação de Gémeos em Pé",
+    "Elevação de Gémeos Sentado",
+
+    // GLÚTEOS E POSTERIORES DA COXA
+    "Stiff com Barra",
+    "Peso Morto Romeno com Halteres",
+    "Hip Thrust",
+    "Elevação de Glúteos",
+    "Coice de Glúteo na Polia",
+    "Máquina Abdutora",
+    "Máquina Adutora",
+    "Abdução da Anca na Máquina",
+    "Adução da Anca na Máquina",
+
+    // ABDOMINAIS E CORE
+    "Prancha",
+    "Prancha Lateral",
+    "Crunch Abdominal",
+    "Crunch Inverso",
+    "Elevação de Pernas",
+    "Elevação de Joelhos Suspenso",
+    "Abdominal Bicicleta",
+    "Russian Twist",
+    "Dead Bug",
+    "Mountain Climbers",
+    "Ab Wheel",
+    "Extensão Lombar",
+    "Superman",
+
+    // CARDIO
+    "Passadeira",
+    "Caminhada Inclinada",
+    "Corrida na Passadeira",
+    "Corrida Inclinada na Passadeira",
+    "Intervalos na Passadeira",
+    "Bicicleta",
+    "Bicicleta Estática",
+    "Intervalos na Bicicleta",
+    "Elíptica",
+    "Elíptica Intervalada",
+    "Máquina de Remo",
+    "Remo Intervalado",
+    "Saltos à Corda",
+    "Polichinelos",
+    "Burpees",
+    "Corrida no Lugar",
+
+    // MOBILIDADE E FLEXIBILIDADE
+    "Alongamento de Peito",
+    "Alongamento de Ombros",
+    "Alongamento de Costas",
+    "Alongamento de Quadríceps",
+    "Alongamento de Posteriores da Coxa",
+    "Alongamento de Gémeos",
+    "Alongamento de Flexores da Anca",
+    "Mobilidade da Anca",
+    "Rotação Torácica",
+
+    // EXERCÍCIOS ADICIONAIS — PRIORIDADE AO EQUIPAMENTO EXISTENTE
+    "Supino Plano na Smith Machine",
+    "Supino Inclinado na Smith Machine",
+    "Supino com Pegada Fechada na Smith Machine",
+    "Agachamento Sumô na Smith Machine",
+    "Agachamento Búlgaro na Smith Machine",
+    "Passadas para Trás na Smith Machine",
+    "Elevação de Gémeos na Smith Machine",
+    "Peso Morto Romeno na Smith Machine",
+    "Hip Thrust na Smith Machine",
+    "Supino Plano com Barra",
+    "Supino Inclinado com Barra",
+    "Supino Declinado com Barra",
+    "Supino com Pegada Fechada com Barra",
+    "Crucifixo na Polia Multifuncional",
+    "Crucifixo Unilateral na Polia",
+    "Press de Peito em Pé na Polia",
+    "Press de Peito Unilateral na Polia",
+    "Puxada Alta na Polia",
+    "Puxada Alta Unilateral na Polia",
+    "Puxada com Braços Estendidos na Polia",
+    "Remada Unilateral na Polia",
+    "Remada Baixa com Pegada Neutra na Polia",
+    "Remada Baixa com Pegada Aberta na Polia",
+    "Remada Alta na Polia",
+    "Elevação Frontal na Polia",
+    "Elevação Lateral Unilateral na Polia",
+    "Face Pull com Corda na Polia",
+    "Encolhimento de Ombros na Polia",
+    "Curl de Bíceps com Barra na Polia",
+    "Curl de Bíceps Unilateral na Polia",
+    "Curl de Bíceps na Polia Alta",
+    "Extensão de Tríceps com Barra na Polia",
+    "Extensão de Tríceps Unilateral na Polia",
+    "Extensão de Tríceps Acima da Cabeça na Polia",
+    "Kickback de Tríceps na Polia",
+    "Abdominal Crunch na Polia",
+    "Rotação de Tronco na Polia",
+    "Woodchopper na Polia",
+    "Abdução da Anca na Polia",
+    "Extensão de Anca na Polia",
+    "Pull-Through na Polia",
+    "Crucifixo no Peck Deck",
+    "Crucifixo no Peck Deck com Pausa",
+    "Crucifixo Inverso no Peck Deck com Pausa",
+    "Press de Ombros com Pegada Neutra na Máquina",
+    "Press de Ombros Unilateral na Máquina",
+    "Press de Ombros com Pausa na Máquina",
+    "Leg Press Pés Altos",
+    "Leg Press Pés Baixos",
+    "Leg Press Base Aberta",
+    "Leg Press Base Fechada",
+    "Leg Press com Pausa",
+    "Elevação de Gémeos no Leg Press",
+    "Extensão de Pernas com Pausa na Cadeira Extensora",
+    "Extensão de Pernas com Descida Lenta na Cadeira Extensora",
+    "Extensão de Pernas Unilateral na Cadeira Extensora",
+    "Extensão de Pernas com Contração no Topo",
+    "Flexão de Pernas com Pausa na Mesa Flexora",
+    "Flexão de Pernas com Descida Lenta na Mesa Flexora",
+    "Flexão de Pernas Unilateral na Mesa Flexora",
+    "Flexão de Pernas com Amplitude Controlada na Mesa Flexora",
+    "Abdução da Anca na Máquina Abdutora",
+    "Abdução da Anca com Tronco Inclinado na Máquina Abdutora",
+    "Abdução da Anca com Tronco Direito na Máquina Abdutora",
+    "Abdução da Anca com Pausa na Máquina Abdutora",
+    "Caminhada Rápida na Passadeira",
+    "Corrida Contínua na Passadeira",
+    "Corrida Intervalada na Passadeira",
+    "Caminhada de Recuperação na Passadeira",
+    "Sprints Curtos na Passadeira",
+    "Caminhada com Inclinação Variável na Passadeira",
+    "Pedalada Contínua na Bicicleta",
+    "Pedalada Intervalada na Bicicleta",
+    "Sprints na Bicicleta Estática",
+    "Bicicleta com Resistência Progressiva",
+    "Pedalada de Recuperação na Bicicleta",
+    "Treino de Cadência na Bicicleta",
+    "Cardio Contínuo na Elíptica",
+    "Intervalos Rápidos na Elíptica",
+    "Elíptica com Resistência Progressiva",
+    "Elíptica em Ritmo de Recuperação",
+    "Elíptica com Cadência Progressiva",
+    "Elíptica Intervalada em Blocos",
+    "Remo Contínuo",
+    "Remo Intervalado de 500 Metros",
+    "Remo Intervalado de 1 Minuto",
+    "Remo de Recuperação",
+    "Remo com Foco na Técnica",
+    "Remo com Resistência Progressiva",
+];
+
+
+/* =========================================================
+   TIPOS DE EXERCÍCIO
+   ========================================================= */
+
+const TIPOS_EXERCICIO = {
+
+    musculacao: {
+        label: "Musculação",
+        params: ["carga", "series", "repeticoes"]
+    },
+
+    halteres: {
+        label: "Musculação · Halteres",
+        params: ["pesoHalter", "series", "repeticoes"]
+    },
+
+    cardio: {
+        label: "Cardio",
+        params: [
+            "resistencia",
+            "velocidade",
+            "tempo",
+            "distancia",
+            "series"
+        ]
+    },
+
+    passadeira: {
+        label: "Cardio · Passadeira",
+        params: [
+            "velocidade",
+            "inclinacao",
+            "tempo",
+            "series"
+        ]
+    },
+
+    remo: {
+        label: "Cardio · Remo",
+        params: [
+            "resistencia",
+            "tempo",
+            "distancia",
+            "ritmo",
+            "series"
+        ]
+    },
+
+    pesoCorporal: {
+        label: "Peso corporal",
+        params: [
+            "series",
+            "repeticoes",
+            "tempo"
+        ]
+    },
+
+    isometrico: {
+        label: "Isométrico",
+        params: [
+            "tempo",
+            "series"
+        ]
+    },
+
+    mobilidade: {
+        label: "Mobilidade/Flexibilidade",
+        params: [
+            "tempo",
+            "series"
+        ]
+    },
+
+    // Tipo genérico de recurso; não é um grupo muscular.
+    outro: {
+        label: "Outro tipo",
+        params: [
+            "carga", "pesoHalter", "series", "repeticoes",
+            "tempo", "velocidade", "inclinacao", "distancia",
+            "resistencia", "ritmo"
+        ]
+    }
+};
+
+
+/* =========================================================
+   PARÂMETROS DOS EXERCÍCIOS
+   ========================================================= */
+
+const PARAMETROS = {
+
+    carga: {
+        label: "Carga",
+        unit: "kg",
+        step: "0.5",
+        placeholder: ""
+    },
+
+    pesoHalter: {
+        label: "Peso por halter",
+        unit: "kg",
+        step: "0.5",
+        placeholder: ""
+    },
+
+    series: {
+        label: "Séries",
+        unit: "",
+        step: "1",
+        placeholder: ""
+    },
+
+    repeticoes: {
+        label: "Repetições",
+        unit: "",
+        step: "1",
+        placeholder: ""
+    },
+
+    tempo: {
+        label: "Tempo",
+        unit: "min",
+        step: "0.5",
+        placeholder: ""
+    },
+
+    velocidade: {
+        label: "Velocidade",
+        unit: "km/h",
+        step: "0.1",
+        placeholder: ""
+    },
+
+    inclinacao: {
+        label: "Inclinação",
+        unit: "%",
+        step: "0.5",
+        placeholder: ""
+    },
+
+    distancia: {
+        label: "Distância",
+        unit: "km",
+        step: "0.01",
+        placeholder: ""
+    },
+
+    resistencia: {
+        label: "Resistência",
+        unit: "",
+        step: "1",
+        placeholder: ""
+    },
+
+    ritmo: {
+        label: "Ritmo",
+        unit: "min/500m",
+        step: "0.1",
+        placeholder: ""
+    }
+};
+
+/* Parâmetros definidos pelo utilizador para cada série personalizada. */
+function parametrosDoExercicio(exercicio, tipoFallback = null) {
+    const escolhidos = Array.isArray(exercicio?.parametrosSeries)
+        ? [...new Set(exercicio.parametrosSeries)]
+            .filter(p => p !== "series" && Object.prototype.hasOwnProperty.call(PARAMETROS, p))
+        : [];
+    if (escolhidos.length) return escolhidos;
+
+    const tipo = tipoFallback || exercicio?.tipo || inferirTipoExercicio(
+        exercicio?.nome || "",
+        exercicio?.grupo || ""
+    );
+    return (TIPOS_EXERCICIO[tipo]?.params || TIPOS_EXERCICIO.outro.params)
+        .filter(p => p !== "series");
+}
+
+/* =========================================================
+   ESTADO DA APLICAÇÃO
+   ========================================================= */
+
+const STORAGE_TREINOS_BACKUP = `${STORAGE_TREINOS}_backup_pre_multitreino_v1`;
+
+function lerRawTreinos() {
+    try {
+        return localStorage.getItem(STORAGE_TREINOS);
+    } catch (e) {
+        console.warn("Não foi possível ler o armazenamento original dos treinos:", e);
+        return null;
+    }
+}
+
+let treinosRawOriginal = lerRawTreinos();
+let treinosPrecisaBackup = treinosNecessitamBackup(treinosRawOriginal);
+let treinos = normalizarTreinosMultiplos(carregarJSON(STORAGE_TREINOS, {}));
+let exerciciosPersonalizados =
+    carregarJSON(STORAGE_EXERCICIOS_PERSONALIZADOS, []);
+let favoritosExercicios =
+    carregarJSON(STORAGE_FAVORITOS_EXERCICIOS, []);
+
+if (!Array.isArray(favoritosExercicios)) {
+    favoritosExercicios = [];
+}
+
+let filtroBiblioteca = "todos";
+let valorFiltroBiblioteca = "Todos";
+let favoritosApenas = false;
+
+let diaSelecionado = "segunda";
+let treinoSelecionadoId = null;
+let filtroTreinosDia = null; // null = todos os treinos; caso contrário, ID do treino filtrado.
+let filtroTreinosAberto = false;
+
+
+/* =========================================================
+   ARMAZENAMENTO / UTILITÁRIOS
+   ========================================================= */
+
+function carregarJSON(chave, valorPadrao) {
+
+    try {
+        const raw = localStorage.getItem(chave);
+
+        if (!raw) {
+            return valorPadrao;
+        }
+
+        return JSON.parse(raw) ?? valorPadrao;
+
+    } catch (e) {
+
+        console.warn(
+            `Não foi possível ler ${chave}:`,
+            e
+        );
+
+        return valorPadrao;
+    }
+}
+
+
+function save() {
+    try {
+        // Guarda o conteúdo original antes de substituir a estrutura antiga por múltiplos treinos.
+        if (treinosPrecisaBackup && treinosRawOriginal !== null) {
+            const backupExistente = localStorage.getItem(STORAGE_TREINOS_BACKUP);
+            if (backupExistente === null) {
+                localStorage.setItem(STORAGE_TREINOS_BACKUP, treinosRawOriginal);
+            }
+        }
+
+        const dados = JSON.stringify(treinos);
+        localStorage.setItem(STORAGE_TREINOS, dados);
+        treinosRawOriginal = dados;
+        treinosPrecisaBackup = false;
+    } catch (e) {
+        console.warn("Treinos localStorage:", e);
+    }
+}
+
+
+function saveExerciciosPersonalizados() {
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_EXERCICIOS_PERSONALIZADOS,
+            JSON.stringify(exerciciosPersonalizados)
+        );
+
+    } catch (e) {
+
+        console.warn(
+            "Exercícios personalizados localStorage:",
+            e
+        );
+    }
+}
+
+
+function treinosNecessitamBackup(raw) {
+    if (raw === null) return false;
+
+    let dados;
+    try {
+        dados = JSON.parse(raw);
+    } catch (_) {
+        return true;
+    }
+
+    if (!dados || typeof dados !== "object" || Array.isArray(dados)) return true;
+
+    const ids = new Set();
+    for (const [dia, valor] of Object.entries(dados)) {
+        // O formato atual exige que cada dia contenha uma lista de treinos.
+        if (!Array.isArray(valor)) return true;
+
+        for (const treino of valor) {
+            if (!treino || typeof treino !== "object" || Array.isArray(treino) ||
+                !treino.id || typeof treino.nome !== "string" || !Array.isArray(treino.exercicios)) {
+                return true;
+            }
+            const id = String(treino.id);
+            if (ids.has(id)) return true;
+            ids.add(id);
+        }
+    }
+
+    return false;
+}
+
+function criarIdTreino() {
+    return `treino-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function normalizarTreinosMultiplos(dados) {
+    if (!dados || typeof dados !== "object" || Array.isArray(dados)) return {};
+
+    const resultado = { ...dados };
+    const idsUsados = new Set();
+
+    Object.entries(dados).forEach(([dia, valor]) => {
+        let lista;
+
+        if (Array.isArray(valor)) {
+            lista = valor;
+        } else if (valor && typeof valor === "object" &&
+            (Object.prototype.hasOwnProperty.call(valor, "nome") ||
+             Object.prototype.hasOwnProperty.call(valor, "exercicios"))) {
+            // Formato antigo: um único treino diretamente associado ao dia.
+            lista = [valor];
+        } else {
+            // Preserva campos desconhecidos em memória; a cópia de segurança protege o original.
+            return;
+        }
+
+        resultado[dia] = lista
+            .filter(t => t && typeof t === "object" && !Array.isArray(t))
+            .map((t, indice) => {
+                let id = t.id != null && String(t.id).trim()
+                    ? String(t.id)
+                    : `migrado-${dia}-${indice + 1}`;
+
+                if (idsUsados.has(id)) {
+                    id = `migrado-${dia}-${indice + 1}`;
+                    let sufixo = 2;
+                    while (idsUsados.has(id)) {
+                        id = `migrado-${dia}-${indice + 1}-${sufixo++}`;
+                    }
+                }
+                idsUsados.add(id);
+
+                return {
+                    ...t,
+                    id,
+                    nome: typeof t.nome === "string" && t.nome.trim()
+                        ? t.nome
+                        : `Treino ${indice + 1}`,
+                    exercicios: Array.isArray(t.exercicios) ? t.exercicios : []
+                };
+            });
+    });
+
+    return resultado;
+}
+
+function treinosDoDia(dia = diaSelecionado) {
+    if (!Array.isArray(treinos[dia])) {
+        treinos[dia] = [];
+    }
+    return treinos[dia];
+}
+
+function garantirTreinoInicial(dia = diaSelecionado) {
+    const lista = treinosDoDia(dia);
+    if (!lista.length) {
+        lista.push({
+            id: criarIdTreino(),
+            nome: "Treino 1",
+            exercicios: []
+        });
+    }
+    return lista;
+}
+
+function encontrarTreinoDia(id, dia = diaSelecionado) {
+    return treinosDoDia(dia).find(t => String(t.id) === String(id)) || null;
+}
+
+const MAX_TREINOS_POR_DIA = 4;
+
+function criarTreinoDia(dia = diaSelecionado) {
+    const lista = treinosDoDia(dia);
+    // A validação também existe na lógica, não apenas no botão da interface.
+    if (lista.length >= MAX_TREINOS_POR_DIA) return null;
+
+    const novo = {
+        id: criarIdTreino(),
+        nome: `Treino ${lista.length + 1}`,
+        exercicios: []
+    };
+    lista.push(novo);
+    return novo;
+}
+
+function aplicarFiltroTreinos(lista, filtro = filtroTreinosDia) {
+    if (filtro == null) return lista;
+    return lista.filter(treino => String(treino.id) === String(filtro));
+}
+
+function eliminarTreinoDia(id, confirmar, dia = diaSelecionado) {
+    const lista = treinosDoDia(dia);
+    const indice = lista.findIndex(t => String(t.id) === String(id));
+    if (indice < 0 || typeof confirmar !== "function") return false;
+
+    const treino = lista[indice];
+    if (!confirmar(treino)) return false;
+
+    lista.splice(indice, 1);
+    if (String(dia) === String(diaSelecionado)) {
+        if (String(treinoSelecionadoId) === String(id)) {
+            treinoSelecionadoId = lista[0]?.id ?? null;
+        }
+        if (filtroTreinosDia !== null && String(filtroTreinosDia) === String(id)) {
+            filtroTreinosDia = null;
+        }
+        filtroTreinosAberto = false;
+    }
+    save();
+    return true;
+}
+
+function treinoAtual() {
+    const lista = treinosDoDia(diaSelecionado);
+    const atual = lista.find(t => String(t.id) === String(treinoSelecionadoId));
+    if (!atual) return null;
+    treinoSelecionadoId = atual.id;
+    return atual;
+}
+
+
+function normalizarTexto(valor) {
+
+    return String(valor || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+
+function escaparAtributo(s) {
+
+    return escapeHtml(s).replace(
+        /`/g,
+        "&#96;"
+    );
+}
+
+
+function escapeHtml(s) {
+
+    return String(s ?? "").replace(
+        /[&<>"']/g,
+        m => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "\"": "&quot;",
+            "'": "&#039;"
+        }[m])
+    );
+}
+
+
+/* =========================================================
+   INFERÊNCIA DE TIPO E GRUPO
+   ========================================================= */
+
+function inferirTipoExercicio(
+    nome,
+    grupo = ""
+) {
+
+    const n = normalizarTexto(nome);
+
+    if (/passadeira|treadmill/.test(n)) {
+        return "passadeira";
+    }
+
+    if (/bicicleta|bike|bicycle/.test(n)) {
+        return "cardio";
+    }
+
+    if (/eliptica|elliptical/.test(n)) {
+        return "cardio";
+    }
+
+    if (/remo|rowing|ergometro/.test(n)) {
+        return "remo";
+    }
+
+    if (/prancha|isometr/.test(n)) {
+        return "isometrico";
+    }
+
+    if (
+        /alongamento|mobilidade|stretch|flexibilidade/.test(n)
+    ) {
+        return "mobilidade";
+    }
+
+    if (/flexao|flexoes|push up|push-up/.test(n)) {
+        return "pesoCorporal";
+    }
+
+    if (
+        /barras|barra fixa|triceps no banco|fundos|dips/.test(n) &&
+        !/polia/.test(n)
+    ) {
+        return "pesoCorporal";
+    }
+
+    if (/halteres|halter|dumbbell/.test(n)) {
+        return "halteres";
+    }
+
+    if (
+        grupo === "Core" &&
+        /prancha/.test(n)
+    ) {
+        return "isometrico";
+    }
+
+    if (
+        /cardio/.test(
+            normalizarTexto(grupo)
+        )
+    ) {
+        return "cardio";
+    }
+
+    return "musculacao";
+}
+
+
+function inferirGrupoExercicio(nome) {
+    const n = normalizarTexto(nome);
+
+    // Mobilidade deve prevalecer mesmo quando o nome menciona um músculo.
+    if (/alongamento|mobilidade|rotacao toracica|flexibilidade/.test(n)) return "Mobilidade";
+
+    if (/passadeira|corrida|caminhada|bicicleta|eliptica|remo|saltos a corda|polichinelos|burpees|cardio|pedalada|sprints/.test(n)) return "Cardio";
+
+    if (/abdominal|abdominais|prancha|crunch|russian twist|dead bug|mountain climber|ab wheel|superman|extensao lombar|elevacao de pernas|elevacao de joelhos|woodchopper|rotacao de tronco/.test(n)) return "Core";
+
+    if (/glute|hip thrust|coice de gluteo|elevacao de gluteos|abducao da anca|extensao de anca|pull-through/.test(n)) return "Glúteos";
+
+    if (/crucifixo inverso|face pull|encolhimento de ombros|press de ombros|prensa de ombros|desenvolvimento militar|elevacao lateral|elevacao frontal|desenvolvimento com halteres|ombros|remada alta/.test(n)) return "Ombros";
+
+    if (/supino|peito|crucifixo|abertura|press de peito|voador|crossover|flexoes|flexao de bracos|fundos para peito/.test(n)) return "Peito";
+
+    if (/costas|puxada|remada|pulldown|pull up|pull-up|chin-up|barra fixa|pullover/.test(n)) return "Costas";
+
+    if (/bicep|tricep|braco|curl|rosca|punhos|kickback|francesa/.test(n)) return "Braços";
+
+    if (/perna|agachamento|leg press|quadriceps|femoral|posteriores da coxa|anca|peso morto|stiff|passadas|gemeos|panturrilha|abdutora|adutora|extensora|flexora/.test(n)) return "Pernas";
+
+    return "Outro";
+}
+
+function metadadosExercicio(
+    nome,
+    meta = {}
+) {
+
+    const grupo =
+        meta.grupo ||
+        inferirGrupoExercicio(nome);
+
+    return {
+        nome,
+        grupo,
+        tipo:
+            meta.tipo ||
+            inferirTipoExercicio(
+                nome,
+                grupo
+            ),
+        personalizado:
+            !!meta.personalizado,
+        id:
+            meta.id || null
+    };
+}
+
+
+/* =========================================================
+   CONSTRUÇÃO E PESQUISA DA BIBLIOTECA
+   ========================================================= */
+
+function maquinaPorExercicio(nome) {
+    const n = normalizarTexto(nome);
+
+    // Específicos primeiro, para não confundir máquinas com peso livre.
+    if (/smith/.test(n)) return "Smith Machine";
+    if (/press de ombros.*maquina|prensa de ombros/.test(n)) return "Prensa de Ombros";
+    if (/leg press/.test(n)) return "Leg Press";
+    if (/extensao de pernas|extensora|cadeira extensora/.test(n)) return "Cadeira Extensora";
+    if (/flexao de pernas|flexora|mesa flexora/.test(n)) return "Mesa Flexora";
+    if (/maquina abdutora|abducao da anca.*maquina|maquina adutora|aducao da anca.*maquina|abdutora|adutora/.test(n)) return "Máquina Abdutora";
+
+    // Cardio: cada opção usa o nome exato da página Equipamentos.
+    if (/passadeira|treadmill|caminhada inclinada/.test(n)) return "Passadeira";
+    if (/bicicleta|pedalada/.test(n)) return "Bicicleta";
+    if (/eliptica/.test(n)) return "Elíptica";
+    if (/remo|rowing|ergometro/.test(n)) return "Máquina de Remo";
+
+    // Máquinas de membros superiores.
+    if (/peck deck|voador|crucifixo.*peck deck|peck deck.*crucifixo/.test(n)) return "Peck Deck";
+    if (/polia|crossover|puxada|remada baixa|remada sentada|face pull|pull-through|woodchopper/.test(n)) return "Polia Multifuncional";
+
+    // Banco com suporte para barra / banco de treino.
+    if (/supino|press de peito|na smith machine/.test(n) || /no banco|banco inclinado|banco plano/.test(n)) return "Banco de Peso";
+
+    // Exercícios sem carga/equipamento dedicado.
+    if (/flexoes|flexao de bracos|barra fixa|chin-up|pull-up|fundos|burpees|polichinelos|mountain climbers|dead bug|superman|prancha|crunch|russian twist|ab wheel|abdominal bicicleta|elevacao de pernas|elevacao de joelhos|corrida no lugar|saltos a corda/.test(n)) return "Peso Corporal";
+    if (/alongamento|mobilidade|rotacao toracica|flexibilidade/.test(n)) return "Sem equipamento";
+
+    // Restantes movimentos de força usam o material de peso livre.
+    return "Peso Livre";
+}
+
+function construirBibliotecaExercicios() {
+
+    const mapa = new Map();
+
+    exerciciosDisponiveis.forEach(nome => {
+
+        const meta = metadadosExercicio(nome);
+
+        mapa.set(
+            normalizarTexto(nome),
+            {
+                ...meta,
+                maquina: maquinaPorExercicio(nome)
+            }
+        );
+    });
+
+    if (Array.isArray(window.exerciciosBiblioteca)) {
+
+        window.exerciciosBiblioteca.forEach(item => {
+
+            if (!item?.nome) {
+                return;
+            }
+
+            const meta = metadadosExercicio(
+                item.nome,
+                {
+                    grupo: item.grupo
+                }
+            );
+
+            mapa.set(
+                normalizarTexto(item.nome),
+                {
+                    ...meta,
+                    maquina:
+                        (item.maquina && (EQUIPAMENTOS_GINASIO.includes(item.maquina) || ["Peso Corporal", "Sem equipamento"].includes(item.maquina)))
+                            ? item.maquina
+                            : maquinaPorExercicio(item.nome),
+                    descricao: item.descricao || ""
+                }
+            );
+        });
+    }
+
+    if (Array.isArray(exerciciosPersonalizados)) {
+
+        exerciciosPersonalizados.forEach(item => {
+
+            if (!item?.nome) {
+                return;
+            }
+
+            const grupoGuardado = item.grupo;
+            const grupoInferido = inferirGrupoExercicio(item.nome);
+            const grupoValido = grupoGuardado && grupoGuardado !== "Outro"
+                ? grupoGuardado
+                : (grupoInferido !== "Outro" ? grupoInferido : "");
+
+            const meta = metadadosExercicio(
+                item.nome,
+                {
+                    grupo: grupoValido,
+                    tipo: item.tipo,
+                    personalizado: true,
+                    id: item.id
+                }
+            );
+
+            mapa.set(
+                normalizarTexto(item.nome),
+                {
+                    ...meta,
+                    maquina:
+                        (item.maquina && (EQUIPAMENTOS_GINASIO.includes(item.maquina) || ["Peso Corporal", "Sem equipamento"].includes(item.maquina)))
+                            ? item.maquina
+                            : maquinaPorExercicio(item.nome),
+                    descricao: item.descricao || "",
+                    parametrosSeries: Array.isArray(item.parametrosSeries)
+                        ? [...item.parametrosSeries]
+                        : undefined
+                }
+            );
+        });
+    }
+
+    return [...mapa.values()];
+}
+
+
+function pesquisarExercicios(termo) {
+
+    const q = normalizarTexto(termo);
+
+    const sinonimos = {
+
+        bicep: [
+            "biceps",
+            "bracos",
+            "curl",
+            "rosca"
+        ],
+
+        biceps: [
+            "biceps",
+            "bracos",
+            "curl",
+            "rosca"
+        ],
+
+        tricep: [
+            "triceps",
+            "bracos",
+            "polia"
+        ],
+
+        triceps: [
+            "triceps",
+            "bracos",
+            "polia"
+        ],
+
+        perna: [
+            "pernas",
+            "agachamento",
+            "leg press"
+        ],
+
+        pernas: [
+            "pernas",
+            "agachamento",
+            "leg press"
+        ],
+
+        peito: [
+            "peito",
+            "supino",
+            "crucifixo",
+            "abertura"
+        ],
+
+        costas: [
+            "costas",
+            "remada",
+            "puxada"
+        ],
+
+        ombro: [
+            "ombros",
+            "elevacao",
+            "press"
+        ],
+
+        ombros: [
+            "ombros",
+            "elevacao",
+            "press"
+        ],
+
+        abdominais: [
+            "core",
+            "abdom",
+            "prancha"
+        ],
+
+        abdominal: [
+            "core",
+            "abdom",
+            "prancha"
+        ],
+
+        abs: [
+            "core",
+            "abdom",
+            "prancha"
+        ]
+    };
+
+    if (!q) {
+        return construirBibliotecaExercicios();
+    }
+
+    const tokens =
+        q.split(" ").filter(Boolean);
+
+    const extras =
+        sinonimos[q] || [];
+
+    return construirBibliotecaExercicios()
+        .filter(item => {
+
+            const hay =
+                normalizarTexto(
+                    `${item.nome} ${item.grupo} ${
+                        TIPOS_EXERCICIO[item.tipo]?.label || ""
+                    }`
+                );
+
+            return (
+                tokens.every(
+                    t => hay.includes(t)
+                ) ||
+                hay.includes(q) ||
+                extras.some(
+                    token =>
+                        hay.includes(
+                            normalizarTexto(token)
+                        )
+                )
+            );
+        });
+}
+
+
+/* =========================================================
+   HISTÓRICO E VALORES
+   ========================================================= */
+
+function normalizarDadosHistorico(
+    registro,
+    exercicio
+) {
+
+    const base = {
+        ...(registro || {})
+    };
+
+    const tipo =
+        exercicio.tipo ||
+        inferirTipoExercicio(
+            exercicio.nome,
+            exercicio.grupo
+        );
+
+    if (
+        base.carga == null &&
+        base.peso != null
+    ) {
+        base.carga = base.peso;
+    }
+
+    if (
+        base.repeticoes == null &&
+        base.reps != null
+    ) {
+        base.repeticoes = base.reps;
+    }
+
+    base.tipo =
+        base.tipo || tipo;
+
+    if (!Array.isArray(base.parametrosSeries) && Array.isArray(exercicio?.parametrosSeries)) {
+        base.parametrosSeries = [...exercicio.parametrosSeries];
+    }
+
+    return base;
+}
+
+
+function ultimoRegisto(x) {
+
+    const h =
+        Array.isArray(x.historico)
+            ? x.historico
+            : [];
+
+    return h.length
+        ? normalizarDadosHistorico(
+              h[h.length - 1],
+              x
+          )
+        : normalizarDadosHistorico(
+              x,
+              x
+          );
+}
+
+
+function valorAtual(
+    x,
+    param
+) {
+
+    const u =
+        ultimoRegisto(x);
+
+    return u[param] != null
+        ? u[param]
+        : x[param] != null
+            ? x[param]
+            : "";
+}
+
+
+function formatarData() {
+
+    return new Date()
+        .toLocaleDateString(
+            "pt-PT"
+        );
+}
+
+
+function formatarValor(
+    param,
+    val
+) {
+
+    if (
+        val == null ||
+        val === ""
+    ) {
+        return "—";
+    }
+
+    return `${escapeHtml(val)}${
+        PARAMETROS[param]?.unit
+            ? ` ${PARAMETROS[param].unit}`
+            : ""
+    }`;
+}
+
+
+function resumoRegisto(x) {
+
+    const meta =
+        metadadosExercicio(
+            x.nome,
+            {
+                grupo: x.grupo,
+                tipo: x.tipo,
+                personalizado:
+                    x.personalizado
+            }
+        );
+
+    return meta.tipo
+        ? parametrosDoExercicio(x, meta.tipo)
+              .map(
+                  p =>
+                      formatarValor(
+                          p,
+                          valorAtual(
+                              x,
+                              p
+                          )
+                      )
+              )
+              .filter(
+                  v => v !== "—"
+              )
+              .join(" · ")
+        : "";
+}
+
+
+/* =========================================================
+   SÉRIES
+   ========================================================= */
+
+function numeroSeriesExercicio(
+    exercicio
+) {
+
+    const arr =
+        Array.isArray(
+            exercicio?.seriesData
+        )
+            ? exercicio.seriesData
+            : [];
+
+    if (arr.length) {
+        return arr.length;
+    }
+
+    const n =
+        Number(
+            exercicio?.series
+        );
+
+    return Number.isFinite(n) &&
+        n > 0
+        ? Math.floor(n)
+        : 1;
+}
+
+
+function extrairSeriesExercicio(
+    exercicio
+) {
+
+    const tipo =
+        exercicio?.tipo ||
+        inferirTipoExercicio(
+            exercicio?.nome || "",
+            exercicio?.grupo || ""
+        );
+
+    const params = parametrosDoExercicio(exercicio, tipo);
+
+    if (
+        Array.isArray(
+            exercicio?.seriesData
+        ) &&
+        exercicio.seriesData.length
+    ) {
+
+        return exercicio.seriesData.map(
+            s =>
+                Object.fromEntries(
+                    params.map(
+                        p => [
+                            p,
+                            s?.[p] ?? ""
+                        ]
+                    )
+                )
+        );
+    }
+
+    const n =
+        numeroSeriesExercicio(
+            exercicio
+        );
+
+    return Array.from(
+        {
+            length: n
+        },
+        () =>
+            Object.fromEntries(
+                params.map(
+                    p => [
+                        p,
+                        exercicio?.[p] ??
+                            valorAtual(
+                                exercicio,
+                                p
+                            ) ??
+                            ""
+                    ]
+                )
+            )
+    );
+}
+
+
+function validarSeries(
+    tipo,
+    seriesData,
+    parametrosSeries = null
+) {
+
+    const params = parametrosDoExercicio(
+        { tipo, parametrosSeries },
+        tipo
+    );
+
+    if (
+        !Array.isArray(
+            seriesData
+        ) ||
+        !seriesData.length
+    ) {
+
+        return "Indica pelo menos uma série.";
+    }
+
+    for (
+        const serie of seriesData
+    ) {
+
+        let temValor = false;
+
+        for (
+            const p of params
+        ) {
+
+            if (
+                serie[p] !== undefined &&
+                serie[p] !== ""
+            ) {
+
+                temValor = true;
+
+                if (
+                    !Number.isFinite(
+                        Number(
+                            serie[p]
+                        )
+                    )
+                ) {
+
+                    return `Verifica o valor de ${
+                        PARAMETROS[p]?.label ||
+                        p
+                    }.`;
+                }
+
+                if (
+                    Number(serie[p]) < 0
+                ) {
+
+                    return "Os valores não podem ser negativos.";
+                }
+            }
+        }
+
+        if (!temValor) {
+
+            return "Preenche pelo menos um valor em cada série.";
+        }
+
+        if (
+            params.includes(
+                "repeticoes"
+            ) &&
+            serie.repeticoes !== "" &&
+            serie.repeticoes != null &&
+            Number(
+                serie.repeticoes
+            ) < 1
+        ) {
+
+            return "As repetições devem ser pelo menos 1.";
+        }
+    }
+
+    return null;
+}
+
+
+/* =========================================================
+   RENDERIZAÇÃO DAS LINHAS DE SÉRIES
+   ========================================================= */
+
+function renderLinhasSeries(
+    container,
+    exercicio,
+    seriesCount
+) {
+
+    if (!container) {
+        return;
+    }
+
+    const tipo =
+        exercicio?.tipo ||
+        inferirTipoExercicio(
+            exercicio?.nome || "",
+            exercicio?.grupo || ""
+        );
+
+    const params = parametrosDoExercicio(exercicio, tipo);
+
+    const existing =
+        Array.isArray(
+            exercicio?.seriesData
+        ) &&
+        exercicio.seriesData.length
+            ? exercicio.seriesData
+            : extrairSeriesExercicio(
+                  exercicio || {}
+              );
+
+    const count =
+        Math.max(
+            1,
+            Math.min(
+                30,
+                Number(
+                    seriesCount
+                ) || 1
+            )
+        );
+
+    container.innerHTML =
+        Array.from(
+            {
+                length: count
+            },
+            (_, i) => {
+
+                const serie =
+                    existing[i] || {};
+
+                return `
+                    <div class="set-entry-card">
+
+                        <div class="set-entry-title">
+                            <span>
+                                SÉRIE ${i + 1}
+                            </span>
+
+                            <small>
+                                Valores independentes
+                            </small>
+                        </div>
+
+                        <div class="set-entry-fields">
+
+                            ${params
+                                .map(p => {
+
+                                    const cfg =
+                                        PARAMETROS[p];
+
+                                    const val =
+                                        serie[p] ?? "";
+
+                                    return `
+                                        <div class="adaptive-field">
+
+                                            <label
+                                                for="series_${i}_${p}"
+                                            >
+                                                ${cfg.label}
+
+                                                ${
+                                                    cfg.unit
+                                                        ? ` <span>(${cfg.unit})</span>`
+                                                        : ""
+                                                }
+                                            </label>
+
+                                            <input
+                                                id="series_${i}_${p}"
+                                                data-series-index="${i}"
+                                                data-param="${p}"
+                                                class="input series-value-input"
+                                                type="number"
+                                                min="0"
+                                                step="${cfg.step}"
+                                                placeholder="${cfg.placeholder}"
+                                                value="${
+                                                    val !== ""
+                                                        ? escapeHtml(
+                                                              val
+                                                          )
+                                                        : ""
+                                                }"
+                                            >
+
+                                        </div>
+                                    `;
+
+                                })
+                                .join("")}
+
+                        </div>
+                    </div>
+                `;
+            }
+        )
+        .join("");
+}
+
+
+function recolherSeries(
+    container,
+    tipo,
+    parametrosSeries = null
+) {
+
+    const params = parametrosDoExercicio(
+        { tipo, parametrosSeries },
+        tipo
+    );
+
+    const count =
+        [
+            ...new Set(
+                [
+                    ...container.querySelectorAll(
+                        "[data-series-index]"
+                    )
+                ].map(
+                    el =>
+                        Number(
+                            el.dataset.seriesIndex
+                        )
+                )
+            )
+        ].length;
+
+    return Array.from(
+        {
+            length: count
+        },
+        (_, i) =>
+            Object.fromEntries(
+                params.map(
+                    p => {
+
+                        const input =
+                            container.querySelector(
+                                `[data-series-index="${i}"][data-param="${p}"]`
+                            );
+
+                        return [
+                            p,
+                            input &&
+                            input.value !== ""
+                                ? Number(
+                                      input.value
+                                  )
+                                : ""
+                        ];
+                    }
+                )
+            )
+    );
+}
+
+
+function serieResumo(
+    tipo,
+    serie,
+    parametrosSeries = null
+) {
+
+    const params = parametrosDoExercicio(
+        { tipo, parametrosSeries },
+        tipo
+    );
+
+    return params
+        .map(
+            p =>
+                serie?.[p] !== "" &&
+                serie?.[p] != null
+                    ? `${PARAMETROS[p].label}: ${formatarValor(
+                          p,
+                          serie[p]
+                      )}`
+                    : null
+        )
+        .filter(Boolean)
+        .join(" · ");
+}
+
+
+function historicoComSeries(
+    exercicio,
+    row
+) {
+
+    if (
+        Array.isArray(
+            row?.seriesData
+        )
+    ) {
+
+        return row.seriesData;
+    }
+
+    const fake = {
+        ...exercicio,
+        ...row,
+        series:
+            row?.series ||
+            exercicio?.series
+    };
+
+    return extrairSeriesExercicio(
+        fake
+    );
+}
+
+
+/* =========================================================
+   PÁGINA "MEU TREINO"
+   ========================================================= */
+
+function renderTreino() {
+    const r = document.getElementById("workout-root");
+    if (!r) return;
+
+    const todosTreinos = treinosDoDia(diaSelecionado);
+    if (!todosTreinos.some(t => String(t.id) === String(treinoSelecionadoId))) {
+        treinoSelecionadoId = todosTreinos[0]?.id || null;
+    }
+
+    const d = diasSemana.find(x => x[0] === diaSelecionado) || diasSemana[0];
+    const totalExerciciosDia = todosTreinos.reduce(
+        (total, treino) => total + (Array.isArray(treino.exercicios) ? treino.exercicios.length : 0),
+        0
+    );
+    const treinosVisiveis = aplicarFiltroTreinos(todosTreinos, filtroTreinosDia);
+    const limiteTreinosAtingido = todosTreinos.length >= MAX_TREINOS_POR_DIA;
+    const diaAcimaDoLimite = todosTreinos.length > MAX_TREINOS_POR_DIA;
+
+    r.innerHTML = `
+        <div class="days-selector">
+            ${diasSemana.map(x => {
+                const listaDia = Array.isArray(treinos[x[0]]) ? treinos[x[0]] : [];
+                const total = listaDia.reduce((n, treino) => n + (Array.isArray(treino.exercicios) ? treino.exercicios.length : 0), 0);
+                return `
+                    <button class="day-button ${x[0] === diaSelecionado ? "active" : ""}" data-day="${x[0]}">
+                        <strong>${x[1]}</strong>
+                        <span>${total || ""}</span>
+                    </button>
+                `;
+            }).join("")}
+        </div>
+
+        ${diaSelecionado === "domingo" ? `
+            <div class="gym-closed-message"><strong>Ginásio Encerrado</strong></div>
+        ` : ""}
+
+        <div class="selected-day workout-day-toolbar">
+            <div class="selected-day-title">
+                <span class="eyebrow">DIA SELECIONADO</span>
+                <h3>${d[2]}</h3>
+                <span class="workout-day-count">${todosTreinos.length} ${todosTreinos.length === 1 ? "treino" : "treinos"} · ${totalExerciciosDia} ${totalExerciciosDia === 1 ? "exercício" : "exercícios"}</span>
+            </div>
+
+            <div class="workout-toolbar-actions">
+                <button type="button" class="add-workout-btn" id="addWorkout" ${limiteTreinosAtingido ? "disabled" : ""} aria-disabled="${limiteTreinosAtingido}" title="${limiteTreinosAtingido ? "Limite máximo de 4 treinos por dia" : "Adicionar treino"}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    <span>Adicionar Treino</span>
+                </button>
+                <div class="workout-filter-wrap">
+                    <button type="button" class="workout-filter-toggle" id="toggleWorkoutFilter" aria-label="Filtrar treinos" aria-expanded="${filtroTreinosAberto ? "true" : "false"}" aria-controls="workoutFilterMenu">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6.4 7.1v5.2l-3.2 1.7v-6.9L4 5Z"/></svg>
+                    </button>
+                    <div class="workout-filter-menu" id="workoutFilterMenu" role="group" aria-label="Filtrar treinos" ${filtroTreinosAberto ? "" : "hidden"}>
+                        <button type="button" data-workout-filter="todos" class="${filtroTreinosDia === null ? "active" : ""}" aria-pressed="${filtroTreinosDia === null}">Todos os treinos</button>
+                        ${todosTreinos.map((treino, indice) => {
+                            const nomeTreino = treino.nome || `Treino ${indice + 1}`;
+                            const selecionado = filtroTreinosDia !== null && String(filtroTreinosDia) === String(treino.id);
+                            return `<button type="button" data-workout-filter-id="${escaparAtributo(treino.id)}" class="${selecionado ? "active" : ""}" aria-pressed="${selecionado}" aria-label="Filtrar ${escapeHtml(nomeTreino)}, entrada ${indice + 1}">${escapeHtml(nomeTreino)}</button>`;
+                        }).join("")}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        ${limiteTreinosAtingido ? `
+            <div class="workout-limit-notice ${diaAcimaDoLimite ? "over-limit" : ""}" role="status">
+                ${diaAcimaDoLimite
+                    ? `<strong>Este dia já tem ${todosTreinos.length} treinos.</strong><p>O limite atual é 4. Os dados existentes foram preservados; elimina manualmente os treinos excedentes para voltares a adicionar.</p>`
+                    : `<strong>Atingiste o limite máximo de 4 treinos para este dia.</strong>`}
+            </div>
+        ` : ""}
+
+        <div class="workout-group-list">
+            ${treinosVisiveis.length ? treinosVisiveis.map((treino, indiceVisivel) => {
+                const trainId = escaparAtributo(treino.id);
+                const exercicios = Array.isArray(treino.exercicios) ? treino.exercicios : [];
+                const idEditar = indiceVisivel === 0 ? 'id="editWorkoutName"' : "";
+                const idAdicionar = indiceVisivel === 0 ? 'id="addExercise"' : "";
+                return `
+                    <section class="workout-group-card" data-train-id="${trainId}">
+                        <div class="workout-name-card workout-card-heading">
+                            <div class="workout-title-info">
+                                <strong>${escapeHtml(treino.nome || `Treino ${indiceVisivel + 1}`)}</strong>
+                                <span>${exercicios.length} ${exercicios.length === 1 ? "exercício" : "exercícios"}</span>
+                            </div>
+                            <div class="workout-card-actions">
+                                <button type="button" class="edit-workout-btn" ${idEditar} data-edit-workout="${trainId}">Editar nome</button>
+                                <button type="button" class="delete-workout-btn" data-delete-workout="${trainId}" aria-label="Eliminar treino ${escapeHtml(treino.nome || `Treino ${indiceVisivel + 1}`)}" title="Eliminar treino">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        ${exercicios.length ? `
+                            <div class="workout-exercise-list">
+                                ${exercicios.map((x, i) => renderExercicioCard(x, i, treino.id)).join("")}
+                            </div>
+                        ` : `
+                            <div class="empty-workout workout-card-empty">
+                                <strong>Este treino ainda não tem exercícios</strong>
+                                <p>Adiciona exercícios para construir este treino.</p>
+                            </div>
+                        `}
+
+                        <button type="button" class="add-exercise-main" ${idAdicionar} data-add-exercise data-train-id="${trainId}">
+                            + Adicionar Exercício
+                        </button>
+                    </section>
+                `;
+            }).join("") : (todosTreinos.length === 0 ? `
+                <div class="workout-filter-empty">
+                    <strong>Ainda não existem treinos neste dia.</strong>
+                    <p>Usa “Adicionar Treino” para criar o primeiro treino.</p>
+                </div>
+            ` : `
+                <div class="workout-filter-empty">
+                    <strong>Não existem treinos com este filtro.</strong>
+                    <p>Os restantes treinos continuam guardados.</p>
+                    <button type="button" class="workout-filter-reset">Mostrar todos os treinos</button>
+                </div>
+            `)}
+        </div>
+    `;
+
+    r.querySelectorAll(".day-button").forEach(b => {
+        b.onclick = () => {
+            diaSelecionado = b.dataset.day;
+            treinoSelecionadoId = null;
+            filtroTreinosDia = null;
+            filtroTreinosAberto = false;
+            renderTreino();
+        };
+    });
+
+    document.getElementById("addWorkout").onclick = () => {
+        const listaDia = treinosDoDia(diaSelecionado);
+        if (listaDia.length >= MAX_TREINOS_POR_DIA) {
+            alert(listaDia.length > MAX_TREINOS_POR_DIA
+                ? `Este dia já tem ${listaDia.length} treinos. Os dados foram preservados; elimina treinos excedentes antes de adicionar outro.`
+                : "Atingiste o limite máximo de 4 treinos para este dia.");
+            return;
+        }
+
+        const novo = criarTreinoDia(diaSelecionado);
+        if (!novo) return;
+        treinoSelecionadoId = novo.id;
+        filtroTreinosDia = null;
+        filtroTreinosAberto = false;
+        save();
+        renderTreino();
+    };
+
+    document.getElementById("toggleWorkoutFilter").onclick = () => {
+        filtroTreinosAberto = !filtroTreinosAberto;
+
+        // Abrir/fechar o menu não altera os dados; evita reconstruir todo o DOM
+        // durante o toque, o que também reduz problemas de toque duplo em móveis.
+        const toggle = document.getElementById("toggleWorkoutFilter");
+        const menu = document.getElementById("workoutFilterMenu");
+        if (!toggle || !menu) return;
+
+        menu.hidden = !filtroTreinosAberto;
+        toggle.setAttribute("aria-expanded", String(filtroTreinosAberto));
+    };
+
+    r.querySelectorAll("[data-workout-filter], [data-workout-filter-id]").forEach(b => {
+        b.onclick = () => {
+            filtroTreinosDia = b.hasAttribute("data-workout-filter-id")
+                ? b.dataset.workoutFilterId
+                : null;
+            filtroTreinosAberto = false;
+            renderTreino();
+        };
+    });
+
+    r.querySelectorAll(".workout-filter-reset").forEach(b => {
+        b.onclick = () => {
+            filtroTreinosDia = null;
+            filtroTreinosAberto = false;
+            renderTreino();
+        };
+    });
+
+    r.querySelectorAll("[data-add-exercise]").forEach(b => {
+        b.onclick = () => {
+            treinoSelecionadoId = b.dataset.trainId;
+            abrirAdicionar();
+        };
+    });
+
+    r.querySelectorAll("[data-edit-workout]").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.editWorkout);
+            if (!treino) return;
+            const nome = prompt("Nome do treino:", treino.nome);
+            if (nome?.trim()) {
+                treino.nome = nome.trim();
+                treinoSelecionadoId = treino.id;
+                save();
+                renderTreino();
+            }
+        };
+    });
+
+    r.querySelectorAll("[data-delete-workout]").forEach(b => {
+        b.onclick = () => {
+            const eliminado = eliminarTreinoDia(
+                b.dataset.deleteWorkout,
+                () => window.confirm(
+                    "Tens a certeza de que pretendes eliminar este treino? Todos os exercícios associados serão removidos."
+                )
+            );
+            if (!eliminado) return;
+            renderTreino();
+        };
+    });
+
+    r.querySelectorAll(".delete-exercise").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.trainId);
+            const indice = Number(b.dataset.index);
+            if (!treino || !Number.isInteger(indice) || indice < 0 || indice >= treino.exercicios.length) return;
+            treino.exercicios.splice(indice, 1);
+            treinoSelecionadoId = treino.id;
+            save();
+            renderTreino();
+        };
+    });
+
+    r.querySelectorAll(".progress-button").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.trainId);
+            const exercicio = treino?.exercicios?.[Number(b.dataset.index)];
+            mostrarProgressao(exercicio);
+        };
+    });
+
+    r.querySelectorAll(".update-exercise-button").forEach(b => {
+        b.onclick = () => {
+            const treino = encontrarTreinoDia(b.dataset.trainId);
+            const exercicio = treino?.exercicios?.[Number(b.dataset.index)];
+            if (treino) treinoSelecionadoId = treino.id;
+            abrirEditorExercicio(exercicio);
+        };
+    });
+}
+
+/* =========================================================
+   CARTÃO DE EXERCÍCIO
+   ========================================================= */
+
+function renderExercicioCard(
+    x,
+    i,
+    treinoId = ""
+) {
+
+    const meta =
+        metadadosExercicio(
+            x.nome,
+            {
+                grupo: x.grupo,
+                tipo: x.tipo,
+                personalizado:
+                    x.personalizado
+            }
+        );
+
+    const tipoLabel =
+        TIPOS_EXERCICIO[
+            meta.tipo
+        ]?.label ||
+        "Outro";
+
+    const series =
+        extrairSeriesExercicio(
+            {
+                ...x,
+                tipo: meta.tipo
+            }
+        );
+
+        const parametrosSerie = parametrosDoExercicio(x, meta.tipo);
+
+        const seriesHtml = series.map((s, n) => {
+            const valores = parametrosSerie
+                .filter(p => s?.[p] !== "" && s?.[p] != null)
+                .map(p => `
+                    <span>
+                        ${PARAMETROS[p].label}: ${formatarValor(p, s[p])}
+                    </span>
+                `)
+                .join("");
+
+            return `
+                <div class="series-card-line">
+                    <span>Série ${n + 1}</span>
+                    <strong class="series-card-values">
+                        ${valores || "Sem valores"}
+                    </strong>
+                </div>
+            `;
+        }).join("");
+
+    return `
+        <article class="exercise-card">
+
+            <div class="exercise-top">
+
+                <div class="exercise-number">
+                    ${String(
+                        i + 1
+                    ).padStart(2, "0")}
+                </div>
+
+                <div class="exercise-info">
+
+                    <strong>
+                        ${escapeHtml(
+                            x.nome
+                        )}
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(
+                            tipoLabel
+                        )}
+
+                        ${
+                            meta.personalizado
+                                ? " · Personalizado"
+                                : ""
+                        }
+                    </span>
+
+                </div>
+
+                <button
+                    class="delete-exercise"
+                    data-index="${i}"
+                    data-train-id="${escaparAtributo(treinoId)}"
+                    aria-label="Remover exercício"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="exercise-series-list">
+
+                ${seriesHtml}
+
+            </div>
+
+
+            <div class="exercise-card-actions">
+
+                <button
+                    class="secondary-btn update-exercise-button"
+                    data-index="${i}"
+                    data-train-id="${escaparAtributo(treinoId)}"
+                >
+                    Atualizar
+                </button>
+
+                <button
+                    class="progress-button"
+                    data-index="${i}"
+                    data-train-id="${escaparAtributo(treinoId)}"
+                >
+                    Ver progressão
+                </button>
+
+            </div>
+
+        </article>
+    `;
+}
+
+
+/* =========================================================
+   SAIR DO FLUXO DE ADICIONAR EXERCÍCIO
+   Volta diretamente à página dos dias da semana, incluindo
+   quando o utilizador fecha o seletor da biblioteca.
+   ========================================================= */
+
+function sairDoFluxoAdicionar() {
+
+    if (document.getElementById("exercisePickerOverlay")) {
+        fecharSeletorExercicio();
+    }
+
+    renderTreino();
+
+    // Evita deixar a vista a meio do formulário em telemóveis.
+    window.scrollTo(0, 0);
+}
+
+
+/* =========================================================
+   ADICIONAR EXERCÍCIO
+   ========================================================= */
+
+function abrirAdicionar() {
+
+    const r =
+        document.getElementById(
+            "workout-root"
+        );
+
+    r.innerHTML = `
+
+        <button
+            class="back-button"
+            id="backWorkout"
+        >
+            ← Voltar
+        </button>
+
+
+        <div class="workout-header workout-add-header">
+
+            <span class="eyebrow">
+                NOVO EXERCÍCIO
+            </span>
+
+            <h2>
+                Adicionar exercício
+            </h2>
+
+            <p class="muted">
+                Escolhe o exercício e define o número de séries.
+            </p>
+
+        </div>
+
+
+        <div class="form-card workout-add-form">
+
+            <label for="exerciseName">
+                Exercício
+            </label>
+
+
+            <div class="exercise-picker-trigger-wrap">
+
+                <input
+                    id="exerciseName"
+                    class="input exercise-name-input"
+                    type="text"
+                    placeholder="Selecionar exercício"
+                    readonly
+                >
+
+                <button
+                    type="button"
+                    class="exercise-picker-trigger"
+                    id="openExercisePicker"
+                >
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <circle cx="10.8" cy="10.8" r="6.2"></circle>
+                        <path d="m15.4 15.4 4.1 4.1"></path>
+                    </svg>
+                    Escolher exercício
+                </button>
+
+            </div>
+
+
+            <div
+                class="exercise-selection-hint"
+                id="exerciseSelectionHint"
+            >
+                Seleciona um exercício da biblioteca ou cria um personalizado.
+            </div>
+
+
+            <div id="exerciseTypeWrap"></div>
+
+
+            <div
+                id="seriesSetup"
+                class="series-setup"
+                hidden
+            >
+
+                <div class="series-count-row">
+
+                    <div>
+
+                        <span class="series-count-label">
+                            Número de séries
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="series-count-control"
+                        role="group"
+                        aria-label="Número de séries"
+                    >
+                        <button
+                            type="button"
+                            class="series-count-step"
+                            id="decreaseSeriesCount"
+                            aria-label="Diminuir número de séries"
+                            disabled
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M5 12h14"></path>
+                            </svg>
+                        </button>
+
+                        <output
+                            id="seriesCountDisplay"
+                            class="series-count-value"
+                            aria-live="polite"
+                            aria-atomic="true"
+                        >1</output>
+
+                        <button
+                            type="button"
+                            class="series-count-step"
+                            id="increaseSeriesCount"
+                            aria-label="Aumentar número de séries"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Mantém o valor no ID usado pelo fluxo atual de continuação. -->
+                    <input
+                        id="seriesCount"
+                        type="hidden"
+                        value="1"
+                    >
+
+                </div>
+
+
+                <button
+                    class="primary-btn full"
+                    id="continueSeries"
+                >
+                    Continuar
+                </button>
+
+            </div>
+
+
+            <div
+                id="exerciseFields"
+                class="adaptive-exercise-fields"
+            ></div>
+
+
+            <button
+                class="primary-btn full"
+                id="saveExercise"
+                hidden
+            >
+                Adicionar ao treino
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "backWorkout"
+    ).onclick =
+        sairDoFluxoAdicionar;
+
+
+    document.getElementById(
+        "openExercisePicker"
+    ).onclick =
+        abrirSeletorExercicio;
+
+
+    // O valor é alterado por botões, evitando o teclado numérico e o zoom automático móvel.
+    const seriesCountInput = document.getElementById("seriesCount");
+    const seriesCountDisplay = document.getElementById("seriesCountDisplay");
+    const decreaseSeriesCount = document.getElementById("decreaseSeriesCount");
+    const increaseSeriesCount = document.getElementById("increaseSeriesCount");
+    const MAX_SERIES_NOVO_EXERCICIO = 8;
+
+    const updateSeriesCount = value => {
+        const parsed = Number(value);
+        const count = Math.max(
+            1,
+            Math.min(
+                MAX_SERIES_NOVO_EXERCICIO,
+                Number.isFinite(parsed) ? Math.trunc(parsed) : 1
+            )
+        );
+
+        seriesCountInput.value = String(count);
+        seriesCountDisplay.textContent = String(count);
+        decreaseSeriesCount.disabled = count <= 1;
+        increaseSeriesCount.disabled = count >= MAX_SERIES_NOVO_EXERCICIO;
+    };
+
+    decreaseSeriesCount.addEventListener("click", () => {
+        updateSeriesCount(Number(seriesCountInput.value) - 1);
+    });
+
+    increaseSeriesCount.addEventListener("click", () => {
+        updateSeriesCount(Number(seriesCountInput.value) + 1);
+    });
+
+    updateSeriesCount(seriesCountInput.value);
+
+
+    document.getElementById(
+        "continueSeries"
+    ).onclick = () => {
+
+        const input =
+            document.getElementById(
+                "exerciseName"
+            );
+
+        const tipo =
+            document.getElementById(
+                "exerciseType"
+            )?.value ||
+            input?.dataset.tipo;
+
+        if (
+            !input?.value ||
+            !tipo
+        ) {
+
+            return alert(
+                "Escolhe primeiro um exercício."
+            );
+        }
+
+
+        const n =
+            Math.max(
+                1,
+                Math.min(
+                    MAX_SERIES_NOVO_EXERCICIO,
+                    Number(
+                        document.getElementById(
+                            "seriesCount"
+                        )?.value
+                    ) || 1
+                )
+            );
+
+
+        // Revalidação na lógica antes de gerar as linhas de séries.
+        updateSeriesCount(n);
+
+
+        let parametrosSeries = [];
+        try {
+            parametrosSeries = JSON.parse(input.dataset.parametrosSeries || "[]");
+        } catch (_) {
+            parametrosSeries = [];
+        }
+
+        renderLinhasSeries(
+            document.getElementById("exerciseFields"),
+            {
+                nome: input.value,
+                grupo: input.dataset.grupo || "",
+                tipo,
+                parametrosSeries
+            },
+            n
+        );
+
+
+        document.getElementById(
+            "saveExercise"
+        ).hidden = false;
+
+
+        document.getElementById(
+            "seriesSetup"
+        ).hidden = true;
+    };
+
+
+    document.getElementById(
+        "saveExercise"
+    ).onclick =
+        guardarExercicio;
+
+
+    requestAnimationFrame(
+        abrirSeletorExercicio
+    );
+}
+
+
+/* =========================================================
+   SELETOR DE EXERCÍCIOS
+   ========================================================= */
+
+function garantirEstilosBiblioteca() {
+
+    if (document.getElementById("exercise-library-styles")) {
+        return;
+    }
+
+    const style = document.createElement("style");
+    style.id = "exercise-library-styles";
+
+    style.textContent = `
+        .exercise-picker-controls {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 7px;
+            padding: 0 18px 8px;
+            width: 100%;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .exercise-picker-control {
+            min-width: 0;
+            min-height: 40px;
+            height: auto;
+            padding: 5px 6px;
+            border-radius: 10px;
+            border: 1px solid rgba(57,40,61,.12);
+            background: #faf6f1;
+            color: #665968;
+            font-size: 9px;
+            font-weight: 800;
+            white-space: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            line-height: 1.15;
+            text-align: center;
+        }
+
+        .exercise-picker-control.active {
+            background: rgba(104,64,111,.10);
+            color: #68406f;
+            border-color: rgba(104,64,111,.24);
+        }
+
+        .exercise-filter-options {
+            display: block;
+            width: 100%;
+            padding: 0 18px 8px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 4;
+        }
+
+        .exercise-filter-options::-webkit-scrollbar {
+            display: none;
+        }
+
+        .exercise-filter-option {
+            flex: 0 0 auto;
+            height: 27px;
+            padding: 0 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(57,40,61,.11);
+            background: #fffdf9;
+            color: #6f6673;
+            font-size: 8.5px;
+            font-weight: 750;
+            white-space: nowrap;
+        }
+
+        .exercise-filter-option.active {
+            background: linear-gradient(135deg,#68406f,#3e9d9a);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .exercise-search-results {
+            min-height: 0;
+            overflow-y: auto;
+            flex: 1 1 auto;
+        }
+
+        .exercise-search-result {
+            display: flex !important;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+            gap: 0;
+        }
+
+        .exercise-search-main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            text-align: left;
+            padding: 0;
+        }
+
+        .exercise-favorite-button {
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            display: grid;
+            place-items: center;
+            border: 0;
+            background: transparent;
+            color: #b8adb9;
+            font-size: 22px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .exercise-favorite-button.active {
+            color: #d6a63a;
+        }
+
+        .custom-create-control {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(214, 112, 188, .18), rgba(62, 157, 154, .10));
+            color: #9b4b91;
+            border-color: rgba(214, 112, 188, .35);
+            font-size: 9px;
+        }
+
+        .custom-create-control:active {
+            transform: scale(.98);
+        }
+
+        .custom-exercise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10050;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(24, 17, 28, .48);
+            backdrop-filter: blur(5px);
+        }
+
+        .custom-exercise-modal {
+            width: min(100%, 430px);
+            max-height: min(90vh, 700px);
+            overflow-y: auto;
+            box-sizing: border-box;
+            border-radius: 24px;
+            padding: 20px;
+            background: #fffdf9;
+            border: 1px solid rgba(57,40,61,.10);
+            box-shadow: 0 24px 70px rgba(39, 24, 45, .22);
+        }
+
+        .custom-exercise-modal-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-modal-top h2 {
+            margin: 4px 0 0;
+        }
+
+        .custom-exercise-form {
+            display: grid;
+            gap: 14px;
+        }
+
+        .custom-exercise-field {
+            display: grid;
+            gap: 7px;
+        }
+
+        .custom-exercise-field label {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .custom-exercise-field small {
+            font-size: 10px;
+            line-height: 1.35;
+            color: #8b7f8c;
+        }
+
+        .custom-exercise-field textarea.input {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .custom-exercise-actions {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .custom-exercise-actions button {
+            min-height: 44px;
+        }
+
+        /* Configuração das características: cartões compactos, claros e acessíveis. */
+        .custom-exercise-modal.characteristics-step {
+            width: min(100%, 460px);
+            max-height: min(92vh, 720px);
+            max-height: min(92dvh, 720px);
+            padding: 18px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-modal-top {
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .custom-exercise-modal-top h2 {
+            margin: 4px 0 0;
+            font-size: 21px;
+            line-height: 1.15;
+            letter-spacing: -.55px;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions {
+            gap: 9px;
+            margin-top: 14px;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button {
+            min-height: 46px;
+            border-radius: 13px;
+            font-size: 11.5px;
+            font-weight: 800;
+            transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+        }
+
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button:hover { filter: brightness(1.04); }
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button:active { transform: scale(.985); }
+        .custom-exercise-modal.characteristics-step .custom-exercise-actions button:focus-visible {
+            outline: 2px solid #3e9d9a;
+            outline-offset: 3px;
+        }
+
+        .custom-characteristics-exercise {
+            display: grid;
+            gap: 3px;
+            padding: 11px 13px;
+            margin: 0 0 15px;
+            border: 1px solid rgba(104,64,111,.14);
+            border-radius: 14px;
+            background: #f3f4f8;
+        }
+
+        .custom-characteristics-exercise strong {
+            font-size: 14px;
+            line-height: 1.3;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        .custom-characteristics-exercise span,
+        .custom-characteristics-note {
+            color: #787486;
+            font-size: 10.5px;
+            line-height: 1.4;
+        }
+
+        .custom-characteristics-heading {
+            display: grid;
+            gap: 0;
+            margin-bottom: 9px;
+        }
+
+        .custom-characteristics-heading strong { font-size: 12.5px; line-height: 1.3; }
+
+        .custom-characteristics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .custom-characteristic-option {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+            min-height: 56px;
+            padding: 10px 11px;
+            border: 1px solid rgba(104,64,111,.15);
+            border-radius: 13px;
+            background: #f8f8fb;
+            cursor: pointer;
+            transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease, transform .16s ease;
+        }
+
+        .custom-characteristic-option:hover {
+            border-color: rgba(62,157,154,.45);
+            transform: translateY(-1px);
+        }
+
+        .custom-characteristic-option:has(input:checked) {
+            border-color: #3e9d9a;
+            background: #edf7f6;
+            box-shadow: inset 0 0 0 1px rgba(62,157,154,.12);
+        }
+
+        .custom-characteristic-option:focus-within {
+            outline: 2px solid rgba(62,157,154,.72);
+            outline-offset: 2px;
+        }
+
+        .custom-characteristic-option input {
+            width: 17px;
+            height: 17px;
+            min-width: 17px;
+            flex: 0 0 17px;
+            margin: 0;
+            accent-color: #3e9d9a;
+            cursor: pointer;
+        }
+
+        .custom-characteristic-option > span { display: block; min-width: 0; }
+
+        .custom-characteristic-option strong {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 750;
+            line-height: 1.28;
+            overflow-wrap: anywhere;
+        }
+
+        .custom-characteristics-note {
+            margin: 11px 0 0;
+            padding: 9px 11px;
+            border-radius: 11px;
+            background: rgba(104,64,111,.055);
+        }
+
+        body[data-theme="dark"] .custom-characteristics-exercise {
+            background: #172131;
+            border-color: rgba(177,145,196,.20);
+        }
+
+        body[data-theme="dark"] .custom-characteristics-exercise span,
+        body[data-theme="dark"] .custom-characteristics-note { color: #aeb8c9; }
+
+        body[data-theme="dark"] .custom-characteristics-heading strong { color: #f3f5fa; }
+
+        body[data-theme="dark"] .custom-characteristic-option {
+            background: #171e2b;
+            border-color: rgba(164,176,197,.18);
+            color: #eef2f8;
+        }
+
+        body[data-theme="dark"] .custom-characteristic-option:hover {
+            border-color: rgba(62,157,154,.60);
+        }
+
+        body[data-theme="dark"] .custom-characteristic-option:has(input:checked) {
+            background: rgba(62,157,154,.14);
+            border-color: #3e9d9a;
+            box-shadow: inset 0 0 0 1px rgba(62,157,154,.12);
+        }
+
+        body[data-theme="dark"] .custom-characteristics-note { background: rgba(255,255,255,.035); }
+
+        @media (max-width: 390px) {
+            .custom-exercise-overlay:has(.custom-exercise-modal.characteristics-step) { padding: 10px; }
+            .custom-exercise-modal.characteristics-step { padding: 14px; border-radius: 19px; }
+            .custom-exercise-modal.characteristics-step .custom-exercise-modal-top h2 { font-size: 20px; }
+            .custom-characteristics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+            .custom-characteristic-option { min-height: 54px; padding: 9px; gap: 7px; }
+            .custom-characteristic-option strong { font-size: 10.75px; }
+            .custom-exercise-modal.characteristics-step .custom-exercise-actions { gap: 7px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .custom-characteristic-option,
+            .custom-exercise-modal.characteristics-step .custom-exercise-actions button { transition: none !important; }
+        }
+
+        .custom-create-control {
+            align-self: center;
+            display: block;
+            width: min(88%, 420px);
+            max-width: 420px;
+            height: auto;
+            min-height: 44px;
+            margin: 5px auto 8px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            text-align: center;
+            white-space: normal;
+            line-height: 1.35;
+            box-sizing: border-box;
+        }
+
+        body[data-theme="dark"] .custom-create-control {
+            background: linear-gradient(135deg, rgba(195,79,118,.30), rgba(104,64,111,.30), rgba(62,157,154,.22));
+            color: #f5d8e9;
+            border-color: rgba(214,112,188,.58);
+            font-weight: 850;
+        }
+
+        body[data-theme="dark"] .custom-exercise-modal {
+            background: #111824;
+            border-color: var(--line);
+            color: #eef2f8;
+        }
+
+        body[data-theme="dark"] .custom-exercise-field small {
+            color: #9aa6ba;
+        }
+
+        body[data-theme="dark"] .custom-exercise-overlay {
+            background: rgba(4, 8, 14, .68);
+        }
+
+        body[data-theme="light"] .custom-create-control {
+            background: linear-gradient(135deg, rgba(214, 112, 188, .13), rgba(62, 157, 154, .10));
+            color: #9b4b91;
+            border-color: rgba(214, 112, 188, .32);
+        }
+
+        body[data-theme="dark"] .exercise-picker-control {
+            background: linear-gradient(135deg, rgba(124,77,255,.20), rgba(230,57,155,.12));
+            color: #eadff0;
+            border-color: rgba(161,132,180,.38);
+        }
+
+        body[data-theme="dark"] .exercise-picker-control.active {
+            background: linear-gradient(135deg, #68406f, #3e9d9a);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        body[data-theme="dark"] .exercise-filter-options {
+            background: var(--bg-soft);
+        }
+
+        body[data-theme="dark"] .exercise-filter-option {
+            background: linear-gradient(135deg, rgba(124,77,255,.17), rgba(230,57,155,.10));
+            color: #e5d9eb;
+            border-color: rgba(161,132,180,.34);
+        }
+
+        body[data-theme="light"] .exercise-picker-control {
+            background: #faf6f1;
+            color: #665968;
+        }
+
+        /* Seletor personalizado: evita o menu nativo do Windows/Chrome. */
+        #exercisePickerOverlay .exercise-filter-select-wrap {
+            position: relative;
+            overflow: visible;
+        }
+
+        #exercisePickerOverlay .exercise-filter-dropdown {
+            position: relative;
+            min-width: 0;
+            width: 100%;
+        }
+
+        #exercisePickerOverlay .exercise-filter-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            width: 100%;
+            min-width: 0;
+            min-height: 38px;
+            padding: 0 11px;
+            border: 1px solid rgba(161,132,180,.34);
+            border-radius: 11px;
+            background: linear-gradient(135deg, rgba(124,77,255,.13), rgba(230,57,155,.07));
+            color: var(--text, #f5edf7);
+            font: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+        }
+
+        #exercisePickerOverlay .exercise-filter-trigger:hover,
+        #exercisePickerOverlay .exercise-filter-trigger[aria-expanded="true"] {
+            border-color: rgba(62,157,154,.72);
+            box-shadow: 0 0 0 3px rgba(62,157,154,.10);
+        }
+
+        #exercisePickerOverlay .exercise-filter-current {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #exercisePickerOverlay .exercise-filter-trigger .exercise-filter-select-chevron {
+            flex: 0 0 auto;
+            transition: transform .18s ease;
+        }
+
+        #exercisePickerOverlay .exercise-filter-trigger[aria-expanded="true"] .exercise-filter-select-chevron {
+            transform: rotate(180deg);
+        }
+
+        #exercisePickerOverlay .exercise-filter-menu {
+            position: absolute;
+            z-index: 10080;
+            top: calc(100% + 7px);
+            right: 0;
+            left: 0;
+            max-height: min(250px, 32vh);
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 5px;
+            border: 1px solid rgba(161,132,180,.32);
+            border-radius: 14px;
+            background: #211927;
+            color: #f5edf7;
+            box-shadow: 0 16px 36px rgba(0,0,0,.38);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            overscroll-behavior: contain;
+        }
+
+        #exercisePickerOverlay .exercise-filter-menu[hidden] {
+            display: none !important;
+        }
+
+        #exercisePickerOverlay .exercise-filter-menu-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+            min-height: 35px;
+            padding: 8px 10px;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: #e9deed;
+            font: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            transition: background .14s ease, color .14s ease;
+        }
+
+        #exercisePickerOverlay .exercise-filter-menu-option:hover {
+            background: rgba(124,77,255,.17);
+            color: #fff;
+        }
+
+        #exercisePickerOverlay .exercise-filter-menu-option.active {
+            background: linear-gradient(110deg, rgba(124,77,255,.32), rgba(62,157,154,.24));
+            color: #fff;
+        }
+
+        #exercisePickerOverlay .exercise-filter-option-check {
+            flex: 0 0 16px;
+            color: #6fd2c4;
+            font-size: 14px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        body[data-theme="light"] #exercisePickerOverlay .exercise-filter-trigger {
+            color: #49394e;
+            background: linear-gradient(135deg, rgba(124,77,255,.07), rgba(230,57,155,.04));
+            border-color: rgba(104,64,111,.23);
+        }
+
+        body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu {
+            background: #fffdf9;
+            color: #49394e;
+            border-color: rgba(104,64,111,.20);
+            box-shadow: 0 16px 36px rgba(49,30,55,.17);
+        }
+
+        body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option {
+            color: #55465b;
+        }
+
+        body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option:hover {
+            background: rgba(124,77,255,.09);
+            color: #392841;
+        }
+
+        body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.active {
+            background: linear-gradient(110deg, rgba(124,77,255,.14), rgba(62,157,154,.15));
+            color: #392841;
+        }
+
+        #exercisePickerOverlay .exercise-picker-controls {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 8px !important;
+        }
+        #exercisePickerOverlay .exercise-picker-select-control {
+            position: relative !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+        }
+        #exercisePickerOverlay .exercise-picker-control-label {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            min-height: 42px !important;
+            padding: 4px 5px !important;
+            border: 0 !important;
+            border-radius: inherit !important;
+            background: transparent !important;
+            color: inherit !important;
+            font: inherit !important;
+            font-size: 10px !important;
+            font-weight: 800 !important;
+            line-height: 1.1 !important;
+            text-align: center !important;
+            /* CRÍTICO: este elemento é um botão. Não pode ignorar os toques. */
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            cursor: pointer !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+        #exercisePickerOverlay .filter-control-title {
+            display: block !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+        #exercisePickerOverlay .exercise-filter-native-select {
+            position: absolute !important;
+            inset: 0 !important;
+            z-index: 3 !important;
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0 !important;
+            cursor: pointer !important;
+            appearance: auto !important;
+            -webkit-appearance: menulist !important;
+            border: 0 !important;
+        }
+        #exercisePickerOverlay .exercise-picker {
+            height: min(90dvh, 900px) !important;
+            max-height: 90dvh !important;
+            min-height: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+        }
+        @supports not (height: 90dvh) {
+            #exercisePickerOverlay .exercise-picker {
+                height: 90vh !important;
+                max-height: 90vh !important;
+            }
+        }
+        #exercisePickerOverlay .exercise-search-results {
+            flex: 1 1 0% !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            overscroll-behavior-y: contain !important;
+            -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-y !important;
+            position: relative !important;
+        }
+        #exercisePickerOverlay .exercise-filter-menu {
+            overscroll-behavior-y: contain !important;
+            -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-y !important;
+        }
+        #exercisePickerOverlay .exercise-add-button {
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            display: grid !important;
+            place-items: center !important;
+            flex: 0 0 39px !important;
+            width: 39px !important;
+            height: 39px !important;
+            min-width: 39px !important;
+            min-height: 39px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 12px !important;
+            background: transparent !important;
+            color: inherit !important;
+            box-shadow: none !important;
+            cursor: pointer !important;
+            touch-action: manipulation !important;
+        }
+        #exercisePickerOverlay .exercise-add-button .exercise-search-result-icon {
+            pointer-events: none !important;
+            position: relative !important;
+            display: grid !important;
+            place-items: center !important;
+            flex: 0 0 39px !important;
+            width: 39px !important;
+            height: 39px !important;
+            min-width: 39px !important;
+            min-height: 39px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            font-size: 0 !important;
+            line-height: 0 !important;
+            text-indent: 0 !important;
+            transform: none !important;
+        }
+
+        #exercisePickerOverlay .exercise-add-button .exercise-search-result-icon::before {
+            content: none !important;
+            display: none !important;
+        }
+
+        #exercisePickerOverlay .exercise-add-button .exercise-add-glyph {
+            display: block !important;
+            width: 18px !important;
+            height: 18px !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            fill: none !important;
+            stroke: currentColor !important;
+            stroke-width: 2.2 !important;
+            stroke-linecap: round !important;
+            stroke-linejoin: round !important;
+            transform: none !important;
+            flex: none !important;
+        }
+        #exercisePickerOverlay .exercise-search-result-copy {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+        }
+        @media (max-width: 560px) {
+            #exercisePickerOverlay .exercise-picker-controls {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 6px !important;
+            }
+            #exercisePickerOverlay .exercise-picker-controls > .exercise-picker-control {
+                min-height: 42px !important;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+}
+
+function abrirSeletorExercicio() {
+
+    fecharSeletorExercicio();
+    garantirEstilosBiblioteca();
+
+    filtroBiblioteca = "todos";
+    valorFiltroBiblioteca = "Todos";
+    favoritosApenas = false;
+
+    const overlay = document.createElement("div");
+    overlay.className = "exercise-picker-overlay open";
+    overlay.id = "exercisePickerOverlay";
+
+    overlay.innerHTML = `
+        <div
+            class="exercise-picker"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="exercise-picker-handle"></div>
+
+            <div class="exercise-picker-header">
+                <div>
+                    <span class="eyebrow">
+                        BIBLIOTECA DE EXERCÍCIOS
+                    </span>
+                    <h2>Adicionar exercício</h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="exercise-picker-close"
+                    id="closeExercisePicker"
+                >
+                    ×
+                </button>
+            </div>
+
+            <div class="exercise-search-wrap">
+                <span class="exercise-search-icon">⌕</span>
+                <input
+                    id="exerciseSearch"
+                    class="exercise-search-input"
+                    type="search"
+                    placeholder="Procurar ou escrever exercício..."
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+            </div>
+
+            <div class="exercise-picker-controls">
+                <div class="exercise-picker-control exercise-picker-select-control" data-control="modo">
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label"
+                        data-filter-control="modo"
+                        aria-label="Filtrar exercícios"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenu"
+                    >
+                        <span class="filter-control-title">Exercícios</span>
+                    </button>
+                </div>
+
+                <div class="exercise-picker-control exercise-picker-select-control" data-control="musculos">
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label"
+                        data-filter-control="musculos"
+                        aria-label="Filtrar por músculo"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenu"
+                    >
+                        <span class="filter-control-title">Músculos</span>
+                    </button>
+                </div>
+
+                <div class="exercise-picker-control exercise-picker-select-control" data-control="maquinas">
+                    <button
+                        type="button"
+                        class="exercise-picker-control-label"
+                        data-filter-control="maquinas"
+                        aria-label="Filtrar por máquina"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-controls="exerciseFilterMenu"
+                    >
+                        <span class="filter-control-title">Máquinas</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <div
+                class="exercise-filter-options"
+                id="exerciseFilterOptions"
+            ></div>
+
+            <button
+                type="button"
+                class="custom-create-control"
+                id="openCustomExerciseCreator"
+            >
+                ＋ Adicionar exercício personalizado
+            </button>
+
+            <div
+                class="exercise-search-meta"
+                id="exerciseSearchMeta"
+            ></div>
+
+            <div
+                class="exercise-search-results"
+                id="exerciseSearchResults"
+            ></div>
+
+        </div>
+    `;
+
+    // Bloqueia o scroll da página por trás do seletor, especialmente em iOS/Safari.
+    const savedScrollY = window.scrollY || window.pageYOffset || 0;
+    overlay.dataset.backgroundScrollY = String(savedScrollY);
+    overlay.dataset.previousBodyPosition = document.body.style.position;
+    overlay.dataset.previousBodyTop = document.body.style.top;
+    overlay.dataset.previousBodyWidth = document.body.style.width;
+    overlay.dataset.previousBodyOverflow = document.body.style.overflow;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+
+    document.body.appendChild(overlay);
+
+    // Mantém o fundo bloqueado, mas deixa o navegador gerir o scroll nativo
+    // da lista e dos menus. A lógica manual anterior podia cancelar o primeiro
+    // movimento do dedo e deixar o scroll aparentemente preso no iOS.
+    overlay.addEventListener("touchmove", event => {
+        const target = event.target instanceof Element
+            ? event.target
+            : event.target?.parentElement;
+
+        // Permite que os menus/listas mantenham o scroll táctil nativo.
+        const scroller = target?.closest(
+            ".exercise-search-results, .exercise-filter-menu, .exercise-filter-options"
+        );
+        if (scroller) {
+            event.stopPropagation();
+            return;
+        }
+
+        // Nunca cancelar gestos que começam nos filtros ou noutros controlos
+        // interativos. Em telemóveis, preventDefault aqui pode fazer parecer
+        // que existe uma camada por cima dos botões e impedir a seleção.
+        const controlInteractivo = target?.closest(
+            "#exercisePickerOverlay .exercise-picker-controls, " +
+            "#exercisePickerOverlay .exercise-picker-control, " +
+            "#exercisePickerOverlay .exercise-filter-native-select, " +
+            "#exercisePickerOverlay button, " +
+            "#exercisePickerOverlay input, " +
+            "#exercisePickerOverlay select"
+        );
+        if (controlInteractivo) {
+            return;
+        }
+
+        // Bloqueia apenas os gestos no fundo do popup, não nos controlos.
+        event.preventDefault();
+    }, { passive: false });
+
+    const input = document.getElementById("exerciseSearch");
+
+    const render = () =>
+        renderResultadosPesquisa(input.value);
+
+    input.addEventListener("input", render);
+
+    document.getElementById(
+        "closeExercisePicker"
+    ).onclick = sairDoFluxoAdicionar;
+
+    overlay.addEventListener("click", e => {
+        if (e.target === overlay) {
+            sairDoFluxoAdicionar();
+            return;
+        }
+
+    });
+
+    const controlElements = overlay.querySelectorAll(
+        ".exercise-picker-controls > .exercise-picker-control"
+    );
+
+    const getControl = name => overlay.querySelector(`.exercise-picker-controls [data-control="${name}"]`);
+    const getTitle = name => getControl(name)?.querySelector(".filter-control-title");
+
+    const resetLabel = name => {
+        const title = getTitle(name);
+        if (!title) return;
+        title.textContent = name === "modo"
+            ? "Exercícios"
+            : name === "musculos"
+                ? "Músculos"
+                : "Máquinas";
+    };
+
+    const prepararControloFiltro = control => {
+        // Ao tocar num filtro, limpar o anterior e mostrar a biblioteca completa.
+        // Os filtros são botões reais, sem <select> transparente por cima;
+        // isto evita que os menus nativos falhem no Safari/Chrome móvel.
+        input.value = "";
+        favoritosApenas = false;
+        valorFiltroBiblioteca = "Todos";
+        filtroBiblioteca = control === "modo" ? "todos" : control;
+
+        controlElements.forEach(el => {
+            el.classList.remove("active");
+            const button = el.querySelector(".exercise-picker-control-label");
+            if (button) button.setAttribute("aria-expanded", "false");
+        });
+
+        ["modo", "musculos", "maquinas"].forEach(resetLabel);
+        getControl(control)?.classList.add("active");
+
+        renderResultadosPesquisa("");
+        renderOpcoesFiltroBiblioteca(control, true);
+    };
+
+    overlay.querySelectorAll(".exercise-picker-control-label").forEach(button => {
+        button.addEventListener("click", () => {
+            const control = button.dataset.filterControl;
+            if (["modo", "musculos", "maquinas"].includes(control)) {
+                prepararControloFiltro(control);
+            }
+        });
+    });
+
+    document.getElementById(
+        "openCustomExerciseCreator"
+    )?.addEventListener(
+        "click",
+        abrirPopupExercicioPersonalizado
+    );
+
+    document.addEventListener(
+        "keydown",
+        fecharSeletorPorTecla
+    );
+
+    render();
+
+    // Não abrir automaticamente o teclado virtual em telemóveis: ele pode
+    // ocupar o ecrã e esconder/interceptar a zona dos filtros. No desktop,
+    // manter o foco automático para permitir pesquisa imediata pelo teclado.
+    requestAnimationFrame(() => {
+        const dispositivoTátil = window.matchMedia?.("(pointer: coarse)")?.matches;
+        if (!dispositivoTátil) input.focus();
+    });
+}
+
+
+function fecharSeletorPorTecla(e) {
+
+    if (e.key === "Escape") {
+        sairDoFluxoAdicionar();
+    }
+}
+
+
+function fecharSeletorExercicio() {
+
+    const overlay = document.getElementById("exercisePickerOverlay");
+    if (overlay) {
+        const savedScrollY = Number(overlay.dataset.backgroundScrollY || 0);
+        document.body.style.position = overlay.dataset.previousBodyPosition || "";
+        document.body.style.top = overlay.dataset.previousBodyTop || "";
+        document.body.style.width = overlay.dataset.previousBodyWidth || "";
+        document.body.style.overflow = overlay.dataset.previousBodyOverflow || "";
+        overlay.remove();
+        window.scrollTo(0, savedScrollY);
+    }
+
+    document.removeEventListener(
+        "keydown",
+        fecharSeletorPorTecla
+    );
+}
+
+
+/* =========================================================
+   PESQUISA DE EXERCÍCIOS
+   ========================================================= */
+
+function renderOpcoesFiltroBiblioteca(tipo, abrirImediatamente = false) {
+    const container = document.getElementById("exerciseFilterOptions");
+    const overlay = document.getElementById("exercisePickerOverlay");
+    if (!container || !overlay) return;
+
+    const biblioteca = construirBibliotecaExercicios();
+    let opcoes = [];
+
+    if (tipo === "modo") {
+        opcoes = [
+            { value: "todos", label: "Todos" },
+            { value: "favoritos", label: "Favoritos" },
+            { value: "criados", label: "Exercícios Criados" }
+        ];
+    } else if (tipo === "musculos") {
+        opcoes = [
+            "Todos",
+            ...new Set(
+                biblioteca
+                    .map(item => item.grupo)
+                    .filter(grupo => grupo && grupo !== "Outro")
+            )
+        ].map(valor => ({ value: valor, label: valor }));
+    } else if (tipo === "maquinas") {
+        opcoes = ["Todos", ...EQUIPAMENTOS_GINASIO]
+            .map(valor => ({ value: valor, label: valor }));
+    }
+
+    const valorAtual = tipo === "modo"
+        ? (favoritosApenas ? "favoritos" : filtroBiblioteca === "criados" ? "criados" : "todos")
+        : valorFiltroBiblioteca;
+
+    if (!opcoes.some(opcao => opcao.value === valorAtual)) {
+        valorFiltroBiblioteca = "Todos";
+    }
+
+    const rotulo = tipo === "modo"
+        ? "Tipo de exercícios"
+        : tipo === "musculos"
+            ? "Grupo muscular"
+            : "Equipamento";
+
+    container.dataset.mode = tipo;
+    container.innerHTML = `
+        <div class="exercise-filter-select-wrap">
+            <span class="exercise-filter-select-label">${rotulo}</span>
+            <div class="exercise-filter-dropdown">
+                <button
+                    type="button"
+                    id="exerciseFilterTrigger"
+                    class="exercise-filter-trigger"
+                    aria-label="Filtrar por ${rotulo.toLowerCase()}"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    aria-controls="exerciseFilterMenu"
+                >
+                    <span class="exercise-filter-current">${escapeHtml(
+                        opcoes.find(opcao => opcao.value === valorAtual)?.label || "Todos"
+                    )}</span>
+                </button>
+                <div
+                    id="exerciseFilterMenu"
+                    class="exercise-filter-menu"
+                    role="listbox"
+                    aria-label="Opções: ${rotulo.toLowerCase()}"
+                    hidden
+                >
+                    ${opcoes.map(opcao => `
+                        <button
+                            type="button"
+                            class="exercise-filter-menu-option${opcao.value === valorAtual ? " active" : ""}"
+                            role="option"
+                            aria-selected="${opcao.value === valorAtual ? "true" : "false"}"
+                            data-filter-value="${escaparAtributo(opcao.value)}"
+                        >
+                            <span>${escapeHtml(opcao.label)}</span>
+                            <span class="exercise-filter-option-check" aria-hidden="true">${opcao.value === valorAtual ? "✓" : ""}</span>
+                        </button>
+                    `).join("")}
+                </div>
+            </div>
+        </div>
+    `;
+
+    const trigger = container.querySelector("#exerciseFilterTrigger");
+    const menu = container.querySelector("#exerciseFilterMenu");
+
+    const fecharMenu = () => {
+        if (!menu || !trigger) return;
+        menu.hidden = true;
+        menu.classList.remove("open");
+        trigger.setAttribute("aria-expanded", "false");
+    };
+
+    const abrirMenu = () => {
+        if (!menu || !trigger) return;
+        menu.hidden = false;
+        menu.classList.add("open");
+        trigger.setAttribute("aria-expanded", "true");
+    };
+
+    trigger?.addEventListener("click", () => {
+        if (!menu || !trigger) return;
+        if (menu.hidden) abrirMenu();
+        else fecharMenu();
+    });
+
+    menu?.querySelectorAll(".exercise-filter-menu-option").forEach(option => {
+        option.addEventListener("click", () => {
+            const selectedValue = option.dataset.filterValue || "Todos";
+            const search = overlay.querySelector("#exerciseSearch");
+            if (search) search.value = "";
+
+            const getControl = name => overlay.querySelector(`.exercise-picker-controls [data-control="${name}"]`);
+            const controls = overlay.querySelectorAll(".exercise-picker-controls > .exercise-picker-control");
+
+            // Os títulos dos botões superiores são fixos. A opção escolhida
+            // aparece apenas no seletor intermédio (.exercise-filter-current).
+            if (tipo === "modo") {
+                favoritosApenas = selectedValue === "favoritos";
+                filtroBiblioteca = selectedValue === "criados" ? "criados" : "todos";
+                valorFiltroBiblioteca = "Todos";
+                controls.forEach(el => el.classList.remove("active"));
+                getControl("modo")?.classList.add("active");
+            } else {
+                favoritosApenas = false;
+                filtroBiblioteca = tipo;
+                valorFiltroBiblioteca = selectedValue;
+                controls.forEach(el => el.classList.remove("active"));
+                getControl(tipo)?.classList.add("active");
+            }
+
+            container.querySelectorAll(".exercise-filter-menu-option").forEach(item => {
+                const ativo = item.dataset.filterValue === selectedValue;
+                item.classList.toggle("active", ativo);
+                item.setAttribute("aria-selected", ativo ? "true" : "false");
+                const check = item.querySelector(".exercise-filter-option-check");
+                if (check) check.textContent = ativo ? "✓" : "";
+            });
+
+            const current = trigger?.querySelector(".exercise-filter-current");
+            if (current) current.textContent = option.textContent.trim().replace(/✓/g, "").trim();
+            fecharMenu();
+            renderResultadosPesquisa(search?.value || "");
+        });
+    });
+
+    if (abrirImediatamente) abrirMenu();
+}
+
+function abrirPopupExercicioPersonalizado() {
+    document.getElementById("customExerciseOverlay")?.remove();
+
+    const searchValue = document.getElementById("exerciseSearch")?.value?.trim() || "";
+    const grupos = ["Peito", "Costas", "Ombros", "Braços", "Pernas", "Glúteos", "Core", "Cardio", "Mobilidade"];
+    const maquinas = ["Sem equipamento", "Peso Corporal", ...EQUIPAMENTOS_GINASIO];
+    const grupoInferido = inferirGrupoExercicio(searchValue);
+    const grupoInicial = grupos.includes(grupoInferido) ? grupoInferido : "";
+    const tipoInferidoInicial = inferirTipoExercicio(searchValue || "Novo exercício", grupoInicial);
+    const tipoInicial = tipoInferidoInicial !== "outro" && TIPOS_EXERCICIO[tipoInferidoInicial] ? tipoInferidoInicial : "musculacao";
+    const maquinaInferida = searchValue ? maquinaPorExercicio(searchValue) : "Sem equipamento";
+    const maquinaInicial = maquinas.includes(maquinaInferida) ? maquinaInferida : "Sem equipamento";
+
+    const overlay = document.createElement("div");
+    overlay.className = "custom-exercise-overlay open";
+    overlay.id = "customExerciseOverlay";
+    overlay.innerHTML = `<div class="custom-exercise-modal" id="customExerciseModal" role="dialog" aria-modal="true" aria-labelledby="customExerciseTitle"></div>`;
+    document.body.appendChild(overlay);
+    const modal = document.getElementById("customExerciseModal");
+    let escapeHandler;
+
+    const close = () => {
+        overlay.remove();
+        if (escapeHandler) document.removeEventListener("keydown", escapeHandler);
+    };
+    overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
+    escapeHandler = e => { if (e.key === "Escape") close(); };
+    document.addEventListener("keydown", escapeHandler);
+
+    function bindCloseButtons() {
+        document.getElementById("closeCustomExercise")?.addEventListener("click", close);
+        document.getElementById("cancelCustomExercise")?.addEventListener("click", close);
+    }
+
+    function renderDetailsStep(values = {}) {
+        modal.classList.remove("characteristics-step");
+        modal.innerHTML = `
+            <div class="custom-exercise-modal-top">
+                <div>
+                    <span class="eyebrow">NOVO EXERCÍCIO</span>
+                    <h2 id="customExerciseTitle">Adicionar exercício personalizado</h2>
+                    <p class="muted">Cria o exercício e guarda-o na tua biblioteca.</p>
+                </div>
+                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
+            </div>
+            <div class="custom-exercise-form">
+                <div class="custom-exercise-field">
+                    <label for="customExerciseName">Nome do exercício</label>
+                    <input id="customExerciseName" class="input" type="text" maxlength="80"
+                </div>
+                <div class="custom-exercise-field">
+                    <label for="customExerciseGroup">Grupo muscular</label>
+                    <select id="customExerciseGroup" class="input" required>
+                        <option value="" disabled ${!(values.grupo ?? grupoInicial) ? "selected" : ""}>Seleciona um grupo muscular</option>
+                        ${grupos.map(grupo => `<option value="${escaparAtributo(grupo)}" ${grupo === (values.grupo ?? grupoInicial) ? "selected" : ""}>${escapeHtml(grupo)}</option>`).join("")}
+                    </select>
+                </div>
+                <div class="custom-exercise-field">
+                    <label for="customExerciseType">Tipo de exercício</label>
+                    <select id="customExerciseType" class="input">
+                        ${Object.entries(TIPOS_EXERCICIO).filter(([key]) => key !== "outro").map(([key, value]) => `<option value="${escaparAtributo(key)}" ${key === (values.tipo ?? tipoInicial) ? "selected" : ""}>${escapeHtml(value.label)}</option>`).join("")}
+                    </select>
+                </div>
+                <div class="custom-exercise-field">
+                    <label for="customExerciseMachine">Equipamento</label>
+                    <select id="customExerciseMachine" class="input">
+                        ${maquinas.map(maquina => `<option value="${escaparAtributo(maquina)}" ${maquina === (values.maquina ?? maquinaInicial) ? "selected" : ""}>${escapeHtml(maquina)}</option>`).join("")}
+                    </select>
+                </div>
+                <div class="custom-exercise-actions">
+                    <button type="button" class="secondary-btn" id="cancelCustomExercise">Cancelar</button>
+                    <button type="button" class="primary-btn" id="saveCustomExercise">Adicionar exercício</button>
+                </div>
+            </div>
+        `;
+        bindCloseButtons();
+        const nameInput = document.getElementById("customExerciseName");
+
+        document.getElementById("saveCustomExercise").onclick = () => {
+            const draft = {
+                nome: nameInput?.value.trim() || "",
+                grupo: document.getElementById("customExerciseGroup")?.value || "",
+                tipo: document.getElementById("customExerciseType")?.value || "musculacao",
+                maquina: document.getElementById("customExerciseMachine")?.value || "Sem equipamento",
+                descricao: ""
+            };
+            if (!draft.nome) {
+                alert("Indica o nome do exercício.");
+                nameInput?.focus();
+                return;
+            }
+            if (!draft.grupo || !grupos.includes(draft.grupo)) {
+                alert("Seleciona um grupo muscular válido.");
+                document.getElementById("customExerciseGroup")?.focus();
+                return;
+            }
+            const jaExiste = construirBibliotecaExercicios().some(item =>
+                normalizarTexto(item.nome) === normalizarTexto(draft.nome)
+            );
+            if (jaExiste) {
+                alert("Já existe um exercício com esse nome na biblioteca.");
+                nameInput?.focus();
+                return;
+            }
+            renderCharacteristicsStep(draft, values.parametrosSeries || []);
+        };
+
+        requestAnimationFrame(() => {
+            const current = document.getElementById("customExerciseName");
+            current?.focus();
+            if (current && !values.nome) current.select();
+        });
+    }
+
+    function renderCharacteristicsStep(draft, previouslySelected = []) {
+        modal.classList.add("characteristics-step");
+        const options = Object.entries(PARAMETROS).filter(([key]) => key !== "series");
+        const selected = new Set(previouslySelected);
+        modal.innerHTML = `
+            <div class="custom-exercise-modal-top">
+                <div>
+                    <span class="eyebrow">CONFIGURAR EXERCÍCIO</span>
+                    <h2 id="customExerciseTitle">Características das séries</h2>
+                </div>
+                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
+            </div>
+            <div class="custom-characteristics-exercise">
+                <strong>${escapeHtml(draft.nome)}</strong>
+                <span>${escapeHtml(draft.grupo)} · ${escapeHtml(TIPOS_EXERCICIO[draft.tipo]?.label || "Exercício")}</span>
+            </div>
+            <div class="custom-characteristics-heading">
+                <strong>Dados a registar</strong>
+            </div>
+            <div class="custom-characteristics-grid">
+                ${options.map(([key, cfg]) => {
+                    const label = key === "carga" ? "Peso / carga" : cfg.label;
+                    const unit = cfg.unit ? ` (${cfg.unit})` : "";
+                    return `<label class="custom-characteristic-option" for="custom-param-${key}">
+                        <input type="checkbox" id="custom-param-${key}" data-custom-param="${key}" ${selected.has(key) ? "checked" : ""}>
+                        <span><strong>${escapeHtml(label)}${unit}</strong></span>
+                    </label>`;
+                }).join("")}
+            </div>
+            <div class="custom-characteristics-note">O número de séries é definido a seguir.</div>
+            <div class="custom-exercise-actions">
+                <button type="button" class="secondary-btn" id="backCustomExercise">Voltar</button>
+                <button type="button" class="primary-btn" id="confirmCustomCharacteristics">Guardar e continuar</button>
+            </div>
+        `;
+        bindCloseButtons();
+        document.getElementById("backCustomExercise").onclick = () => {
+            const selectedNow = [...modal.querySelectorAll("[data-custom-param]:checked")].map(input => input.dataset.customParam);
+            renderDetailsStep({ ...draft, parametrosSeries: selectedNow });
+        };
+        document.getElementById("confirmCustomCharacteristics").onclick = () => {
+            const parametrosSeries = [...modal.querySelectorAll("[data-custom-param]:checked")]
+                .map(input => input.dataset.customParam)
+                .filter(key => Object.prototype.hasOwnProperty.call(PARAMETROS, key) && key !== "series");
+            if (!parametrosSeries.length) {
+                alert("Seleciona pelo menos uma característica para as séries.");
+                return;
+            }
+            const novo = {
+                id: `custom-${Date.now()}`,
+                nome: draft.nome,
+                grupo: draft.grupo,
+                tipo: draft.tipo,
+                parametrosSeries,
+                maquina: draft.maquina,
+                descricao: draft.descricao || "",
+                personalizado: true,
+                criadoEm: new Date().toISOString()
+            };
+            exerciciosPersonalizados.push(novo);
+            saveExerciciosPersonalizados();
+            close();
+            selecionarExercicio(novo.nome, true, novo);
+        };
+    }
+
+    renderDetailsStep();
+}
+
+function renderResultadosPesquisa(termo) {
+
+    const results =
+        document.getElementById(
+            "exerciseSearchResults"
+        );
+
+    const meta =
+        document.getElementById(
+            "exerciseSearchMeta"
+        );
+
+    if (!results) {
+        return;
+    }
+
+    const q =
+        String(termo || "").trim();
+
+    let lista =
+        pesquisarExercicios(termo);
+
+    if (favoritosApenas) {
+        lista = lista.filter(item =>
+            favoritosExercicios.includes(
+                normalizarTexto(item.nome)
+            )
+        );
+    }
+
+    if (filtroBiblioteca === "criados") {
+        lista = lista.filter(item => item.personalizado === true);
+    }
+
+    if (
+        filtroBiblioteca === "musculos" &&
+        valorFiltroBiblioteca !== "Todos"
+    ) {
+        lista = lista.filter(item =>
+            item.grupo === valorFiltroBiblioteca
+        );
+    }
+
+    if (
+        filtroBiblioteca === "maquinas" &&
+        valorFiltroBiblioteca !== "Todos"
+    ) {
+        lista = lista.filter(item =>
+            item.maquina === valorFiltroBiblioteca
+        );
+    }
+
+    if (meta) {
+        meta.textContent =
+            filtroBiblioteca === "criados"
+                ? `${lista.length} exercício(s) criado(s)`
+                : favoritosApenas
+                    ? `${lista.length} favorito(s)`
+                    : q
+                        ? `${lista.length} resultado(s)`
+                        : `${lista.length} exercícios disponíveis`;
+    }
+
+    const listaHtml =
+        lista
+            .map(item => {
+
+                const favorito =
+                    favoritosExercicios.includes(
+                        normalizarTexto(item.nome)
+                    );
+
+                return `
+                    <div class="exercise-search-result">
+
+                        <button
+                            type="button"
+                            class="exercise-add-button"
+                            data-exercise-name="${escaparAtributo(item.nome)}"
+                            aria-label="Adicionar ${escaparAtributo(item.nome)} ao treino"
+                            title="Adicionar ao treino"
+                        >
+                            <span class="exercise-search-result-icon" aria-hidden="true">
+                                <svg class="exercise-add-glyph" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg>
+                            </span>
+                        </button>
+
+                        <div class="exercise-search-result-copy">
+                            <strong>
+                                ${escapeHtml(item.nome)}
+                            </strong>
+
+                            <small>
+                                ${escapeHtml(item.grupo)}
+                                ·
+                                ${escapeHtml(item.maquina)}
+                                ${
+                                    item.personalizado
+                                        ? " · Personalizado"
+                                        : ""
+                                }
+                            </small>
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="exercise-favorite-button ${
+                                favorito ? "active" : ""
+                            }"
+                            data-favorite-name="${escaparAtributo(
+                                item.nome
+                            )}"
+                            aria-label="${
+                                favorito
+                                    ? "Remover dos favoritos"
+                                    : "Adicionar aos favoritos"
+                            }"
+                            title="${favorito ? "Remover dos favoritos" : "Adicionar aos favoritos"}"
+                        >
+                            ${favorito ? "★" : "☆"}
+                        </button>
+
+                        ${filtroBiblioteca === "criados" && item.personalizado ? `
+                            <button
+                                type="button"
+                                class="exercise-delete-button"
+                                data-delete-custom-id="${escaparAtributo(item.id || "")}" 
+                                data-delete-custom-name="${escaparAtributo(item.nome)}"
+                                aria-label="Apagar ${escaparAtributo(item.nome)} da biblioteca"
+                                title="Apagar exercício criado"
+                            >
+                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M3 6h18" />
+                                    <path d="M8 6V4h8v2" />
+                                    <path d="m19 6-1 14H6L5 6" />
+                                    <path d="M10 10v6M14 10v6" />
+                                </svg>
+                            </button>
+                        ` : ""}
+
+                    </div>
+                `;
+            })
+            .join("");
+
+    results.innerHTML =
+        lista.length
+            ? listaHtml
+            : `
+                <div class="exercise-search-empty">
+
+                    <div class="exercise-search-empty-icon">
+                        ${favoritosApenas ? "★" : "⌕"}
+                    </div>
+
+                    <strong>
+                        ${
+                            filtroBiblioteca === "criados"
+                                ? "Ainda não criaste exercícios personalizados."
+                                : favoritosApenas
+                                    ? "Ainda não tens favoritos."
+                                    : q
+                                        ? "Não encontrámos este exercício."
+                                        : "Pesquisa um exercício ou cria um novo."
+                        }
+                    </strong>
+
+                    <p>
+                        ${
+                            filtroBiblioteca === "criados"
+                                ? "Usa «Adicionar exercício personalizado» para criares o primeiro."
+                                : favoritosApenas
+                                    ? "Carrega na estrela dos exercícios para os guardar aqui."
+                                    : q
+                                        ? "Usa o botão + Criar no topo para adicionar um exercício personalizado."
+                                        : "Escreve o nome na caixa acima para procurar um exercício."
+                        }
+                    </p>
+
+                </div>
+            `;
+
+    // Só o botão + adiciona um exercício. Tocar no nome ou na seta
+    // não seleciona nem altera o treino.
+    results
+        .querySelectorAll(".exercise-add-button")
+        .forEach(btn => {
+
+            btn.onclick = event => {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const nome = btn.dataset.exerciseName;
+                const item = construirBibliotecaExercicios().find(
+                    x => normalizarTexto(x.nome) === normalizarTexto(nome)
+                );
+
+                selecionarExercicio(
+                    item?.nome || nome,
+                    !!item?.personalizado,
+                    item
+                );
+            };
+        });
+
+    results
+        .querySelectorAll(
+            ".exercise-favorite-button"
+        )
+        .forEach(btn => {
+
+            btn.onclick = e => {
+
+                e.stopPropagation();
+
+                const nome =
+                    normalizarTexto(
+                        btn.dataset.favoriteName
+                    );
+
+                const index =
+                    favoritosExercicios.indexOf(
+                        nome
+                    );
+
+                if (index === -1) {
+                    favoritosExercicios.push(nome);
+                } else {
+                    favoritosExercicios.splice(index, 1);
+                }
+
+                try {
+                    localStorage.setItem(
+                        STORAGE_FAVORITOS_EXERCICIOS,
+                        JSON.stringify(
+                            favoritosExercicios
+                        )
+                    );
+                } catch (error) {
+                    console.warn(
+                        "Favoritos localStorage:",
+                        error
+                    );
+                }
+
+                renderResultadosPesquisa(
+                    document.getElementById(
+                        "exerciseSearch"
+                    )?.value || ""
+                );
+            };
+        });
+
+    results.querySelectorAll(".exercise-delete-button").forEach(btn => {
+        btn.onclick = event => {
+            event.stopPropagation();
+
+            const id = btn.dataset.deleteCustomId || "";
+            const nome = btn.dataset.deleteCustomName || "";
+            const exercicio = exerciciosPersonalizados.find(item =>
+                (id && String(item.id || "") === id) ||
+                normalizarTexto(item.nome) === normalizarTexto(nome)
+            );
+
+            if (!exercicio) {
+                alert("Não foi possível encontrar este exercício criado.");
+                return;
+            }
+
+            const confirmado = window.confirm(
+                `Apagar «${exercicio.nome}» da biblioteca?\n\n` +
+                "Os treinos já guardados não serão alterados."
+            );
+            if (!confirmado) return;
+
+            exerciciosPersonalizados = exerciciosPersonalizados.filter(item =>
+                !((id && String(item.id || "") === id) ||
+                  normalizarTexto(item.nome) === normalizarTexto(exercicio.nome))
+            );
+            saveExerciciosPersonalizados();
+
+            favoritosExercicios = favoritosExercicios.filter(favorito =>
+                favorito !== normalizarTexto(exercicio.nome)
+            );
+            try {
+                localStorage.setItem(
+                    STORAGE_FAVORITOS_EXERCICIOS,
+                    JSON.stringify(favoritosExercicios)
+                );
+            } catch (error) {
+                console.warn("Favoritos localStorage:", error);
+            }
+
+            renderResultadosPesquisa(
+                document.getElementById("exerciseSearch")?.value || ""
+            );
+        };
+    });
+}
+
+
+/* =========================================================
+   SELECIONAR EXERCÍCIO
+   ========================================================= */
+
+function selecionarExercicio(
+    nome,
+    personalizado = false,
+    item = null
+) {
+
+    const input =
+        document.getElementById(
+            "exerciseName"
+        );
+
+    if (!input) {
+        return;
+    }
+
+
+    const tipoGuardado = item?.tipo;
+
+    const tipo =
+        tipoGuardado &&
+        tipoGuardado !== "outro" &&
+        TIPOS_EXERCICIO[tipoGuardado]
+            ? tipoGuardado
+            : inferirTipoExercicio(
+                nome,
+                item?.grupo
+            );
+
+
+    input.value =
+        nome;
+
+    input.dataset.personalizado =
+        personalizado
+            ? "true"
+            : "false";
+
+    input.dataset.tipo =
+        tipo;
+
+    input.dataset.grupo =
+        item?.grupo ||
+        inferirGrupoExercicio(
+            nome
+        );
+
+    input.dataset.maquina =
+        item?.maquina ||
+        maquinaPorExercicio(nome);
+
+    input.dataset.descricao =
+        item?.descricao ||
+        "";
+
+    input.dataset.parametrosSeries = JSON.stringify(
+        Array.isArray(item?.parametrosSeries) ? item.parametrosSeries : []
+    );
+
+
+    const hint =
+        document.getElementById(
+            "exerciseSelectionHint"
+        );
+
+
+    if (hint) {
+
+        hint.innerHTML =
+            personalizado
+                ? `
+                    <span class="custom-selected-badge">
+                        ✦ Exercício personalizado
+                    </span>
+
+                    ${Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length
+                        ? "Características já definidas."
+                        : "Seleciona o tipo de exercício."}
+                `
+                : `
+                    <span class="existing-selected-badge">
+                        ✓ Exercício selecionado
+                    </span>
+
+                    ${escapeHtml(
+                        item?.grupo ||
+                        inferirGrupoExercicio(
+                            nome
+                        )
+                    )}
+                `;
+    }
+
+
+    fecharSeletorExercicio();
+
+
+    const wrap =
+        document.getElementById(
+            "exerciseTypeWrap"
+        );
+
+
+    if (personalizado && !(Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length)) {
+
+        wrap.innerHTML = `
+
+            <div class="exercise-type-block">
+
+                <label for="exerciseType">
+                    Tipo de exercício
+                </label>
+
+                <select
+                    id="exerciseType"
+                    class="input"
+                >
+
+                    ${Object.entries(TIPOS_EXERCICIO)
+                        .filter(([key]) => key !== "outro")
+                        .map(
+                            ([key, v]) => `
+
+                                <option
+                                    value="${key}"
+                                    ${
+                                        key === tipo
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    ${v.label}
+                                </option>
+
+                            `
+                        )
+                        .join("")}
+
+                </select>
+
+            </div>
+
+        `;
+
+    } else {
+
+        wrap.innerHTML =
+            "";
+    }
+
+
+    document.getElementById(
+        "seriesSetup"
+    ).hidden =
+        false;
+
+
+    document.getElementById(
+        "exerciseFields"
+    ).innerHTML =
+        "";
+
+
+    document.getElementById(
+        "saveExercise"
+    ).hidden =
+        true;
+}
+
+
+/* =========================================================
+   GUARDAR NOVO EXERCÍCIO
+   ========================================================= */
+
+function guardarExercicio() {
+
+    const nameInput =
+        document.getElementById(
+            "exerciseName"
+        );
+
+    const container =
+        document.getElementById(
+            "exerciseFields"
+        );
+
+
+    const nome =
+        nameInput?.value.trim();
+
+
+    if (!nome) {
+
+        return alert(
+            "Escolhe um exercício."
+        );
+    }
+
+
+    const tipo =
+        document.getElementById(
+            "exerciseType"
+        )?.value ||
+        nameInput.dataset.tipo ||
+        inferirTipoExercicio(
+            nome,
+            nameInput.dataset.grupo
+        );
+
+
+    let parametrosSeries = [];
+    try {
+        parametrosSeries = JSON.parse(nameInput?.dataset.parametrosSeries || "[]");
+    } catch (_) {
+        parametrosSeries = [];
+    }
+    if (!parametrosSeries.length) parametrosSeries = null;
+
+    const seriesData =
+        recolherSeries(
+            container,
+            tipo,
+            parametrosSeries
+        );
+
+
+    const error =
+        validarSeries(
+            tipo,
+            seriesData,
+            parametrosSeries
+        );
+
+
+    if (error) {
+        return alert(error);
+    }
+
+
+    const personal =
+        nameInput.dataset.personalizado ===
+        "true";
+    const grupo = nameInput.dataset.grupo || inferirGrupoExercicio(nome);
+
+
+    if (personal) {
+        const existentePersonalizado = exerciciosPersonalizados.find(
+            x => normalizarTexto(x.nome) === normalizarTexto(nome)
+        );
+
+        if (existentePersonalizado) {
+            existentePersonalizado.tipo = tipo;
+            if (parametrosSeries) existentePersonalizado.parametrosSeries = [...parametrosSeries];
+        } else {
+            exerciciosPersonalizados.push({
+                id: `custom-${Date.now()}`,
+                nome,
+                grupo,
+                tipo,
+                parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
+                maquina: nameInput.dataset.maquina || maquinaPorExercicio(nome),
+                descricao: nameInput.dataset.descricao || "",
+                criadoEm: new Date().toISOString()
+            });
+        }
+
+        saveExerciciosPersonalizados();
+    }
+
+
+    const t =
+        treinoAtual();
+    if (!t) {
+        return alert("Seleciona um treino antes de adicionar um exercício.");
+    }
+
+    const now =
+        Date.now();
+
+
+    const reg = {
+
+        id: now,
+
+        data:
+            formatarData(),
+
+        tipo,
+
+        parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
+
+        series:
+            seriesData.length,
+
+        seriesData
+    };
+
+
+    t.exercicios.push({
+
+        id: now,
+
+        nome,
+
+        grupo,
+
+        tipo,
+
+        personalizado:
+            personal,
+
+        parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
+
+        series:
+            seriesData.length,
+
+        seriesData,
+
+        historico: [
+            reg
+        ]
+    });
+
+
+    save();
+
+    renderTreino();
+}
+
+
+/* =========================================================
+   EDITAR EXERCÍCIO
+   ========================================================= */
+
+function abrirEditorExercicio(
+    exercicio
+) {
+
+    if (!exercicio) {
+        return;
+    }
+
+
+    document
+        .getElementById(
+            "exerciseEditorOverlay"
+        )
+        ?.remove();
+
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+
+    overlay.className =
+        "exercise-editor-overlay open";
+
+    overlay.id =
+        "exerciseEditorOverlay";
+
+
+    const count =
+        numeroSeriesExercicio(
+            exercicio
+        );
+
+
+    overlay.innerHTML = `
+
+        <div
+            class="exercise-editor"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="exercise-editor-top">
+
+                <div>
+
+                    <span class="eyebrow">
+                        ATUALIZAR EXERCÍCIO
+                    </span>
+
+                    <h2>
+                        ${escapeHtml(
+                            exercicio.nome
+                        )}
+                    </h2>
+
+                    <p class="muted">
+                        Atualiza cada série individualmente.
+                        A alteração será guardada como nova evolução.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="exercise-picker-close"
+                    id="closeExerciseEditor"
+                    aria-label="Fechar"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div
+                class="series-setup editor-series-setup"
+            >
+
+                <div class="series-count-row">
+
+                    <div>
+
+                        <label for="editorSeriesCount">
+                            Número de séries
+                        </label>
+
+                        <small>
+                            Podes aumentar ou reduzir
+                            o número de séries nesta atualização.
+                        </small>
+
+                    </div>
+
+                    <input
+                        id="editorSeriesCount"
+                        class="input series-count-input"
+                        type="number"
+                        min="1"
+                        max="30"
+                        value="${count}"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="exerciseEditorFields"
+                class="adaptive-exercise-fields"
+            ></div>
+
+
+            <button
+                class="primary-btn full"
+                id="saveExerciseEdition"
+            >
+                Guardar atualização
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    renderLinhasSeries(
+        document.getElementById(
+            "exerciseEditorFields"
+        ),
+        exercicio,
+        count
+    );
+
+
+    document.getElementById(
+        "editorSeriesCount"
+    ).addEventListener(
+        "change",
+        () => {
+
+            renderLinhasSeries(
+                document.getElementById(
+                    "exerciseEditorFields"
+                ),
+                exercicio,
+                Number(
+                    document.getElementById(
+                        "editorSeriesCount"
+                    ).value
+                ) || 1
+            );
+        }
+    );
+
+
+    document.getElementById(
+        "closeExerciseEditor"
+    ).onclick =
+        () =>
+            overlay.remove();
+
+
+    overlay.addEventListener(
+        "click",
+        e => {
+
+            if (
+                e.target === overlay
+            ) {
+                overlay.remove();
+            }
+        }
+    );
+
+
+    document.getElementById(
+        "saveExerciseEdition"
+    ).onclick =
+        () =>
+            guardarAtualizacaoExercicio(
+                exercicio
+            );
+}
+
+
+/* =========================================================
+   GUARDAR ATUALIZAÇÃO
+   ========================================================= */
+
+function guardarAtualizacaoExercicio(
+    exercicio
+) {
+
+    const tipo =
+        exercicio.tipo ||
+        inferirTipoExercicio(
+            exercicio.nome,
+            exercicio.grupo
+        );
+
+
+    const parametrosSeries = Array.isArray(exercicio.parametrosSeries)
+        ? [...exercicio.parametrosSeries]
+        : null;
+
+    const seriesData =
+        recolherSeries(
+            document.getElementById("exerciseEditorFields"),
+            tipo,
+            parametrosSeries
+        );
+
+
+    const err =
+        validarSeries(
+            tipo,
+            seriesData,
+            parametrosSeries
+        );
+
+
+    if (err) {
+        return alert(err);
+    }
+
+
+    const reg = {
+
+        id:
+            Date.now(),
+
+        data:
+            formatarData(),
+
+        tipo,
+
+        parametrosSeries: parametrosSeries ? [...parametrosSeries] : undefined,
+
+        series:
+            seriesData.length,
+
+        seriesData
+    };
+
+
+    const historico =
+        Array.isArray(
+            exercicio.historico
+        )
+            ? exercicio.historico
+            : [];
+
+
+    historico.push(
+        reg
+    );
+
+
+    exercicio.historico =
+        historico;
+
+
+    exercicio.series =
+        seriesData.length;
+
+
+    exercicio.seriesData =
+        seriesData;
+
+    if (parametrosSeries) {
+        exercicio.parametrosSeries = [...parametrosSeries];
+    }
+
+
+    Object.keys(
+        PARAMETROS
+    ).forEach(
+        p => {
+
+            if (p !== "series") {
+                delete exercicio[p];
+            }
+        }
+    );
+
+
+    Object.assign(
+        exercicio,
+        {
+            tipo
+        }
+    );
+
+
+    save();
+
+
+    document
+        .getElementById(
+            "exerciseEditorOverlay"
+        )
+        ?.remove();
+
+
+    renderTreino();
+}
+
+
+/* =========================================================
+   PROGRESSÃO
+   ========================================================= */
+
+function mostrarProgressao(
+    exercicio
+) {
+
+    if (!exercicio) {
+        return;
+    }
+
+
+    document
+        .getElementById(
+            "progressOverlay"
+        )
+        ?.remove();
+
+
+    const tipo =
+        exercicio.tipo ||
+        inferirTipoExercicio(
+            exercicio.nome,
+            exercicio.grupo
+        );
+
+
+    const h =
+        Array.isArray(
+            exercicio.historico
+        )
+            ? exercicio.historico
+            : [];
+
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+
+    overlay.className =
+        "progress-overlay open";
+
+    overlay.id =
+        "progressOverlay";
+
+
+    const historyHtml =
+        h.length
+
+            ? h
+                  .map(
+                      row => {
+
+                          const series =
+                              historicoComSeries(
+                                  exercicio,
+                                  row
+                              );
+
+                          return `
+                              <article class="progress-history-entry">
+
+                                  <div class="progress-history-date">
+                                      ${escapeHtml(
+                                          row.data ||
+                                          "—"
+                                      )}
+                                  </div>
+
+                                  <div class="progress-history-series">
+
+                                      ${series
+                                          .map(
+                                              (s, i) => `
+
+                                                  <div class="progress-history-series-row">
+
+                                                      <span>
+                                                          Série ${i + 1}
+                                                      </span>
+
+                                                      <strong>
+                                                          ${escapeHtml(
+                                                              serieResumo(
+                                                                  tipo,
+                                                                  s,
+                                                                  row.parametrosSeries || exercicio.parametrosSeries
+                                                              ) ||
+                                                              "Sem valores"
+                                                          )}
+                                                      </strong>
+
+                                                  </div>
+
+                                              `
+                                          )
+                                          .join("")}
+
+                                  </div>
+
+                              </article>
+                          `;
+                      }
+                  )
+                  .join("")
+
+            : `
+                <div class="progress-empty">
+
+                    <strong>
+                        Ainda não existe histórico.
+                    </strong>
+
+                    <p>
+                        As atualizações guardadas
+                        neste exercício aparecerão aqui.
+                    </p>
+
+                </div>
+            `;
+
+
+    overlay.innerHTML = `
+
+        <div
+            class="progress-modal"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="exercise-editor-top">
+
+                <div>
+
+                    <span class="eyebrow">
+                        PROGRESSÃO
+                    </span>
+
+                    <h2>
+                        ${escapeHtml(
+                            exercicio.nome
+                        )}
+                    </h2>
+
+                    <p class="muted">
+                        Histórico de evolução · apenas consulta
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="exercise-picker-close"
+                    id="closeProgress"
+                    aria-label="Fechar"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="progress-history-list">
+
+                ${historyHtml}
+
+            </div>
+
+
+            <div class="progress-readonly-note">
+
+                🔒 Consulta apenas.
+                Para registar novos valores,
+                utiliza o botão
+                <strong>
+                    Atualizar
+                </strong>
+                no exercício.
+
+            </div>
+
+
+            <div class="progress-actions">
+
+                <button
+                    class="secondary-btn"
+                    id="closeProgressBottom"
+                >
+                    Fechar
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    document.getElementById(
+        "closeProgress"
+    ).onclick =
+        () =>
+            overlay.remove();
+
+
+    document.getElementById(
+        "closeProgressBottom"
+    ).onclick =
+        () =>
+            overlay.remove();
+
+
+    overlay.addEventListener(
+        "click",
+        e => {
+
+            if (
+                e.target === overlay
+            ) {
+                overlay.remove();
+            }
+        }
+    );
+}
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    renderTreino
+);
+/* =========================================================
+   FIX ZOOM AUTOMÁTICO EM CAMPOS E BOTÕES NO TELEMÓVEL
+   - O input fica com 16px para o Safari não ampliar ao focar.
+   - Os dias da semana usam touch-action: manipulation para evitar
+     o zoom de duplo toque, preservando o zoom manual por pinça.
+   ========================================================= */
+(function instalarAjustesZoomToque() {
+    if (document.getElementById("vf-mobile-zoom-fix")) return;
+
+    const style = document.createElement("style");
+    style.id = "vf-mobile-zoom-fix";
+    style.textContent = `
+        @media (max-width: 768px) {
+            #customExerciseName {
+                font-size: 16px !important;
+            }
+        }
+
+        .days-selector .day-button,
+        .days-selector .day-button * {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+    `;
+    document.head.appendChild(style);
+})();
+
+/* =========================================================
+   FIX iPHONE: bloquear gestos de zoom dentro da aplicação
+   Mantém o scroll normal com um dedo; bloqueia pinça/multitoque.
+   ========================================================= */
+(function instalarProtecaoZoomAplicacao() {
+    if (window.__vfGymZoomProtectionInstalled) return;
+    window.__vfGymZoomProtectionInstalled = true;
+
+    const impedirZoomGestual = event => {
+        if (event && event.cancelable) event.preventDefault();
+    };
+
+    // Eventos de gesto específicos do Safari/WebKit.
+    ["gesturestart", "gesturechange", "gestureend"].forEach(tipo => {
+        document.addEventListener(tipo, impedirZoomGestual, { passive: false });
+    });
+
+    // Fallback para browsers que expõem a pinça como multitouch.
+    document.addEventListener("touchmove", event => {
+        if (event.touches && event.touches.length > 1) {
+            impedirZoomGestual(event);
+        }
+    }, { passive: false });
+})();
