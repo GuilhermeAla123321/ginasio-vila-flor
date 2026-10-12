@@ -1,4 +1,5 @@
 {
+  
   "localVideos": [
     {
       "id": "hip-abduction",
@@ -276,112 +277,6 @@
         "Leg Press"
       ],
       "file": "assets/exercises/videos/leg-press.mp4"
-    },
-    {
-      "id": "treadmill-walk",
-      "exercise": "Caminhada",
-      "equipment": [
-        "Passadeira"
-      ],
-      "file": "assets/exercises/videos/caminhada.mp4"
-    },
-    {
-      "id": "treadmill-incline-walk",
-      "exercise": "Caminhada inclinada",
-      "equipment": [
-        "Passadeira"
-      ],
-      "file": "assets/exercises/videos/caminhada-inclinada.mp4"
-    },
-    {
-      "id": "stationary-bike-cardio",
-      "exercise": "Pedalagem moderada",
-      "equipment": [
-        "Bicicleta"
-      ],
-      "file": "assets/exercises/videos/bicicleta.mp4"
-    },
-    {
-      "id": "elliptical-cardio",
-      "exercise": "Cardio moderado",
-      "equipment": [
-        "Elíptica"
-      ],
-      "file": "assets/exercises/videos/eliptica.mp4"
-    },
-    {
-      "id": "rowing-cardio",
-      "exercise": "Intervalos no remo",
-      "aliases": [
-        "Resistência no remo"
-      ],
-      "equipment": [
-        "Máquina de Remo"
-      ],
-      "file": "assets/exercises/videos/remo.mp4"
-    },
-    {
-      "id": "dumbbell-incline-row",
-      "exercise": "Remada inclinada com halteres",
-      "aliases": [
-        "Remadas inclinada"
-      ],
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/remada-inclinada.mp4"
-    },
-    {
-      "id": "bulgarian-split-squat",
-      "exercise": "Agachamento búlgaro",
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/agachamento-bulgaro.mp4"
-    },
-    {
-      "id": "dumbbell-chest-fly",
-      "exercise": "Crucifixo com halteres",
-      "aliases": [
-        "Crucifixo com pesos livres"
-      ],
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/crucifixo.mp4"
-    },
-    {
-      "id": "dumbbell-incline-curl",
-      "exercise": "Rosca inclinada com halteres",
-      "aliases": [
-        "Rosca de bíceps"
-      ],
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/rosca-de-biceps.mp4"
-    },
-    {
-      "id": "dumbbell-shoulder-press",
-      "exercise": "Press de ombros com halteres",
-      "aliases": [
-        "Prensa de ombros com halteres"
-      ],
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/prensa-de-ombros.mp4"
-    },
-    {
-      "id": "dumbbell-incline-bench-press",
-      "exercise": "Supino inclinado com pesos livres",
-      "aliases": [
-        "Supino inclinado com halteres"
-      ],
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/supino-inclinado-halteres.mp4"
     }
   ]
 }
