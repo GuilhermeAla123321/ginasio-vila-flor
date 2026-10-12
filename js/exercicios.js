@@ -1,19 +1,7 @@
 const exerciciosBiblioteca=[
-
-
-
 {
-
-
-
  nome:"Supino Reto",
-
-
-
  grupo:"Peito",
-
-
-
  classe:"t-peito",
 
 
@@ -1485,53 +1473,16 @@ function fecharExercicioModal(){
   overlay.classList.remove("open");
   document.body.style.overflow = "";
 }
-
 document.addEventListener("DOMContentLoaded",()=>{
-
-
-
  const overlay=document.getElementById("exerciseModalOverlay");
-
-
-
  const close=document.getElementById("exerciseModalClose");
-
-
-
  close?.addEventListener("click",fecharExercicioModal);
-
-
-
  overlay?.addEventListener("click",e=>{
-
-
-
   if(e.target===overlay)
-
-
-
    fecharExercicioModal();
-
-
-
  });
-
-
-
  document.addEventListener("keydown",e=>{
-
-
-
   if(e.key==="Escape" && overlay?.classList.contains("open"))
-
-
-
    fecharExercicioModal();
-
-
-
  });
-
-
-
 });
