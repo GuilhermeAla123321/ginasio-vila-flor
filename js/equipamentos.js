@@ -272,7 +272,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Resistência",
+            nome: "Resistência na bicicleta",
             grupo: "Cardio",
             icon: "🔁",
             desc: "Pedalagem com resistência elevada e ritmo controlado para desenvolver resistência muscular.",
@@ -351,7 +351,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Resistência",
+            nome: "Resistência na elíptica",
             grupo: "Cardio",
             icon: "💪",
             desc: "Trabalho contínuo na elíptica com maior resistência para aumentar a exigência muscular.",
@@ -390,7 +390,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Intervalos",
+            nome: "Intervalos na elíptica",
             grupo: "Cardio",
             icon: "⏱️",
             desc: "Alternância de períodos rápidos e períodos de recuperação na elíptica.",
@@ -430,7 +430,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
 
     "Máquina de Remo": [
         {
-            nome: "Intervalos",
+            nome: "Intervalos no remo",
             grupo: "Cardio",
             icon: "⏱️",
             desc: "Blocos de remada intensa alternados com recuperação.",
@@ -464,12 +464,13 @@ const EQUIPAMENTOS_EXERCICIOS = {
             ],
             sugestoes: [
                 "Usa intervalos curtos no início.",
-                "Controla o ritmo por 250–500 m ou por tempo."
+                "Controla o ritmo por 250–500 m ou por tempo.",
+                "Para blocos muito curtos, experimenta 15–20 segundos fortes com recuperação a ritmo leve."
             ]
         },
 
         {
-            nome: "Resistência",
+            nome: "Resistência no remo",
             grupo: "Cardio",
             icon: "💪",
             desc: "Remada contínua a intensidade moderada para desenvolver resistência.",
@@ -511,6 +512,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
     "Smith Machine": [
         {
             nome: "Agachamento na Smith Machine",
+            videoId: "smith-squat",
             grupo: "Pernas",
             icon: "🏋️",
             desc: "Agachamento guiado com a barra da Smith Machine para trabalhar principalmente pernas e glúteos.",
@@ -548,7 +550,8 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Supino na Smith Machine",
+            nome: "Supino reto na Smith Machine",
+            videoId: "smith-bench-press",
             gif: "assets/exercises/smith-bench-press.gif",
             grupo: "Peito",
             icon: "🏋️",
@@ -623,7 +626,8 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Shoulder Press na Smith Machine",
+            nome: "Press de ombros na Smith Machine",
+            videoId: "smith-shoulder-press",
             grupo: "Ombros",
             icon: "🏋️",
             desc: "Press vertical guiado para desenvolver os ombros.",
@@ -657,6 +661,44 @@ const EQUIPAMENTOS_EXERCICIOS = {
                 "Usa amplitude confortável.",
                 "Controla a descida."
             ]
+        },
+        {
+            nome: "Elevação de gémeos na Smith Machine",
+            videoId: "smith-calf-raise",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Elevação dos calcanhares com a barra guiada da Smith Machine.",
+            passos: [
+                "Coloca a barra sobre a parte superior das costas e os pés numa posição estável.",
+                "Eleva os calcanhares de forma controlada, mantendo os joelhos quase estendidos.",
+                "Faz uma pausa breve no topo sem balançar o corpo.",
+                "Desce os calcanhares lentamente até sentires o alongamento dos gémeos."
+            ],
+            erros: ["Usar balanço para levantar os calcanhares.", "Fazer a descida demasiado depressa.", "Usar carga excessiva ou uma plataforma instável."],
+            musculos: ["Gémeos", "Sóleo"],
+            beneficios: ["Trabalha a musculatura da barriga da perna", "Permite uma trajetória guiada"],
+            dificuldade: "Intermédio",
+            cuidados: ["Confirma o bloqueio da barra e usa uma carga controlável."],
+            sugestoes: ["Controla tanto a subida como a descida."]
+        },
+        {
+            nome: "Supino inclinado na Smith Machine",
+            videoId: "smith-incline-bench-press",
+            grupo: "Peito",
+            icon: "🏋️",
+            desc: "Press inclinado com barra guiada, com ênfase na região superior do peitoral.",
+            passos: [
+                "Ajusta o banco a uma inclinação moderada e confirma que está estável na Smith Machine.",
+                "Posiciona-te com os pés apoiados e as omoplatas estáveis no banco.",
+                "Desce a barra de forma controlada em direção à parte superior do peito.",
+                "Empurra a barra para cima mantendo os ombros controlados e sem bloquear agressivamente os cotovelos."
+            ],
+            erros: ["Usar uma inclinação excessiva do banco.", "Descer a barra sem controlo.", "Usar carga que comprometa a posição dos ombros."],
+            musculos: ["Peitoral superior", "Tríceps", "Deltóide anterior"],
+            beneficios: ["Dá ênfase à região superior do peito", "A trajetória guiada facilita o controlo"],
+            dificuldade: "Intermédio",
+            cuidados: ["Confirma o apoio do banco e o bloqueio de segurança da barra."],
+            sugestoes: ["Começa com carga leve e controla a fase de descida."]
         }
     ],
 
@@ -694,6 +736,32 @@ const EQUIPAMENTOS_EXERCICIOS = {
             sugestoes: [
                 "Mantém escápulas estáveis e movimento controlado."
             ]
+        },
+
+        {
+            nome: "Supino inclinado com pesos livres",
+            grupo: "Peito",
+            icon: "🏋️",
+            desc: "Press inclinado com barra ou halteres para trabalhar principalmente a região superior do peitoral.",
+            passos: [
+                "Ajusta o banco a uma inclinação moderada e mantém os pés apoiados no chão.",
+                "Posiciona a carga acima da parte superior do peito, com os ombros estáveis.",
+                "Desce a carga de forma controlada até uma amplitude confortável.",
+                "Empurra para cima sem perder a posição dos ombros nem bloquear agressivamente os cotovelos."
+            ],
+            erros: [
+                "Usar uma inclinação excessiva do banco.",
+                "Abrir demasiado os cotovelos ou perder a estabilidade dos ombros.",
+                "Deixar a carga cair rapidamente na descida."
+            ],
+            musculos: ["Peitoral superior", "Tríceps", "Deltóide anterior"],
+            beneficios: [
+                "Dá ênfase à região superior do peitoral",
+                "Permite progressão gradual de carga"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: ["Usa uma carga controlável e pede assistência quando necessário."],
+            sugestoes: ["Mantém as escápulas estáveis e controla a descida."]
         },
 
         {
@@ -1221,38 +1289,6 @@ const EXERCICIOS_EXTRA = {
     ],
 
     "Bicicleta": [
-        {
-            nome: "Cadência constante",
-            grupo: "Cardio",
-            icon: "🚴",
-            desc: "Pedalagem contínua mantendo uma cadência estável.",
-            passos: [
-                "Ajusta o banco.",
-                "Escolhe resistência leve a moderada.",
-                "Mantém cadência regular.",
-                "Reduz a resistência no final."
-            ],
-            erros: [
-                "Alterar a cadência constantemente.",
-                "Usar posição desconfortável."
-            ],
-            musculos: [
-                "Quadríceps",
-                "Glúteos",
-                "Gémeos"
-            ],
-            beneficios: [
-                "Melhora eficiência cardiovascular",
-                "Desenvolve resistência"
-            ],
-            dificuldade: "Iniciante",
-            cuidados: [
-                "Mantém movimento sem dor."
-            ],
-            sugestoes: [
-                "Procura um ritmo sustentável."
-            ]
-        },
 
         {
             nome: "Subidas simuladas",
@@ -1288,74 +1324,7 @@ const EXERCICIOS_EXTRA = {
         }
     ],
 
-    "Elíptica": [
-        {
-            nome: "Resistência contínua",
-            grupo: "Cardio",
-            icon: "🔄",
-            desc: "Trabalho contínuo na elíptica com resistência moderada.",
-            passos: [
-                "Coloca os pés corretamente.",
-                "Seleciona resistência moderada.",
-                "Mantém ritmo contínuo.",
-                "Reduz a resistência antes de terminar."
-            ],
-            erros: [
-                "Apoiar demasiado o peso nas pegas.",
-                "Fazer movimentos curtos sem controlo."
-            ],
-            musculos: [
-                "Quadríceps",
-                "Glúteos",
-                "Posteriores da coxa",
-                "Ombros"
-            ],
-            beneficios: [
-                "Melhora resistência",
-                "Baixo impacto"
-            ],
-            dificuldade: "Iniciante",
-            cuidados: [
-                "Mantém postura estável."
-            ],
-            sugestoes: [
-                "Usa movimentos amplos e controlados."
-            ]
-        },
-
-        {
-            nome: "Intervalos na elíptica",
-            grupo: "Cardio",
-            icon: "⏱️",
-            desc: "Alternância entre blocos rápidos e recuperação.",
-            passos: [
-                "Aquece.",
-                "Aumenta ritmo durante o bloco rápido.",
-                "Recupera a ritmo leve.",
-                "Repete os blocos."
-            ],
-            erros: [
-                "Começar demasiado forte.",
-                "Eliminar a recuperação."
-            ],
-            musculos: [
-                "Pernas",
-                "Glúteos",
-                "Core"
-            ],
-            beneficios: [
-                "Varia a intensidade",
-                "Desenvolve capacidade cardiovascular"
-            ],
-            dificuldade: "Intermédio",
-            cuidados: [
-                "Ajusta a duração ao teu nível."
-            ],
-            sugestoes: [
-                "Começa com 30 segundos rápidos e 60 de recuperação."
-            ]
-        }
-    ],
+    "Elíptica": [],
 
     "Máquina de Remo": [
         {
@@ -1389,40 +1358,6 @@ const EXERCICIOS_EXTRA = {
             ],
             sugestoes: [
                 "Controla o retorno da pega."
-            ]
-        },
-
-        {
-            nome: "Sprints no remo",
-            grupo: "Cardio",
-            icon: "⚡",
-            desc: "Intervalos curtos de remada intensa com recuperação ativa.",
-            passos: [
-                "Aquece a ritmo leve.",
-                "Aumenta a potência por um intervalo curto.",
-                "Recupera a ritmo fácil.",
-                "Repete conforme o plano."
-            ],
-            erros: [
-                "Perder a técnica quando aumenta a intensidade.",
-                "Recuperar demasiado pouco."
-            ],
-            musculos: [
-                "Pernas",
-                "Costas",
-                "Glúteos",
-                "Core"
-            ],
-            beneficios: [
-                "Melhora potência",
-                "Aumenta capacidade cardiovascular"
-            ],
-            dificuldade: "Avançado",
-            cuidados: [
-                "Prioriza sempre a técnica."
-            ],
-            sugestoes: [
-                "Começa com 15–20 segundos fortes."
             ]
         }
     ],
@@ -1599,7 +1534,7 @@ const EXERCICIOS_EXTRA = {
         },
 
         {
-            nome: "Remada com halteres",
+            nome: "Remada com Halteres",
             grupo: "Costas",
             icon: "🎯",
             desc: "Remada inclinada com halteres para trabalhar as costas.",
@@ -1631,9 +1566,6 @@ const EXERCICIOS_EXTRA = {
             ]
         },
 
-        {
-            
-        }
     ],
 
     "Peck Deck": [
@@ -1787,6 +1719,62 @@ Object.entries(EXERCICIOS_EXTRA).forEach(([equipamento, extras]) => {
     }
 });
 
+/* REGISTO DE EXERCÍCIOS COM VÍDEO LOCAL — os vídeos só são pedidos no modal. */
+const EXERCICIOS_COM_VIDEO_LOCAL = [
+    { equipamento: "Cadeira Extensora", nome: "Extensão de pernas", videoId: "knee-extension", grupo: "Pernas", icon: "🦵", desc: "Extensão dos joelhos na cadeira extensora, focada nos quadríceps.", passos: ["Ajusta o banco e o apoio dos tornozelos.", "Mantém as costas apoiadas e estende os joelhos de forma controlada.", "Faz uma breve pausa sem bloquear bruscamente os joelhos.", "Regressa lentamente à posição inicial."], erros: ["Usar balanço.", "Usar carga excessiva."] },
+    { equipamento: "Mesa Flexora", nome: "Flexão de pernas", videoId: "leg-curl", grupo: "Pernas", icon: "🦵", desc: "Flexão dos joelhos na mesa flexora para trabalhar os isquiotibiais.", passos: ["Ajusta a máquina e posiciona os tornozelos sob o apoio.", "Mantém a anca apoiada e flete os joelhos de forma controlada.", "Faz uma breve pausa no topo.", "Regressa lentamente à posição inicial."], erros: ["Levantar a bacia do banco.", "Deixar a carga cair na descida."] },
+    { equipamento: "Polia Multifuncional", nome: "Crucifixo na polia alta (peitoral inferior)", videoId: "cable-crossover-high", grupo: "Peito", icon: "💪", desc: "Crucifixo de cima para baixo na polia, com ênfase na região inferior do peitoral.", passos: ["Coloca as polias acima da altura dos ombros e segura as pegas.", "Mantém uma ligeira flexão dos cotovelos e o tronco estável.", "Aproxima as mãos à frente e abaixo do peito.", "Regressa lentamente sem perder o controlo."], erros: ["Usar impulso do tronco.", "Esticar excessivamente os cotovelos."] },
+    { equipamento: "Polia Multifuncional", nome: "Crucifixo na polia baixa (peitoral superior)", videoId: "cable-crossover-low", grupo: "Peito", icon: "💪", desc: "Crucifixo de baixo para cima na polia, com ênfase na região superior do peitoral.", passos: ["Coloca as polias numa posição baixa e segura as pegas.", "Mantém o peito aberto e os cotovelos ligeiramente fletidos.", "Eleva as mãos em arco até à frente da parte superior do peito.", "Regressa lentamente à posição inicial."], erros: ["Arquear a lombar.", "Transformar o movimento num press."] },
+    { equipamento: "Polia Multifuncional", nome: "Crucifixo invertido na polia", videoId: "cable-reverse-fly", grupo: "Ombros", icon: "🏋️", desc: "Abertura inversa na polia para trabalhar deltoide posterior e parte superior das costas.", passos: ["Coloca as pegas à altura dos ombros e cruza os cabos.", "Abre os braços lateralmente mantendo os cotovelos ligeiramente fletidos.", "Aperta as omoplatas sem elevar os ombros.", "Regressa devagar à posição inicial."], erros: ["Usar cargas excessivas.", "Compensar com o tronco."] },
+    { equipamento: "Polia Multifuncional", nome: "Elevação lateral unilateral na polia", videoId: "cable-lateral-raise-unilateral", grupo: "Ombros", icon: "🏋️", desc: "Elevação lateral unilateral com cabo para trabalhar o deltoide lateral.", passos: ["Coloca a polia na posição baixa e posiciona-te de lado.", "Segura a pega com o braço junto ao corpo.", "Eleva o braço lateralmente até perto da altura do ombro.", "Desce lentamente mantendo tensão no cabo."], erros: ["Inclinar o tronco para gerar impulso.", "Elevar o ombro em excesso."] },
+    { equipamento: "Polia Multifuncional", nome: "Extensão de tríceps com barra na polia", videoId: "cable-triceps-bar", grupo: "Braços", icon: "💪", desc: "Extensão de cotovelos na polia alta com barra reta.", passos: ["Liga uma barra à polia alta e mantém os cotovelos junto ao tronco.", "Empurra a barra para baixo até estender os cotovelos.", "Mantém os ombros estáveis.", "Regressa lentamente sem deixar a carga cair."], erros: ["Balançar o tronco.", "Afastar os cotovelos do corpo."] },
+    { equipamento: "Polia Multifuncional", nome: "Extensão de tríceps com corda na polia", videoId: "cable-triceps-rope", grupo: "Braços", icon: "💪", desc: "Extensão de tríceps na polia alta com corda.", passos: ["Segura a corda com os cotovelos junto ao tronco.", "Empurra para baixo estendendo os cotovelos.", "Separa ligeiramente as pontas da corda no final.", "Regressa de forma controlada."], erros: ["Usar balanço do corpo.", "Mover os cotovelos para a frente e para trás."] },
+    { equipamento: "Polia Multifuncional", nome: "Extensão unilateral de tríceps na polia", videoId: "cable-triceps-unilateral", grupo: "Braços", icon: "💪", desc: "Extensão unilateral do cotovelo na polia para isolar o tríceps.", passos: ["Ajusta a polia alta e segura a pega com uma mão.", "Mantém o cotovelo junto ao corpo.", "Estende o cotovelo sem rodar o tronco.", "Regressa lentamente e repete do outro lado."], erros: ["Rodar o tronco.", "Usar carga que comprometa o controlo."] },
+    { equipamento: "Polia Multifuncional", nome: "Coice de glúteo unilateral na polia", videoId: "cable-glute-kickback", grupo: "Pernas", icon: "🦵", desc: "Extensão unilateral da anca com cabo para trabalhar os glúteos.", passos: ["Coloca a correia no tornozelo e segura o apoio da máquina.", "Mantém o tronco estável e o joelho ligeiramente fletido.", "Leva a perna para trás sem arquear a lombar.", "Regressa lentamente sem deixar a pilha de pesos bater."], erros: ["Arquear a zona lombar.", "Rodar a bacia."] },
+    { equipamento: "Polia Multifuncional", nome: "Puxada de braços estendidos na polia", videoId: "cable-straight-arm-pulldown", grupo: "Costas", icon: "🎯", desc: "Puxada na polia alta com os braços quase estendidos para trabalhar dorsais.", passos: ["Fica de frente para a polia alta e segura a barra.", "Inclina ligeiramente o tronco e mantém os braços quase estendidos.", "Puxa a barra em arco até às coxas.", "Regressa devagar mantendo a tensão nas costas."], erros: ["Dobrar muito os cotovelos.", "Usar balanço do tronco."] },
+    { equipamento: "Polia Multifuncional", nome: "Rosca Bayesian na polia", videoId: "cable-bayesian-curl", grupo: "Braços", icon: "💪", desc: "Rosca de bíceps com o braço ligeiramente atrás do tronco e cabo baixo.", passos: ["Coloca a polia na posição baixa e vira as costas à máquina.", "Mantém o braço ligeiramente atrás do tronco.", "Flete o cotovelo sem mover o ombro.", "Desce lentamente até à posição inicial."], erros: ["Avançar o cotovelo.", "Rodar o tronco para ajudar."] },
+    { equipamento: "Polia Multifuncional", nome: "Rosca direta na polia", videoId: "cable-biceps-curl", grupo: "Braços", icon: "💪", desc: "Flexão dos cotovelos com barra na polia baixa para trabalhar os bíceps.", passos: ["Liga uma barra à polia baixa e mantém os cotovelos junto ao corpo.", "Flete os cotovelos elevando a barra.", "Evita balançar o tronco.", "Desce lentamente."], erros: ["Usar impulso.", "Avançar os cotovelos no topo."] },
+    { equipamento: "Polia Multifuncional", nome: "Tríceps francês com corda na polia", videoId: "cable-overhead-triceps-rope", grupo: "Braços", icon: "💪", desc: "Extensão dos cotovelos acima da cabeça com corda para trabalhar os tríceps.", passos: ["Fica de costas à polia e segura a corda acima ou atrás da cabeça.", "Mantém os cotovelos apontados para a frente.", "Estende os cotovelos sem arquear a lombar.", "Regressa de forma controlada."], erros: ["Abrir demasiado os cotovelos.", "Arquear a lombar."] },
+    { equipamento: "Polia Multifuncional", nome: "Puxada frontal pronada com barra", videoId: "lat-pulldown-pronated", grupo: "Costas", icon: "🎯", desc: "Puxada vertical com barra e pegada pronada para trabalhar dorsais.", passos: ["Senta-te e fixa as coxas sob o apoio, se disponível.", "Segura a barra com as palmas viradas para a frente.", "Puxa em direção à parte superior do peito.", "Regressa lentamente sem perder o controlo escapular."], erros: ["Puxar atrás da nuca.", "Usar balanço excessivo."] },
+    { equipamento: "Polia Multifuncional", nome: "Puxada frontal supinada", videoId: "lat-pulldown-supinated", grupo: "Costas", icon: "🎯", desc: "Puxada vertical com as palmas viradas para o utilizador, envolvendo dorsais e bíceps.", passos: ["Senta-te com as coxas estabilizadas.", "Segura a barra com pegada supinada.", "Puxa em direção à parte superior do peito.", "Regressa lentamente à extensão controlada dos braços."], erros: ["Inclinar excessivamente o tronco.", "Puxar atrás da nuca."] },
+    { equipamento: "Polia Multifuncional", nome: "Remada baixa com triângulo", videoId: "cable-seated-row-triangle", grupo: "Costas", icon: "🎯", desc: "Remada horizontal com pega triangular para trabalhar costas e bíceps.", passos: ["Senta-te de frente para a polia baixa e coloca os pés de forma estável.", "Puxa o triângulo em direção à zona inferior do peito/abdómen.", "Mantém o tronco estável e aproxima as omoplatas.", "Estende os braços de forma controlada."], erros: ["Arredondar a lombar.", "Inclinar o tronco para gerar impulso."] },
+    { equipamento: "Polia Multifuncional", nome: "Remada neutra unilateral na polia", videoId: "cable-seated-row-neutral-unilateral", grupo: "Costas", icon: "🎯", desc: "Remada unilateral com pega neutra para trabalhar dorsais e controlo de cada lado.", passos: ["Senta-te de frente para a polia baixa e segura a pega com uma mão.", "Puxa o cotovelo para trás junto ao tronco.", "Evita rodar a bacia ou o tronco.", "Regressa lentamente e troca de lado."], erros: ["Rodar o tronco.", "Encolher o ombro."] },
+    { equipamento: "Polia Multifuncional", nome: "Remada baixa pronada com barra", videoId: "cable-seated-row-pronated", grupo: "Costas", icon: "🎯", desc: "Remada horizontal na polia baixa com barra e pegada pronada.", passos: ["Senta-te de frente para a polia baixa e segura a barra com pegada pronada.", "Puxa a barra em direção ao tronco mantendo os cotovelos controlados.", "Mantém a coluna neutra.", "Estende os braços lentamente."], erros: ["Arredondar a coluna.", "Usar balanço para puxar."] },
+    { equipamento: "Polia Multifuncional", nome: "Puxada neutra com triângulo", videoId: "lat-pulldown-neutral-triangle", grupo: "Costas", icon: "🎯", desc: "Puxada vertical com pega triangular e pegada neutra.", passos: ["Senta-te e estabiliza as coxas sob o apoio.", "Segura o triângulo com as palmas viradas uma para a outra.", "Puxa a pega em direção à parte superior do peito.", "Regressa lentamente sem soltar a carga."], erros: ["Puxar atrás da nuca.", "Usar balanço do tronco."] },
+    { equipamento: "Máquina Abdutora/Adutora", nome: "Abdução da anca", videoId: "hip-abduction", grupo: "Pernas", icon: "🦵", desc: "Abertura das pernas na máquina abdutora.", passos: ["Senta-te com as costas apoiadas e ajusta os apoios.", "Abre as pernas de forma controlada.", "Faz uma breve pausa na abertura.", "Regressa lentamente sem deixar a carga bater."], erros: ["Usar balanço.", "Forçar uma amplitude desconfortável."] },
+    { equipamento: "Máquina Abdutora/Adutora", nome: "Adução da anca", videoId: "hip-adduction", grupo: "Pernas", icon: "🦵", desc: "Aproximação controlada das pernas na máquina adutora para trabalhar a parte interna das coxas.", passos: ["Senta-te com as costas apoiadas e ajusta os apoios internos.", "Aproxima as pernas de forma controlada.", "Mantém uma breve contração sem bater a carga.", "Regressa lentamente à posição inicial."], erros: ["Usar impulso.", "Usar amplitude excessiva ou desconfortável."] },
+    { equipamento: "Smith Machine", nome: "Remada curvada pronada na Smith Machine", videoId: "smith-row-pronated", grupo: "Costas", icon: "🎯", desc: "Remada curvada com barra guiada e pegada pronada.", passos: ["Posiciona-te de frente para a barra e segura-a com pegada pronada.", "Inclina o tronco a partir da anca mantendo a coluna neutra.", "Puxa a barra em direção à zona inferior do tronco.", "Desce de forma controlada mantendo o corpo estável."], erros: ["Arredondar a lombar.", "Usar impulso das ancas."] },
+    { equipamento: "Peck Deck", nome: "Crucifixo invertido com pegada neutra", videoId: "pec-deck-reverse-fly", grupo: "Ombros", icon: "🏋️", desc: "Abertura inversa no Peck Deck para o deltoide posterior.", passos: ["Ajusta o banco e posiciona o peito contra o apoio, quando aplicável.", "Segura as pegas com pegada neutra.", "Abre os braços para trás sem elevar os ombros.", "Regressa lentamente."], erros: ["Usar impulso.", "Encolher os ombros."] },
+    { equipamento: "Peck Deck", nome: "Crucifixo", videoId: "pec-deck-fly", grupo: "Peito", icon: "💪", desc: "Aproximação dos braços na máquina Peck Deck para trabalhar o peitoral.", passos: ["Ajusta o banco para que os braços fiquem alinhados com o peito.", "Mantém as costas apoiadas e os cotovelos ligeiramente fletidos.", "Aproxima as pegas à frente do peito.", "Abre lentamente até à amplitude confortável."], erros: ["Usar carga excessiva.", "Abrir demasiado os braços."] },
+    { equipamento: "Prensa de Ombros", nome: "Prensa de ombros com pegada neutra", videoId: "shoulder-press-neutral", grupo: "Ombros", icon: "🏋️", desc: "Press de ombros na máquina com pegada neutra.", passos: ["Ajusta o assento para que as pegas comecem aproximadamente à altura dos ombros.", "Segura as pegas com as palmas viradas uma para a outra.", "Empurra para cima mantendo as costas apoiadas.", "Desce controladamente."], erros: ["Arquear a lombar.", "Bloquear agressivamente os cotovelos."] },
+    { equipamento: "Prensa de Ombros", nome: "Prensa de ombros com pegada pronada", videoId: "shoulder-press-pronated", grupo: "Ombros", icon: "🏋️", desc: "Press de ombros na máquina com pegada pronada.", passos: ["Ajusta o assento e confirma a posição inicial.", "Segura as pegas com as palmas viradas para a frente.", "Empurra para cima sem perder o apoio das costas.", "Regressa lentamente à posição inicial."], erros: ["Arquear a lombar.", "Descer além da amplitude confortável."] },
+    { equipamento: "Banco de Peso", nome: "Supino reto com halteres", videoId: "flat-bench-dumbbell-press", grupo: "Peito", icon: "🏋️", desc: "Supino plano com halteres no banco reto.", passos: ["Deita-te no banco com os pés apoiados e halteres acima do peito.", "Desce os halteres de forma controlada para os lados do peito.", "Empurra para cima mantendo os ombros estáveis.", "Termina sem bater os halteres um no outro."], erros: ["Abrir excessivamente os cotovelos.", "Usar carga que comprometa o controlo."] },
+    { equipamento: "Leg Press", nome: "Leg Press", videoId: "leg-press", grupo: "Pernas", icon: "🦵", desc: "Press de pernas na máquina para quadríceps e glúteos.", passos: ["Ajusta o banco e coloca os pés à largura confortável na plataforma.", "Desbloqueia a máquina e desce controladamente.", "Empurra a plataforma sem bloquear bruscamente os joelhos.", "Mantém a lombar apoiada durante o movimento."], erros: ["Descer até a bacia rodar.", "Bloquear os joelhos com força."] }
+];
+
+(function registarExerciciosComVideoLocal() {
+    const normalizar = valor => String(valor || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-PT").trim();
+    EXERCICIOS_COM_VIDEO_LOCAL.forEach(definicao => {
+        const lista = EQUIPAMENTOS_EXERCICIOS[definicao.equipamento] || (EQUIPAMENTOS_EXERCICIOS[definicao.equipamento] = []);
+        const existente = lista.find(ex => normalizar(ex.nome) === normalizar(definicao.nome));
+        if (existente) {
+            existente.videoId = definicao.videoId;
+            return;
+        }
+        const { equipamento, ...exercicio } = definicao;
+        lista.push({
+            ...exercicio,
+            equipamento,
+            equipamentos: [equipamento],
+            dificuldade: "Intermédio",
+            cuidados: ["Usa uma carga que consigas controlar e interrompe se sentires dor."],
+            beneficios: [],
+            sugestoes: []
+        });
+    });
+})();
+
+
 function renderEquipamentos() {
 
     const list =
@@ -1858,7 +1846,12 @@ function abrirEquipamento(nome) {
         filtrosEquipamentos.style.display = "none";
     }
 
-    const exercicios = (EQUIPAMENTOS_EXERCICIOS[nome] || []).map(ex => ({ ...ex, equipamento: nome }));
+    const exercicios = (EQUIPAMENTOS_EXERCICIOS[nome] || []).map(ex => ({
+        ...ex,
+        id: ex.id || ex.videoId || slugExercicioBiblioteca(ex.nome),
+        equipamentos: [nome],
+        equipamento: nome
+    }));
 
     const gruposMusculares = [
         ...new Set(
@@ -2049,21 +2042,61 @@ function escaparHTMLBiblioteca(valor) {
     }[caracter]));
 }
 
+function slugExercicioBiblioteca(valor) {
+    return normalizarTextoBiblioteca(valor)
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
 function obterTodosExerciciosBiblioteca() {
-    const porEquipamento = Object.entries(EQUIPAMENTOS_EXERCICIOS || {}).flatMap(([equipamento, exercicios]) =>
-        (exercicios || [])
-            .filter(ex => ex && String(ex.nome || "").trim())
-            .map(ex => ({ ...ex, equipamento }))
-    );
+    const catalogo = new Map();
 
-    // A biblioteca-base tem exercícios gerais que nem sempre estão ligados a uma máquina.
-    // Acrescenta apenas os nomes que ainda não existem na biblioteca por equipamento.
-    const nomesExistentes = new Set(porEquipamento.map(ex => normalizarTextoBiblioteca(ex.nome)));
-    const gerais = (window.exerciciosBiblioteca || [])
-        .filter(ex => ex && String(ex.nome || "").trim() && !nomesExistentes.has(normalizarTextoBiblioteca(ex.nome)))
-        .map(ex => ({ ...ex, equipamento: ex.equipamento || "" }));
+    function adicionarAoCatalogo(ex, equipamento) {
+        if (!ex || !String(ex.nome || "").trim()) return;
+        const nome = String(ex.nome).trim();
+        // IDs de vídeo são IDs canónicos; os restantes exercícios recebem um ID estável pelo nome normalizado.
+        const id = String(ex.id || ex.videoId || slugExercicioBiblioteca(nome));
+        const chave = normalizarTextoBiblioteca(nome);
+        const nomeEquipamento = String(equipamento || ex.equipamento || "").trim();
+        const existente = catalogo.get(chave);
 
-    return [...porEquipamento, ...gerais];
+        if (!existente) {
+            const equipamentos = Array.isArray(ex.equipamentos)
+                ? [...ex.equipamentos]
+                : (nomeEquipamento ? [nomeEquipamento] : []);
+            catalogo.set(chave, {
+                ...ex,
+                id,
+                equipamentos: [...new Set(equipamentos)],
+                equipamento: [...new Set(equipamentos)].join(", ")
+            });
+            return;
+        }
+
+        const equipamentos = [...new Set([
+            ...(existente.equipamentos || []),
+            ...(Array.isArray(ex.equipamentos) ? ex.equipamentos : []),
+            ...(nomeEquipamento ? [nomeEquipamento] : [])
+        ])];
+        existente.equipamentos = equipamentos;
+        existente.equipamento = equipamentos.join(", ");
+        // Keep details/video metadata if they were absent on the first occurrence; never replace a known video ID with another one.
+        ["grupo", "desc", "dificuldade", "videoId", "gif", "png", "imagemPNG", "imagemPng"].forEach(campo => {
+            if ((existente[campo] == null || existente[campo] === "") && ex[campo] != null) existente[campo] = ex[campo];
+        });
+        ["passos", "erros", "cuidados", "musculos", "beneficios", "sugestoes"].forEach(campo => {
+            if ((!Array.isArray(existente[campo]) || !existente[campo].length) && Array.isArray(ex[campo])) existente[campo] = ex[campo];
+        });
+    }
+
+    Object.entries(EQUIPAMENTOS_EXERCICIOS || {}).forEach(([equipamento, exercicios]) => {
+        (exercicios || []).forEach(ex => adicionarAoCatalogo(ex, equipamento));
+    });
+
+    // Exercícios gerais que não existem já na fonte usada pelas páginas dos equipamentos.
+    (window.exerciciosBiblioteca || []).forEach(ex => adicionarAoCatalogo(ex, ex.equipamento || ""));
+
+    return [...catalogo.values()];
 }
 
 function gerarCartaoExercicio(ex, indice, classeAdicional = "") {
@@ -2075,8 +2108,11 @@ function gerarCartaoExercicio(ex, indice, classeAdicional = "") {
         ? `<img src="${escaparHTMLBiblioteca(png)}" alt="" loading="lazy">`
         : "";
     const mostrarEquipamento = String(classeAdicional).includes("exercise-library-card") && ex.equipamento;
-    const equipamento = mostrarEquipamento
-        ? `<p class="exercise-catalog-equipment">${escaparHTMLBiblioteca(ex.equipamento)}</p>`
+    const equipamentoGlobal = Array.isArray(ex.equipamentos) && ex.equipamentos.length
+        ? ex.equipamentos.join(", ")
+        : ex.equipamento;
+    const equipamento = mostrarEquipamento && equipamentoGlobal
+        ? `<p class="exercise-catalog-equipment">${escaparHTMLBiblioteca(equipamentoGlobal)}</p>`
         : "";
 
     return `<article class="exercise-catalog-card ${escaparHTMLBiblioteca(classeAdicional)}" role="button" tabindex="0" data-exercise-index="${indice}" aria-label="Ver exercício ${nome}">
@@ -2185,7 +2221,6 @@ function mostrarBibliotecaGlobal() {
     });
 
     renderizarResultados();
-    search.focus({ preventScroll: true });
 }
 
 function abrirDetalheExercicioBiblioteca(ex) {

@@ -1,0 +1,45 @@
+{
+  "localVideos": [
+    {
+      "id": "smith-squat",
+      "exercise": "Agachamento na Smith Machine",
+      "equipment": [
+        "Smith Machine"
+      ],
+      "file": "assets/exercises/videos/agachamento.mp4"
+    },
+    {
+      "id": "smith-bench-press",
+      "exercise": "Supino reto na Smith Machine",
+      "equipment": [
+        "Smith Machine"
+      ],
+      "file": "assets/exercises/videos/extensao-triceps.mp4",
+      "note": "O nome do ficheiro é antigo; a demonstração mostra supino reto na Smith Machine."
+    },
+    {
+      "id": "smith-calf-raise",
+      "exercise": "Elevação de gémeos na Smith Machine",
+      "equipment": [
+        "Smith Machine"
+      ],
+      "file": "assets/exercises/videos/flexao-de-gemeos.mp4"
+    },
+    {
+      "id": "smith-shoulder-press",
+      "exercise": "Press de ombros na Smith Machine",
+      "equipment": [
+        "Smith Machine"
+      ],
+      "file": "assets/exercises/videos/press-de-ombros.mp4"
+    },
+    {
+      "id": "smith-incline-bench-press",
+      "exercise": "Supino inclinado na Smith Machine",
+      "equipment": [
+        "Smith Machine"
+      ],
+      "file": "assets/exercises/videos/supino-inclinado.mp4"
+    }
+  ]
+}

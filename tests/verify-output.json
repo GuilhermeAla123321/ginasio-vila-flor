@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "globalUniqueExercises": 73,
+  "equipmentRecords": 68,
+  "localVideos": 34,
+  "videosWithExistingFiles": 34,
+  "manifestRequestsBeforeSelection": 0,
+  "manifestRequestsAfterAllSelections": 1,
+  "allVideosLazyLoadedAndReleased": true,
+  "uniqueCatalogNames": 73,
+  "smithMachineVideos": 6,
+  "pulleyVideos": 18,
+  "shoulderPressMachineVideos": 2,
+  "fallbackNameAndEquipmentLookup": true,
+  "serviceWorkerUpdateRegistration": true
+}

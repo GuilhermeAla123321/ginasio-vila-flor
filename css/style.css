@@ -6238,16 +6238,13 @@ body[data-theme="light"] .timer-wheel-selection {
 
 .timer-tone-settings {
     width: 100%;
-    padding-top: 2px;
+    padding-top: 16px;
     border-top: 1px solid var(--line, rgba(255,255,255,.08));
+    text-align: left;
 }
 
 .timer-tone-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin: 0 1px 8px;
+    margin: 0 1px 9px;
     text-align: left;
 }
 
@@ -6257,82 +6254,55 @@ body[data-theme="light"] .timer-wheel-selection {
     font-weight: 750;
 }
 
-.timer-tone-help {
-    color: var(--muted, #98a0b8);
-    font-size: 10px;
-    text-align: right;
-}
-
-.timer-tone-options {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-}
-
-.timer-tone-option {
-    min-width: 0;
+.timer-tone-preview-row {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 3px;
-    min-height: 75px;
-    padding: 8px 4px;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 54px;
+    padding: 10px 12px;
     border: 1px solid var(--line, rgba(255,255,255,.08));
     border-radius: 13px;
     background: rgba(255,255,255,.025);
-    color: var(--muted, #98a0b8);
-    transition: border-color .18s ease, background .18s ease, color .18s ease, transform .18s ease;
-    touch-action: manipulation;
 }
 
-.timer-tone-option:hover {
-    border-color: var(--line-bright, rgba(140,120,255,.26));
-    color: var(--text, #f6f7fb);
-}
-
-.timer-tone-option:active {
-    transform: scale(.98);
-}
-
-.timer-tone-option.active {
-    border-color: rgba(124,77,255,.55);
-    background: linear-gradient(145deg, rgba(124,77,255,.16), rgba(63,169,245,.08));
-    color: var(--text, #f6f7fb);
-    box-shadow: inset 0 0 0 1px rgba(124,77,255,.08);
-}
-
-.timer-tone-number {
-    width: 25px;
-    height: 25px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    border: 1px solid rgba(124,77,255,.22);
-    background: rgba(124,77,255,.1);
-    color: #bcaaff;
-    font-size: 11px;
-    font-weight: 800;
-}
-
-.timer-tone-option.active .timer-tone-number {
-    color: #fff;
-    border-color: transparent;
-    background: var(--gradient, linear-gradient(135deg,#7c4dff,#3fa9f5));
+.timer-tone-preview-copy {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    min-width: 0;
 }
 
 .timer-tone-name {
-    color: inherit;
-    font-size: 11px;
-    line-height: 1.2;
+    color: var(--text, #f6f7fb);
+    font-size: 12px;
+    line-height: 1.25;
     font-weight: 750;
 }
 
 .timer-tone-detail {
     color: var(--muted, #98a0b8);
-    font-size: 9px;
-    line-height: 1.2;
+    font-size: 11px;
+    line-height: 1.25;
 }
+
+.timer-tone-preview {
+    flex: 0 0 auto;
+    min-width: 64px;
+    min-height: 36px;
+    padding: 7px 12px;
+    border: 1px solid var(--line-bright, rgba(140,120,255,.26));
+    border-radius: 10px;
+    background: rgba(124,77,255,.08);
+    color: var(--text, #f6f7fb);
+    font-size: 11px;
+    font-weight: 750;
+    touch-action: manipulation;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.timer-tone-preview:hover { background: rgba(124,77,255,.14); }
+.timer-tone-preview:active { transform: scale(.98); }
 
 .timer-completion-popup[hidden] {
     display: none !important;
@@ -6451,17 +6421,11 @@ body[data-theme="light"] .timer-tone-title {
     color: #32253b;
 }
 
-body[data-theme="light"] .timer-tone-option {
+body[data-theme="light"] .timer-tone-preview-row {
     border-color: rgba(67,50,91,.12);
     background: rgba(67,50,91,.025);
-    color: #71657a;
 }
-
-body[data-theme="light"] .timer-tone-option.active {
-    border-color: rgba(124,77,255,.38);
-    background: linear-gradient(145deg, rgba(124,77,255,.1), rgba(63,169,245,.07));
-    color: #31263d;
-}
+body[data-theme="light"] .timer-tone-preview { color: #31263d; }
 
 body[data-theme="light"] .timer-completion-popup {
     border-color: rgba(124,77,255,.18);
@@ -6481,17 +6445,17 @@ body[data-theme="light"] .timer-completion-dismiss {
 }
 
 @media (max-width: 420px) {
-    .timer-tone-options { gap: 6px; }
-    .timer-tone-option { min-height: 70px; padding: 7px 2px; }
-    .timer-tone-name { font-size: 10px; }
-    .timer-tone-detail { font-size: 8px; }
+    
+    .timer-tone-preview { min-height: 36px; padding: 7px 10px; }
+    .timer-tone-name { font-size: 11px; }
+    .timer-tone-detail { font-size: 10px; }
     .timer-completion-popup { bottom: calc(96px + env(safe-area-inset-bottom)); gap: 9px; padding: 12px 10px; }
     .timer-completion-content strong { font-size: 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .timer-completion-popup { animation: none; }
-    .timer-tone-option { transition: none; }
+    .timer-tone-preview { transition: none; }
 }
 
 /* Timer — números limpos: sem cápsula, fundo, contorno ou borda no valor selecionado. */
@@ -6532,34 +6496,64 @@ body[data-theme="light"] .timer-wheel-option {
 body[data-theme="light"] .timer-wheel-option.selected {
     color: #271f31;
 }
-audio.timer-tone-audio { display: none !important; }
 
-
-/* Alertas de temporizador em segundo plano: adição progressiva, sem alterar os controlos existentes. */
+/* Alertas em segundo plano — resumo discreto e configuração apenas quando solicitada. */
 .timer-background-alerts {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 14px;
-    padding: 13px 12px;
-    border: 1px solid var(--line, rgba(255,255,255,.08));
-    border-radius: 14px;
-    background: rgba(255,255,255,.025);
+    display: block;
+    margin-top: 0;
+    padding: 15px 2px 0;
+    border: 0;
+    border-top: 1px solid var(--line, rgba(255,255,255,.08));
+    border-radius: 0;
+    background: transparent;
     text-align: left;
 }
-.timer-background-alerts-copy { min-width: 0; flex: 1; }
-.timer-background-alerts-copy strong { display: block; color: var(--text, #f6f7fb); font-size: 11px; font-weight: 800; line-height: 1.35; }
-.timer-background-alerts-copy p { margin: 4px 0 5px; color: var(--muted, #98a0b8); font-size: 10px; line-height: 1.45; }
-.timer-background-alerts-copy span { display: block; color: var(--muted, #98a0b8); font-size: 9px; line-height: 1.45; }
-.timer-background-alerts button { flex: 0 0 auto; min-height: 36px; padding: 8px 11px; white-space: nowrap; font-size: 10px; }
-.timer-background-alerts button:disabled { cursor: not-allowed; opacity: .56; }
-body[data-theme="light"] .timer-background-alerts { border-color: rgba(43,35,66,.12); background: rgba(67,50,91,.025); }
-body[data-theme="light"] .timer-background-alerts-copy strong { color: #31263d; }
-@media (max-width: 380px) {
-    .timer-background-alerts { align-items: stretch; flex-direction: column; gap: 8px; }
-    .timer-background-alerts button { align-self: flex-start; }
+.timer-background-alerts-copy { min-width: 0; }
+.timer-background-alerts-copy strong {
+    display: block;
+    color: var(--text, #f6f7fb);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.35;
 }
+.timer-background-alerts-copy p {
+    margin: 4px 0 7px;
+    color: var(--muted, #98a0b8);
+    font-size: 11px;
+    line-height: 1.45;
+}
+.timer-background-settings { margin-top: 7px; }
+.timer-background-settings summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    color: var(--muted, #98a0b8);
+    font-size: 11px;
+    font-weight: 650;
+    cursor: pointer;
+    text-underline-offset: 3px;
+}
+.timer-background-settings summary:hover { color: var(--text, #f6f7fb); }
+.timer-background-settings[open] { display: grid; justify-items: start; gap: 8px; }
+.timer-background-settings span {
+    display: block;
+    max-width: 100%;
+    color: var(--muted, #98a0b8);
+    font-size: 11px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+.timer-background-settings button {
+    min-height: 38px;
+    padding: 8px 12px;
+    font-size: 11px;
+}
+.timer-background-settings button:disabled { cursor: not-allowed; opacity: .62; }
+body[data-theme="light"] .timer-background-alerts { border-top-color: rgba(43,35,66,.12); }
+body[data-theme="light"] .timer-background-alerts-copy strong { color: #31263d; }
+body[data-theme="light"] .timer-background-settings summary { color: #71657a; }
+body[data-theme="light"] .timer-background-settings span { color: #71657a; }
+
 /* Compact exercise-library redesign. Loaded after the application's existing stylesheet. */
 :root {
   --exercise-card-surface: var(--card-bg, rgba(255,255,255,.76));
@@ -6715,4 +6709,535 @@ html[data-theme="light"] {
   --exercise-card-muted: #786b7b;
   --exercise-accent: #76527e;
   --exercise-accent-soft: rgba(128, 95, 135, .11);
+}
+
+
+/* Timer — hierarquia visual compacta, mantendo os controlos e estados existentes. */
+#page-timer > .section {
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+    padding: clamp(20px, 4vw, 28px) 18px 18px;
+}
+#page-timer > .section > .eyebrow { margin-bottom: 7px; }
+#page-timer h2 {
+    margin: 0;
+    font-size: clamp(29px, 7vw, 35px);
+    line-height: 1.08;
+    letter-spacing: -1px;
+}
+#page-timer > .section > p.muted {
+    margin: 7px 0 20px;
+    font-size: 13px;
+    line-height: 1.45;
+}
+#page-timer .timer-wheel-card {
+    gap: 16px;
+    padding: clamp(16px, 4vw, 22px);
+    border-radius: 22px;
+    text-align: center;
+}
+#page-timer .timer-wheel-countdown {
+    margin: 0 auto -2px;
+}
+#page-timer .timer-wheel-picker {
+    width: min(100%, 360px);
+    margin: 0 auto;
+    gap: 10px;
+}
+#page-timer .timer-wheel-column { min-width: 0; }
+#page-timer .timer-wheel-label {
+    margin-bottom: 4px;
+    font-size: 10px;
+    letter-spacing: .02em;
+}
+#page-timer .timer-wheel-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    margin: 0;
+}
+#page-timer .timer-wheel-actions button {
+    min-width: 0;
+    min-height: 48px;
+    padding: 11px 12px;
+    border-radius: 13px;
+    font-size: 13px;
+    font-weight: 750;
+    touch-action: manipulation;
+}
+#page-timer .timer-wheel-status:empty { display: none; }
+body[data-theme="light"] .timer-tone-title { color: #32253b; }
+@media (max-width: 420px) {
+    #page-timer > .section { padding: 18px 12px 12px; }
+    #page-timer .timer-wheel-card { gap: 13px; padding: 14px 12px; }
+    #page-timer .timer-wheel-picker { gap: 7px; }
+    #page-timer .timer-wheel-actions { gap: 8px; }
+    #page-timer .timer-wheel-actions button { min-height: 46px; padding: 10px 8px; }
+    #page-timer .timer-background-alerts-copy p { max-width: 38rem; }
+}
+
+
+/* ===== Ajustes integrados: cartões, demonstração e pesquisa mobile ===== */
+:root {
+  --exercise-card-radius: 16px;
+  --exercise-card-gap: 10px;
+  --exercise-control-height: 44px;
+}
+
+/* Mantém os cartões alinhados e evita que conteúdo longo force a grelha. */
+.exercise-library-grid,
+.equipment-exercise-grid,
+#filtered-exercise-list,
+.help-exercise-grid,
+#exerciseLibraryResults.exercise-library-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--exercise-card-gap);
+  width: 100%;
+  min-width: 0;
+}
+
+.exercise-library-grid > *,
+.equipment-exercise-grid > *,
+#filtered-exercise-list > *,
+.help-exercise-grid > *,
+#exerciseLibraryResults > .exercise-catalog-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Cartões da biblioteca global. */
+.exercise-catalog-card,
+.help-exercise-card,
+#filtered-exercise-list .equipment-exercise-card {
+  box-sizing: border-box;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--exercise-card-border, var(--line));
+  border-radius: var(--exercise-card-radius);
+  color: var(--exercise-card-text, var(--text));
+  background: var(--exercise-card-surface, var(--card));
+  box-shadow: 0 4px 14px rgba(10, 8, 18, .08);
+  text-align: left;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.exercise-catalog-card:hover,
+.help-exercise-card:hover,
+#filtered-exercise-list .equipment-exercise-card:hover {
+  border-color: rgba(157, 119, 177, .42);
+  box-shadow: 0 7px 20px rgba(10, 8, 18, .12);
+  transform: translateY(-1px);
+}
+
+.exercise-catalog-card:focus-visible,
+.help-exercise-card:focus-visible,
+#filtered-exercise-list .equipment-exercise-card:focus-visible {
+  outline: 2px solid var(--exercise-accent, var(--purple-2));
+  outline-offset: 2px;
+}
+
+.exercise-catalog-image {
+  width: 100%;
+  height: 58px;
+  min-height: 58px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--exercise-card-border, var(--line));
+  background: rgba(128, 95, 135, .035);
+}
+
+/* O espaço reservado à imagem não cria uma faixa vazia demasiado alta. */
+.exercise-catalog-image:empty,
+.exercise-catalog-image.is-placeholder {
+  height: 12px;
+  min-height: 12px;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.exercise-catalog-image img,
+.exercise-catalog-image picture,
+.exercise-catalog-image picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.exercise-catalog-content,
+#filtered-exercise-list .equipment-exercise-card .help-exercise-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .4rem;
+  min-width: 0;
+  padding: .68rem .7rem .72rem;
+}
+
+.exercise-catalog-title,
+#filtered-exercise-list .equipment-exercise-card .help-exercise-body h3,
+.help-exercise-body h3 {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  color: var(--exercise-card-text, var(--text));
+  font-size: .86rem;
+  font-weight: 750;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.exercise-catalog-group,
+.help-exercise-tag {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  margin: 0;
+  padding: .22rem .48rem;
+  border: 1px solid var(--exercise-card-border, var(--line));
+  border-radius: 7px;
+  color: var(--exercise-accent, var(--purple-2));
+  background: var(--exercise-accent-soft, rgba(124, 77, 255, .1));
+  font-size: .67rem;
+  font-weight: 750;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.exercise-catalog-equipment,
+#filtered-exercise-list .equipment-exercise-card .help-exercise-body p {
+  min-height: 0;
+  margin: 0 0 .12rem;
+  color: var(--exercise-card-muted, var(--muted));
+  font-size: .72rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.exercise-catalog-action,
+#filtered-exercise-list .equipment-exercise-card .help-exercise-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+  min-height: 31px;
+  margin-top: auto;
+  padding: .38rem .62rem;
+  border: 1px solid var(--exercise-card-border, var(--line));
+  border-radius: 9px;
+  color: var(--exercise-accent, var(--purple-2));
+  background: var(--exercise-accent-soft, rgba(124, 77, 255, .1));
+  font-size: .74rem;
+  font-weight: 750;
+  line-height: 1.2;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Cards de exercícios dentro de cada equipamento: altura e margens consistentes. */
+#filtered-exercise-list .equipment-exercise-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  padding: 0;
+}
+
+#filtered-exercise-list .equipment-exercise-card .help-exercise-thumb {
+  flex: 0 0 50px;
+  width: 100%;
+  height: 50px;
+  min-height: 50px;
+  border-radius: 0;
+}
+
+#filtered-exercise-list .equipment-exercise-card .help-exercise-thumb:before {
+  background: linear-gradient(160deg, rgba(255,255,255,.12), transparent 72%);
+}
+
+/* Campo de pesquisa e seletor com dimensões estáveis e foco acessível. */
+.exercise-library-toolbar {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+  align-items: stretch;
+  gap: .55rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.exercise-library-search,
+.exercise-library-toolbar select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--exercise-control-height);
+  border-radius: 12px;
+}
+
+.exercise-library-search {
+  display: flex;
+  align-items: center;
+  padding: .18rem .35rem .18rem .75rem;
+  border: 1px solid var(--exercise-card-border, var(--line));
+  background: var(--exercise-card-surface, var(--card));
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.exercise-library-search:focus-within {
+  border-color: var(--exercise-accent, var(--purple-2));
+  box-shadow: 0 0 0 3px rgba(124, 77, 255, .13);
+  transform: none;
+}
+
+.exercise-library-search input,
+.exercise-search-input,
+.help-search-input,
+input[type="search"] {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.35;
+  transform: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.exercise-library-search input {
+  flex: 1 1 auto;
+  height: 40px;
+  padding: .45rem 0;
+  border: 0;
+  outline: 0;
+  color: var(--exercise-card-text, var(--text));
+  background: transparent;
+  box-shadow: none;
+}
+
+.exercise-library-search input:focus,
+.exercise-library-search input:focus-visible,
+.exercise-search-input:focus,
+.help-search-input:focus {
+  outline: none;
+  transform: none;
+}
+
+.exercise-library-search button {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+}
+
+.exercise-library-toolbar select {
+  min-height: var(--exercise-control-height);
+  padding: .5rem 2rem .5rem .7rem;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+/* A área de demonstração suporta vídeo local, GIF ou imagem sem deformação. */
+.exercise-modal-video {
+  position: relative;
+  width: auto;
+  min-width: 0;
+  margin: 14px 16px 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--exercise-card-border, var(--line));
+  border-radius: 16px;
+  background: #100d16;
+  isolation: isolate;
+}
+
+.exercise-modal-video video,
+.exercise-modal-video img,
+.exercise-modal-video iframe {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border: 0;
+  object-fit: contain;
+  object-position: center;
+  background: #100d16;
+}
+
+.exercise-modal-video video {
+  pointer-events: auto;
+}
+
+.exercise-modal-no-media {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 1rem;
+  color: var(--exercise-card-muted, var(--muted));
+  background: var(--exercise-card-surface, var(--card));
+  text-align: center;
+  line-height: 1.5;
+}
+
+.exercise-modal,
+.exercise-modal-section,
+.exercise-modal-top {
+  min-width: 0;
+}
+
+/* O tema claro mantém contraste legível nos controlos e no modal. */
+html[data-theme="light"] .exercise-library-search input,
+html[data-theme="light"] .exercise-library-toolbar select {
+  color: var(--exercise-card-text);
+}
+
+html[data-theme="dark"] .exercise-library-search input,
+html[data-theme="dark"] .exercise-library-toolbar select {
+  color: var(--exercise-card-text);
+}
+
+@media (max-width: 620px) {
+  .exercise-library-grid,
+  .equipment-exercise-grid,
+  #filtered-exercise-list,
+  .help-exercise-grid,
+  #exerciseLibraryResults.exercise-library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .55rem;
+  }
+
+  .exercise-catalog-content,
+  #filtered-exercise-list .equipment-exercise-card .help-exercise-body {
+    gap: .34rem;
+    padding: .55rem .55rem .6rem;
+  }
+
+  .exercise-catalog-title,
+  #filtered-exercise-list .equipment-exercise-card .help-exercise-body h3,
+  .help-exercise-body h3 {
+    font-size: .8rem;
+  }
+
+  .exercise-catalog-equipment,
+  #filtered-exercise-list .equipment-exercise-card .help-exercise-body p {
+    font-size: .68rem;
+  }
+
+  .exercise-catalog-action,
+  #filtered-exercise-list .equipment-exercise-card .help-exercise-cta {
+    min-height: 29px;
+    padding: .32rem .45rem;
+    font-size: .68rem;
+  }
+
+  .exercise-modal-video {
+    margin: 12px 12px 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* Safari/iOS amplia automaticamente inputs com fonte inferior a 16px.
+   Aumenta só a tipografia dos campos de pesquisa, sem bloquear o zoom da página. */
+@media (max-width: 820px) {
+  .exercise-library-search input,
+  .exercise-search-input,
+  .help-search-input,
+  input[type="search"] {
+    font-size: 16px !important;
+  }
+
+  .exercise-library-search,
+  .exercise-search-input,
+  .help-search-input {
+    scroll-margin-block: 12px;
+  }
+}
+
+@media (max-width: 370px) {
+  .exercise-library-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .exercise-library-grid,
+  .equipment-exercise-grid,
+  #filtered-exercise-list,
+  .help-exercise-grid,
+  #exerciseLibraryResults.exercise-library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .45rem;
+  }
+
+  .exercise-catalog-content,
+  #filtered-exercise-list .equipment-exercise-card .help-exercise-body {
+    padding: .48rem .43rem .52rem;
+  }
+
+  .exercise-catalog-title,
+  #filtered-exercise-list .equipment-exercise-card .help-exercise-body h3,
+  .help-exercise-body h3 {
+    font-size: .75rem;
+  }
+
+  .exercise-modal-video {
+    margin-inline: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exercise-catalog-card,
+  .help-exercise-card,
+  #filtered-exercise-list .equipment-exercise-card,
+  .exercise-library-search {
+    transition: none;
+  }
+}
+
+
+/* Estado de carregamento da demonstração: só é criado após selecionar um exercício. */
+.exercise-modal-loading {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  padding: 1rem;
+  color: var(--exercise-card-text, var(--text));
+  background: rgba(10, 9, 16, .58);
+  text-align: center;
+  font-size: .82rem;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.exercise-modal-loading::before {
+  content: "";
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  border: 2px solid rgba(255, 255, 255, .30);
+  border-top-color: var(--exercise-accent, var(--purple-2));
+  border-radius: 50%;
+  animation: exercise-demo-spin .75s linear infinite;
+}
+
+@keyframes exercise-demo-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exercise-modal-loading::before { animation: none; }
 }

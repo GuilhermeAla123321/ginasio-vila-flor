@@ -7,62 +7,34 @@ document.addEventListener("DOMContentLoaded", () => {
        SERVICE WORKER
        ===================================================== */
 
-    /*
-     * TEMPORARIAMENTE DESATIVADO DURANTE O DESENVOLVIMENTO
-     *
-     * O Service Worker pode causar problemas com o
-     * Live Server e com o cache enquanto estamos
-     * a desenvolver a aplicação.
-     *
-     * Na versão final da PWA podemos voltar a ativá-lo.
-     */
+    // Mantém a PWA atualizada e invalida caches de versões anteriores.
+    // O SW serve HTML, JavaScript, CSS e o manifesto com estratégias que
+    // consultam a rede primeiro; os MP4 não são pré-carregados pelo SW.
+    if ("serviceWorker" in navigator && window.isSecureContext) {
+        let recarregamentoFeito = false;
+        const haviaControlador = Boolean(navigator.serviceWorker.controller);
 
-    /*
-    if ("serviceWorker" in navigator) {
-
-        window.addEventListener("load", async () => {
-
-            try {
-
-                const registration =
-                    await navigator.serviceWorker.register(
-                        "./sw.js",
-                        {
-                            updateViaCache: "none"
-                        }
-                    );
-
-                console.log(
-                    "Service Worker registado:",
-                    registration.scope
-                );
-
-                await registration.update();
-
-            } catch (err) {
-
-                console.warn(
-                    "Service Worker:",
-                    err
-                );
-
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+            // Só recarregar ao substituir um SW antigo já ativo, não na primeira instalação.
+            if (haviaControlador && !recarregamentoFeito) {
+                recarregamentoFeito = true;
+                window.location.reload();
             }
-
         });
 
-
-        navigator.serviceWorker.addEventListener(
-            "controllerchange",
-            () => {
-
-                window.location.reload();
-
+        window.addEventListener("load", async () => {
+            try {
+                const registration = await navigator.serviceWorker.register("./sw.js", {
+                    updateViaCache: "none"
+                });
+                await registration.update();
+                console.info("Service Worker atualizado:", registration.scope);
+            } catch (erro) {
+                // A aplicação continua a funcionar sem SW (por exemplo, num servidor de desenvolvimento).
+                console.warn("Não foi possível atualizar o Service Worker:", erro);
             }
-        );
-
+        }, { once: true });
     }
-    */
-
 
     /* =====================================================
        INSTALAÇÃO DA PWA

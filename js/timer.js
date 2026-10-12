@@ -26,42 +26,21 @@ const TIMER_ITEM_HEIGHT = 44;
 
 const TIMER_RING_CIRCUMFERENCE = 628.3;
 
-const TIMER_TONE_STORAGE_KEY = "vf_timer_tone";
-
 const TIMER_COMPLETION_DURATION = 3000;
 
 const TIMER_TONE_PATTERNS = {
-    // Fallback local para redes bloqueadas. As sequências ocupam praticamente os 3 s completos.
+    // Um único toque de conclusão, com alternativa local para redes bloqueadas.
     suave: [
         { frequency: 587.33, offset: 0.05, duration: 0.78, gain: 0.042 },
         { frequency: 739.99, offset: 0.48, duration: 0.88, gain: 0.036 },
         { frequency: 659.25, offset: 1.48, duration: 0.84, gain: 0.034 },
         { frequency: 523.25, offset: 2.17, duration: 0.72, gain: 0.029 }
-    ],
-    duplo: [
-        { frequency: 659.25, offset: 0.05, duration: 0.55, gain: 0.040 },
-        { frequency: 783.99, offset: 0.28, duration: 0.57, gain: 0.035 },
-        { frequency: 659.25, offset: 1.55, duration: 0.62, gain: 0.040 },
-        { frequency: 783.99, offset: 1.87, duration: 0.98, gain: 0.034 }
-    ],
-    triplo: [
-        { frequency: 587.33, offset: 0.05, duration: 0.48, gain: 0.037 },
-        { frequency: 739.99, offset: 0.24, duration: 0.59, gain: 0.032 },
-        { frequency: 659.25, offset: 1.03, duration: 0.48, gain: 0.037 },
-        { frequency: 830.61, offset: 1.24, duration: 0.62, gain: 0.032 },
-        { frequency: 739.99, offset: 2.03, duration: 0.48, gain: 0.037 },
-        { frequency: 987.77, offset: 2.24, duration: 0.69, gain: 0.030 }
     ]
 };
 
 const TIMER_AUDIO_FILES = {
-    suave: { id: "timerToneAudioSuave", sourceDuration: 2.8 },
-    duplo: { id: "timerToneAudioDuplo", sourceDuration: 1.9 },
-    triplo: { id: "timerToneAudioTriplo", sourceDuration: 4.0 }
+    suave: { id: "timerToneAudioSuave", sourceDuration: 2.8 }
 };
-
-let selectedTimerTone = "suave";
-
 
 
 function formatTime(totalSeconds) {
@@ -71,8 +50,6 @@ function formatTime(totalSeconds) {
     return `${String(Math.floor(safeSeconds / 60)).padStart(2, "0")}:${String(safeSeconds % 60).padStart(2, "0")}`;
 
 }
-
-
 
 function timerWheelItemHeight(wheel) {
 
@@ -88,8 +65,6 @@ function timerWheelItemHeight(wheel) {
 
     if (measured > 0) return measured;
 
-
-
     const computed = window.getComputedStyle ? window.getComputedStyle(wheel) : null;
 
     const fromVariable = Number.parseFloat(computed?.getPropertyValue("--wheel-row-height"));
@@ -97,8 +72,6 @@ function timerWheelItemHeight(wheel) {
     return fromVariable > 0 ? fromVariable : TIMER_ITEM_HEIGHT;
 
 }
-
-
 
 function timerWheelValue(wheel) {
 
@@ -111,8 +84,6 @@ function timerWheelValue(wheel) {
     return Math.max(0, Math.min(max, Math.round(wheel.scrollTop / rowHeight)));
 
 }
-
-
 
 /*
 
@@ -140,8 +111,6 @@ function synchronizeTimerWheelGeometry(wheel, preserveSelection = true) {
 
     const inset = Math.max(0, (viewportHeight - rowHeight) / 2);
 
-
-
     wheel.style.setProperty("--wheel-row-height", `${rowHeight}px`);
 
     wheel.style.paddingTop = `${inset}px`;
@@ -158,8 +127,6 @@ function synchronizeTimerWheelGeometry(wheel, preserveSelection = true) {
 
 }
 
-
-
 function setWheelValue(wheel, value) {
 
     if (!wheel) return;
@@ -173,8 +140,6 @@ function setWheelValue(wheel, value) {
     updateWheelSelection(wheel);
 
 }
-
-
 
 function updateWheelSelection(wheel) {
 
@@ -194,8 +159,6 @@ function updateWheelSelection(wheel) {
 
 }
 
-
-
 function syncDurationFromWheels() {
 
     if (timerRunning) return;
@@ -207,8 +170,6 @@ function syncDurationFromWheels() {
     updateTimer();
 
 }
-
-
 
 function createTimerWheel(wheel, max, unit) {
 
@@ -222,8 +183,6 @@ function createTimerWheel(wheel, max, unit) {
 
     wheel.innerHTML = "";
 
-
-
     const selection = document.createElement("div");
 
     selection.className = "timer-wheel-selection";
@@ -231,8 +190,6 @@ function createTimerWheel(wheel, max, unit) {
     selection.setAttribute("aria-hidden", "true");
 
     wheel.appendChild(selection);
-
-
 
     const options = document.createElement("div");
 
@@ -274,8 +231,6 @@ function createTimerWheel(wheel, max, unit) {
 
     wheel.appendChild(options);
 
-
-
     wheel.addEventListener("scroll", () => {
 
         if (timerRunning) {
@@ -283,6 +238,7 @@ function createTimerWheel(wheel, max, unit) {
             // Abrange scroll do rato/trackpad, que não dispara pointerdown em todos os casos.
 
             stopTimerInterval();
+
             cancelTimerBackgroundNotification();
 
         }
@@ -292,8 +248,6 @@ function createTimerWheel(wheel, max, unit) {
         syncDurationFromWheels();
 
     }, { passive: true });
-
-
 
     // Corrige qualquer diferença residual depois do snap/gesto, quando suportado.
 
@@ -306,8 +260,6 @@ function createTimerWheel(wheel, max, unit) {
         syncDurationFromWheels();
 
     });
-
-
 
     wheel.addEventListener("keydown", event => {
 
@@ -326,8 +278,11 @@ function createTimerWheel(wheel, max, unit) {
         event.preventDefault();
 
         if (timerRunning) {
+
             stopTimerInterval();
+
             cancelTimerBackgroundNotification();
+
         }
 
         setWheelValue(wheel, next);
@@ -336,15 +291,11 @@ function createTimerWheel(wheel, max, unit) {
 
     });
 
-
-
     synchronizeTimerWheelGeometry(wheel, false);
 
     setWheelValue(wheel, 0);
 
 }
-
-
 
 function selectedDuration() {
 
@@ -355,8 +306,6 @@ function selectedDuration() {
     return minutes * 60 + seconds;
 
 }
-
-
 
 function updateTimerRing() {
 
@@ -372,8 +321,6 @@ function updateTimerRing() {
 
 }
 
-
-
 function updateTimer() {
 
     const display = document.getElementById("timerDisplay");
@@ -383,8 +330,6 @@ function updateTimer() {
     if (display && display.textContent !== formattedTime) display.textContent = formattedTime;
 
     updateTimerRing();
-
-
 
     const card = document.getElementById("timerCard");
 
@@ -422,15 +367,11 @@ function updateTimer() {
 
 }
 
-
-
 function ensureTimerTicker() {
 
     if (timerInterval === null) timerInterval = setInterval(tickTimer, 100);
 
 }
-
-
 
 function maybeStopTimerTicker() {
 
@@ -442,31 +383,45 @@ function maybeStopTimerTicker() {
 
 }
 
-
-
 function cancelTimerBackgroundNotification() {
-    const alerts = window.TimerBackgroundAlerts;
-    if (!alerts || typeof alerts.cancel !== "function") return;
-    try {
-        const result = alerts.cancel();
-        if (result && typeof result.catch === "function") result.catch(() => {});
-    } catch (_) {
-        // A falha do alerta remoto nunca deve interromper o temporizador local.
-    }
-}
 
+    const alerts = window.TimerBackgroundAlerts;
+
+    if (!alerts || typeof alerts.cancel !== "function") return;
+
+    try {
+
+        const result = alerts.cancel();
+
+        if (result && typeof result.catch === "function") result.catch(() => {});
+
+    } catch (_) {
+
+        // A falha do alerta remoto nunca deve interromper o temporizador local.
+
+    }
+
+}
 
 function scheduleTimerBackgroundNotification() {
-    const alerts = window.TimerBackgroundAlerts;
-    if (!alerts || typeof alerts.schedule !== "function") return;
-    try {
-        const result = alerts.schedule(timerDeadline);
-        if (result && typeof result.catch === "function") result.catch(() => {});
-    } catch (_) {
-        // O temporizador local continua a funcionar se o serviço estiver indisponível.
-    }
-}
 
+    const alerts = window.TimerBackgroundAlerts;
+
+    if (!alerts || typeof alerts.schedule !== "function") return;
+
+    try {
+
+        const result = alerts.schedule(timerDeadline);
+
+        if (result && typeof result.catch === "function") result.catch(() => {});
+
+    } catch (_) {
+
+        // O temporizador local continua a funcionar se o serviço estiver indisponível.
+
+    }
+
+}
 
 function stopTimerInterval() {
 
@@ -477,8 +432,6 @@ function stopTimerInterval() {
     maybeStopTimerTicker();
 
 }
-
-
 
 function tickTimer() {
 
@@ -494,15 +447,11 @@ function tickTimer() {
 
     }
 
-
-
     if (timerCompletionVisible) updateTimerCompletionPopup();
 
     maybeStopTimerTicker();
 
 }
-
-
 
 function completeTimer() {
 
@@ -518,8 +467,6 @@ function completeTimer() {
 
     updateTimer();
 
-
-
     // Mantém a vibração existente nos dispositivos que a suportam.
 
     try {
@@ -532,27 +479,32 @@ function completeTimer() {
 
     }
 
-
-
     showTimerCompletionPopup();
 
     if (document.visibilityState === "hidden") {
+
         // O serviço remoto trata do alerta do sistema; não tentamos áudio personalizado
+
         // numa página suspensa, onde os navegadores podem bloquear a reprodução.
+
     } else {
+
         // Em primeiro plano, preferimos o toque personalizado local e cancelamos
+
         // a notificação remota para reduzir a possibilidade de alertas duplicados.
+
         cancelTimerBackgroundNotification();
-        playTimerTone(selectedTimerTone);
+
+        playTimerTone("suave");
+
     }
 
 }
 
-
-
 function resetTimer() {
 
     stopTimerInterval();
+
     cancelTimerBackgroundNotification();
 
     dismissTimerCompletionPopup();
@@ -568,8 +520,6 @@ function resetTimer() {
     updateTimer();
 
 }
-
-
 
 function showTimerCompletionPopup() {
 
@@ -595,8 +545,6 @@ function showTimerCompletionPopup() {
 
 }
 
-
-
 function updateTimerCompletionPopup() {
 
     if (!timerCompletionVisible) return;
@@ -610,8 +558,6 @@ function updateTimerCompletionPopup() {
         return;
 
     }
-
-
 
     const secondsRemaining = Math.max(1, Math.ceil(remainingMs / 1000));
 
@@ -635,8 +581,6 @@ function updateTimerCompletionPopup() {
 
 }
 
-
-
 function dismissTimerCompletionPopup() {
 
     timerCompletionVisible = false;
@@ -650,8 +594,6 @@ function dismissTimerCompletionPopup() {
     maybeStopTimerTicker();
 
 }
-
-
 
 function getTimerAudioContext() {
 
@@ -675,229 +617,320 @@ function getTimerAudioContext() {
 
 }
 
-
-
 function cancelCurrentToneSequence() {
+
     timerToneSequenceId += 1;
 
     // Interrompe a faixa ativa e limpa os handlers para não acumular listeners.
+
     if (activeToneAudio) {
+
         const audio = activeToneAudio;
+
         activeToneAudio = null;
+
         try {
+
             audio.pause();
+
             audio.currentTime = 0;
+
             audio.onended = null;
+
             audio.onerror = null;
+
             audio.onloadedmetadata = null;
+
         } catch (_) {
+
             // O elemento pode ainda não ter metadados ou já estar parado.
+
         }
+
     }
 
     const context = timerAudioContext;
+
     const now = context ? context.currentTime : 0;
+
     for (const node of Array.from(activeToneNodes)) {
+
         try {
+
             node.gain.gain.cancelScheduledValues(now);
+
             node.gain.gain.setValueAtTime(Math.max(Number(node.gain.gain.value) || 0.0001, 0.0001), now);
+
             node.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.018);
+
             node.oscillator.stop(now + 0.02);
+
         } catch (_) {
+
             // O oscilador pode já ter terminado.
+
         }
+
     }
+
     activeToneNodes.clear();
+
     return timerToneSequenceId;
+
 }
 
 function prepareTimerAudioFromGesture() {
+
     const context = getTimerAudioContext();
+
     if (!context || context.state !== "suspended") return;
+
     try {
+
         const result = context.resume();
+
         if (result && typeof result.catch === "function") result.catch(() => {});
+
     } catch (_) {
+
         // O aviso visual não depende da reprodução sonora.
+
     }
+
 }
 
 function playSynthesizedTimerTone(toneName, sequenceId) {
+
     const pattern = TIMER_TONE_PATTERNS[toneName] || TIMER_TONE_PATTERNS.suave;
+
     const context = getTimerAudioContext();
+
     if (!context || context.state === "closed") return false;
 
     const schedule = () => {
+
         if (sequenceId !== timerToneSequenceId || context.state === "closed") return;
+
         const startAt = context.currentTime + 0.025;
+
         for (const note of pattern) {
+
             try {
+
                 const oscillator = context.createOscillator();
+
                 const gain = context.createGain();
+
                 const noteStart = startAt + note.offset;
+
                 const noteEnd = Math.min(startAt + 2.98, noteStart + note.duration);
+
                 const peak = Math.max(0.001, note.gain);
+
                 oscillator.type = "sine";
+
                 oscillator.frequency.setValueAtTime(note.frequency, noteStart);
+
                 gain.gain.setValueAtTime(0.0001, noteStart);
+
                 gain.gain.exponentialRampToValueAtTime(peak, noteStart + Math.min(0.045, note.duration * 0.16));
+
                 gain.gain.setValueAtTime(peak, Math.max(noteStart + 0.05, noteEnd - Math.min(0.09, note.duration * 0.2)));
+
                 gain.gain.exponentialRampToValueAtTime(0.0001, noteEnd);
+
                 oscillator.connect(gain);
+
                 gain.connect(context.destination);
+
                 const node = { oscillator, gain };
+
                 activeToneNodes.add(node);
+
                 oscillator.onended = () => activeToneNodes.delete(node);
+
                 oscillator.start(noteStart);
+
                 oscillator.stop(noteEnd + 0.025);
+
             } catch (_) {
+
                 // Se a API de áudio falhar, o aviso visual mantém-se.
+
             }
+
         }
+
     };
 
     try {
+
         if (context.state === "suspended") {
+
             context.resume().then(schedule).catch(() => {});
+
         } else {
+
             schedule();
+
         }
+
         return true;
+
     } catch (_) {
+
         return false;
+
     }
+
 }
 
 function playTimerTone(toneName, onStarted, onUnavailable) {
+
     const tone = Object.prototype.hasOwnProperty.call(TIMER_AUDIO_FILES, toneName)
+
         ? toneName
+
         : "suave";
+
     const config = TIMER_AUDIO_FILES[tone];
+
     const sequenceId = cancelCurrentToneSequence();
+
     const audio = document.getElementById(config.id);
+
     let fallbackTriggered = false;
 
     const useFallback = () => {
+
         if (fallbackTriggered || sequenceId !== timerToneSequenceId) return;
+
         fallbackTriggered = true;
+
         if (activeToneAudio === audio) activeToneAudio = null;
+
         if (audio) {
+
             try {
+
                 audio.pause();
+
                 audio.currentTime = 0;
+
                 audio.onended = null;
+
                 audio.onerror = null;
+
                 audio.onloadedmetadata = null;
+
             } catch (_) {}
+
         }
+
         const started = playSynthesizedTimerTone(tone, sequenceId);
+
         if (started && typeof onStarted === "function") onStarted();
+
         else if (!started && typeof onUnavailable === "function") onUnavailable();
+
     };
 
     if (!audio) {
+
         useFallback();
+
         return true;
+
     }
 
     try {
+
         audio.pause();
+
         audio.currentTime = 0;
+
         audio.volume = 0.66;
+
         audio.preservesPitch = true;
+
         audio.webkitPreservesPitch = true;
+
         audio.mozPreservesPitch = true;
+
         audio.playbackRate = config.sourceDuration / (TIMER_COMPLETION_DURATION / 1000);
+
         activeToneAudio = audio;
 
         const syncActualDuration = () => {
+
             if (sequenceId !== timerToneSequenceId || fallbackTriggered || activeToneAudio !== audio) return;
+
             const actualDuration = Number(audio.duration);
+
             if (Number.isFinite(actualDuration) && actualDuration > 0) {
+
                 audio.playbackRate = Math.max(0.5, Math.min(1.5, actualDuration / (TIMER_COMPLETION_DURATION / 1000)));
+
             }
+
         };
+
         // Usar propriedades de evento evita acumular handlers após muitas mudanças de opção.
+
         audio.onloadedmetadata = syncActualDuration;
+
         audio.onended = () => {
+
             if (sequenceId !== timerToneSequenceId) return;
+
             if (activeToneAudio === audio) activeToneAudio = null;
+
         };
+
         audio.onerror = useFallback;
+
         syncActualDuration();
 
         const result = audio.play();
+
         if (result && typeof result.then === "function") {
+
             result.then(() => {
+
                 if (sequenceId !== timerToneSequenceId) {
+
                     audio.pause();
+
                     return;
+
                 }
+
                 if (!fallbackTriggered && typeof onStarted === "function") onStarted();
+
             }).catch(useFallback);
+
         } else if (typeof onStarted === "function") {
+
             onStarted();
+
         }
+
         return true;
+
     } catch (_) {
+
         useFallback();
+
         return true;
-    }
-}
-
-function readStoredTimerTone() {
-
-    try {
-
-        const stored = localStorage.getItem(TIMER_TONE_STORAGE_KEY);
-
-        return Object.prototype.hasOwnProperty.call(TIMER_AUDIO_FILES, stored) ? stored : "suave";
-
-    } catch (_) {
-
-        return "suave";
 
     }
 
 }
 
-
-
-function updateTimerToneSelection() {
-
-    document.querySelectorAll(".timer-tone-option").forEach(button => {
-
-        const selected = button.dataset.tone === selectedTimerTone;
-
-        button.classList.toggle("active", selected);
-
-        button.setAttribute("aria-pressed", selected ? "true" : "false");
-
-    });
-
-}
-
-
-
-function selectTimerTone(toneName, preview = true) {
-    if (!Object.prototype.hasOwnProperty.call(TIMER_AUDIO_FILES, toneName)) return;
-    selectedTimerTone = toneName;
-    updateTimerToneSelection();
-    try { localStorage.setItem(TIMER_TONE_STORAGE_KEY, selectedTimerTone); } catch (_) {}
-
-    const hint = document.getElementById("timerToneHint");
-    if (preview) {
-        // Desbloqueia a alternativa Web Audio enquanto o utilizador ainda está a interagir.
-        prepareTimerAudioFromGesture();
-        const requestedTone = selectedTimerTone;
-        if (hint) hint.textContent = "A preparar pré-visualização…";
-        const canPlay = playTimerTone(requestedTone, () => {
-            if (hint && selectedTimerTone === requestedTone) hint.textContent = "Pré-visualização · 3 s";
-        }, () => {
-            if (hint && selectedTimerTone === requestedTone) hint.textContent = "Áudio não disponível neste navegador";
-        });
-        if (!canPlay && hint) hint.textContent = "Áudio não disponível neste navegador";
-    }
+function previewTimerTone() {
+    // O gesto do utilizador prepara o Web Audio antes da pré-visualização.
+    prepareTimerAudioFromGesture();
+    playTimerTone("suave");
 }
 
 
@@ -911,8 +944,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createTimerWheel(secondsWheel, 59, "s");
 
-
-
     [minutesWheel, secondsWheel].forEach(wheel => {
 
         if (!wheel) return;
@@ -922,6 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (timerRunning) {
 
                 stopTimerInterval();
+
                 cancelTimerBackgroundNotification();
 
                 updateTimer();
@@ -931,8 +963,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { passive: true });
 
     });
-
-
 
     // Recalcula o centramento quando a página Timer fica visível ou o ecrã muda.
 
@@ -960,29 +990,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }, { passive: true });
 
+    const tonePreview = document.querySelector(".timer-tone-preview");
 
-
-    const toneButtons = document.querySelectorAll(".timer-tone-option");
-
-    selectedTimerTone = readStoredTimerTone();
-
-    updateTimerToneSelection();
-
-    toneButtons.forEach(button => {
-
-        button.addEventListener("click", () => selectTimerTone(button.dataset.tone, true));
-
-    });
-
-
+    if (tonePreview) tonePreview.addEventListener("click", previewTimerTone);
 
     const startButton = document.getElementById("timerStart");
 
     const resetButton = document.getElementById("timerReset");
 
     const dismissButton = document.getElementById("timerCompletionDismiss");
-
-
 
     if (startButton) {
 
@@ -991,6 +1007,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (timerRunning) {
 
                 stopTimerInterval();
+
                 cancelTimerBackgroundNotification();
 
                 updateTimer();
@@ -999,12 +1016,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
-
             dismissTimerCompletionPopup();
+
             cancelTimerBackgroundNotification();
 
             cancelCurrentToneSequence();
+
             timerSeconds = selectedDuration();
 
             timerTotal = timerSeconds;
@@ -1031,8 +1048,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
-
             prepareTimerAudioFromGesture();
 
             timerCompletionHandled = false;
@@ -1044,32 +1059,30 @@ document.addEventListener("DOMContentLoaded", () => {
             updateTimer();
 
             ensureTimerTicker();
+
             scheduleTimerBackgroundNotification();
 
         });
 
     }
 
-
-
     if (resetButton) resetButton.addEventListener("click", resetTimer);
 
     if (dismissButton) dismissButton.addEventListener("click", dismissTimerCompletionPopup);
-
-
 
     // Se o navegador suspender a página, o tempo restante continua baseado no relógio real.
 
     document.addEventListener("visibilitychange", () => {
 
         if (!document.hidden) {
+
             tickTimer();
+
             if (timerCompletionHandled) cancelTimerBackgroundNotification();
+
         }
 
     });
-
-
 
     timerSeconds = 0;
 
