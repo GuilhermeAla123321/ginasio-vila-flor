@@ -702,8 +702,198 @@ const EQUIPAMENTOS_EXERCICIOS = {
         }
     ],
 
-    "Banco de Peso": [
+
+    "Polia Multifuncional": [
         {
+            nome: "Tríceps na Polia",
+            grupo: "Braços",
+            icon: "💪",
+            desc: "Extensão dos cotovelos na polia para trabalhar os tríceps.",
+            passos: [
+                "Fica de frente para a polia com os pés estáveis.",
+                "Mantém os cotovelos junto ao tronco.",
+                "Empurra o acessório para baixo estendendo os cotovelos.",
+                "Regressa lentamente à posição inicial."
+            ],
+            erros: [
+                "Abrir os cotovelos.",
+                "Usar o corpo para empurrar a carga.",
+                "Fazer a fase de retorno demasiado rápida."
+            ],
+            musculos: [
+                "Tríceps"
+            ],
+            beneficios: [
+                "Isola eficazmente os tríceps",
+                "Desenvolve força de extensão do cotovelo"
+            ],
+            dificuldade: "Iniciante / Intermédio",
+            cuidados: [
+                "Mantém a carga controlável.",
+                "Evita movimentos bruscos."
+            ],
+            sugestoes: [
+                "Mantém os cotovelos estáveis.",
+                "Controla a fase excêntrica."
+            ]
+        },
+
+        {
+            nome: "Puxada na Polia",
+            grupo: "Costas",
+            icon: "🎯",
+            desc: "Puxada vertical na polia para trabalhar principalmente as costas.",
+            passos: [
+                "Senta-te e fixa as pernas quando o equipamento permitir.",
+                "Segura a barra com uma pega confortável.",
+                "Puxa em direção à parte superior do peito.",
+                "Regressa lentamente à posição inicial."
+            ],
+            erros: [
+                "Puxar a barra atrás da nuca.",
+                "Usar balanço do tronco.",
+                "Não controlar a subida."
+            ],
+            musculos: [
+                "Dorsais",
+                "Bíceps",
+                "Romboides"
+            ],
+            beneficios: [
+                "Desenvolve força de puxada",
+                "Trabalha a musculatura das costas",
+                "Permite ajustar facilmente a carga"
+            ],
+            dificuldade: "Iniciante / Intermédio",
+            cuidados: [
+                "Mantém ombros estáveis.",
+                "Evita puxar atrás da nuca."
+            ],
+            sugestoes: [
+                "Pensa em conduzir os cotovelos para baixo.",
+                "Controla o retorno."
+            ]
+        }
+    ],
+
+    "Máquina Abdutora/Adutora": [
+        {
+            nome: "Abdução da anca",
+            grupo: "Pernas",
+            icon: "🦵",
+            desc: "Abertura controlada das pernas na máquina abdutora para trabalhar os músculos abdutores da anca.",
+            passos: [
+                "Senta-te com as costas apoiadas e ajusta a posição inicial.",
+                "Coloca as pernas contra os apoios.",
+                "Abre as pernas de forma controlada.",
+                "Regressa lentamente sem deixar a carga bater."
+            ],
+            erros: [
+                "Usar balanço para abrir as pernas.",
+                "Soltar a carga de forma brusca.",
+                "Usar amplitude desconfortável."
+            ],
+            musculos: [
+                "Glúteo médio",
+                "Glúteo mínimo",
+                "Abdutores da anca"
+            ],
+            beneficios: [
+                "Fortalece os abdutores",
+                "Pode melhorar controlo da anca",
+                "Permite carga ajustável"
+            ],
+            dificuldade: "Iniciante",
+            cuidados: [
+                "Ajusta o equipamento à tua anatomia.",
+                "Usa amplitude confortável."
+            ],
+            sugestoes: [
+                "Faz pausas curtas na abertura.",
+                "Controla sempre o retorno."
+            ]
+        }
+    ],
+
+    "Peso Livre": [
+
+        {
+            nome: "Agachamento com peso livre",
+            grupo: "Pernas",
+            icon: "🏋️",
+            desc: "Agachamento com barra, halteres ou outra carga livre.",
+            passos: [
+                "Assume uma base estável com os pés aproximadamente à largura dos ombros.",
+                "Desce levando a anca para trás e fletindo os joelhos.",
+                "Mantém a coluna estável e os joelhos alinhados.",
+                "Empurra o chão para subir."
+            ],
+            erros: [
+                "Arredondar a coluna.",
+                "Deixar os joelhos colapsarem para dentro.",
+                "Usar carga excessiva."
+            ],
+            musculos: [
+                "Quadríceps",
+                "Glúteos",
+                "Posteriores da coxa",
+                "Core"
+            ],
+            beneficios: [
+                "Desenvolve força global",
+                "Trabalha vários grupos musculares",
+                "Permite progressão de carga"
+            ],
+            dificuldade: "Intermédio / Avançado",
+            cuidados: [
+                "Aprende a técnica antes de aumentar a carga.",
+                "Usa suporte adequado quando necessário."
+            ],
+            sugestoes: [
+                "Começa leve e aumenta gradualmente.",
+                "Mantém a amplitude que consegues controlar."
+            ]
+        },
+
+        {
+            nome: "Peso Morto",
+            grupo: "Pernas",
+            icon: "🏋️",
+            desc: "Movimento de extensão da anca com carga livre, envolvendo a cadeia posterior.",
+            passos: [
+                "Posiciona a carga próxima das pernas.",
+                "Faz a flexão da anca mantendo a coluna neutra.",
+                "Empurra o chão e estende anca e joelhos.",
+                "Termina de pé sem hiperestender a lombar."
+            ],
+            erros: [
+                "Arredondar a coluna.",
+                "Afastar a carga do corpo.",
+                "Levantar com a lombar em vez de usar a anca."
+            ],
+            musculos: [
+                "Glúteos",
+                "Posteriores da coxa",
+                "Eretores da coluna",
+                "Costas"
+            ],
+            beneficios: [
+                "Desenvolve força da cadeia posterior",
+                "Melhora capacidade de levantar cargas",
+                "Trabalha vários grupos musculares"
+            ],
+            dificuldade: "Avançado",
+            cuidados: [
+                "Aprende a técnica com carga baixa.",
+                "Mantém a carga próxima do corpo."
+            ],
+            sugestoes: [
+                "Pensa em empurrar o chão.",
+                "Mantém o movimento controlado."
+            ]
+        },
+
+{
             nome: "Supino Reto",
             grupo: "Peito",
             icon: "🏋️",
@@ -834,196 +1024,6 @@ const EQUIPAMENTOS_EXERCICIOS = {
             ],
             sugestoes: [
                 "Mantém o movimento lento e controlado."
-            ]
-        }
-    ],
-
-    "Polia Multifuncional": [
-        {
-            nome: "Tríceps na Polia",
-            grupo: "Braços",
-            icon: "💪",
-            desc: "Extensão dos cotovelos na polia para trabalhar os tríceps.",
-            passos: [
-                "Fica de frente para a polia com os pés estáveis.",
-                "Mantém os cotovelos junto ao tronco.",
-                "Empurra o acessório para baixo estendendo os cotovelos.",
-                "Regressa lentamente à posição inicial."
-            ],
-            erros: [
-                "Abrir os cotovelos.",
-                "Usar o corpo para empurrar a carga.",
-                "Fazer a fase de retorno demasiado rápida."
-            ],
-            musculos: [
-                "Tríceps"
-            ],
-            beneficios: [
-                "Isola eficazmente os tríceps",
-                "Desenvolve força de extensão do cotovelo"
-            ],
-            dificuldade: "Iniciante / Intermédio",
-            cuidados: [
-                "Mantém a carga controlável.",
-                "Evita movimentos bruscos."
-            ],
-            sugestoes: [
-                "Mantém os cotovelos estáveis.",
-                "Controla a fase excêntrica."
-            ]
-        },
-
-        {
-            nome: "Puxada na Polia",
-            grupo: "Costas",
-            icon: "🎯",
-            desc: "Puxada vertical na polia para trabalhar principalmente as costas.",
-            passos: [
-                "Senta-te e fixa as pernas quando o equipamento permitir.",
-                "Segura a barra com uma pega confortável.",
-                "Puxa em direção à parte superior do peito.",
-                "Regressa lentamente à posição inicial."
-            ],
-            erros: [
-                "Puxar a barra atrás da nuca.",
-                "Usar balanço do tronco.",
-                "Não controlar a subida."
-            ],
-            musculos: [
-                "Dorsais",
-                "Bíceps",
-                "Romboides"
-            ],
-            beneficios: [
-                "Desenvolve força de puxada",
-                "Trabalha a musculatura das costas",
-                "Permite ajustar facilmente a carga"
-            ],
-            dificuldade: "Iniciante / Intermédio",
-            cuidados: [
-                "Mantém ombros estáveis.",
-                "Evita puxar atrás da nuca."
-            ],
-            sugestoes: [
-                "Pensa em conduzir os cotovelos para baixo.",
-                "Controla o retorno."
-            ]
-        }
-    ],
-
-    "Máquina Abdutora/Adutora": [
-        {
-            nome: "Abdução da anca",
-            grupo: "Pernas",
-            icon: "🦵",
-            desc: "Abertura controlada das pernas na máquina abdutora para trabalhar os músculos abdutores da anca.",
-            passos: [
-                "Senta-te com as costas apoiadas e ajusta a posição inicial.",
-                "Coloca as pernas contra os apoios.",
-                "Abre as pernas de forma controlada.",
-                "Regressa lentamente sem deixar a carga bater."
-            ],
-            erros: [
-                "Usar balanço para abrir as pernas.",
-                "Soltar a carga de forma brusca.",
-                "Usar amplitude desconfortável."
-            ],
-            musculos: [
-                "Glúteo médio",
-                "Glúteo mínimo",
-                "Abdutores da anca"
-            ],
-            beneficios: [
-                "Fortalece os abdutores",
-                "Pode melhorar controlo da anca",
-                "Permite carga ajustável"
-            ],
-            dificuldade: "Iniciante",
-            cuidados: [
-                "Ajusta o equipamento à tua anatomia.",
-                "Usa amplitude confortável."
-            ],
-            sugestoes: [
-                "Faz pausas curtas na abertura.",
-                "Controla sempre o retorno."
-            ]
-        }
-    ],
-
-    "Peso Livre": [
-        {
-            nome: "Agachamento com peso livre",
-            grupo: "Pernas",
-            icon: "🏋️",
-            desc: "Agachamento com barra, halteres ou outra carga livre.",
-            passos: [
-                "Assume uma base estável com os pés aproximadamente à largura dos ombros.",
-                "Desce levando a anca para trás e fletindo os joelhos.",
-                "Mantém a coluna estável e os joelhos alinhados.",
-                "Empurra o chão para subir."
-            ],
-            erros: [
-                "Arredondar a coluna.",
-                "Deixar os joelhos colapsarem para dentro.",
-                "Usar carga excessiva."
-            ],
-            musculos: [
-                "Quadríceps",
-                "Glúteos",
-                "Posteriores da coxa",
-                "Core"
-            ],
-            beneficios: [
-                "Desenvolve força global",
-                "Trabalha vários grupos musculares",
-                "Permite progressão de carga"
-            ],
-            dificuldade: "Intermédio / Avançado",
-            cuidados: [
-                "Aprende a técnica antes de aumentar a carga.",
-                "Usa suporte adequado quando necessário."
-            ],
-            sugestoes: [
-                "Começa leve e aumenta gradualmente.",
-                "Mantém a amplitude que consegues controlar."
-            ]
-        },
-
-        {
-            nome: "Peso Morto",
-            grupo: "Pernas",
-            icon: "🏋️",
-            desc: "Movimento de extensão da anca com carga livre, envolvendo a cadeia posterior.",
-            passos: [
-                "Posiciona a carga próxima das pernas.",
-                "Faz a flexão da anca mantendo a coluna neutra.",
-                "Empurra o chão e estende anca e joelhos.",
-                "Termina de pé sem hiperestender a lombar."
-            ],
-            erros: [
-                "Arredondar a coluna.",
-                "Afastar a carga do corpo.",
-                "Levantar com a lombar em vez de usar a anca."
-            ],
-            musculos: [
-                "Glúteos",
-                "Posteriores da coxa",
-                "Eretores da coluna",
-                "Costas"
-            ],
-            beneficios: [
-                "Desenvolve força da cadeia posterior",
-                "Melhora capacidade de levantar cargas",
-                "Trabalha vários grupos musculares"
-            ],
-            dificuldade: "Avançado",
-            cuidados: [
-                "Aprende a técnica com carga baixa.",
-                "Mantém a carga próxima do corpo."
-            ],
-            sugestoes: [
-                "Pensa em empurrar o chão.",
-                "Mantém o movimento controlado."
             ]
         }
     ],
@@ -1218,6 +1218,27 @@ const EQUIPAMENTOS_EXERCICIOS = {
     ]
 };
 
+function deduplicarExerciciosPorNome(exercicios) {
+    const normalizarNome = valor => String(valor || "")
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("pt-PT").trim().replace(/\s+/g, " ");
+    const unicos = new Map();
+    (exercicios || []).forEach(exercicio => {
+        if (!exercicio || !exercicio.nome) return;
+        const chave = normalizarNome(exercicio.nome);
+        const existente = unicos.get(chave);
+        if (!existente) {
+            unicos.set(chave, exercicio);
+            return;
+        }
+        Object.entries(exercicio).forEach(([campo, valor]) => {
+            const atual = existente[campo];
+            if (atual == null || atual === "" || (Array.isArray(atual) && !atual.length)) existente[campo] = valor;
+        });
+    });
+    return [...unicos.values()];
+}
+
 const EXERCICIOS_EXTRA = {
     "Passadeira": [
         {
@@ -1397,39 +1418,6 @@ const EXERCICIOS_EXTRA = {
         }
     ],
 
-    "Banco de Peso": [
-        {
-            nome: "Press de ombros com halteres",
-            grupo: "Ombros",
-            icon: "🏋️",
-            desc: "Press sentado num banco com halteres.",
-            passos: [
-                "Senta-te com apoio das costas.",
-                "Coloca os halteres à altura dos ombros.",
-                "Empurra para cima.",
-                "Desce controladamente."
-            ],
-            erros: [
-                "Arquear excessivamente a lombar.",
-                "Usar impulso das pernas."
-            ],
-            musculos: [
-                "Deltoides",
-                "Tríceps"
-            ],
-            beneficios: [
-                "Desenvolve força dos ombros",
-                "Melhora estabilidade do tronco"
-            ],
-            dificuldade: "Intermédio",
-            cuidados: [
-                "Usa carga controlável."
-            ],
-            sugestoes: [
-                "Mantém punhos neutros."
-            ]
-        }
-    ],
 
     "Estação Multifuncional": [
         {
@@ -1500,6 +1488,7 @@ const EXERCICIOS_EXTRA = {
     ],
 
     "Peso Livre": [
+
         {
             nome: "Lunge com halteres",
             grupo: "Pernas",
@@ -1566,6 +1555,37 @@ const EXERCICIOS_EXTRA = {
             ]
         },
 
+{
+            nome: "Press de ombros com halteres",
+            grupo: "Ombros",
+            icon: "🏋️",
+            desc: "Press sentado num banco com halteres.",
+            passos: [
+                "Senta-te com apoio das costas.",
+                "Coloca os halteres à altura dos ombros.",
+                "Empurra para cima.",
+                "Desce controladamente."
+            ],
+            erros: [
+                "Arquear excessivamente a lombar.",
+                "Usar impulso das pernas."
+            ],
+            musculos: [
+                "Deltoides",
+                "Tríceps"
+            ],
+            beneficios: [
+                "Desenvolve força dos ombros",
+                "Melhora estabilidade do tronco"
+            ],
+            dificuldade: "Intermédio",
+            cuidados: [
+                "Usa carga controlável."
+            ],
+            sugestoes: [
+                "Mantém punhos neutros."
+            ]
+        }
     ],
 
     "Peck Deck": [
@@ -1713,11 +1733,14 @@ const EXERCICIOS_EXTRA = {
     ]
 };
 
+
 Object.entries(EXERCICIOS_EXTRA).forEach(([equipamento, extras]) => {
     if (Array.isArray(EQUIPAMENTOS_EXERCICIOS[equipamento])) {
         EQUIPAMENTOS_EXERCICIOS[equipamento].push(...extras);
     }
 });
+
+EQUIPAMENTOS_EXERCICIOS["Peso Livre"] = deduplicarExerciciosPorNome(EQUIPAMENTOS_EXERCICIOS["Peso Livre"]);
 
 /* REGISTO DE EXERCÍCIOS COM VÍDEO LOCAL — os vídeos só são pedidos no modal. */
 const EXERCICIOS_COM_VIDEO_LOCAL = [
@@ -1748,7 +1771,7 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
     { equipamento: "Peck Deck", nome: "Crucifixo", videoId: "pec-deck-fly", grupo: "Peito", icon: "💪", desc: "Aproximação dos braços na máquina Peck Deck para trabalhar o peitoral.", passos: ["Ajusta o banco para que os braços fiquem alinhados com o peito.", "Mantém as costas apoiadas e os cotovelos ligeiramente fletidos.", "Aproxima as pegas à frente do peito.", "Abre lentamente até à amplitude confortável."], erros: ["Usar carga excessiva.", "Abrir demasiado os braços."] },
     { equipamento: "Prensa de Ombros", nome: "Prensa de ombros com pegada neutra", videoId: "shoulder-press-neutral", grupo: "Ombros", icon: "🏋️", desc: "Press de ombros na máquina com pegada neutra.", passos: ["Ajusta o assento para que as pegas comecem aproximadamente à altura dos ombros.", "Segura as pegas com as palmas viradas uma para a outra.", "Empurra para cima mantendo as costas apoiadas.", "Desce controladamente."], erros: ["Arquear a lombar.", "Bloquear agressivamente os cotovelos."] },
     { equipamento: "Prensa de Ombros", nome: "Prensa de ombros com pegada pronada", videoId: "shoulder-press-pronated", grupo: "Ombros", icon: "🏋️", desc: "Press de ombros na máquina com pegada pronada.", passos: ["Ajusta o assento e confirma a posição inicial.", "Segura as pegas com as palmas viradas para a frente.", "Empurra para cima sem perder o apoio das costas.", "Regressa lentamente à posição inicial."], erros: ["Arquear a lombar.", "Descer além da amplitude confortável."] },
-    { equipamento: "Banco de Peso", nome: "Supino reto com halteres", videoId: "flat-bench-dumbbell-press", grupo: "Peito", icon: "🏋️", desc: "Supino plano com halteres no banco reto.", passos: ["Deita-te no banco com os pés apoiados e halteres acima do peito.", "Desce os halteres de forma controlada para os lados do peito.", "Empurra para cima mantendo os ombros estáveis.", "Termina sem bater os halteres um no outro."], erros: ["Abrir excessivamente os cotovelos.", "Usar carga que comprometa o controlo."] },
+    { equipamento: "Peso Livre", nome: "Supino reto com halteres", videoId: "flat-bench-dumbbell-press", grupo: "Peito", icon: "🏋️", desc: "Supino plano com halteres no banco reto.", passos: ["Deita-te no banco com os pés apoiados e halteres acima do peito.", "Desce os halteres de forma controlada para os lados do peito.", "Empurra para cima mantendo os ombros estáveis.", "Termina sem bater os halteres um no outro."], erros: ["Abrir excessivamente os cotovelos.", "Usar carga que comprometa o controlo."] },
     { equipamento: "Leg Press", nome: "Leg Press", videoId: "leg-press", grupo: "Pernas", icon: "🦵", desc: "Press de pernas na máquina para quadríceps e glúteos.", passos: ["Ajusta o banco e coloca os pés à largura confortável na plataforma.", "Desbloqueia a máquina e desce controladamente.", "Empurra a plataforma sem bloquear bruscamente os joelhos.", "Mantém a lombar apoiada durante o movimento."], erros: ["Descer até a bacia rodar.", "Bloquear os joelhos com força."] }
 ,
     // Vídeos adicionais recebidos com nomes corrigidos — associações por equipamento + exercício.
@@ -1758,7 +1781,7 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
     { equipamento: "Elíptica", nome: "Cardio moderado", videoId: "elliptical-cardio" },
     { equipamento: "Máquina de Remo", nome: "Resistência no remo", videoId: "rowing-cardio" },
     {
-        equipamento: "Banco de Peso",
+        equipamento: "Peso Livre",
         nome: "Crucifixo com halteres",
         videoId: "dumbbell-chest-fly",
         grupo: "Peito",
@@ -1770,7 +1793,7 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
         cuidados: ["Mantém os ombros estáveis e usa uma carga controlável."]
     },
     {
-        equipamento: "Banco de Peso",
+        equipamento: "Peso Livre",
         nome: "Remada inclinada com halteres",
         videoId: "dumbbell-incline-row",
         grupo: "Costas",
@@ -1782,7 +1805,7 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
         cuidados: ["Mantém o peito apoiado no banco durante a execução."]
     },
     {
-        equipamento: "Banco de Peso",
+        equipamento: "Peso Livre",
         nome: "Rosca inclinada com halteres",
         videoId: "dumbbell-incline-curl",
         grupo: "Braços",
@@ -1793,10 +1816,10 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
         musculos: ["Bíceps", "Braquial", "Antebraços"],
         cuidados: ["Usa uma carga que permita controlar a descida e evita forçar o ombro."]
     },
-    { equipamento: "Banco de Peso", nome: "Supino inclinado com pesos livres", videoId: "dumbbell-incline-bench-press" },
-    { equipamento: "Banco de Peso", nome: "Press de ombros com halteres", videoId: "dumbbell-shoulder-press" },
+    { equipamento: "Peso Livre", nome: "Supino inclinado com pesos livres", videoId: "dumbbell-incline-bench-press" },
+    { equipamento: "Peso Livre", nome: "Press de ombros com halteres", videoId: "dumbbell-shoulder-press" },
     {
-        equipamento: "Banco de Peso",
+        equipamento: "Peso Livre",
         nome: "Agachamento búlgaro",
         videoId: "bulgarian-split-squat",
         grupo: "Pernas",
@@ -1851,7 +1874,6 @@ const EQUIPAMENTOS_QR = [
     { slug: "eliptica", label: "Elíptica", catalogKey: "Elíptica" },
     { slug: "maquina-de-remo", label: "Máquina de Remo", catalogKey: "Máquina de Remo" },
     { slug: "smith-machine", label: "Smith Machine", catalogKey: "Smith Machine" },
-    { slug: "banco-de-peso", label: "Banco de Peso", catalogKey: "Banco de Peso" },
     { slug: "polia-multifuncional", label: "Polia Multifuncional", catalogKey: "Polia Multifuncional" },
     { slug: "maquina-abdutora", label: "Máquina Abdutora", catalogKey: "Máquina Abdutora/Adutora" },
     { slug: "prensa-de-ombros", label: "Prensa de Ombros", catalogKey: "Prensa de Ombros" },
@@ -1868,10 +1890,12 @@ function equipamentoQRCodePorValor(valor) {
         .toLocaleLowerCase("pt-PT")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
+    // Os QR Codes antigos do banco continuam a funcionar, mas abrem Peso Livre.
+    const slugResolucao = normalizado === "banco-de-peso" ? "peso-livre" : normalizado;
     return EQUIPAMENTOS_QR.find(equipamento =>
-        equipamento.slug === normalizado ||
+        equipamento.slug === slugResolucao ||
         equipamento.label.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .toLocaleLowerCase("pt-PT").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") === normalizado
+            .toLocaleLowerCase("pt-PT").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") === slugResolucao
     ) || null;
 }
 

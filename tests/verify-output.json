@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "globalUniqueExercises": 43,
-  "equipmentRecords": 72,
+  "equipmentRecords": 71,
   "localVideos": 43,
   "videosWithExistingFiles": 43,
   "localGifs": 43,
@@ -15,7 +15,10 @@
   "shoulderPressMachineVideos": 2,
   "fallbackNameAndEquipmentLookup": true,
   "serviceWorkerUpdateRegistration": true,
-  "equipmentQrCodes": 14,
+  "equipmentQrCodes": 13,
   "qrImagesExist": true,
-  "qrUrlsUsePublishedDomain": true
+  "qrUrlsUsePublishedDomain": true,
+  "pesoLivreMigration": "PASS",
+  "legacyBancoDePesoQrRedirectsToPesoLivre": true,
+  "note": "Banco de Peso removido como equipamento independente. Os exercícios associados passaram para Peso Livre sem duplicar nomes; os 13 QR Codes foram atualizados."
 }

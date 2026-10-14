@@ -35,7 +35,6 @@ const EQUIPAMENTOS_GINASIO = [
     "Elíptica",
     "Máquina de Remo",
     "Smith Machine",
-    "Banco de Peso",
     "Polia Multifuncional",
     "Máquina Abdutora",
     "Prensa de Ombros",
@@ -881,8 +880,8 @@ function maquinaPorExercicio(nome) {
     if (/peck deck|voador|crucifixo.*peck deck|peck deck.*crucifixo/.test(n)) return "Peck Deck";
     if (/polia|crossover|puxada|remada baixa|remada sentada|face pull|pull-through|woodchopper/.test(n)) return "Polia Multifuncional";
 
-    // Banco com suporte para barra / banco de treino.
-    if (/supino|press de peito|na smith machine/.test(n) || /no banco|banco inclinado|banco plano/.test(n)) return "Banco de Peso";
+    // Banco usado com halteres/barra é acessório do treino de peso livre; já não é equipamento independente.
+    if (/supino|press de peito|na smith machine/.test(n) || /no banco|banco inclinado|banco plano/.test(n)) return "Peso Livre";
 
     // Exercícios sem carga/equipamento dedicado.
     if (/flexoes|flexao de bracos|barra fixa|chin-up|pull-up|fundos|burpees|polichinelos|mountain climbers|dead bug|superman|prancha|crunch|russian twist|ab wheel|abdominal bicicleta|elevacao de pernas|elevacao de joelhos|corrida no lugar|saltos a corda/.test(n)) return "Peso Corporal";

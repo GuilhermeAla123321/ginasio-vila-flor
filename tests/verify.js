@@ -122,8 +122,19 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const normalizedNames = all.map(ex => normalize(ex.nome));
   assert.equal(new Set(normalizedNames).size, all.length, 'O catálogo global deve conter nomes únicos após normalização.');
   const qrEquipamentos = context.__equipmentQR;
-  assert.equal(qrEquipamentos.length, 14, 'Deve existir um QR Code para cada um dos 14 equipamentos visíveis.');
-  assert.equal(new Set(qrEquipamentos.map(eq => eq.slug)).size, 14, 'Os QR Codes devem usar slugs únicos.');
+  assert.equal(context.__equipment["Banco de Peso"], undefined, 'O Banco de Peso já não deve existir como equipamento independente.');
+  assert.ok(Array.isArray(context.__equipment["Peso Livre"]), 'Os exercícios migrados devem pertencer a Peso Livre.');
+  const nomesPesoLivre = new Set((context.__equipment["Peso Livre"] || []).map(ex => normalize(ex.nome)));
+  for (const nome of [
+    "Supino Reto", "Supino inclinado com pesos livres", "Remada com Halteres",
+    "Bíceps com Halteres", "Press de ombros com halteres", "Crucifixo com halteres",
+    "Remada inclinada com halteres", "Rosca inclinada com halteres", "Agachamento búlgaro"
+  ]) {
+    assert.ok(nomesPesoLivre.has(normalize(nome)), `O exercício migrado deve estar em Peso Livre: ${nome}`);
+  }
+  assert.equal(context.__resolveEquipmentQR('banco-de-peso')?.label, 'Peso Livre', 'QR antigo do banco deve abrir Peso Livre por compatibilidade.');
+  assert.equal(qrEquipamentos.length, 13, 'Deve existir um QR Code para cada um dos 13 equipamentos visíveis.');
+  assert.equal(new Set(qrEquipamentos.map(eq => eq.slug)).size, 13, 'Os QR Codes devem usar slugs únicos.');
   for (const item of qrEquipamentos) {
     assert.equal(context.__resolveEquipmentQR(item.slug)?.label, item.label, `O slug deve abrir o equipamento correto: ${item.label}`);
     assert.equal(context.__resolveEquipmentQR(item.label)?.label, item.label, `O nome deve resolver para o equipamento correto: ${item.label}`);
@@ -131,6 +142,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const qrManifest = JSON.parse(fs.readFileSync(path.join(root, 'qr-codes/manifest.json'), 'utf8'));
   assert.equal(qrManifest.baseUrl, 'https://ginasio-vila-flor.vercel.app/', 'Os QR Codes devem usar o endereço Vercel fornecido.');
   assert.equal(qrManifest.equipments.length, qrEquipamentos.length, 'O manifesto deve incluir todos os equipamentos configurados na aplicação.');
+  assert.ok(!qrManifest.equipments.some(item => item.label === 'Banco de Peso'), 'O banco removido não deve ter QR Code novo.');
   for (const item of qrManifest.equipments) {
     assert.ok(fs.existsSync(path.join(root, 'qr-codes', item.file)), `Imagem de QR em falta para ${item.label}`);
     assert.equal(item.url, `${qrManifest.baseUrl}?equipamento=${item.slug}`, `URL incorreto no QR de ${item.label}`);
@@ -235,7 +247,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const appSource = fs.readFileSync(path.join(root, 'js/app.js'), 'utf8');
   assert.match(appSource, /navigator\.serviceWorker\.register\([\s\S]*?updateViaCache:\s*["']none["']/ , 'O Service Worker deve verificar atualizações sem usar a cache do script.');
   const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-  assert.match(serviceWorkerSource, /vf-ginasio-v60/, 'A versão de cache do SW deve ter sido incrementada.');
+  assert.match(serviceWorkerSource, /vf-ginasio-v61/, 'A versão de cache do SW deve ter sido incrementada.');
   const styleSource = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
   assert.match(styleSource, /\.exercise-library-grid[\s\S]*?grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/, 'A biblioteca deve manter duas colunas.');
   assert.match(styleSource, /\.exercise-catalog-image img[\s\S]*?object-fit:\s*contain[\s\S]*?object-position:\s*center/, 'As imagens dos cartões devem usar contain e estar centradas.');
@@ -247,6 +259,11 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.match(equipmentUiSource, /role="listbox"[\s\S]*?ArrowDown[\s\S]*?Escape/, 'O filtro de grupos personalizado deve suportar teclado e acessibilidade.');
   assert.match(equipmentUiSource, /if \(botaoGlobal\) botaoGlobal\.hidden = false;[\s\S]*?if \(acaoGlobal\) acaoGlobal\.hidden = false;/, 'A renderização da página deve repor a visibilidade do botão global.');
   assert.match(indexSource, /id="openAllExercises"[\s\S]*?Todos os exercícios/, 'O botão de acesso à biblioteca deve usar o nome novo.');
+  assert.doesNotMatch(indexSource, /<h3>Banco de Peso<\/h3>/, 'O cartão do Banco de Peso deve ser removido da página de equipamentos.');
+  const trainingSource = fs.readFileSync(path.join(root, 'js/treino.js'), 'utf8');
+  assert.doesNotMatch(trainingSource.match(/const EQUIPAMENTOS_GINASIO = \[([\s\S]*?)\];/)?.[1] || '', /Banco de Peso/, 'Banco de Peso não deve aparecer nas opções de equipamento dos treinos.');
+  const videoManifestText = fs.readFileSync(path.join(root, 'assets/exercises/videos/manifest.json'), 'utf8');
+  assert.doesNotMatch(videoManifestText, /"Banco de Peso"/, 'O manifesto de vídeos não deve atribuir exercícios ao Banco de Peso.');
   assert.match(equipmentUiSource, /new URLSearchParams\(window\.location\.search/, 'Os QR Codes devem ser resolvidos a partir do parâmetro do URL.');
   assert.match(equipmentUiSource, /abrirEquipamentoQRCodeInicial\(\)/, 'A inicialização deve abrir automaticamente o equipamento indicado no QR Code.');
 
