@@ -2,6 +2,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let deferredPrompt = null;
 
+    /*
+     * Solicita orientação vertical em navegadores que suportam a Screen Orientation API.
+     * Alguns browsers só permitem o bloqueio em PWA instalada/ecrã inteiro; nesses casos,
+     * a tentativa é ignorada e o aviso CSS impede a utilização do layout em paisagem.
+     */
+    const solicitarOrientacaoVertical = () => {
+        const orientation = window.screen?.orientation;
+        if (!orientation || typeof orientation.lock !== "function") return;
+
+        try {
+            const resultado = orientation.lock("portrait");
+            if (resultado && typeof resultado.catch === "function") {
+                resultado.catch(() => {
+                    // Limitação do navegador/plataforma; o fallback visual continua ativo.
+                });
+            }
+        } catch (_) {
+            // O bloqueio físico não é suportado em todos os navegadores.
+        }
+    };
+
+    solicitarOrientacaoVertical();
+    // Repetir após a primeira interação permite APIs que exigem gesto do utilizador.
+    window.addEventListener("pointerdown", solicitarOrientacaoVertical, {
+        once: true,
+        passive: true
+    });
+    window.addEventListener("appinstalled", solicitarOrientacaoVertical);
+    document.addEventListener("fullscreenchange", solicitarOrientacaoVertical);
+
 
     /* =====================================================
        SERVICE WORKER
