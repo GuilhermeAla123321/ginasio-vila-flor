@@ -247,7 +247,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const appSource = fs.readFileSync(path.join(root, 'js/app.js'), 'utf8');
   assert.match(appSource, /navigator\.serviceWorker\.register\([\s\S]*?updateViaCache:\s*["']none["']/ , 'O Service Worker deve verificar atualizações sem usar a cache do script.');
   const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-  assert.match(serviceWorkerSource, /vf-ginasio-v61/, 'A versão de cache do SW deve ter sido incrementada.');
+  assert.match(serviceWorkerSource, /vf-ginasio-v63/, 'A versão de cache do SW deve ter sido incrementada.');
   const styleSource = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
   assert.match(styleSource, /\.exercise-library-grid[\s\S]*?grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/, 'A biblioteca deve manter duas colunas.');
   assert.match(styleSource, /\.exercise-catalog-image img[\s\S]*?object-fit:\s*contain[\s\S]*?object-position:\s*center/, 'As imagens dos cartões devem usar contain e estar centradas.');
@@ -259,6 +259,23 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.match(equipmentUiSource, /role="listbox"[\s\S]*?ArrowDown[\s\S]*?Escape/, 'O filtro de grupos personalizado deve suportar teclado e acessibilidade.');
   assert.match(equipmentUiSource, /if \(botaoGlobal\) botaoGlobal\.hidden = false;[\s\S]*?if \(acaoGlobal\) acaoGlobal\.hidden = false;/, 'A renderização da página deve repor a visibilidade do botão global.');
   assert.match(indexSource, /id="openAllExercises"[\s\S]*?Todos os exercícios/, 'O botão de acesso à biblioteca deve usar o nome novo.');
+  assert.equal((indexSource.match(/<details class="info-card"/g) || []).length, 4, 'A página Informação deve ter quatro cartões expansíveis.');
+  assert.match(indexSource, /<summary class="info-card-summary">[\s\S]*?Localização/, 'O cartão de localização deve abrir através de um controlo summary acessível.');
+  assert.match(indexSource, /class="location-button"[\s\S]*?Ver localização/, 'A localização deve ter um link visualmente apresentado como botão.');
+  assert.match(indexSource, /Guilherme Ala e Daniel Moutinho/, 'A secção Sobre a aplicação deve identificar os autores.');
+  assert.match(indexSource, /mailto:officedigitalsolutionspt@gmail.com/, 'O email dos autores deve ser clicável.');
+  assert.match(styleSource, /#page-info \.location-button[\s\S]*?background:\s*linear-gradient/, 'O botão de localização deve ter estilo visual próprio.');
+  assert.match(styleSource, /body\[data-theme=\"light\"\] #page-info \.info-inline-link/, 'Os links informativos devem manter contraste no tema claro.');
+  assert.match(styleSource, /#page-info \.info-card-chevron svg[\s\S]*?stroke-linecap:\s*round/, 'As setas dos cartões de informação devem ser chevrons SVG limpos.');
+  assert.match(styleSource, /#page-info > \.section > h2[\s\S]*?text-align:\s*center/, 'O título da página Informação deve estar centrado.');
+  assert.match(indexSource, /id="infoFeedbackForm"[\s\S]*?officedigitalsolutionspt@gmail\.com[\s\S]*?id="infoFeedbackMessage"/, 'A página Informação deve conter um formulário de feedback ligado ao email pretendido.');
+  assert.match(indexSource, /id="infoFeedbackStatus"[^>]*role="status"[^>]*aria-live="polite"/, 'O formulário deve fornecer feedback acessível sobre o envio.');
+  assert.match(indexSource, /<script src="js\/feedback\.js"><\/script>/, 'O controlador do formulário de feedback deve ser carregado.');
+  const feedbackScript = fs.readFileSync(path.join(root, 'js/feedback.js'), 'utf8');
+  assert.match(feedbackScript, /https?:|form\.action/, 'O feedback deve ser enviado através do serviço de formulário.');
+  assert.match(feedbackScript, /form\.reset\(\)[\s\S]*?feedback foi submetido/, 'O formulário deve confirmar o envio e limpar o campo após sucesso.');
+  assert.match(serviceWorkerSource, /'\.\/js\/feedback\.js'/, 'O controlador de feedback deve integrar o shell da PWA.');
+
   assert.doesNotMatch(indexSource, /<h3>Banco de Peso<\/h3>/, 'O cartão do Banco de Peso deve ser removido da página de equipamentos.');
   const trainingSource = fs.readFileSync(path.join(root, 'js/treino.js'), 'utf8');
   assert.doesNotMatch(trainingSource.match(/const EQUIPAMENTOS_GINASIO = \[([\s\S]*?)\];/)?.[1] || '', /Banco de Peso/, 'Banco de Peso não deve aparecer nas opções de equipamento dos treinos.');

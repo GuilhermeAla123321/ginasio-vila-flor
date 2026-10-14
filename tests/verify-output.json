@@ -18,7 +18,8 @@
   "equipmentQrCodes": 13,
   "qrImagesExist": true,
   "qrUrlsUsePublishedDomain": true,
-  "pesoLivreMigration": "PASS",
-  "legacyBancoDePesoQrRedirectsToPesoLivre": true,
-  "note": "Banco de Peso removido como equipamento independente. Os exercícios associados passaram para Peso Livre sem duplicar nomes; os 13 QR Codes foram atualizados."
+  "infoPageChevron": "PASS",
+  "infoTitleCentered": "PASS",
+  "feedbackForm": "PASS (mock endpoint response; remote inbox delivery requires FormSubmit activation)",
+  "mobileBehavior": "PASS"
 }
