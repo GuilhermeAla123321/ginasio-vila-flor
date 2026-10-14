@@ -1842,12 +1842,15 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
 
 function renderEquipamentos() {
 
-    const list =
-        document.getElementById(
-            "equipment-list"
-        );
-
+    const list = document.getElementById("equipment-list");
     if (!list) return;
+
+    // A navegação principal volta a chamar esta função. Repor também o CTA:
+    // antes só era restaurada a grelha, ficando o botão hidden após sair da biblioteca.
+    const botaoGlobal = document.getElementById("openAllExercises");
+    const acaoGlobal = document.querySelector(".equipment-global-action");
+    if (botaoGlobal) botaoGlobal.hidden = false;
+    if (acaoGlobal) acaoGlobal.hidden = false;
 
     if (!list.dataset.originalHtml) {
         list.dataset.originalHtml = list.innerHTML;
@@ -1911,12 +1914,14 @@ function abrirEquipamento(nome) {
         filtrosEquipamentos.style.display = "none";
     }
 
-    const exercicios = (EQUIPAMENTOS_EXERCICIOS[nome] || []).map(ex => ({
-        ...ex,
-        id: ex.id || ex.videoId || slugExercicioBiblioteca(ex.nome),
-        equipamentos: [nome],
-        equipamento: nome
-    }));
+    const exercicios = (EQUIPAMENTOS_EXERCICIOS[nome] || [])
+        .map(ex => prepararExercicioBiblioteca({
+            ...ex,
+            id: ex.id || ex.videoId || slugExercicioBiblioteca(ex.nome),
+            equipamentos: [nome],
+            equipamento: nome
+        }))
+        .filter(Boolean);
 
     const gruposMusculares = [
         ...new Set(
@@ -1937,33 +1942,20 @@ function abrirEquipamento(nome) {
             <h3 style="margin-top:1rem">${nome}</h3>
             <p>Exercícios disponíveis neste equipamento.</p>
 
-            <div class="exercise-filters">
-
-                <select id="exerciseDifficultyFilter">
-                    <option value="Todos">Todas as dificuldades</option>
-                    <option value="Iniciante">Iniciante</option>
-                    <option value="Intermédio">Intermédio</option>
-                    <option value="Avançado">Avançado</option>
-                </select>
-
-                ${
-                    temMusculacao
-                        ? `
-                        <select id="exerciseMuscleFilter">
+            ${
+                temMusculacao
+                    ? `
+                    <div class="exercise-filters equipment-muscle-filter-wrap">
+                        <select id="exerciseMuscleFilter" aria-label="Filtrar por grupo muscular">
                             <option value="Todos">Todos os grupos</option>
-
                             ${gruposMusculares
-                                .map(
-                                    grupo =>
-                                        `<option value="${grupo}">${grupo}</option>`
-                                )
+                                .map(grupo => `<option value="${escaparHTMLBiblioteca(grupo)}">${escaparHTMLBiblioteca(grupo)}</option>`)
                                 .join("")}
                         </select>
-                        `
-                        : ""
-                }
-
-            </div>
+                    </div>
+                    `
+                    : ""
+            }
         </div>
 
         <div id="filtered-exercise-list" class="equipment-exercise-grid"></div>
@@ -1971,24 +1963,8 @@ function abrirEquipamento(nome) {
 
     const renderExerciciosFiltrados = () => {
 
-        const dificuldade =
-            document.getElementById("exerciseDifficultyFilter")?.value || "Todos";
-
-        const grupo =
-            document.getElementById("exerciseMuscleFilter")?.value || "Todos";
-
-        const filtrados = exercicios.filter(e => {
-
-            const correspondeDificuldade =
-                dificuldade === "Todos" ||
-                e.dificuldade === dificuldade;
-
-            const correspondeGrupo =
-                grupo === "Todos" ||
-                e.grupo === grupo;
-
-            return correspondeDificuldade && correspondeGrupo;
-        });
+        const grupo = document.getElementById("exerciseMuscleFilter")?.value || "Todos";
+        const filtrados = exercicios.filter(e => grupo === "Todos" || e.grupo === grupo);
 
         const exerciseList =
             document.getElementById("filtered-exercise-list");
@@ -1998,10 +1974,6 @@ function abrirEquipamento(nome) {
         renderizarCartoesExercicios(exerciseList, filtrados, "equipment-exercise-card");
 
     };
-
-    document
-        .getElementById("exerciseDifficultyFilter")
-        ?.addEventListener("change", renderExerciciosFiltrados);
 
     document
         .getElementById("exerciseMuscleFilter")
@@ -2093,6 +2065,74 @@ function configurarFiltrosEquipamentos() {
     });
 }
 
+/*
+ * Exercícios elegíveis para as grelhas de demonstração.
+ * Cada ID existe no manifesto de demonstrações e tem um GIF animado e uma
+ * imagem específica correspondente na pasta assets/ImagesExer (mesmo nome-base).
+ * IDs sem associação explícita não são apresentados na biblioteca visual.
+ */
+const IMAGENS_EXERCICIO_BIBLIOTECA = {
+    "hip-abduction": "abducao-de-quadril-gluteos.jpg",
+    "hip-adduction": "aducao-de-quadril-virilhas.jpg",
+    "smith-squat": "agachamento.jpg",
+    "cable-crossover-high": "crucifixo-alto-peitoral-inferior.jpg",
+    "cable-crossover-low": "crucifixo-baixo-peitoral-superior.jpg",
+    "pec-deck-reverse-fly": "crucifixo-invertido-peck-deck.jpg",
+    "cable-reverse-fly": "crucifixo-invertido.jpg",
+    "pec-deck-fly": "crucifixo-peck-deck.jpg",
+    "cable-lateral-raise-unilateral": "elevacao-lateral-unilateral.jpg",
+    "knee-extension": "extensao-de-quadriceps.jpg",
+    "cable-triceps-bar": "extensao-triceps-com-barra.jpg",
+    "cable-triceps-rope": "extensao-triceps-com-corda.jpg",
+    "cable-triceps-unilateral": "extensao-triceps-unilateral.jpg",
+    "smith-bench-press": "extensao-triceps.jpg",
+    "smith-calf-raise": "flexao-de-gemeos.jpg",
+    "leg-curl": "flexao-de-isquiotibiais.jpg",
+    "cable-glute-kickback": "kickback-unilateral.jpg",
+    "shoulder-press-neutral": "prensa-de-ombros-neutra.jpg",
+    "shoulder-press-pronated": "prensa-de-ombros-pronada.jpg",
+    "smith-shoulder-press": "press-de-ombros.jpg",
+    "cable-straight-arm-pulldown": "puxada-frontal-de-dorsal.jpg",
+    "lat-pulldown-neutral-triangle": "puxada-neutra-com-triangulo.jpg",
+    "lat-pulldown-pronated": "puxada-pronada-com-barra.jpg",
+    "lat-pulldown-supinated": "puxada-supinada.jpg",
+    "cable-seated-row-triangle": "remada-baixa-triangulo.jpg",
+    "smith-row-pronated": "remada-curvada-pronada.jpg",
+    "cable-seated-row-neutral-unilateral": "remada-neutra-unilateral.jpg",
+    "cable-seated-row-pronated": "remada-pronada-com-barra.jpg",
+    "cable-bayesian-curl": "rosca-bayesian.jpg",
+    "cable-biceps-curl": "rosca-direta.jpg",
+    "smith-incline-bench-press": "supino-inclinado.jpg",
+    "cable-overhead-triceps-rope": "triceps-frances-com-corda.jpg",
+    "treadmill-walk": "caminhada.jpg",
+    "treadmill-incline-walk": "caminhada-inclinada.jpg",
+    "stationary-bike-cardio": "bicicleta.jpg",
+    "elliptical-cardio": "eliptica.jpg",
+    "rowing-cardio": "remo.jpg",
+    "dumbbell-chest-fly": "crucifixo-com-halteres.jpg",
+    "dumbbell-incline-row": "remada-inclinada-com-halteres.jpg",
+    "dumbbell-incline-curl": "rosca-inclinada-biceps.jpg",
+    "dumbbell-incline-bench-press": "supino-inclinado-halteres.jpg",
+    "dumbbell-shoulder-press": "press-de-ombros-halteres.jpg",
+    "bulgarian-split-squat": "agachamento-bulgaro.jpg",
+};
+
+function prepararExercicioBiblioteca(exercicio) {
+    if (!exercicio || !String(exercicio.nome || "").trim()) return null;
+    const videoId = String(exercicio.videoId || exercicio.videoLocalId || "").trim();
+    const imagemFicheiro = IMAGENS_EXERCICIO_BIBLIOTECA[videoId];
+    if (!imagemFicheiro) return null;
+
+    const baseFicheiro = imagemFicheiro.replace(/\.jpg$/i, "");
+    return {
+        ...exercicio,
+        videoId,
+        videoLocal: `assets/exercises/videos/${baseFicheiro}.mp4`,
+        gif: `assets/exercises/gifs/${baseFicheiro}.gif`,
+        imagemBiblioteca: `assets/ImagesExer/${imagemFicheiro}`
+    };
+}
+
 /* =========================================
    CARTÕES E BIBLIOTECA GLOBAL DE EXERCÍCIOS
    Os ecrãs global e por equipamento reutilizam os mesmos dados e cartões.
@@ -2161,30 +2201,27 @@ function obterTodosExerciciosBiblioteca() {
     // Exercícios gerais que não existem já na fonte usada pelas páginas dos equipamentos.
     (window.exerciciosBiblioteca || []).forEach(ex => adicionarAoCatalogo(ex, ex.equipamento || ""));
 
-    return [...catalogo.values()];
+    return [...catalogo.values()]
+        .map(prepararExercicioBiblioteca)
+        .filter(Boolean);
 }
 
 function gerarCartaoExercicio(ex, indice, classeAdicional = "") {
     const nome = escaparHTMLBiblioteca(ex.nome || "Exercício");
-    const grupo = escaparHTMLBiblioteca(ex.grupo || "Sem grupo");
-    // Só usamos imagens PNG explicitamente fornecidas nos dados. Sem PNG, a área fica vazia e pronta para receber um.
-    const png = ex.png || ex.imagemPNG || ex.imagemPng || "";
-    const imagem = png
-        ? `<img src="${escaparHTMLBiblioteca(png)}" alt="" loading="lazy">`
+    const imagem = ex.imagemBiblioteca
+        ? `<img src="${escaparHTMLBiblioteca(ex.imagemBiblioteca)}" alt="Imagem de ${nome}" loading="lazy" decoding="async">`
         : "";
-    const mostrarEquipamento = String(classeAdicional).includes("exercise-library-card") && ex.equipamento;
     const equipamentoGlobal = Array.isArray(ex.equipamentos) && ex.equipamentos.length
         ? ex.equipamentos.join(", ")
         : ex.equipamento;
-    const equipamento = mostrarEquipamento && equipamentoGlobal
+    const equipamento = equipamentoGlobal
         ? `<p class="exercise-catalog-equipment">${escaparHTMLBiblioteca(equipamentoGlobal)}</p>`
         : "";
 
     return `<article class="exercise-catalog-card ${escaparHTMLBiblioteca(classeAdicional)}" role="button" tabindex="0" data-exercise-index="${indice}" aria-label="Ver exercício ${nome}">
-        <div class="exercise-catalog-image" aria-hidden="true">${imagem}</div>
+        <div class="exercise-catalog-image">${imagem}</div>
         <div class="exercise-catalog-content">
             <h3 class="exercise-catalog-title">${nome}</h3>
-            <span class="exercise-catalog-group">${grupo}</span>
             ${equipamento}
             <span class="exercise-catalog-action">Ver exercício</span>
         </div>
@@ -2193,23 +2230,33 @@ function gerarCartaoExercicio(ex, indice, classeAdicional = "") {
 
 function renderizarCartoesExercicios(container, exercicios, classeAdicional = "") {
     if (!container) return;
-    if (!exercicios.length) {
-        container.innerHTML = '<div class="exercise-library-empty">Não foram encontrados exercícios. Altera a pesquisa ou seleciona outro grupo muscular.</div>';
+    const exerciciosValidos = (exercicios || [])
+        .map(prepararExercicioBiblioteca)
+        .filter(Boolean);
+    if (!exerciciosValidos.length) {
+        container.innerHTML = '<div class="exercise-library-empty">Não foram encontrados exercícios com demonstração e imagem disponíveis.</div>';
         return;
     }
 
-    container.innerHTML = exercicios.map((ex, indice) => gerarCartaoExercicio(ex, indice, classeAdicional)).join("");
+    container.innerHTML = exerciciosValidos.map((ex, indice) => gerarCartaoExercicio(ex, indice, classeAdicional)).join("");
     container.querySelectorAll(".exercise-catalog-card").forEach(card => {
         const imagem = card.querySelector(".exercise-catalog-image img");
         if (imagem) {
             imagem.addEventListener("error", () => {
-                const areaImagem = imagem.closest(".exercise-catalog-image");
-                imagem.remove();
-                areaImagem?.classList.add("is-placeholder");
+                // Se um asset falhar em produção, remove o cartão em vez de deixar um espaço vazio.
+                card.remove();
+                if (!container.querySelector(".exercise-catalog-card")) {
+                    container.innerHTML = '<div class="exercise-library-empty">Não foi possível carregar as imagens dos exercícios.</div>';
+                }
+                const count = document.getElementById("exerciseLibraryCount");
+                if (count && container.id === "exerciseLibraryResults") {
+                    const total = container.querySelectorAll(".exercise-catalog-card").length;
+                    count.textContent = `${total} ${total === 1 ? "exercício" : "exercícios"}`;
+                }
             }, { once: true });
         }
         const abrir = () => {
-            const ex = exercicios[Number(card.dataset.exerciseIndex)];
+            const ex = exerciciosValidos[Number(card.dataset.exerciseIndex)];
             if (ex && typeof abrirExercicioModal === "function") abrirExercicioModal(ex);
         };
         card.addEventListener("click", abrir);
@@ -2232,52 +2279,123 @@ function mostrarBibliotecaGlobal() {
     if (acaoGlobal) acaoGlobal.hidden = true;
 
     const todos = obterTodosExerciciosBiblioteca();
-    const grupos = [...new Set(todos.map(ex => ex.grupo).filter(Boolean))]
-        .sort((a, b) => a.localeCompare(b, "pt-PT"));
+    // Ordem estável e nomes de grupos mantidos conforme a interface pedida.
+    const grupos = ["Braços", "Cardio", "Costas", "Ombros", "Peito", "Pernas"];
 
     list.innerHTML = `
       <section class="exercise-library-view" aria-label="Biblioteca global de exercícios">
-        <button class="filter-btn equipment-back exercise-library-back" id="backToEquipmentList" type="button">← Voltar aos equipamentos</button>
+        <button class="filter-btn equipment-back exercise-library-back" id="backToEquipmentList" type="button">Voltar aos equipamentos</button>
         <div class="exercise-library-heading">
           <h3>Todos os exercícios</h3>
           <p>Pesquisa por nome ou filtra por grupo muscular.</p>
         </div>
         <div class="exercise-library-toolbar">
           <div class="exercise-library-search">
-            <input id="exerciseLibrarySearch" type="search" placeholder="Pesquisar exercício…" aria-label="Pesquisar exercício" autocomplete="off">
-            <button id="clearExerciseLibrarySearch" type="button" aria-label="Limpar pesquisa" title="Limpar pesquisa">×</button>
+            <input id="exerciseLibrarySearch" type="text" placeholder="Pesquisar exercício…" aria-label="Pesquisar exercício" autocomplete="off" spellcheck="false">
           </div>
-          <select id="exerciseLibraryGroup" aria-label="Filtrar por grupo muscular">
-            <option value="">Todos os grupos</option>
-            ${grupos.map(grupo => `<option value="${escaparHTMLBiblioteca(grupo)}">${escaparHTMLBiblioteca(grupo)}</option>`).join("")}
-          </select>
+          <div class="exercise-group-filter" id="exerciseLibraryGroupFilter">
+            <button id="exerciseLibraryGroup" class="exercise-group-trigger" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="exerciseLibraryGroupOptions" aria-label="Filtrar por grupo muscular">
+              <span id="exerciseLibraryGroupLabel">Todos os grupos</span>
+              <svg class="exercise-group-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="exercise-group-options" id="exerciseLibraryGroupOptions" role="listbox" aria-label="Grupos musculares" hidden>
+              <button class="exercise-group-option is-selected" type="button" role="option" data-value="" aria-selected="true">Todos os grupos</button>
+              ${grupos.map(grupo => `<button class="exercise-group-option" type="button" role="option" data-value="${escaparHTMLBiblioteca(grupo)}" aria-selected="false">${escaparHTMLBiblioteca(grupo)}</button>`).join("")}
+            </div>
+          </div>
         </div>
         <p class="exercise-library-count" id="exerciseLibraryCount" aria-live="polite"></p>
         <div class="exercise-library-grid" id="exerciseLibraryResults"></div>
       </section>`;
 
     const search = document.getElementById("exerciseLibrarySearch");
-    const group = document.getElementById("exerciseLibraryGroup");
+    const groupTrigger = document.getElementById("exerciseLibraryGroup");
+    const groupLabel = document.getElementById("exerciseLibraryGroupLabel");
+    const groupFilter = document.getElementById("exerciseLibraryGroupFilter");
+    const optionsList = document.getElementById("exerciseLibraryGroupOptions");
+    const groupOptions = [...optionsList.querySelectorAll(".exercise-group-option")];
     const results = document.getElementById("exerciseLibraryResults");
     const count = document.getElementById("exerciseLibraryCount");
-    const clearButton = document.getElementById("clearExerciseLibrarySearch");
+    let selectedGroup = "";
 
     function renderizarResultados() {
         const termo = normalizarTextoBiblioteca(search.value);
         const filtrados = todos.filter(ex =>
             (!termo || normalizarTextoBiblioteca(ex.nome).includes(termo)) &&
-            (!group.value || ex.grupo === group.value)
+            (!selectedGroup || ex.grupo === selectedGroup)
         );
         count.textContent = `${filtrados.length} ${filtrados.length === 1 ? "exercício" : "exercícios"}`;
         renderizarCartoesExercicios(results, filtrados, "exercise-library-card");
     }
 
-    search.addEventListener("input", renderizarResultados);
-    group.addEventListener("change", renderizarResultados);
-    clearButton.addEventListener("click", () => {
-        search.value = "";
+    function indiceSelecionado() {
+        return Math.max(0, groupOptions.findIndex(option => option.dataset.value === selectedGroup));
+    }
+
+    function abrirOpcoes(indice = indiceSelecionado()) {
+        optionsList.hidden = false;
+        groupTrigger.setAttribute("aria-expanded", "true");
+        const destino = groupOptions[Math.min(Math.max(indice, 0), groupOptions.length - 1)];
+        destino?.focus({ preventScroll: true });
+    }
+
+    function fecharOpcoes(devolverFoco = false) {
+        optionsList.hidden = true;
+        groupTrigger.setAttribute("aria-expanded", "false");
+        if (devolverFoco) groupTrigger.focus({ preventScroll: true });
+    }
+
+    function selecionarGrupo(valor) {
+        selectedGroup = valor;
+        const selecionada = groupOptions.find(option => option.dataset.value === valor) || groupOptions[0];
+        groupLabel.textContent = selecionada.textContent.trim();
+        groupOptions.forEach(option => {
+            const estaSelecionada = option.dataset.value === valor;
+            option.setAttribute("aria-selected", String(estaSelecionada));
+            option.classList.toggle("is-selected", estaSelecionada);
+        });
+        fecharOpcoes(true);
         renderizarResultados();
-        search.focus({ preventScroll: true });
+    }
+
+    groupTrigger.addEventListener("click", () => {
+        if (optionsList.hidden) abrirOpcoes();
+        else fecharOpcoes();
+    });
+
+    groupTrigger.addEventListener("keydown", evento => {
+        if (["ArrowDown", "ArrowUp", "Enter", " "].includes(evento.key)) {
+            evento.preventDefault();
+            if (optionsList.hidden) abrirOpcoes(evento.key === "ArrowUp" ? groupOptions.length - 1 : indiceSelecionado());
+            else abrirOpcoes(indiceSelecionado());
+        }
+    });
+
+    groupOptions.forEach((option, index) => {
+        option.addEventListener("click", () => selecionarGrupo(option.dataset.value));
+        option.addEventListener("keydown", evento => {
+            if (evento.key === "ArrowDown" || evento.key === "ArrowUp") {
+                evento.preventDefault();
+                const delta = evento.key === "ArrowDown" ? 1 : -1;
+                groupOptions[(index + delta + groupOptions.length) % groupOptions.length]?.focus({ preventScroll: true });
+            } else if (evento.key === "Home") {
+                evento.preventDefault();
+                groupOptions[0]?.focus({ preventScroll: true });
+            } else if (evento.key === "End") {
+                evento.preventDefault();
+                groupOptions[groupOptions.length - 1]?.focus({ preventScroll: true });
+            } else if (evento.key === "Escape") {
+                evento.preventDefault();
+                fecharOpcoes(true);
+            } else if (evento.key === "Tab") {
+                fecharOpcoes();
+            }
+        });
+    });
+
+    search.addEventListener("input", renderizarResultados);
+    list.addEventListener("click", evento => {
+        if (!groupFilter.contains(evento.target) && !optionsList.hidden) fecharOpcoes();
     });
     document.getElementById("backToEquipmentList").addEventListener("click", () => {
         if (botaoGlobal) botaoGlobal.hidden = false;
@@ -2287,6 +2405,18 @@ function mostrarBibliotecaGlobal() {
 
     renderizarResultados();
 }
+
+// Fecha o menu personalizado ao clicar/tocar fora, mantendo o foco e a navegação por teclado.
+document.addEventListener("pointerdown", evento => {
+    const filtro = document.getElementById("exerciseLibraryGroupFilter");
+    if (!filtro || filtro.contains(evento.target)) return;
+    const opcoes = filtro.querySelector(".exercise-group-options");
+    const gatilho = filtro.querySelector(".exercise-group-trigger");
+    if (opcoes && !opcoes.hidden) {
+        opcoes.hidden = true;
+        gatilho?.setAttribute("aria-expanded", "false");
+    }
+});
 
 function abrirDetalheExercicioBiblioteca(ex) {
     if (ex && typeof abrirExercicioModal === "function") abrirExercicioModal(ex);
