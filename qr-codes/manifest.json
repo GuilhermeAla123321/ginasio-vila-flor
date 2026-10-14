@@ -1,0 +1,89 @@
+{
+  "baseUrl": "https://ginasio-vila-flor.vercel.app/",
+  "equipments": [
+    {
+      "slug": "passadeira",
+      "label": "Passadeira",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=passadeira",
+      "file": "passadeira.png"
+    },
+    {
+      "slug": "bicicleta",
+      "label": "Bicicleta",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=bicicleta",
+      "file": "bicicleta.png"
+    },
+    {
+      "slug": "eliptica",
+      "label": "Elíptica",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=eliptica",
+      "file": "eliptica.png"
+    },
+    {
+      "slug": "maquina-de-remo",
+      "label": "Máquina de Remo",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=maquina-de-remo",
+      "file": "maquina-de-remo.png"
+    },
+    {
+      "slug": "smith-machine",
+      "label": "Smith Machine",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=smith-machine",
+      "file": "smith-machine.png"
+    },
+    {
+      "slug": "banco-de-peso",
+      "label": "Banco de Peso",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=banco-de-peso",
+      "file": "banco-de-peso.png"
+    },
+    {
+      "slug": "polia-multifuncional",
+      "label": "Polia Multifuncional",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=polia-multifuncional",
+      "file": "polia-multifuncional.png"
+    },
+    {
+      "slug": "maquina-abdutora",
+      "label": "Máquina Abdutora",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=maquina-abdutora",
+      "file": "maquina-abdutora.png"
+    },
+    {
+      "slug": "prensa-de-ombros",
+      "label": "Prensa de Ombros",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=prensa-de-ombros",
+      "file": "prensa-de-ombros.png"
+    },
+    {
+      "slug": "peck-deck",
+      "label": "Peck Deck",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=peck-deck",
+      "file": "peck-deck.png"
+    },
+    {
+      "slug": "peso-livre",
+      "label": "Peso Livre",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=peso-livre",
+      "file": "peso-livre.png"
+    },
+    {
+      "slug": "leg-press",
+      "label": "Leg Press",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=leg-press",
+      "file": "leg-press.png"
+    },
+    {
+      "slug": "cadeira-extensora",
+      "label": "Cadeira Extensora",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=cadeira-extensora",
+      "file": "cadeira-extensora.png"
+    },
+    {
+      "slug": "mesa-flexora",
+      "label": "Mesa Flexora",
+      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=mesa-flexora",
+      "file": "mesa-flexora.png"
+    }
+  ]
+}

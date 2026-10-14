@@ -14,5 +14,8 @@
   "pulleyVideos": 18,
   "shoulderPressMachineVideos": 2,
   "fallbackNameAndEquipmentLookup": true,
-  "serviceWorkerUpdateRegistration": true
+  "serviceWorkerUpdateRegistration": true,
+  "equipmentQrCodes": 14,
+  "qrImagesExist": true,
+  "qrUrlsUsePublishedDomain": true
 }

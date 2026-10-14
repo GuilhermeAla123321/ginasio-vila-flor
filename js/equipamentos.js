@@ -1840,6 +1840,64 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
 })();
 
 
+/*
+ * Ligações diretas usadas pelos QR Codes colocados em cada equipamento.
+ * O rótulo corresponde ao nome visível no cartão; catalogKey resolve nomes
+ * históricos diferentes entre o cartão e o catálogo de exercícios.
+ */
+const EQUIPAMENTOS_QR = [
+    { slug: "passadeira", label: "Passadeira", catalogKey: "Passadeira" },
+    { slug: "bicicleta", label: "Bicicleta", catalogKey: "Bicicleta" },
+    { slug: "eliptica", label: "Elíptica", catalogKey: "Elíptica" },
+    { slug: "maquina-de-remo", label: "Máquina de Remo", catalogKey: "Máquina de Remo" },
+    { slug: "smith-machine", label: "Smith Machine", catalogKey: "Smith Machine" },
+    { slug: "banco-de-peso", label: "Banco de Peso", catalogKey: "Banco de Peso" },
+    { slug: "polia-multifuncional", label: "Polia Multifuncional", catalogKey: "Polia Multifuncional" },
+    { slug: "maquina-abdutora", label: "Máquina Abdutora", catalogKey: "Máquina Abdutora/Adutora" },
+    { slug: "prensa-de-ombros", label: "Prensa de Ombros", catalogKey: "Prensa de Ombros" },
+    { slug: "peck-deck", label: "Peck Deck", catalogKey: "Peck Deck" },
+    { slug: "peso-livre", label: "Peso Livre", catalogKey: "Peso Livre" },
+    { slug: "leg-press", label: "Leg Press", catalogKey: "Leg Press" },
+    { slug: "cadeira-extensora", label: "Cadeira Extensora", catalogKey: "Cadeira Extensora" },
+    { slug: "mesa-flexora", label: "Mesa Flexora", catalogKey: "Mesa Flexora" }
+];
+
+function equipamentoQRCodePorValor(valor) {
+    const normalizado = String(valor || "").normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("pt-PT")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    return EQUIPAMENTOS_QR.find(equipamento =>
+        equipamento.slug === normalizado ||
+        equipamento.label.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .toLocaleLowerCase("pt-PT").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") === normalizado
+    ) || null;
+}
+
+function abrirEquipamentoQRCodeInicial() {
+    const parametros = new URLSearchParams(window.location.search || "");
+    const valor = parametros.get("equipamento") || parametros.get("maquina") || parametros.get("machine");
+    if (!valor) return;
+
+    const equipamento = equipamentoQRCodePorValor(valor);
+    if (!equipamento) return;
+
+    if (typeof mostrarPagina === "function") {
+        mostrarPagina("equipment");
+    } else {
+        document.querySelectorAll(".page").forEach(pagina => pagina.classList.remove("active"));
+        document.getElementById("page-equipment")?.classList.add("active");
+        document.querySelectorAll(".nav-item").forEach(botao => {
+            botao.classList.toggle("active", botao.dataset.page === "equipment");
+        });
+        renderEquipamentos();
+    }
+
+    abrirEquipamento(equipamento.label);
+}
+
+
 function renderEquipamentos() {
 
     const list = document.getElementById("equipment-list");
@@ -1914,7 +1972,9 @@ function abrirEquipamento(nome) {
         filtrosEquipamentos.style.display = "none";
     }
 
-    const exercicios = (EQUIPAMENTOS_EXERCICIOS[nome] || [])
+    const definicaoQR = equipamentoQRCodePorValor(nome);
+    const chaveCatalogo = definicaoQR?.catalogKey || nome;
+    const exercicios = (EQUIPAMENTOS_EXERCICIOS[chaveCatalogo] || EQUIPAMENTOS_EXERCICIOS[nome] || [])
         .map(ex => prepararExercicioBiblioteca({
             ...ex,
             id: ex.id || ex.videoId || slugExercicioBiblioteca(ex.nome),
@@ -2284,7 +2344,7 @@ function mostrarBibliotecaGlobal() {
 
     list.innerHTML = `
       <section class="exercise-library-view" aria-label="Biblioteca global de exercícios">
-        <button class="filter-btn equipment-back exercise-library-back" id="backToEquipmentList" type="button">Voltar aos equipamentos</button>
+        <button class="filter-btn equipment-back exercise-library-back" id="backToEquipmentList" type="button">← Voltar aos equipamentos</button>
         <div class="exercise-library-heading">
           <h3>Todos os exercícios</h3>
           <p>Pesquisa por nome ou filtra por grupo muscular.</p>
@@ -2434,5 +2494,6 @@ document.addEventListener(
     "DOMContentLoaded",
     () => {
         renderEquipamentos();
+        abrirEquipamentoQRCodeInicial();
     }
 );

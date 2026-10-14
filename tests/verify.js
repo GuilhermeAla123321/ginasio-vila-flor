@@ -114,13 +114,30 @@ vm.createContext(context);
 const librarySource = fs.readFileSync(path.join(root, 'js/exercicios.js'), 'utf8');
 vm.runInContext(librarySource + '\n;globalThis.__openExercise = abrirExercicioModal; globalThis.__closeExercise = fecharExercicioModal; globalThis.__validVideoPath = validarCaminhoVideoExercicio;', context);
 const equipmentSource = fs.readFileSync(path.join(root, 'js/equipamentos.js'), 'utf8');
-vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXERCICIOS; globalThis.__getAllExercises = obterTodosExerciciosBiblioteca; globalThis.__prepareLibraryExercise = prepararExercicioBiblioteca; globalThis.__renderExerciseCard = gerarCartaoExercicio;', context);
+vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXERCICIOS; globalThis.__getAllExercises = obterTodosExerciciosBiblioteca; globalThis.__prepareLibraryExercise = prepararExercicioBiblioteca; globalThis.__renderExerciseCard = gerarCartaoExercicio; globalThis.__equipmentQR = EQUIPAMENTOS_QR; globalThis.__resolveEquipmentQR = equipamentoQRCodePorValor;', context);
 
 (async () => {
   const all = context.__getAllExercises();
   const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
   const normalizedNames = all.map(ex => normalize(ex.nome));
   assert.equal(new Set(normalizedNames).size, all.length, 'O catálogo global deve conter nomes únicos após normalização.');
+  const qrEquipamentos = context.__equipmentQR;
+  assert.equal(qrEquipamentos.length, 14, 'Deve existir um QR Code para cada um dos 14 equipamentos visíveis.');
+  assert.equal(new Set(qrEquipamentos.map(eq => eq.slug)).size, 14, 'Os QR Codes devem usar slugs únicos.');
+  for (const item of qrEquipamentos) {
+    assert.equal(context.__resolveEquipmentQR(item.slug)?.label, item.label, `O slug deve abrir o equipamento correto: ${item.label}`);
+    assert.equal(context.__resolveEquipmentQR(item.label)?.label, item.label, `O nome deve resolver para o equipamento correto: ${item.label}`);
+  }
+  const qrManifest = JSON.parse(fs.readFileSync(path.join(root, 'qr-codes/manifest.json'), 'utf8'));
+  assert.equal(qrManifest.baseUrl, 'https://ginasio-vila-flor.vercel.app/', 'Os QR Codes devem usar o endereço Vercel fornecido.');
+  assert.equal(qrManifest.equipments.length, qrEquipamentos.length, 'O manifesto deve incluir todos os equipamentos configurados na aplicação.');
+  for (const item of qrManifest.equipments) {
+    assert.ok(fs.existsSync(path.join(root, 'qr-codes', item.file)), `Imagem de QR em falta para ${item.label}`);
+    assert.equal(item.url, `${qrManifest.baseUrl}?equipamento=${item.slug}`, `URL incorreto no QR de ${item.label}`);
+    assert.equal(qrEquipamentos.find(eq => eq.slug === item.slug)?.label, item.label, `O QR deve apontar para o equipamento certo: ${item.label}`);
+  }
+  assert.equal(context.__resolveEquipmentQR('smith-machine')?.catalogKey, 'Smith Machine', 'O QR da Smith deve resolver para o catálogo da Smith Machine.');
+  assert.equal(context.__resolveEquipmentQR('maquina-abdutora')?.catalogKey, 'Máquina Abdutora/Adutora', 'A página da máquina abdutora deve resolver a chave histórica do catálogo.');
   assert.equal(fetchCalls, 0, 'Abrir a biblioteca/catalogar exercícios não deve pedir o manifesto de vídeos.');
   assert.equal(assignedVideoSources.length, 0, 'Nenhum src de vídeo deve ser atribuído antes de abrir um exercício.');
   assert.equal(all.length, 43, 'A biblioteca visual deve conter apenas exercícios com demonstração local e imagem específica.');
@@ -218,7 +235,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const appSource = fs.readFileSync(path.join(root, 'js/app.js'), 'utf8');
   assert.match(appSource, /navigator\.serviceWorker\.register\([\s\S]*?updateViaCache:\s*["']none["']/ , 'O Service Worker deve verificar atualizações sem usar a cache do script.');
   const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-  assert.match(serviceWorkerSource, /vf-ginasio-v58/, 'A versão de cache do SW deve ter sido incrementada.');
+  assert.match(serviceWorkerSource, /vf-ginasio-v59/, 'A versão de cache do SW deve ter sido incrementada.');
   const styleSource = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
   assert.match(styleSource, /\.exercise-library-grid[\s\S]*?grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/, 'A biblioteca deve manter duas colunas.');
   assert.match(styleSource, /\.exercise-catalog-image img[\s\S]*?object-fit:\s*contain[\s\S]*?object-position:\s*center/, 'As imagens dos cartões devem usar contain e estar centradas.');
@@ -230,6 +247,9 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.match(equipmentUiSource, /role="listbox"[\s\S]*?ArrowDown[\s\S]*?Escape/, 'O filtro de grupos personalizado deve suportar teclado e acessibilidade.');
   assert.match(equipmentUiSource, /if \(botaoGlobal\) botaoGlobal\.hidden = false;[\s\S]*?if \(acaoGlobal\) acaoGlobal\.hidden = false;/, 'A renderização da página deve repor a visibilidade do botão global.');
   assert.match(indexSource, /id="openAllExercises"[\s\S]*?Todos os exercícios/, 'O botão de acesso à biblioteca deve usar o nome novo.');
+  assert.match(equipmentUiSource, /new URLSearchParams\(window\.location\.search/, 'Os QR Codes devem ser resolvidos a partir do parâmetro do URL.');
+  assert.match(equipmentUiSource, /abrirEquipamentoQRCodeInicial\(\)/, 'A inicialização deve abrir automaticamente o equipamento indicado no QR Code.');
+
   assert.match(styleSource, /\.exercise-catalog-image[\s\S]*?height:\s*142px[\s\S]*?background:\s*#fff/, 'A área das imagens deve ser maior e ter fundo claro.');
   assert.match(styleSource, /\.exercise-modal-video[\s\S]*?aspect-ratio:\s*1\s*\/\s*1[\s\S]*?background:\s*#fff/, 'A janela deve usar o formato quadrado dos GIFs e fundo claro.');
   assert.match(styleSource, /#page-equipment \.equipment-global-btn,[\s\S]*?#page-equipment \.exercise-library-back[\s\S]*?width:\s*224px[\s\S]*?height:\s*42px[\s\S]*?font-size:\s*13px/, 'Os botões de navegação devem ter as mesmas dimensões e tipografia.');
@@ -253,7 +273,10 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
     pulleyVideos: context.__equipment['Polia Multifuncional'].filter(ex => ex.videoId).length,
     shoulderPressMachineVideos: context.__equipment['Prensa de Ombros'].filter(ex => ex.videoId).length,
     fallbackNameAndEquipmentLookup: true,
-    serviceWorkerUpdateRegistration: true
+    serviceWorkerUpdateRegistration: true,
+    equipmentQrCodes: qrManifest.equipments.length,
+    qrImagesExist: qrManifest.equipments.every(item => fs.existsSync(path.join(root, 'qr-codes', item.file))),
+    qrUrlsUsePublishedDomain: qrManifest.equipments.every(item => item.url.startsWith(qrManifest.baseUrl))
   }, null, 2));
 })().catch(error => {
   console.error(error);
