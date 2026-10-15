@@ -8084,7 +8084,7 @@ body[data-theme="light"] #page-info .info-inline-link:hover {
 #page-info .ods-brand-name {
   margin: 0;
   color: var(--text);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.35;
   font-weight: 900;
   letter-spacing: 1.25px;
@@ -8122,7 +8122,7 @@ body[data-theme="light"] #page-info .info-inline-link:hover {
 #page-info .ods-brand-authors {
   margin: 0;
   color: var(--text);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 850;
   line-height: 1.45;
   letter-spacing: -.25px;
