@@ -8066,6 +8066,139 @@ body[data-theme="light"] #page-info .info-inline-link:hover {
 }
 
 
+
+/* Identidade Office Digital Solutions no cartão Sobre a aplicação */
+#page-info .ods-brand-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 19px 15px 17px;
+  border: 1px solid rgba(177,145,196,.24);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(124,77,255,.075), rgba(63,169,245,.045));
+  text-align: center;
+}
+
+#page-info .ods-brand-name {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 900;
+  letter-spacing: 1.25px;
+}
+
+#page-info .ods-brand-specialties {
+  margin: 0;
+  color: #a98bc0;
+  font-size: 9px;
+  line-height: 1.5;
+  font-weight: 850;
+  letter-spacing: 1.4px;
+}
+
+#page-info .ods-brand-specialties span {
+  padding: 0 2px;
+  color: #3c8f88;
+}
+
+#page-info .ods-brand-divider {
+  width: 48px;
+  height: 2px;
+  margin: 5px 0 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6a3b61, #3c8f88);
+}
+
+#page-info .ods-brand-credit-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+#page-info .ods-brand-authors {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 850;
+  line-height: 1.45;
+  letter-spacing: -.25px;
+  overflow-wrap: anywhere;
+}
+
+#page-info .ods-brand-authors span {
+  color: #a98bc0;
+  padding: 0 2px;
+}
+
+#page-info .ods-brand-project {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+#page-info .ods-brand-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin-top: 4px;
+  padding: 8px 11px;
+  border: 1px solid rgba(177,145,196,.23);
+  border-radius: 10px;
+  color: #a98bc0;
+  background: rgba(124,77,255,.055);
+  font-size: 10.5px;
+  font-weight: 750;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+#page-info .ods-brand-email:hover {
+  border-color: rgba(60,143,136,.45);
+  background: rgba(60,143,136,.08);
+  color: var(--text);
+}
+
+#page-info .ods-brand-email:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(124,77,255,.24);
+}
+
+body[data-theme="light"] #page-info .ods-brand-card {
+  background: linear-gradient(145deg, rgba(124,77,255,.045), rgba(60,143,136,.055));
+  border-color: rgba(106,59,97,.17);
+}
+
+body[data-theme="light"] #page-info .ods-brand-name,
+body[data-theme="light"] #page-info .ods-brand-authors {
+  color: #302735;
+}
+
+body[data-theme="light"] #page-info .ods-brand-specialties,
+body[data-theme="light"] #page-info .ods-brand-authors span,
+body[data-theme="light"] #page-info .ods-brand-email {
+  color: #76528a;
+}
+
+@media (max-width: 360px) {
+  #page-info .ods-brand-card { padding-inline: 10px; }
+  #page-info .ods-brand-name { font-size: 12px; letter-spacing: 1px; }
+  #page-info .ods-brand-authors { font-size: 13px; }
+  #page-info .ods-brand-email { font-size: 9.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-info .ods-brand-email { transition: none; }
+}
+
 /* ===== Página Informação: chevrons limpos e formulário de feedback ===== */
 #page-info > .section > h2 {
   width: 100%;

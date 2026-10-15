@@ -247,7 +247,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const appSource = fs.readFileSync(path.join(root, 'js/app.js'), 'utf8');
   assert.match(appSource, /navigator\.serviceWorker\.register\([\s\S]*?updateViaCache:\s*["']none["']/ , 'O Service Worker deve verificar atualizações sem usar a cache do script.');
   const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-  assert.match(serviceWorkerSource, /vf-ginasio-v63/, 'A versão de cache do SW deve ter sido incrementada.');
+  assert.match(serviceWorkerSource, /vf-ginasio-v64/, 'A versão de cache do SW deve ter sido incrementada.');
   const styleSource = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
   assert.match(styleSource, /\.exercise-library-grid[\s\S]*?grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/, 'A biblioteca deve manter duas colunas.');
   assert.match(styleSource, /\.exercise-catalog-image img[\s\S]*?object-fit:\s*contain[\s\S]*?object-position:\s*center/, 'As imagens dos cartões devem usar contain e estar centradas.');

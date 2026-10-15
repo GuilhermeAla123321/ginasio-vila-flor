@@ -20,5 +20,5 @@ assert.match(html, /class="portrait-lock-screen"[\s\S]*?Utiliza a aplicação na
   'Deve existir uma mensagem acessível de fallback para ecrãs móveis em paisagem.');
 assert.match(css, /@media\s*\(orientation:\s*landscape\)\s*and\s*\(max-height:\s*600px\)\s*and\s*\(pointer:\s*coarse\)/,
   'O fallback deve aplicar-se a dispositivos táteis baixos em orientação paisagem.');
-assert.match(sw, /vf-ginasio-v63/, 'A cache deve mudar para atualizar os ficheiros nos dispositivos.');
+assert.match(sw, /vf-ginasio-v64/, 'A cache deve mudar para atualizar os ficheiros nos dispositivos.');
 console.log('PASS: duplo toque, bloqueio portrait, fallback em paisagem e cache PWA.');
