@@ -1448,105 +1448,128 @@ function renderLinhasSeries(
     const params = parametrosDoExercicio(exercicio, tipo);
 
     const existing =
-        Array.isArray(
-            exercicio?.seriesData
-        ) &&
-        exercicio.seriesData.length
-            ? exercicio.seriesData
-            : extrairSeriesExercicio(
-                  exercicio || {}
-              );
+        Array.isArray(exercicio?.seriesData) && exercicio.seriesData.length
+            ? [...exercicio.seriesData]
+            : extrairSeriesExercicio(exercicio || {});
 
-    const count =
-        Math.max(
-            1,
-            Math.min(
-                30,
-                Number(
-                    seriesCount
-                ) || 1
+    const count = Math.max(
+        1,
+        Math.min(30, Number(seriesCount) || 1)
+    );
+
+    const lerValoresVisiveis = () =>
+        [...container.querySelectorAll(".set-entry-card")].map(card =>
+            Object.fromEntries(
+                params.map(param => {
+                    const input = card.querySelector(`[data-param="${param}"]`);
+                    return [
+                        param,
+                        input && input.value !== "" ? Number(input.value) : ""
+                    ];
+                })
             )
         );
 
-    container.innerHTML =
-        Array.from(
-            {
-                length: count
-            },
-            (_, i) => {
-
-                const serie =
-                    existing[i] || {};
-
+    container.innerHTML = `
+        <div class="set-entry-series-list">
+            ${Array.from({ length: count }, (_, i) => {
+                const serie = existing[i] || {};
                 return `
-                    <div class="set-entry-card">
-
+                    <div class="set-entry-card" data-series-card-index="${i}">
                         <div class="set-entry-title">
-                            <span>
-                                SÉRIE ${i + 1}
-                            </span>
-
-                            <small>
-                                Valores independentes
-                            </small>
+                            <span>SÉRIE ${i + 1}</span>
+                            <small>Valores independentes</small>
+                            <button
+                                type="button"
+                                class="set-series-delete"
+                                data-series-action="delete"
+                                data-series-index="${i}"
+                                aria-label="Eliminar série ${i + 1}"
+                                title="Eliminar série ${i + 1}"
+                                ${count <= 1 ? "disabled" : ""}
+                            >
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5" />
+                                </svg>
+                            </button>
                         </div>
-
                         <div class="set-entry-fields">
-
-                            ${params
-                                .map(p => {
-
-                                    const cfg =
-                                        PARAMETROS[p];
-
-                                    const val =
-                                        serie[p] ?? "";
-
-                                    return `
-                                        <div class="adaptive-field">
-
-                                            <label
-                                                for="series_${i}_${p}"
-                                            >
-                                                ${cfg.label}
-
-                                                ${
-                                                    cfg.unit
-                                                        ? ` <span>(${cfg.unit})</span>`
-                                                        : ""
-                                                }
-                                            </label>
-
-                                            <input
-                                                id="series_${i}_${p}"
-                                                data-series-index="${i}"
-                                                data-param="${p}"
-                                                class="input series-value-input"
-                                                type="number"
-                                                min="0"
-                                                step="${cfg.step}"
-                                                placeholder="${cfg.placeholder}"
-                                                value="${
-                                                    val !== ""
-                                                        ? escapeHtml(
-                                                              val
-                                                          )
-                                                        : ""
-                                                }"
-                                            >
-
-                                        </div>
-                                    `;
-
-                                })
-                                .join("")}
-
+                            ${params.map(param => {
+                                const cfg = PARAMETROS[param];
+                                const val = serie[param] ?? "";
+                                return `
+                                    <div class="adaptive-field">
+                                        <label for="series_${i}_${param}">
+                                            ${cfg.label}${cfg.unit ? ` <span>(${cfg.unit})</span>` : ""}
+                                        </label>
+                                        <input
+                                            id="series_${i}_${param}"
+                                            data-series-index="${i}"
+                                            data-param="${param}"
+                                            class="input series-value-input"
+                                            type="number"
+                                            min="0"
+                                            step="${cfg.step}"
+                                            placeholder="${cfg.placeholder}"
+                                            value="${val !== "" ? escapeHtml(val) : ""}"
+                                        >
+                                    </div>
+                                `;
+                            }).join("")}
                         </div>
                     </div>
                 `;
-            }
-        )
-        .join("");
+            }).join("")}
+        </div>
+        <button
+            type="button"
+            class="set-series-add"
+            data-series-action="add"
+            ${count >= 30 ? "disabled" : ""}
+        >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 5v14M5 12h14" />
+            </svg>
+            Adicionar série
+        </button>
+        <p class="set-series-limit" ${count >= 30 ? "" : "hidden"}>Atingiste o limite de 30 séries por exercício.</p>
+    `;
+
+    // Ações delegadas: ao adicionar/remover, guarda primeiro os valores já escritos
+    // e volta a numerar as séries para que os dados sejam recolhidos na ordem correta.
+    container.onclick = event => {
+        const actionButton = event.target.closest("[data-series-action]");
+        if (!actionButton || !container.contains(actionButton) || actionButton.disabled) {
+            return;
+        }
+
+        const series = lerValoresVisiveis();
+        const action = actionButton.dataset.seriesAction;
+
+        if (action === "add") {
+            if (series.length >= 30) return;
+            series.push({});
+        } else if (action === "delete") {
+            if (series.length <= 1) return;
+            const index = Number(actionButton.dataset.seriesIndex);
+            if (!Number.isInteger(index) || index < 0 || index >= series.length) return;
+            series.splice(index, 1);
+        } else {
+            return;
+        }
+
+        renderLinhasSeries(
+            container,
+            { ...exercicio, seriesData: series },
+            series.length
+        );
+
+        // Mantém os controlos auxiliares sincronizados com o número real de séries.
+        const countInput = document.getElementById("editorSeriesCount") || document.getElementById("seriesCount");
+        if (countInput) countInput.value = String(series.length);
+        const countDisplay = document.getElementById("seriesCountDisplay");
+        if (countDisplay) countDisplay.textContent = String(series.length);
+    };
 }
 
 
@@ -1699,7 +1722,6 @@ function renderTreino() {
         </div>
 
         ${diaSelecionado === "domingo" ? `
-            <div class="gym-closed-message"><strong>Ginásio Encerrado</strong></div>
         ` : ""}
 
         <div class="selected-day workout-day-toolbar">

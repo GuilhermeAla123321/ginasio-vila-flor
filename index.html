@@ -730,9 +730,10 @@
 
                 <section class="section">
 
-                    <span class="eyebrow">INFORMAÇÃO</span>
+                    <span class="eyebrow">INFORMAÇÕES ÚTEIS</span>
 
-                    <h2>Ginásio Municipal</h2>
+                    <h2>Estamos aqui para ti</h2>
+                    <p class="info-page-intro">Consulta a morada, os horários e os contactos do Ginásio Municipal de Vila Flor.</p>
 
                     <details class="info-card" id="infoLocationCard">
                         <summary class="info-card-summary">
@@ -742,11 +743,14 @@
                             </span>
                         </summary>
                         <div class="info-card-content">
-                            <p>
-                                Ginásio Municipal de Vila Flor<br>
-                                Rua do Olival n.º 40<br>
-                                5360-374 Vila Flor
-                            </p>
+                            <div class="info-location-details">
+                                <span class="info-detail-kicker">VISITA-NOS</span>
+                                <strong class="info-location-name">Ginásio Municipal de Vila Flor</strong>
+                                <address class="info-address">
+                                    <span>Rua do Olival, n.º 40</span>
+                                    <span>5360-374 Vila Flor</span>
+                                </address>
+                            </div>
                             <a
                                 href="https://www.google.com/maps/search/?api=1&amp;query=Ginásio+Municipal+de+Vila+Flor,+Rua+do+Olival+40,+5360-374+Vila+Flor"
                                 target="_blank"
@@ -757,7 +761,7 @@
                                     <path d="M20 10.2c0 5.1-8 11-8 11s-8-5.9-8-11a8 8 0 1 1 16 0Z" />
                                     <circle cx="12" cy="10" r="2.5" />
                                 </svg>
-                                <span>Ver localização</span>
+                                <span>Ver no mapa</span>
                                 <svg class="location-button-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                     <path d="M7 17 17 7M8 7h9v9" />
                                 </svg>
@@ -773,11 +777,21 @@
                             </span>
                         </summary>
                         <div class="info-card-content">
-                            <p>
-                                Segunda a sexta: 09:00–12:30 e 16:00–20:30<br>
-                                Sábado: 15:00–19:00<br>
-                                Domingo: Encerrado
-                            </p>
+                            <p class="info-detail-intro">Planeia a tua visita com base no horário de funcionamento.</p>
+                            <div class="info-hours-list" aria-label="Horário de funcionamento">
+                                <div class="info-hours-row">
+                                    <span class="info-hours-day">Segunda a sexta</span>
+                                    <strong class="info-hours-time">09:00–12:30 <span>·</span> 16:00–20:30</strong>
+                                </div>
+                                <div class="info-hours-row">
+                                    <span class="info-hours-day">Sábado</span>
+                                    <strong class="info-hours-time">15:00–19:00</strong>
+                                </div>
+                                <div class="info-hours-row info-hours-closed">
+                                    <span class="info-hours-day">Domingo</span>
+                                    <strong class="info-hours-status">Encerrado</strong>
+                                </div>
+                            </div>
                         </div>
                     </details>
 
@@ -789,11 +803,29 @@
                             </span>
                         </summary>
                         <div class="info-card-content">
-                            <p>
-                                Contacta o Município para informações ou dúvidas:<br>
-                                Email: <a class="info-inline-link" href="mailto:geral@cm-vilaflor.pt">geral@cm-vilaflor.pt</a><br>
-                                Telefone: <a class="info-inline-link" href="tel:+351278510100">278 510 100</a>
-                            </p>
+                            <p class="info-detail-intro">Precisas de ajuda ou de mais informações? Entra em contacto com o Município.</p>
+                            <div class="info-contact-list">
+                                <a class="info-contact-link" href="mailto:geral@cm-vilaflor.pt">
+                                    <span class="info-contact-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+                                    </span>
+                                    <span class="info-contact-copy">
+                                        <span class="info-contact-label">EMAIL</span>
+                                        <strong>geral@cm-vilaflor.pt</strong>
+                                    </span>
+                                    <span class="info-contact-arrow" aria-hidden="true">↗</span>
+                                </a>
+                                <a class="info-contact-link" href="tel:+351278510100">
+                                    <span class="info-contact-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" focusable="false"><path d="M7 3.5h3l1.5 4-2 1.5a15 15 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 5 5.7 2 2 0 0 1 7 3.5Z"/></svg>
+                                    </span>
+                                    <span class="info-contact-copy">
+                                        <span class="info-contact-label">TELEFONE</span>
+                                        <strong>278 510 100</strong>
+                                    </span>
+                                    <span class="info-contact-arrow" aria-hidden="true">↗</span>
+                                </a>
+                            </div>
                         </div>
                     </details>
 
@@ -806,13 +838,16 @@
                         </summary>
                         <div class="info-card-content">
                             <p class="info-about-description">
-                                Uma forma simples de acompanhar os teus treinos, consultar exercícios, equipamentos e acompanhar a tua evolução.
+                                <strong>A tua evolução, num só lugar.</strong>
+                                <span>Regista os teus treinos, consulta exercícios e equipamentos e acompanha o teu progresso de forma simples.</span>
                             </p>
                             <div class="ods-brand-card" aria-label="Créditos do projeto Office Digital Solutions">
+                                <span class="ods-brand-overline">DESENVOLVIMENTO DA APLICAÇÃO</span>
                                 <p class="ods-brand-name">OFFICE DIGITAL SOLUTIONS</p>
-                                <p class="ods-brand-credit-label">Projeto desenvolvido por:</p>
-                                <h1 class="ods-brand-authors">Guilherme Ala <span aria-hidden="true">&amp;</span> Daniel Moutinho</h1>
-                                <a class="ods-brand-email" href="mailto:officedigitalsolutionspt@gmail.com">officedigitalsolutionspt@gmail.com</a>
+                                <a class="ods-brand-email" href="mailto:officedigitalsolutionspt@gmail.com">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+                                    <span>officedigitalsolutionspt@gmail.com</span>
+                                </a>
                             </div>
                         </div>
                     </details>

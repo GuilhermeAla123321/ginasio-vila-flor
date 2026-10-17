@@ -348,6 +348,213 @@
         "Banco de Peso"
       ],
       "file": "assets/exercises/videos/agachamento-bulgaro.mp4"
+    },
+    {
+      "id": "peso-livre-agachamento-bulgaro-halteres",
+      "exercise": "Agachamento búlgaro",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-agachamento-bulgaro-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-agachamento-bulgaro-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-crucifixo-inclinado-halteres",
+      "exercise": "Crucifixo inclinado com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-crucifixo-inclinado-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-crucifixo-inclinado-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-crucifixo-invertido-halteres",
+      "exercise": "Crucifixo invertido com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-crucifixo-invertido-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-crucifixo-invertido-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-elevacao-frontal-neutra-halteres",
+      "exercise": "Elevação frontal neutra com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-elevacao-frontal-neutra-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-elevacao-frontal-neutra-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-elevacao-frontal-pronada-halteres",
+      "exercise": "Elevação frontal pronada com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-elevacao-frontal-pronada-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-elevacao-frontal-pronada-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-elevacao-lateral-halteres",
+      "exercise": "Elevação lateral com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-elevacao-lateral-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-elevacao-lateral-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-peso-morto-romeno-halteres",
+      "exercise": "Peso morto romeno com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-peso-morto-romeno-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-peso-morto-romeno-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-press-ombros-halteres",
+      "exercise": "Press de ombros com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-press-ombros-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-press-ombros-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-rosca-scott-unilateral",
+      "exercise": "Rosca Scott unilateral",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-rosca-scott-unilateral.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-rosca-scott-unilateral.jpg"
+    },
+    {
+      "id": "peso-livre-rosca-direta-halteres",
+      "exercise": "Rosca direta com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-rosca-direta-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-rosca-direta-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-rosca-martelo-halteres",
+      "exercise": "Rosca martelo com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-rosca-martelo-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-rosca-martelo-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-encolhimento-ombros-halteres",
+      "exercise": "Encolhimento de ombros com halteres",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-encolhimento-ombros-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-encolhimento-ombros-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-supino-reto-barra",
+      "exercise": "Supino reto com barra",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-supino-reto-barra.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-supino-reto-barra.jpg"
+    },
+    {
+      "id": "peso-livre-triceps-frances-halteres",
+      "exercise": "Tríceps francês com haltere",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-triceps-frances-halteres.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-triceps-frances-halteres.jpg"
+    },
+    {
+      "id": "peso-livre-agachamento-barra",
+      "exercise": "Agachamento com barra",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-agachamento-barra.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-agachamento-barra.jpg"
+    },
+    {
+      "id": "peso-livre-rosca-scott-pegada-aberta",
+      "exercise": "Rosca Scott no banco com pegada aberta",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-rosca-scott-pegada-aberta.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-rosca-scott-pegada-aberta.jpg"
+    },
+    {
+      "id": "peso-livre-rosca-scott-pegada-fechada",
+      "exercise": "Rosca Scott no banco com pegada fechada",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-rosca-scott-pegada-fechada.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-rosca-scott-pegada-fechada.jpg"
+    },
+    {
+      "id": "peso-livre-elevacao-pelvica-barra",
+      "exercise": "Elevação pélvica com barra",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-elevacao-pelvica-barra.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-elevacao-pelvica-barra.jpg"
+    },
+    {
+      "id": "peso-livre-extensao-triceps-barra-w",
+      "exercise": "Extensão de tríceps deitado com barra W",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-extensao-triceps-barra-w.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-extensao-triceps-barra-w.jpg"
+    },
+    {
+      "id": "peso-livre-peso-morto-barra",
+      "exercise": "Peso morto com barra",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-peso-morto-barra.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-peso-morto-barra.jpg"
+    },
+    {
+      "id": "peso-livre-remada-pronada-barra",
+      "exercise": "Remada curvada pronada com barra",
+      "equipment": [
+        "Peso Livre"
+      ],
+      "file": "assets/exercises/videos/peso-livre-remada-pronada-barra.mp4",
+      "thumbnail": "assets/ImagesExer/peso-livre-remada-pronada-barra.jpg"
+    },
+    {
+      "id": "leg-press-extensao-joelhos",
+      "exercise": "Extensão de joelhos no Leg Press",
+      "equipment": [
+        "Leg Press"
+      ],
+      "file": "assets/exercises/videos/leg-press-extensao-joelhos.mp4",
+      "thumbnail": "assets/ImagesExer/leg-press-extensao-joelhos.jpg"
+    },
+    {
+      "id": "leg-press-flexao-plantar",
+      "exercise": "Flexão plantar no Leg Press",
+      "equipment": [
+        "Leg Press"
+      ],
+      "file": "assets/exercises/videos/leg-press-flexao-plantar.mp4",
+      "thumbnail": "assets/ImagesExer/leg-press-flexao-plantar.jpg"
     }
   ]
 }

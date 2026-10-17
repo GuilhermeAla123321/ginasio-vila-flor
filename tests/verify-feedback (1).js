@@ -15,7 +15,7 @@ assert.equal((html.match(/class="info-card-chevron"/g) || []).length, 4, 'Os qua
 assert.doesNotMatch(html, /info-card-chevron[^>]*>\s*⌄/, 'As setas antigas em formato de letra devem desaparecer.');
 assert.match(css, /#page-info \.info-card-chevron svg[\s\S]*?stroke-linejoin:\s*round/, 'As setas devem usar um ícone SVG estilizado.');
 assert.match(css, /#page-info > \.section > h2[\s\S]*?text-align:\s*center/, 'O título Informação deve permanecer centrado.');
-assert.match(sw, /vf-ginasio-v64/, 'A cache PWA deve ser incrementada.');
+assert.match(sw, /vf-ginasio-v66/, 'A cache PWA deve ser incrementada.');
 assert.match(sw, /'\.\/js\/feedback\.js'/, 'O JS do formulário deve estar na cache da PWA.');
 assert.match(html, /OFFICE DIGITAL SOLUTIONS/, 'O cartão Sobre a aplicação deve mostrar a marca Office Digital Solutions.');
 assert.match(html, /SOFTWARE <span aria-hidden="true">·<\/span> WEB <span aria-hidden="true">·<\/span> INOVAÇÃO/, 'A assinatura deve identificar as áreas de atuação.');
