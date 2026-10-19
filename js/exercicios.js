@@ -2872,9 +2872,25 @@ function abrirExercicioModal(ex){
 
 
 
+  const escaparHTML = valor => String(valor == null ? "" : valor).replace(/[&<>"']/g, caracter => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[caracter]));
+
+  // Destaca a ação inicial de cada instrução para facilitar a leitura rápida.
+  const formatarPasso = valor => {
+    const texto = String(valor == null ? "" : valor).trim();
+    const partes = texto.match(/^(\S+(?:\s+\S+){0,2})([\s\S]*)$/);
+    if (!partes) return escaparHTML(texto);
+    return `<strong>${escaparHTML(partes[1])}</strong>${escaparHTML(partes[2])}`;
+  };
+
   const passos = document.getElementById("exerciseModalSteps");
 
-  if (passos) passos.innerHTML = (ex.passos || []).map(p => `<li>${String(p)}</li>`).join("");
+  if (passos) passos.innerHTML = (ex.passos || []).map(p => `<li>${formatarPasso(p)}</li>`).join("");
 
   const passosSection = document.getElementById("exerciseModalStepsSection");
 
@@ -2886,7 +2902,7 @@ function abrirExercicioModal(ex){
 
   const cuidadosLista = document.getElementById("exerciseModalCare");
 
-  if (cuidadosLista) cuidadosLista.innerHTML = cuidados.map(item => `<li>${String(item)}</li>`).join("");
+  if (cuidadosLista) cuidadosLista.innerHTML = cuidados.map(item => `<li>${escaparHTML(item)}</li>`).join("");
 
   const cuidadosSection = document.getElementById("exerciseModalCareSection");
 
