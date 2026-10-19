@@ -2353,6 +2353,8 @@ function gifParaExercicio(ex){
 
 
 let requisicaoMediaExercicio = 0;
+let demonstracaoAmpliadaOriginal = null;
+let demonstracaoAmpliadaOriginalEstavaATocar = false;
 
 let manifestoVideosPromise = null;
 
@@ -2552,6 +2554,7 @@ function mostrarSemDemonstracao(media, mensagem = "Demonstração visual indispo
   if (!media) return;
 
   libertarVideoDemonstracao(media);
+  media.classList.remove("has-zoom-media");
 
   const estado = document.createElement("div");
 
@@ -2666,6 +2669,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
       if (pedido === requisicaoMediaExercicio && video.isConnected) {
 
         media.classList.remove("is-loading");
+        media.classList.add("has-zoom-media");
 
         media.querySelector(".exercise-modal-loading")?.remove();
 
@@ -2813,6 +2817,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
     media.replaceChildren(imagem);
 
     media.classList.remove("is-loading");
+    media.classList.add("has-zoom-media");
 
     imagem.src = gif;
 
@@ -2834,6 +2839,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
 function abrirExercicioModal(ex){
 
+  fecharDemonstracaoAmpliada(false);
   const overlay = document.getElementById("exerciseModalOverlay");
 
   if (!overlay || !ex) return;
@@ -2866,7 +2872,7 @@ function abrirExercicioModal(ex){
 
     media.replaceChildren();
 
-    media.classList.remove("is-loading");
+    media.classList.remove("is-loading", "has-zoom-media");
 
   }
 
@@ -2924,6 +2930,7 @@ function abrirExercicioModal(ex){
 
 function fecharExercicioModal(){
 
+  fecharDemonstracaoAmpliada(false);
   ++requisicaoMediaExercicio;
 
   const overlay = document.getElementById("exerciseModalOverlay");
@@ -2940,7 +2947,7 @@ function fecharExercicioModal(){
 
     media.replaceChildren();
 
-    media.classList.remove("is-loading");
+    media.classList.remove("is-loading", "has-zoom-media");
 
   }
 
@@ -2950,13 +2957,121 @@ function fecharExercicioModal(){
 
 }
 
+function ampliarDemonstracaoExercicio(elementoOriginal) {
+  if (!elementoOriginal || !["VIDEO", "IMG"].includes(elementoOriginal.tagName)) return;
+  fecharDemonstracaoAmpliada(false);
+
+  const overlay = document.createElement("div");
+  overlay.id = "exerciseMediaZoomOverlay";
+  overlay.className = "exercise-media-zoom-overlay";
+  overlay.setAttribute("role", "button");
+  overlay.setAttribute("tabindex", "0");
+  overlay.setAttribute("aria-label", "Demonstração ampliada. Toca para voltar ao tamanho normal.");
+
+  const moldura = document.createElement("div");
+  moldura.className = "exercise-media-zoom-frame";
+  moldura.setAttribute("aria-hidden", "true");
+
+  let demonstracao;
+  if (elementoOriginal.tagName === "VIDEO") {
+    demonstracaoAmpliadaOriginal = elementoOriginal;
+    demonstracaoAmpliadaOriginalEstavaATocar = !elementoOriginal.paused;
+    elementoOriginal.pause();
+
+    demonstracao = elementoOriginal.cloneNode(false);
+    const fonte = elementoOriginal.currentSrc || elementoOriginal.getAttribute("src") || elementoOriginal.src;
+    if (fonte) demonstracao.src = fonte;
+    demonstracao.autoplay = true;
+    demonstracao.loop = true;
+    demonstracao.muted = true;
+    demonstracao.defaultMuted = true;
+    demonstracao.playsInline = true;
+    demonstracao.preload = "auto";
+    demonstracao.removeAttribute("controls");
+    demonstracao.addEventListener("loadedmetadata", () => {
+      try {
+        if (Number.isFinite(elementoOriginal.currentTime)) demonstracao.currentTime = elementoOriginal.currentTime;
+      } catch (_) {}
+    }, { once: true });
+    demonstracao.addEventListener("click", evento => evento.preventDefault());
+  } else {
+    demonstracao = elementoOriginal.cloneNode(true);
+    demonstracao.loading = "eager";
+    demonstracao.draggable = false;
+  }
+
+  demonstracao.classList.add("exercise-media-zoom-item");
+  if (demonstracao.tagName === "VIDEO") {
+    demonstracao.setAttribute("aria-label", elementoOriginal.getAttribute("aria-label") || "Demonstração do exercício ampliada");
+  } else {
+    demonstracao.alt = elementoOriginal.getAttribute("alt") || "Demonstração do exercício ampliada";
+  }
+  moldura.appendChild(demonstracao);
+
+  const dica = document.createElement("span");
+  dica.className = "exercise-media-zoom-hint";
+  dica.textContent = "Toca para voltar";
+  overlay.append(moldura, dica);
+
+  overlay.addEventListener("click", evento => {
+    evento.preventDefault();
+    fecharDemonstracaoAmpliada(true);
+  });
+  overlay.addEventListener("keydown", evento => {
+    if (evento.key === "Enter" || evento.key === " ") {
+      evento.preventDefault();
+      fecharDemonstracaoAmpliada(true);
+    }
+  });
+
+  document.body.appendChild(overlay);
+  if (demonstracao.tagName === "VIDEO") {
+    try {
+      const reproducao = demonstracao.play();
+      if (reproducao && typeof reproducao.catch === "function") reproducao.catch(() => {});
+    } catch (_) {}
+  }
+}
+
+function fecharDemonstracaoAmpliada(retomarOriginal = true) {
+  const overlay = document.getElementById("exerciseMediaZoomOverlay");
+  if (overlay) {
+    const videoAmpliado = overlay.querySelector("video");
+    if (videoAmpliado) {
+      videoAmpliado.pause();
+      videoAmpliado.removeAttribute("src");
+      videoAmpliado.load();
+    }
+    overlay.remove();
+  }
+
+  const original = demonstracaoAmpliadaOriginal;
+  const deveRetomar = demonstracaoAmpliadaOriginalEstavaATocar;
+  demonstracaoAmpliadaOriginal = null;
+  demonstracaoAmpliadaOriginalEstavaATocar = false;
+
+  if (retomarOriginal && deveRetomar && original && original.isConnected &&
+      document.getElementById("exerciseModalOverlay")?.classList.contains("open")) {
+    try {
+      const reproducao = original.play();
+      if (reproducao && typeof reproducao.catch === "function") reproducao.catch(() => {});
+    } catch (_) {}
+  }
+}
+
 document.addEventListener("DOMContentLoaded",()=>{
 
  const overlay=document.getElementById("exerciseModalOverlay");
 
  const close=document.getElementById("exerciseModalClose");
+ const media=document.getElementById("exerciseModalVideo");
 
  close?.addEventListener("click",fecharExercicioModal);
+ media?.addEventListener("click", evento => {
+  if (media.classList.contains("is-loading") || !media.classList.contains("has-zoom-media")) return;
+  const alvo = evento.target instanceof Element ? evento.target.closest("video, img") : null;
+  if (alvo && media.contains(alvo)) ampliarDemonstracaoExercicio(alvo);
+ });
 
  overlay?.addEventListener("click",e=>{
 
@@ -2967,6 +3082,11 @@ document.addEventListener("DOMContentLoaded",()=>{
  });
 
  document.addEventListener("keydown",e=>{
+
+  if (e.key === "Escape" && document.getElementById("exerciseMediaZoomOverlay")) {
+   fecharDemonstracaoAmpliada(true);
+   return;
+  }
 
   if(e.key==="Escape" && overlay?.classList.contains("open"))
 

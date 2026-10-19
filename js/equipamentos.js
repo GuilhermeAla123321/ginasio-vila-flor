@@ -550,10 +550,10 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Supino reto na Smith Machine",
+            nome: "Tricep JM",
             videoId: "smith-bench-press",
             gif: "assets/exercises/smith-bench-press.gif",
-            grupo: "Peito",
+            grupo: "Braços",
             icon: "🏋️",
             desc: "Press de peito guiado na Smith Machine para trabalhar o peitoral e músculos auxiliares.",
             passos: [
