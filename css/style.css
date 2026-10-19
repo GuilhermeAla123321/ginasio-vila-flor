@@ -9475,3 +9475,182 @@ body[data-theme="light"] #page-info .ods-brand-specialties {
   .exercise-media-zoom-overlay,
   .exercise-media-zoom-frame { animation: none; }
 }
+
+/* ==========================================================
+   MOTION SYSTEM — transições consistentes, subtis e rápidas
+   Mantém as cores e a identidade visual existentes.
+   ========================================================== */
+:root {
+  --motion-ease: cubic-bezier(.22, .61, .36, 1);
+  --motion-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --motion-fast: 160ms;
+  --motion-base: 220ms;
+  --motion-enter: 280ms;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Normaliza o andamento das transições dos controlos sem alterar os seus eventos. */
+.app button,
+.app a,
+.app input,
+.app select,
+.app textarea,
+.app summary,
+.pwa-install-overlay button,
+#installPopup button {
+  transition-timing-function: var(--motion-ease);
+}
+
+.app button:not(:disabled) {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform, filter;
+  transition-duration: var(--motion-base);
+}
+
+.app button:active:not(:disabled),
+.pwa-install-overlay button:active:not(:disabled),
+#installPopup button:active:not(:disabled) {
+  transform: scale(.985);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .app button:hover:not(:disabled),
+  .pwa-install-overlay button:hover:not(:disabled),
+  #installPopup button:hover:not(:disabled) {
+    filter: brightness(1.025);
+  }
+}
+
+.app input,
+.app select,
+.app textarea {
+  transition-property: border-color, background-color, box-shadow, color;
+  transition-duration: var(--motion-base);
+}
+
+.app input:focus-visible,
+.app select:focus-visible,
+.app textarea:focus-visible,
+.app button:focus-visible,
+.app a:focus-visible,
+.app summary:focus-visible {
+  transition-duration: var(--motion-fast);
+}
+
+/* Entrada da página discreta; o conteúdo não altera as suas dimensões ao animar. */
+.page.active {
+  animation: pageSurfaceReveal var(--motion-enter) var(--motion-ease-out) both;
+}
+
+.page.active > .hero,
+.page.active > .section {
+  animation: sectionSurfaceReveal 260ms var(--motion-ease-out) both;
+}
+
+.page.active > :nth-child(2) { animation-delay: 16ms; }
+.page.active > :nth-child(3) { animation-delay: 30ms; }
+.page.active > :nth-child(4) { animation-delay: 42ms; }
+.page.active > :nth-child(5) { animation-delay: 52ms; }
+
+@keyframes pageSurfaceReveal {
+  from { opacity: .72; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sectionSurfaceReveal {
+  from { opacity: .82; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pequena resposta visual para cartões e itens que já têm hover no design. */
+.equipment-card,
+.exercise-card,
+.form-card,
+.amenity,
+.zone-card,
+.workout-name-card,
+.workout-group-card,
+.exercise-catalog-card,
+.help-exercise-card,
+#filtered-exercise-list .equipment-exercise-card,
+#page-info .info-card {
+  transition-timing-function: var(--motion-ease);
+  transition-duration: 220ms;
+}
+
+/* Abertura de menus criados dinamicamente, sem introduzir atrasos no clique. */
+#exercisePickerOverlay .exercise-filter-menu:not([hidden]),
+.workout-filter-menu:not([hidden]) {
+  transform-origin: top center;
+  animation: motionMenuReveal 180ms var(--motion-ease-out) both;
+}
+
+@keyframes motionMenuReveal {
+  from { opacity: 0; transform: translateY(-4px) scale(.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* As folhas modais mantêm o comportamento aberto/fechado existente, com entrada mais orgânica. */
+.exercise-modal,
+.exercise-picker,
+.custom-exercise-modal {
+  transition-timing-function: var(--motion-ease-out);
+  transition-duration: 260ms;
+}
+
+.exercise-modal { transform: translateY(22px) scale(.99); }
+.exercise-modal-overlay.open .exercise-modal { transform: translateY(0) scale(1); }
+.exercise-picker { transform: translateY(18px) scale(.99); }
+.exercise-picker-overlay.open .exercise-picker { transform: translateY(0) scale(1); }
+.custom-exercise-modal { transform: translateY(18px) scale(.99); }
+.custom-exercise-overlay.open .custom-exercise-modal { transform: translateY(0) scale(1); }
+
+/* View Transitions API: crossfade entre páginas em navegadores compatíveis. */
+#app-content { view-transition-name: app-content; }
+html.supports-view-transitions .page.active,
+html.supports-view-transitions .page.active > .hero,
+html.supports-view-transitions .page.active > .section {
+  animation: none;
+}
+
+::view-transition-old(app-content) {
+  animation: appContentOut 150ms ease both;
+}
+
+::view-transition-new(app-content) {
+  animation: appContentIn 230ms var(--motion-ease-out) both;
+}
+
+@keyframes appContentOut {
+  from { opacity: 1; }
+  to { opacity: .78; }
+}
+
+@keyframes appContentIn {
+  from { opacity: .78; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  ::view-transition-old(app-content),
+  ::view-transition-new(app-content) {
+    animation: none !important;
+  }
+}
