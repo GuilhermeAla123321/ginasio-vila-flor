@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v57';
+const CACHE_NAME = 'vf-ginasio-v66';
 
 const APP_SHELL = [
     './',
@@ -15,6 +15,7 @@ const APP_SHELL = [
     './js/timer.js',
     './js/timer-push-config.js',
     './js/timer-background-push.js',
+    './js/feedback.js',
     './js/tema.js',
     './js/app.js',
 

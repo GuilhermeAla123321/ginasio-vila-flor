@@ -52,7 +52,11 @@
 
         const node = status();
 
-        if (node) node.textContent = message;
+        if (!node) return;
+
+        node.textContent = message || "";
+
+        node.hidden = !message;
 
     }
 
@@ -67,6 +71,12 @@
         node.disabled = !enabled;
 
         node.setAttribute("aria-disabled", enabled ? "false" : "true");
+
+    }
+
+    function hasBrowserNotificationPermission() {
+
+        return typeof Notification !== "undefined" && Notification.permission === "granted";
 
     }
 
@@ -304,15 +314,31 @@
 
     function renderCurrentState() {
 
+        if (hasBrowserNotificationPermission()) {
+
+            setButton("Ativar alertas", false);
+
+            setStatus("");
+
+            return;
+
+        }
+
+        if (typeof Notification !== "undefined" && Notification.permission === "denied") {
+
+            setButton("Ativar alertas", false);
+
+            setStatus("Notificações bloqueadas.");
+
+            return;
+
+        }
+
         if (!APP_ID || !backendConfigured) {
 
-            // Mantém o botão acionável: um controlo desativado parecia não responder
+            setButton("Ativar alertas", true);
 
-            // e escondia a causa real, que é a configuração do serviço remoto.
-
-            setButton("Tentar ativar", true);
-
-            setStatus("Alertas em segundo plano indisponíveis. O Timer local continua a funcionar.");
+            setStatus("");
 
             return;
 
@@ -320,9 +346,9 @@
 
         if (!oneSignalInstance) {
 
-            setButton("Preparar alertas", true);
+            setButton("Ativar alertas", true);
 
-            setStatus("Prepara os alertas; a autorização será pedida num passo seguinte.");
+            setStatus("");
 
             return;
 
@@ -332,9 +358,9 @@
 
         if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
 
-            setButton("Não suportado", false);
+            setButton("Ativar alertas", false);
 
-            setStatus("Este navegador não suporta alertas push. O Timer local continua disponível.");
+            setStatus("Alertas não suportados.");
 
             return;
 
@@ -342,9 +368,9 @@
 
         if (OneSignal.Notifications?.permission === false && typeof Notification !== "undefined" && Notification.permission === "denied") {
 
-            setButton("Ver definições", false);
+            setButton("Ativar alertas", false);
 
-            setStatus("As notificações estão bloqueadas nas definições deste site.");
+            setStatus("Notificações bloqueadas.");
 
             return;
 
@@ -354,15 +380,15 @@
 
         if (optedIn) {
 
-            setButton("Alertas ativos", false);
+            setButton("Ativar alertas", false);
 
-            setStatus("Alertas do sistema ativos neste dispositivo.");
+            setStatus("");
 
         } else {
 
             setButton("Ativar alertas", true);
 
-            setStatus("Ativa as notificações para receber alertas em segundo plano.");
+            setStatus("");
 
         }
 
@@ -374,15 +400,41 @@
 
         if (node?.disabled) return;
 
-        setButton("A ativar…", false);
+        setButton("Ativar alertas", false);
 
-        setStatus("A preparar alertas…");
+        setStatus("");
 
         try {
 
+            if (typeof Notification !== "undefined") {
+
+                if (Notification.permission === "denied") {
+
+                    throw new Error("Notificações bloqueadas.");
+
+                }
+
+                const permission = Notification.permission === "granted"
+
+                    ? "granted"
+
+                    : await Notification.requestPermission();
+
+                if (permission === "granted") {
+
+                    renderCurrentState();
+
+                    return;
+
+                }
+
+                throw new Error("Notificações não autorizadas.");
+
+            }
+
             if ((!backendConfigured || !APP_ID) && !(await checkBackend())) {
 
-                throw new Error("Alertas em segundo plano não estão configurados. O Timer local continua a funcionar.");
+                throw new Error("Alertas indisponíveis.");
 
             }
 
@@ -406,9 +458,9 @@
 
                 }
 
-                setButton("Continuar autorização", true);
+                setButton("Ativar alertas", true);
 
-                setStatus("Serviço preparado. Toca novamente para autorizar as notificações.");
+                setStatus("");
 
                 return;
 
@@ -418,7 +470,7 @@
 
             if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
 
-                throw new Error("Este navegador não suporta notificações push.");
+                throw new Error("Alertas não suportados.");
 
             }
 
@@ -430,7 +482,7 @@
 
             if (!OneSignal.Notifications.permission) {
 
-                throw new Error("Autorização não concedida. Confirma as permissões deste site.");
+                throw new Error("Notificações não autorizadas.");
 
             }
 
@@ -438,7 +490,7 @@
 
             subscriptionId = await waitForSubscriptionId(OneSignal);
 
-            if (!subscriptionId) throw new Error("O navegador não confirmou a subscrição. Tenta novamente dentro de alguns segundos.");
+            if (!subscriptionId) throw new Error("Não foi possível ativar os alertas.");
 
             renderCurrentState();
 
@@ -446,15 +498,17 @@
 
             // Permite repetir a verificação se o primeiro pedido falhou por rede/configuração.
 
-            setButton("Tentar novamente", true);
+            setButton("Ativar alertas", true);
 
-            setStatus(error?.message || "Não foi possível ativar os alertas. O Timer local continua disponível.");
+            setStatus(error?.message || "Não foi possível ativar os alertas.");
 
         }
 
     }
 
     async function schedule(deadlineMs) {
+
+        if (hasBrowserNotificationPermission()) return { scheduled: false, reason: "browser-notification" };
 
         if (!isEnabled()) return { scheduled: false, reason: "not-enabled" };
 
@@ -472,7 +526,7 @@
 
         if (!id) {
 
-            setStatus("A subscrição de alertas não está ativa. Abre esta secção para a reativar.");
+            setStatus("Alertas não ativos.");
 
             return { scheduled: false, reason: "missing-subscription" };
 
@@ -510,7 +564,7 @@
 
             storeMessageId(messageId);
 
-            setStatus("Alerta em segundo plano agendado.");
+            setStatus("");
 
             return { scheduled: true, messageId };
 
@@ -518,7 +572,7 @@
 
             if (version === requestVersion) {
 
-                setStatus("Não foi possível agendar o alerta remoto. O Timer local continua a funcionar.");
+                setStatus("Não foi possível agendar o alerta.");
 
             }
 
@@ -584,19 +638,9 @@
 
         if (enableButton) enableButton.addEventListener("click", enable);
 
-        // Confirma sempre o servidor, mesmo quando o App ID ainda não está no JS público.
-
-        // Se o backend estiver configurado, o endpoint devolve apenas o App ID público.
-
-        setButton("A verificar…", false);
-
-        setStatus("A verificar os alertas…");
-
-        await checkBackend();
-
         renderCurrentState();
 
-        // O SDK de terceiros só será carregado após interação explícita do utilizador.
+        // O SDK e as permissões são preparados apenas após interação explícita.
 
     }
 
@@ -608,7 +652,23 @@
 
         cancel,
 
-        getConfigured: () => Boolean(APP_ID && backendConfigured)
+        getConfigured: () => Boolean(APP_ID && backendConfigured),
+
+        notifyCompletion: () => {
+
+            if (isEnabled()) return false;
+
+            if (!hasBrowserNotificationPermission()) return false;
+
+            try {
+
+                new Notification("Timer terminado", { body: "O tempo de descanso chegou ao fim.", icon: "icons/icon-192.png" });
+
+                return true;
+
+            } catch (_) { return false; }
+
+        }
 
     });
 

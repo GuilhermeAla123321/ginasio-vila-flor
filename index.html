@@ -677,6 +677,12 @@
 
                         </div>
 
+                        <div class="timer-quick-controls" aria-label="Ajustes rápidos">
+                            <button type="button" data-timer-seconds="30">30 s</button>
+                            <button type="button" data-timer-seconds="60">1 min</button>
+                            <button type="button" data-timer-seconds="120">2 min</button>
+                        </div>
+
                         <div class="timer-wheel-picker" aria-label="Selecionar duração do temporizador">
 
                             <div class="timer-wheel-column">
@@ -705,17 +711,10 @@
 
                         </div>
 
-
                         <div class="timer-background-alerts" aria-labelledby="timerBackgroundTitle">
-                            <div class="timer-background-alerts-copy">
-                                <strong id="timerBackgroundTitle">Alertas em segundo plano</strong>
-                                <p>Recebe o sinal quando o temporizador termina, se o dispositivo o permitir.</p>
-                                <details class="timer-background-settings">
-                                    <summary>Configurar alertas</summary>
-                                    <span id="timerBackgroundStatus" role="status" aria-live="polite"></span>
-                                    <button id="timerBackgroundEnable" class="secondary-btn" type="button" aria-disabled="false">Preparar alertas</button>
-                                </details>
-                            </div>
+                            <strong id="timerBackgroundTitle">Alertas em segundo plano</strong>
+                            <button id="timerBackgroundEnable" class="secondary-btn" type="button" aria-disabled="false">Ativar alertas</button>
+                            <span id="timerBackgroundStatus" role="status" aria-live="polite" hidden></span>
                         </div>
 
                         <p class="timer-wheel-status" id="timerState" aria-live="polite"></p>

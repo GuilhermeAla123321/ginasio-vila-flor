@@ -2551,6 +2551,106 @@ body[data-theme="light"] .exercise-card-summary {
     height: 28px;
   }
 }
+
+/* Timer — interface mobile mais clara sem afetar as restantes páginas. */
+#page-timer .timer-wheel-card {
+    gap: 18px;
+    padding: clamp(18px, 5vw, 26px);
+    border: 1px solid rgba(124, 77, 255, .14);
+    box-shadow: 0 18px 42px rgba(55, 34, 73, .12);
+}
+#page-timer .timer-wheel-countdown {
+    width: min(190px, 52vw);
+    height: min(190px, 52vw);
+    margin: 0 auto;
+}
+#page-timer .timer-wheel-countdown .timer-ring-bg,
+#page-timer .timer-wheel-countdown .timer-ring-progress { stroke-width: 7; }
+#page-timer .timer-wheel-countdown .timer-display {
+    font-size: clamp(42px, 11vw, 54px);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -2.2px;
+}
+.timer-quick-controls {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: min(100%, 360px);
+    margin: -7px auto -3px;
+}
+.timer-quick-controls button {
+    min-height: 40px;
+    border: 1px solid rgba(124, 77, 255, .18);
+    border-radius: 12px;
+    background: rgba(124, 77, 255, .07);
+    color: var(--text, #f6f7fb);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.timer-quick-controls button:hover,
+.timer-quick-controls button:focus-visible {
+    border-color: rgba(124, 77, 255, .55);
+    background: rgba(124, 77, 255, .14);
+    outline: none;
+}
+.timer-quick-controls button:active { transform: scale(.98); }
+#page-timer .timer-wheel {
+    border: 1px solid rgba(124, 77, 255, .08);
+    background: rgba(124, 77, 255, .025);
+}
+#page-timer .timer-wheel-selection {
+    border-color: rgba(124, 77, 255, .24);
+    background: rgba(124, 77, 255, .09);
+}
+#page-timer .timer-background-alerts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 0;
+    padding: 15px 0 0;
+}
+#page-timer .timer-background-alerts > strong {
+    color: var(--text, #f6f7fb);
+    font-size: 13px;
+    font-weight: 750;
+    text-align: left;
+}
+#page-timer .timer-background-alerts > button {
+    min-height: 42px;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+#page-timer .timer-background-alerts > span {
+    grid-column: 1 / -1;
+    margin: -2px 0 0;
+    color: var(--muted, #98a0b8);
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: left;
+}
+body[data-theme="light"] .timer-quick-controls button {
+    color: #31263d;
+    background: rgba(124, 77, 255, .06);
+}
+body[data-theme="light"] #page-timer .timer-wheel { background: rgba(124, 77, 255, .018); }
+@media (max-width: 420px) {
+    #page-timer .timer-wheel-card { gap: 15px; padding: 16px 13px; }
+    #page-timer .timer-wheel-countdown { width: 166px; height: 166px; }
+    #page-timer .timer-wheel-countdown .timer-display { font-size: 45px; }
+    .timer-quick-controls { gap: 6px; }
+    .timer-quick-controls button { min-height: 38px; font-size: 11px; }
+    #page-timer .timer-background-alerts { gap: 8px; }
+    #page-timer .timer-background-alerts > strong { font-size: 12px; }
+    #page-timer .timer-background-alerts > button { min-height: 40px; padding: 8px 10px; font-size: 11px; }
+}
 .exercise-series-list {
   display: grid;
   gap: 6px;
@@ -6795,6 +6895,15 @@ body[data-theme="light"] .timer-background-settings span { color: #71657a; }
   .exercise-catalog-action { white-space: normal; font-size: .68rem; }
 }
 
+/* Ajustes finais do Timer: devem prevalecer sobre os estilos históricos acima. */
+#page-timer .timer-wheel-card {
+  gap: 18px;
+  padding: clamp(18px, 5vw, 26px);
+}
+@media (max-width: 420px) {
+  #page-timer .timer-wheel-card { gap: 15px; padding: 16px 13px; }
+}
+
 html[data-theme="dark"] {
   --global-button-bg: rgba(35, 31, 43, .88);
   --global-button-text: #e5d8ed;
@@ -8514,6 +8623,7 @@ body[data-theme="light"] #page-info .ods-brand-email {
   color: #a13c54;
 }
 
+#page-info .info-feedback-form input[name="_honey"],
 #page-info .info-feedback-honeypot {
   position: absolute !important;
   width: 1px !important;

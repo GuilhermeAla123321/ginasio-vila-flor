@@ -6,6 +6,8 @@ let timerInterval = null;
 
 let timerRunning = false;
 
+let timerPaused = false;
+
 let timerDeadline = 0;
 
 let timerCompletionHandled = false;
@@ -166,6 +168,8 @@ function syncDurationFromWheels() {
     timerSeconds = selectedDuration();
 
     timerTotal = timerSeconds;
+
+    timerPaused = false;
 
     updateTimer();
 
@@ -355,9 +359,9 @@ function updateTimer() {
 
     if (startButton) {
 
-        const buttonText = timerRunning ? "Parar" : "Iniciar";
+        const buttonText = timerRunning ? "Pausar" : (timerPaused ? "Retomar" : "Iniciar");
 
-        const buttonLabel = timerRunning ? "Parar temporizador" : "Iniciar temporizador";
+        const buttonLabel = timerRunning ? "Pausar temporizador" : (timerPaused ? "Retomar temporizador" : "Iniciar temporizador");
 
         if (startButton.textContent !== buttonText) startButton.textContent = buttonText;
 
@@ -429,6 +433,8 @@ function stopTimerInterval() {
 
     timerDeadline = 0;
 
+    timerPaused = timerSeconds > 0;
+
     maybeStopTimerTicker();
 
 }
@@ -461,6 +467,8 @@ function completeTimer() {
 
     timerRunning = false;
 
+    timerPaused = false;
+
     timerDeadline = 0;
 
     timerSeconds = 0;
@@ -486,6 +494,7 @@ function completeTimer() {
         // O serviço remoto trata do alerta do sistema; não tentamos áudio personalizado
 
         // numa página suspensa, onde os navegadores podem bloquear a reprodução.
+        try { window.TimerBackgroundAlerts?.notifyCompletion?.(); } catch (_) {}
 
     } else {
 
@@ -512,6 +521,8 @@ function resetTimer() {
     cancelCurrentToneSequence();
 
     timerCompletionHandled = false;
+
+    timerPaused = false;
 
     timerSeconds = selectedDuration();
 
@@ -1022,9 +1033,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             cancelCurrentToneSequence();
 
-            timerSeconds = selectedDuration();
+            if (!timerPaused) {
 
-            timerTotal = timerSeconds;
+                timerSeconds = selectedDuration();
+
+                timerTotal = timerSeconds;
+
+            }
 
             if (timerSeconds <= 0) {
 
@@ -1052,6 +1067,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             timerCompletionHandled = false;
 
+            timerPaused = false;
+
             timerDeadline = Date.now() + timerSeconds * 1000;
 
             timerRunning = true;
@@ -1067,6 +1084,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (resetButton) resetButton.addEventListener("click", resetTimer);
+
+    document.querySelectorAll("[data-timer-seconds]").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const duration = Math.max(0, Number(button.dataset.timerSeconds) || 0);
+
+            stopTimerInterval();
+
+            cancelTimerBackgroundNotification();
+
+            dismissTimerCompletionPopup();
+
+            cancelCurrentToneSequence();
+
+            setWheelValue(minutesWheel, Math.floor(duration / 60));
+
+            setWheelValue(secondsWheel, duration % 60);
+
+            timerSeconds = duration;
+
+            timerTotal = duration;
+
+            timerPaused = false;
+
+            timerCompletionHandled = false;
+
+            updateTimer();
+
+        });
+
+    });
 
     if (dismissButton) dismissButton.addEventListener("click", dismissTimerCompletionPopup);
 
