@@ -2418,7 +2418,6 @@ function mostrarBibliotecaGlobal() {
         <button class="filter-btn equipment-back exercise-library-back" id="backToEquipmentList" type="button">← Voltar aos equipamentos</button>
         <div class="exercise-library-heading">
           <h3>Todos os exercícios</h3>
-          <p>Pesquisa por nome ou filtra por grupo muscular.</p>
         </div>
         <div class="exercise-library-toolbar">
           <div class="exercise-library-search">
