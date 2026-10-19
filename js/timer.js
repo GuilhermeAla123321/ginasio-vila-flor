@@ -31,12 +31,17 @@ const TIMER_RING_CIRCUMFERENCE = 628.3;
 const TIMER_COMPLETION_DURATION = 3000;
 
 const TIMER_TONE_PATTERNS = {
-    // Um único toque de conclusão, com alternativa local para redes bloqueadas.
+    // Toque tipo telefone: duas frequências simultâneas em pulsos curtos.
+    // Mantém o mesmo identificador interno para não alterar o fluxo do temporizador.
     suave: [
-        { frequency: 587.33, offset: 0.05, duration: 0.78, gain: 0.042 },
-        { frequency: 739.99, offset: 0.48, duration: 0.88, gain: 0.036 },
-        { frequency: 659.25, offset: 1.48, duration: 0.84, gain: 0.034 },
-        { frequency: 523.25, offset: 2.17, duration: 0.72, gain: 0.029 }
+        { frequency: 440, offset: 0.05, duration: 0.36, gain: 0.038 },
+        { frequency: 480, offset: 0.05, duration: 0.36, gain: 0.038 },
+        { frequency: 440, offset: 0.62, duration: 0.36, gain: 0.038 },
+        { frequency: 480, offset: 0.62, duration: 0.36, gain: 0.038 },
+        { frequency: 440, offset: 1.55, duration: 0.36, gain: 0.038 },
+        { frequency: 480, offset: 1.55, duration: 0.36, gain: 0.038 },
+        { frequency: 440, offset: 2.12, duration: 0.36, gain: 0.038 },
+        { frequency: 480, offset: 2.12, duration: 0.36, gain: 0.038 }
     ]
 };
 
