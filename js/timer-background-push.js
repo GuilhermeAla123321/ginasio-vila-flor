@@ -22,6 +22,8 @@
 
     let activeMessageId = readStoredMessageId();
 
+    let remoteNotificationScheduled = false;
+
     const button = () => document.getElementById("timerBackgroundEnable");
 
     const status = () => document.getElementById("timerBackgroundStatus");
@@ -314,29 +316,67 @@
 
     function renderCurrentState() {
 
-        if (hasBrowserNotificationPermission()) {
-
-            setButton("Ativar alertas", false);
-
-            setStatus("");
-
-            return;
-
-        }
-
         if (typeof Notification !== "undefined" && Notification.permission === "denied") {
 
             setButton("Ativar alertas", false);
 
-            setStatus("Notificações bloqueadas.");
+            setStatus("Notificações bloqueadas nas definições do navegador.");
 
             return;
 
         }
 
-        if (!APP_ID || !backendConfigured) {
+        // Se o serviço remoto estiver configurado, a permissão do navegador não
+        // significa que a subscrição OneSignal já esteja ativa.
+        if (backendConfigured && APP_ID) {
 
-            setButton("Ativar alertas", true);
+            if (!oneSignalInstance) {
+
+                setButton("Ativar alertas", true);
+
+                setStatus("");
+
+                return;
+
+            }
+
+            const OneSignal = oneSignalInstance;
+
+            if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
+
+                setButton("Ativar alertas", false);
+
+                setStatus("Alertas não suportados neste navegador.");
+
+                return;
+
+            }
+
+            const optedIn = Boolean(OneSignal.User?.PushSubscription?.optedIn && (OneSignal.User?.PushSubscription?.id || subscriptionId));
+
+            if (optedIn) {
+
+                setButton("Alertas ativos", false);
+
+                setStatus("");
+
+            } else {
+
+                setButton("Ativar alertas", true);
+
+                setStatus("");
+
+            }
+
+            return;
+
+        }
+
+        // Sem configuração remota, permite as notificações locais do navegador
+        // como alternativa. O Timer continua a funcionar mesmo sem OneSignal.
+        if (hasBrowserNotificationPermission()) {
+
+            setButton("Alertas ativos", false);
 
             setStatus("");
 
@@ -344,53 +384,9 @@
 
         }
 
-        if (!oneSignalInstance) {
+        setButton("Ativar alertas", true);
 
-            setButton("Ativar alertas", true);
-
-            setStatus("");
-
-            return;
-
-        }
-
-        const OneSignal = oneSignalInstance;
-
-        if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
-
-            setButton("Ativar alertas", false);
-
-            setStatus("Alertas não suportados.");
-
-            return;
-
-        }
-
-        if (OneSignal.Notifications?.permission === false && typeof Notification !== "undefined" && Notification.permission === "denied") {
-
-            setButton("Ativar alertas", false);
-
-            setStatus("Notificações bloqueadas.");
-
-            return;
-
-        }
-
-        const optedIn = Boolean(OneSignal.User?.PushSubscription?.optedIn && (OneSignal.User?.PushSubscription?.id || subscriptionId));
-
-        if (optedIn) {
-
-            setButton("Ativar alertas", false);
-
-            setStatus("");
-
-        } else {
-
-            setButton("Ativar alertas", true);
-
-            setStatus("");
-
-        }
+        setStatus("");
 
     }
 
@@ -400,17 +396,25 @@
 
         if (node?.disabled) return;
 
-        setButton("Ativar alertas", false);
+        setButton("A ativar…", false);
 
         setStatus("");
 
         try {
 
-            if (typeof Notification !== "undefined") {
+            if (typeof Notification !== "undefined" && Notification.permission === "denied") {
 
-                if (Notification.permission === "denied") {
+                throw new Error("Notificações bloqueadas nas definições do navegador.");
 
-                    throw new Error("Notificações bloqueadas.");
+            }
+
+            // Sem backend OneSignal configurado, usa a permissão normal do navegador
+            // como alternativa local; não tenta carregar o SDK remoto.
+            if ((!backendConfigured || !APP_ID) && !(await checkBackend())) {
+
+                if (typeof Notification === "undefined") {
+
+                    throw new Error("Alertas em segundo plano não estão configurados. O Timer local continua a funcionar.");
 
                 }
 
@@ -420,32 +424,24 @@
 
                     : await Notification.requestPermission();
 
-                if (permission === "granted") {
+                if (permission !== "granted") {
 
-                    renderCurrentState();
-
-                    return;
+                    throw new Error("Notificações não autorizadas.");
 
                 }
 
-                throw new Error("Notificações não autorizadas.");
+                setButton("Alertas ativos", false);
 
-            }
+                setStatus("");
 
-            if ((!backendConfigured || !APP_ID) && !(await checkBackend())) {
-
-                throw new Error("Alertas indisponíveis.");
+                return;
 
             }
 
             if (!oneSignalInstance) {
 
-                // Carregamos o fornecedor apenas após o utilizador pedir para ativar a função.
-
-                // Não pedimos permissões depois desta espera assíncrona: o utilizador volta a
-
-                // tocar para que o pedido nativo parta diretamente desse gesto.
-
+                // Carrega o SDK após interação explícita. Depois de preparado, o
+                // utilizador toca novamente para autorizar/confirmar a subscrição.
                 const prepared = await loadOneSignal();
 
                 subscriptionId = prepared.User?.PushSubscription?.id || null;
@@ -460,7 +456,7 @@
 
                 setButton("Ativar alertas", true);
 
-                setStatus("");
+                setStatus("Serviço preparado. Toca novamente para concluir a ativação.");
 
                 return;
 
@@ -470,12 +466,11 @@
 
             if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
 
-                throw new Error("Alertas não suportados.");
+                throw new Error("Alertas não suportados neste navegador.");
 
             }
 
-            // Chamado diretamente a partir do clique, antes de qualquer nova espera.
-
+            // O pedido de permissão parte diretamente deste clique do utilizador.
             const permissionRequest = OneSignal.Notifications.requestPermission();
 
             await permissionRequest;
@@ -490,13 +485,11 @@
 
             subscriptionId = await waitForSubscriptionId(OneSignal);
 
-            if (!subscriptionId) throw new Error("Não foi possível ativar os alertas.");
+            if (!subscriptionId) throw new Error("Não foi possível ativar os alertas. Tenta novamente.");
 
             renderCurrentState();
 
         } catch (error) {
-
-            // Permite repetir a verificação se o primeiro pedido falhou por rede/configuração.
 
             setButton("Ativar alertas", true);
 
@@ -508,7 +501,7 @@
 
     async function schedule(deadlineMs) {
 
-        if (hasBrowserNotificationPermission()) return { scheduled: false, reason: "browser-notification" };
+        remoteNotificationScheduled = false;
 
         if (!isEnabled()) return { scheduled: false, reason: "not-enabled" };
 
@@ -564,6 +557,8 @@
 
             storeMessageId(messageId);
 
+            remoteNotificationScheduled = true;
+
             setStatus("");
 
             return { scheduled: true, messageId };
@@ -608,6 +603,8 @@
 
         requestVersion += 1;
 
+        remoteNotificationScheduled = false;
+
         const messageId = activeMessageId || readStoredMessageId();
 
         storeMessageId("");
@@ -638,9 +635,15 @@
 
         if (enableButton) enableButton.addEventListener("click", enable);
 
+        setButton("A verificar…", false);
+
+        setStatus("");
+
+        await checkBackend();
+
         renderCurrentState();
 
-        // O SDK e as permissões são preparados apenas após interação explícita.
+        // O SDK de terceiros só será carregado após interação explícita do utilizador.
 
     }
 
@@ -656,7 +659,9 @@
 
         notifyCompletion: () => {
 
-            if (isEnabled()) return false;
+            // Evita duplicados se o push remoto foi agendado com sucesso.
+            // Se o agendamento falhou, tenta entregar a notificação local.
+            if (remoteNotificationScheduled) return false;
 
             if (!hasBrowserNotificationPermission()) return false;
 
