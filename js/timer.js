@@ -1090,38 +1090,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (resetButton) resetButton.addEventListener("click", resetTimer);
 
-    document.querySelectorAll("[data-timer-seconds]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const duration = Math.max(0, Number(button.dataset.timerSeconds) || 0);
-
-            stopTimerInterval();
-
-            cancelTimerBackgroundNotification();
-
-            dismissTimerCompletionPopup();
-
-            cancelCurrentToneSequence();
-
-            setWheelValue(minutesWheel, Math.floor(duration / 60));
-
-            setWheelValue(secondsWheel, duration % 60);
-
-            timerSeconds = duration;
-
-            timerTotal = duration;
-
-            timerPaused = false;
-
-            timerCompletionHandled = false;
-
-            updateTimer();
-
-        });
-
-    });
-
     if (dismissButton) dismissButton.addEventListener("click", dismissTimerCompletionPopup);
 
     // Se o navegador suspender a página, o tempo restante continua baseado no relógio real.

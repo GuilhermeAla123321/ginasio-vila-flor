@@ -2417,7 +2417,6 @@ function mostrarBibliotecaGlobal() {
       <section class="exercise-library-view" aria-label="Biblioteca global de exercícios">
         <button class="filter-btn equipment-back exercise-library-back" id="backToEquipmentList" type="button">← Voltar aos equipamentos</button>
         <div class="exercise-library-heading">
-          <h3>Todos os exercícios</h3>
         </div>
         <div class="exercise-library-toolbar">
           <div class="exercise-library-search">
