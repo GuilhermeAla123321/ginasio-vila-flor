@@ -9892,3 +9892,47 @@ body[data-theme="light"] #page-timer .gym-tips-footer > span { color: #84768b; }
     #page-timer .gym-tips-footer > span { font-size: 8px; }
     #page-timer .gym-tips-next { min-height: 30px; padding: 7px 9px; font-size: 9px; }
 }
+
+/* Descrições mais compactas — sem alterar etiquetas, títulos ou hero. */
+#page-equipment > .section > p.muted,
+#page-workout .workout-header > p.muted,
+#page-timer > .section > p.muted,
+#page-home .intro-section > p.muted {
+    display: block;
+    width: fit-content;
+    max-width: min(100%, 440px);
+    margin: 0 auto 13px;
+    padding: 6px 10px;
+    border: 1px solid rgba(161, 132, 180, .13);
+    border-radius: 9px;
+    background: rgba(161, 132, 180, .045);
+    color: var(--muted, #a9a0b2);
+    font-size: 11.5px;
+    line-height: 1.4;
+    text-align: center;
+    text-wrap: balance;
+}
+
+/* No tema claro, mantém contraste sem tornar a descrição demasiado destacada. */
+body[data-theme="light"] #page-equipment > .section > p.muted,
+body[data-theme="light"] #page-workout .workout-header > p.muted,
+body[data-theme="light"] #page-timer > .section > p.muted,
+body[data-theme="light"] #page-home .intro-section > p.muted {
+    border-color: rgba(104, 64, 111, .12);
+    background: rgba(104, 64, 111, .035);
+    color: #6d6370;
+}
+
+/* Em ecrãs pequenos, a descrição fica ainda mais discreta e baixa. */
+@media (max-width: 420px) {
+    #page-equipment > .section > p.muted,
+    #page-workout .workout-header > p.muted,
+    #page-timer > .section > p.muted,
+    #page-home .intro-section > p.muted {
+        max-width: 100%;
+        padding: 5px 8px;
+        margin-bottom: 12px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+}
