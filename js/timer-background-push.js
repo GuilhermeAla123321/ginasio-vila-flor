@@ -635,6 +635,16 @@
 
         if (enableButton) enableButton.addEventListener("click", enable);
 
+        const helpButton = document.getElementById("timerBackgroundHelp");
+        const helpText = document.getElementById("timerBackgroundHelpText");
+        if (helpButton && helpText) {
+            helpButton.addEventListener("click", () => {
+                const isExpanded = helpButton.getAttribute("aria-expanded") === "true";
+                helpButton.setAttribute("aria-expanded", String(!isExpanded));
+                helpText.hidden = isExpanded;
+            });
+        }
+
         setButton("A verificar…", false);
 
         setStatus("");

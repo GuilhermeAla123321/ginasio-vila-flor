@@ -705,8 +705,12 @@
                         </div>
 
                         <div class="timer-background-alerts" aria-labelledby="timerBackgroundTitle">
-                            <strong id="timerBackgroundTitle">Alertas em segundo plano</strong>
+                            <div class="timer-background-alerts-label">
+                                <strong id="timerBackgroundTitle">Alertas em segundo plano</strong>
+                                <button id="timerBackgroundHelp" class="timer-background-help" type="button" aria-label="Para que servem os alertas em segundo plano?" aria-expanded="false" aria-controls="timerBackgroundHelpText">?</button>
+                            </div>
                             <button id="timerBackgroundEnable" class="secondary-btn" type="button" aria-disabled="false">Ativar alertas</button>
+                            <p id="timerBackgroundHelpText" class="timer-background-help-text" hidden>Recebe uma notificação quando o temporizador termina, mesmo que estejas noutra página ou com o site em segundo plano. O navegador pode pedir autorização para enviar notificações.</p>
                             <span id="timerBackgroundStatus" role="status" aria-live="polite" hidden></span>
                         </div>
 

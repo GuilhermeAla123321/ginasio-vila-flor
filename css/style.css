@@ -9936,3 +9936,79 @@ body[data-theme="light"] #page-home .intro-section > p.muted {
         border-radius: 8px;
     }
 }
+
+
+/* Ajuda contextual dos alertas do Timer: compacta e acessível nos dois temas. */
+#page-timer .timer-background-alerts-label {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    gap: 7px;
+    min-width: 0;
+}
+#page-timer .timer-background-alerts-label > strong {
+    color: var(--text, #f6f7fb);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.35;
+    text-align: left;
+}
+#page-timer .timer-background-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 19px;
+    width: 19px;
+    min-width: 19px;
+    height: 19px;
+    min-height: 19px;
+    padding: 0;
+    border: 1px solid rgba(175, 155, 202, .5);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted, #b6b0c7);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+#page-timer .timer-background-help:hover,
+#page-timer .timer-background-help:focus-visible,
+#page-timer .timer-background-help[aria-expanded="true"] {
+    border-color: rgba(167, 119, 213, .9);
+    background: rgba(143, 94, 174, .14);
+    color: var(--text, #f6f7fb);
+    outline: none;
+}
+#page-timer .timer-background-help-text {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 9px 11px;
+    border: 1px solid rgba(157, 119, 182, .2);
+    border-radius: 10px;
+    background: rgba(139, 102, 160, .08);
+    color: var(--muted, #b6b0c7);
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: left;
+}
+#page-timer .timer-background-help-text[hidden] { display: none !important; }
+body[data-theme="light"] #page-timer .timer-background-alerts-label > strong { color: #31263d; }
+body[data-theme="light"] #page-timer .timer-background-help {
+    border-color: rgba(84, 62, 100, .34);
+    color: #675274;
+}
+body[data-theme="light"] #page-timer .timer-background-help:hover,
+body[data-theme="light"] #page-timer .timer-background-help:focus-visible,
+body[data-theme="light"] #page-timer .timer-background-help[aria-expanded="true"] {
+    border-color: #80608f;
+    background: rgba(128, 96, 143, .1);
+    color: #392844;
+}
+body[data-theme="light"] #page-timer .timer-background-help-text {
+    border-color: rgba(84, 62, 100, .16);
+    background: rgba(128, 96, 143, .055);
+    color: #65596f;
+}
