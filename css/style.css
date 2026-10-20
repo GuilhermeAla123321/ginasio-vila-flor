@@ -9751,3 +9751,144 @@ html.supports-view-transitions .page.active > .section {
         font-size: 10px;
     }
 }
+
+
+/* Cartão de dicas de treino — colocado no espaço livre abaixo do Timer. */
+#page-timer .gym-tips-card {
+    width: 100%;
+    margin: 15px auto 14px;
+    padding: 13px 14px 12px;
+    text-align: left;
+    border: 1px solid rgba(158, 94, 191, .20);
+    border-radius: 17px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(128, 72, 132, .12), transparent 52%),
+        linear-gradient(135deg, rgba(26, 19, 32, .98), rgba(17, 17, 28, .98));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.025), 0 8px 22px rgba(0,0,0,.08);
+}
+#page-timer .gym-tips-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+#page-timer .gym-tips-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: #e2c6f0;
+    background: linear-gradient(145deg, rgba(132, 76, 143, .48), rgba(55, 153, 153, .26));
+    border: 1px solid rgba(224, 184, 238, .12);
+}
+#page-timer .gym-tips-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+#page-timer .gym-tips-heading { min-width: 0; flex: 1; }
+#page-timer .gym-tips-eyebrow {
+    display: block;
+    margin-bottom: 3px;
+    color: #c8a5d4;
+    font-size: 8px;
+    line-height: 1.2;
+    font-weight: 850;
+    letter-spacing: 1.5px;
+}
+#page-timer .gym-tips-heading h3 {
+    margin: 0;
+    color: var(--text, #f6f3f8);
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 800;
+    letter-spacing: -.2px;
+}
+
+#page-timer .gym-tips-text {
+    min-height: 34px;
+    margin: 9px 0 10px;
+    color: #c2bacb;
+    font-size: 11px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+#page-timer .gym-tips-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 9px;
+    border-top: 1px solid rgba(238, 218, 242, .075);
+}
+#page-timer .gym-tips-footer > span {
+    min-width: 0;
+    color: #92879c;
+    font-size: 9px;
+    line-height: 1.3;
+}
+#page-timer .gym-tips-next {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 31px;
+    padding: 7px 10px;
+    border: 1px solid rgba(181, 130, 198, .2);
+    border-radius: 10px;
+    color: #f4eaf6;
+    background: linear-gradient(120deg, rgba(111, 68, 119, .72), rgba(46, 126, 125, .66));
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform .18s ease, filter .18s ease;
+}
+#page-timer .gym-tips-next:hover { filter: brightness(1.08); }
+#page-timer .gym-tips-next:active { transform: scale(.97); }
+#page-timer .gym-tips-next svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+#page-timer .gym-tips-card.is-changing .gym-tips-heading,
+#page-timer .gym-tips-card.is-changing .gym-tips-text {
+    animation: gymTipSwap .2s ease both;
+}
+@keyframes gymTipSwap {
+    from { opacity: .35; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+body[data-theme="light"] #page-timer .gym-tips-card {
+    border-color: rgba(125, 80, 139, .18);
+    background: radial-gradient(circle at 0% 0%, rgba(155, 105, 169, .09), transparent 55%), linear-gradient(135deg, #fff, #f8f4fa);
+    box-shadow: 0 7px 20px rgba(45, 28, 50, .045);
+}
+body[data-theme="light"] #page-timer .gym-tips-icon {
+    color: #563261;
+    background: linear-gradient(145deg, #e0cce8, #c6e1dc);
+    border-color: rgba(86, 50, 97, .20);
+}
+body[data-theme="light"] #page-timer .gym-tips-icon svg { stroke-width: 1.9; }
+body[data-theme="light"] #page-timer .gym-tips-heading h3 { color: #302638; }
+body[data-theme="light"] #page-timer .gym-tips-text { color: #685e70; }
+body[data-theme="light"] #page-timer .gym-tips-footer > span { color: #84768b; }
+@media (max-width: 420px) {
+    #page-timer .gym-tips-card { margin-top: 13px; padding: 12px 12px 11px; border-radius: 15px; }
+    #page-timer .gym-tips-icon { width: 31px; height: 31px; flex-basis: 31px; }
+    #page-timer .gym-tips-heading h3 { font-size: 12px; }
+    #page-timer .gym-tips-text { margin: 8px 0 9px; font-size: 10.5px; min-height: 32px; }
+    #page-timer .gym-tips-footer > span { font-size: 8px; }
+    #page-timer .gym-tips-next { min-height: 30px; padding: 7px 9px; font-size: 9px; }
+}
