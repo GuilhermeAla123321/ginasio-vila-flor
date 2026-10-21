@@ -929,7 +929,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Supino inclinado com pesos livres",
+            nome: "Supino inclinado com pesos halteres",
             grupo: "Peito",
             icon: "🏋️",
             desc: "Press inclinado com barra ou halteres para trabalhar principalmente a região superior do peitoral.",
