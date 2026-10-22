@@ -24,6 +24,22 @@ const diasSemana = [
     ["domingo", "DOM", "Domingo"]
 ];
 
+const DIA_SEMANA_POR_DATA = {
+    0: "domingo",
+    1: "segunda",
+    2: "terca",
+    3: "quarta",
+    4: "quinta",
+    5: "sexta",
+    6: "sabado"
+};
+
+function diaAtualChave() {
+    return DIA_SEMANA_POR_DATA[new Date().getDay()] || "segunda";
+}
+
+let diaAtualRefreshTimeout = null;
+
 
 /* =========================================================
    EQUIPAMENTOS DISPONÍVEIS NO GINÁSIO
@@ -1712,10 +1728,12 @@ function renderTreino() {
             ${diasSemana.map(x => {
                 const listaDia = Array.isArray(treinos[x[0]]) ? treinos[x[0]] : [];
                 const total = listaDia.reduce((n, treino) => n + (Array.isArray(treino.exercicios) ? treino.exercicios.length : 0), 0);
+                const hoje = x[0] === diaAtualChave();
                 return `
-                    <button class="day-button ${x[0] === diaSelecionado ? "active" : ""}" data-day="${x[0]}">
+                    <button class="day-button ${x[0] === diaSelecionado ? "active" : ""} ${hoje ? "today" : ""}" data-day="${x[0]}" ${hoje ? 'aria-current="date"' : ""}>
                         <strong>${x[1]}</strong>
-                        <span>${total || ""}</span>
+                        <i class="day-today-dot" aria-hidden="true"></i>
+                        <span class="day-count">${total || ""}</span>
                     </button>
                 `;
             }).join("")}
@@ -4754,230 +4772,187 @@ function guardarAtualizacaoExercicio(
 function mostrarProgressao(
     exercicio
 ) {
+    if (!exercicio) return;
 
-    if (!exercicio) {
-        return;
+    document.getElementById("progressOverlay")?.remove();
+
+    const tipo = exercicio.tipo || inferirTipoExercicio(exercicio.nome, exercicio.grupo);
+    const historicoOriginal = Array.isArray(exercicio.historico) ? exercicio.historico : [];
+
+    function timestampRegisto(registo, indice) {
+        const idNumerico = Number(registo?.id);
+        if (registo?.id != null && Number.isFinite(idNumerico)) return idNumerico;
+
+        const data = String(registo?.data || "");
+        const dataPt = data.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        if (dataPt) {
+            return new Date(Number(dataPt[3]), Number(dataPt[2]) - 1, Number(dataPt[1])).getTime() + indice;
+        }
+
+        const dataParseada = Date.parse(data);
+        return Number.isFinite(dataParseada) ? dataParseada + indice : indice;
     }
 
+    const historicoOrdenado = historicoOriginal
+        .map((registo, indice) => ({ registo, indice, timestamp: timestampRegisto(registo, indice) }))
+        .sort((a, b) => a.timestamp - b.timestamp || a.indice - b.indice);
 
-    document
-        .getElementById(
-            "progressOverlay"
-        )
-        ?.remove();
+    const ultimoRegisto = historicoOrdenado.length
+        ? historicoOrdenado[historicoOrdenado.length - 1].registo
+        : null;
+    const registoAnterior = historicoOrdenado.length > 1
+        ? historicoOrdenado[historicoOrdenado.length - 2].registo
+        : null;
 
+    function maximoParametro(registo, parametro) {
+        if (!registo || !parametro) return null;
+        const series = historicoComSeries(exercicio, registo);
+        const valores = (Array.isArray(series) ? series : [])
+            .map(serie => serie?.[parametro])
+            .filter(valor => valor !== "" && valor != null)
+            .map(Number)
+            .filter(Number.isFinite);
+        return valores.length ? Math.max(...valores) : null;
+    }
 
-    const tipo =
-        exercicio.tipo ||
-        inferirTipoExercicio(
-            exercicio.nome,
-            exercicio.grupo
-        );
+    function numeroLocal(valor) {
+        return Number(valor).toLocaleString("pt-PT", { maximumFractionDigits: 2 });
+    }
 
+    function deltaTexto(atual, anterior, unidade) {
+        if (atual == null) return { texto: "Sem dados", neutro: true };
+        if (anterior == null) return { texto: "primeiro registo", neutro: true };
+        const diferenca = atual - anterior;
+        if (Math.abs(diferenca) < 0.0001) return { texto: "igual", neutro: true };
+        const sinal = diferenca > 0 ? "+" : "−";
+        return { texto: `${sinal}${numeroLocal(Math.abs(diferenca))}${unidade ? ` ${unidade}` : ""}`, neutro: false };
+    }
 
-    const h =
-        Array.isArray(
-            exercicio.historico
-        )
-            ? exercicio.historico
-            : [];
+    const parametros = parametrosDoExercicio(exercicio, tipo);
+    const parametroCarga = ["pesoHalter", "carga", "resistencia"].find(parametro => parametros.includes(parametro));
+    const parametroRepeticoes = parametros.includes("repeticoes") ? "repeticoes" : null;
+    const metricasResumo = [];
 
+    if (parametroCarga) {
+        const valorAtualCarga = maximoParametro(ultimoRegisto, parametroCarga);
+        const valorAnteriorCarga = maximoParametro(registoAnterior, parametroCarga);
+        if (valorAtualCarga != null) {
+            const labelCarga = parametroCarga === "pesoHalter"
+                ? "Peso por halter (máx.)"
+                : parametroCarga === "carga"
+                    ? "Carga (máx.)"
+                    : "Resistência (máx.)";
+            const unidadeCarga = PARAMETROS[parametroCarga]?.unit || "";
+            const delta = deltaTexto(valorAtualCarga, valorAnteriorCarga, unidadeCarga);
+            metricasResumo.push({
+                label: labelCarga,
+                valor: `${numeroLocal(valorAtualCarga)}${unidadeCarga ? ` ${unidadeCarga}` : ""}`,
+                delta: delta.texto,
+                neutro: delta.neutro
+            });
+        }
+    }
 
-    const overlay =
-        document.createElement(
-            "div"
-        );
+    if (parametroRepeticoes) {
+        const valorAtualReps = maximoParametro(ultimoRegisto, parametroRepeticoes);
+        const valorAnteriorReps = maximoParametro(registoAnterior, parametroRepeticoes);
+        if (valorAtualReps != null) {
+            const delta = deltaTexto(valorAtualReps, valorAnteriorReps, "rep.");
+            metricasResumo.push({
+                label: "Repetições (máx.)",
+                valor: numeroLocal(valorAtualReps),
+                delta: delta.texto,
+                neutro: delta.neutro
+            });
+        }
+    }
 
-
-    overlay.className =
-        "progress-overlay open";
-
-    overlay.id =
-        "progressOverlay";
-
-
-    const historyHtml =
-        h.length
-
-            ? h
-                  .map(
-                      row => {
-
-                          const series =
-                              historicoComSeries(
-                                  exercicio,
-                                  row
-                              );
-
-                          return `
-                              <article class="progress-history-entry">
-
-                                  <div class="progress-history-date">
-                                      ${escapeHtml(
-                                          row.data ||
-                                          "—"
-                                      )}
-                                  </div>
-
-                                  <div class="progress-history-series">
-
-                                      ${series
-                                          .map(
-                                              (s, i) => `
-
-                                                  <div class="progress-history-series-row">
-
-                                                      <span>
-                                                          Série ${i + 1}
-                                                      </span>
-
-                                                      <strong>
-                                                          ${escapeHtml(
-                                                              serieResumo(
-                                                                  tipo,
-                                                                  s,
-                                                                  row.parametrosSeries || exercicio.parametrosSeries
-                                                              ) ||
-                                                              "Sem valores"
-                                                          )}
-                                                      </strong>
-
-                                                  </div>
-
-                                              `
-                                          )
-                                          .join("")}
-
-                                  </div>
-
-                              </article>
-                          `;
-                      }
-                  )
-                  .join("")
-
-            : `
-                <div class="progress-empty">
-
-                    <strong>
-                        Ainda não existe histórico.
-                    </strong>
-
-                    <p>
-                        As atualizações guardadas
-                        neste exercício aparecerão aqui.
-                    </p>
-
+    const resumoHtml = ultimoRegisto && metricasResumo.length
+        ? `
+            <section class="progress-summary" aria-label="Resumo da evolução">
+                <p class="progress-summary-caption">
+                    Último registo (${escapeHtml(ultimoRegisto.data || "—")})${registoAnterior
+                        ? ` comparado com o anterior (${escapeHtml(registoAnterior.data || "—")})`
+                        : " · primeiro registo guardado"}
+                </p>
+                <div class="progress-summary-grid">
+                    ${metricasResumo.map(metrica => `
+                        <div class="progress-summary-metric">
+                            <span class="progress-summary-label">${escapeHtml(metrica.label)}</span>
+                            <strong class="progress-summary-value">${escapeHtml(metrica.valor)}</strong>
+                            <span class="progress-summary-delta ${metrica.neutro ? "is-neutral" : ""}">${escapeHtml(metrica.delta)}</span>
+                        </div>
+                    `).join("")}
                 </div>
+            </section>
+        `
+        : "";
+
+    const historicoReverso = [...historicoOrdenado].reverse();
+    const historyHtml = historicoReverso.length
+        ? historicoReverso.map(({ registo: row }, indice) => {
+            const series = historicoComSeries(exercicio, row);
+            const maisRecente = indice === 0;
+            const seriesHtml = Array.isArray(series) && series.length
+                ? series.map((serie, indiceSerie) => `
+                    <div class="progress-history-series-row">
+                        <span>Série ${indiceSerie + 1}</span>
+                        <strong>${escapeHtml(serieResumo(tipo, serie, row.parametrosSeries || exercicio.parametrosSeries) || "Sem valores registados")}</strong>
+                    </div>
+                `).join("")
+                : `<div class="progress-history-series-row"><span>Registo</span><strong>Sem séries registadas</strong></div>`;
+
+            return `
+                <article class="progress-history-entry ${maisRecente ? "is-latest" : ""}">
+                    <div class="progress-history-card">
+                        <div class="progress-history-date">
+                            <span>${escapeHtml(row.data || "—")}</span>
+                            ${maisRecente ? `<span class="progress-history-badge">Mais recente</span>` : ""}
+                        </div>
+                        <div class="progress-history-series">${seriesHtml}</div>
+                    </div>
+                </article>
             `;
+        }).join("")
+        : `
+            <div class="progress-empty">
+                <strong>Ainda não existe histórico.</strong>
+                <p>As atualizações guardadas neste exercício aparecerão aqui.</p>
+            </div>
+        `;
 
-
+    const overlay = document.createElement("div");
+    overlay.className = "progress-overlay open";
+    overlay.id = "progressOverlay";
     overlay.innerHTML = `
-
-        <div
-            class="progress-modal"
-            role="dialog"
-            aria-modal="true"
-        >
-
+        <div class="progress-modal" role="dialog" aria-modal="true" aria-labelledby="progressExerciseTitle">
             <div class="exercise-editor-top">
-
                 <div>
-
-                    <span class="eyebrow">
-                        PROGRESSÃO
-                    </span>
-
-                    <h2>
-                        ${escapeHtml(
-                            exercicio.nome
-                        )}
-                    </h2>
-
-                    <p class="muted">
-                        Histórico de evolução · apenas consulta
-                    </p>
-
+                    <span class="progress-heading-label">Progressão</span>
+                    <h2 id="progressExerciseTitle">${escapeHtml(exercicio.nome)}</h2>
+                    <p class="muted">Histórico de evolução · apenas consulta</p>
                 </div>
-
-
-                <button
-                    class="exercise-picker-close"
-                    id="closeProgress"
-                    aria-label="Fechar"
-                >
-                    ×
-                </button>
-
+                <button type="button" class="exercise-picker-close" id="closeProgress" aria-label="Fechar">×</button>
             </div>
-
-
-            <div class="progress-history-list">
-
+            ${resumoHtml}
+            <div class="progress-history-list ${historicoReverso.length ? "has-history" : ""}">
                 ${historyHtml}
-
             </div>
-
-
             <div class="progress-readonly-note">
-
-                🔒 Consulta apenas.
-                Para registar novos valores,
-                utiliza o botão
-                <strong>
-                    Atualizar
-                </strong>
-                no exercício.
-
+                🔒 Consulta apenas. Para registar novos valores, utiliza o botão <strong>Atualizar</strong> no exercício.
             </div>
-
-
             <div class="progress-actions">
-
-                <button
-                    class="secondary-btn"
-                    id="closeProgressBottom"
-                >
-                    Fechar
-                </button>
-
+                <button type="button" class="secondary-btn" id="closeProgressBottom">Fechar</button>
             </div>
-
         </div>
-
     `;
 
-
-    document.body.appendChild(
-        overlay
-    );
-
-
-    document.getElementById(
-        "closeProgress"
-    ).onclick =
-        () =>
-            overlay.remove();
-
-
-    document.getElementById(
-        "closeProgressBottom"
-    ).onclick =
-        () =>
-            overlay.remove();
-
-
-    overlay.addEventListener(
-        "click",
-        e => {
-
-            if (
-                e.target === overlay
-            ) {
-                overlay.remove();
-            }
-        }
-    );
+    document.body.appendChild(overlay);
+    document.getElementById("closeProgress").onclick = () => overlay.remove();
+    document.getElementById("closeProgressBottom").onclick = () => overlay.remove();
+    overlay.addEventListener("click", event => {
+        if (event.target === overlay) overlay.remove();
+    });
 }
 
 
@@ -4985,10 +4960,25 @@ function mostrarProgressao(
    INICIALIZAÇÃO
    ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    renderTreino
-);
+function agendarAtualizacaoIndicadorDia() {
+    if (diaAtualRefreshTimeout !== null) {
+        window.clearTimeout(diaAtualRefreshTimeout);
+    }
+
+    const agora = new Date();
+    const proximaMeiaNoite = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1, 0, 0, 1, 0);
+    diaAtualRefreshTimeout = window.setTimeout(() => {
+        if (document.getElementById("page-workout")?.classList.contains("active")) {
+            renderTreino();
+        }
+        agendarAtualizacaoIndicadorDia();
+    }, Math.max(1000, proximaMeiaNoite.getTime() - agora.getTime()));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderTreino();
+    agendarAtualizacaoIndicadorDia();
+});
 /* =========================================================
    FIX ZOOM AUTOMÁTICO EM CAMPOS E BOTÕES NO TELEMÓVEL
    - O input fica com 16px para o Safari não ampliar ao focar.

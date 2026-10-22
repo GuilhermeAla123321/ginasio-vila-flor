@@ -929,7 +929,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
         },
 
         {
-            nome: "Supino inclinado com pesos halteres",
+            nome: "Supino inclinado com pesos livres",
             grupo: "Peito",
             icon: "🏋️",
             desc: "Press inclinado com barra ou halteres para trabalhar principalmente a região superior do peitoral.",
@@ -2404,10 +2404,17 @@ function mostrarBibliotecaGlobal() {
     const list = document.getElementById("equipment-list");
     const botaoGlobal = document.getElementById("openAllExercises");
     const acaoGlobal = document.querySelector(".equipment-global-action");
+    // Introdução da página de equipamentos: ocultar apenas enquanto a biblioteca global está aberta.
+    const introEquipamentos = [
+        document.querySelector("#page-equipment > .section > .eyebrow"),
+        document.querySelector("#page-equipment > .section > h2"),
+        document.querySelector("#page-equipment > .section > p.muted")
+    ].filter(Boolean);
     if (!list) return;
     if (!list.dataset.originalHtml) list.dataset.originalHtml = list.innerHTML;
     if (botaoGlobal) botaoGlobal.hidden = true;
     if (acaoGlobal) acaoGlobal.hidden = true;
+    introEquipamentos.forEach(elemento => { elemento.hidden = true; });
 
     const todos = obterTodosExerciciosBiblioteca();
     // Ordem estável e nomes de grupos mantidos conforme a interface pedida.
@@ -2529,6 +2536,7 @@ function mostrarBibliotecaGlobal() {
     document.getElementById("backToEquipmentList").addEventListener("click", () => {
         if (botaoGlobal) botaoGlobal.hidden = false;
         if (acaoGlobal) acaoGlobal.hidden = false;
+        introEquipamentos.forEach(elemento => { elemento.hidden = false; });
         renderEquipamentos();
     });
 
