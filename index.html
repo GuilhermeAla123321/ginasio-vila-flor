@@ -93,6 +93,7 @@
 
             <section class="page active" id="page-home">
 
+
                 <div class="hero">
 
                     <div class="hero-glow"></div>
@@ -163,37 +164,32 @@
 
                     <h2>O Ginásio</h2>
 
-                    <p class="muted">Espaço desportivo do Município de Vila Flor, equipado para treino de força, resistência e condicionamento físico.</p>
 
-                    <div class="stats">
-
-                        <div>
-
-                            <b>10+</b>
-
+                    <div class="home-stats-card" aria-label="Estatísticas do ginásio">
+                        <div class="home-stat">
+                            <strong>10+</strong>
                             <span>Equipamentos</span>
-
                         </div>
-
-                        <div>
-
-                            <b>2</b>
-
+                        <div class="home-stat">
+                            <strong>2</strong>
                             <span>Instrutores</span>
-
                         </div>
-
-                        <div>
-
-                            <b>4</b>
-
+                        <div class="home-stat">
+                            <strong>4</strong>
                             <span>Anos aberto</span>
-
                         </div>
-
                     </div>
 
                 </section>
+
+                <button type="button" class="gym-hours-status" id="gymHoursStatus" aria-label="Consultar horário do ginásio">
+                    <span class="gym-hours-indicator" id="gymHoursIndicator" aria-hidden="true"></span>
+                    <span class="gym-hours-copy">
+                        <strong id="gymHoursStatusLabel">Horário do ginásio</strong>
+                        <span id="gymHoursStatusSummary">Consultar horários de hoje</span>
+                    </span>
+                    <svg class="gym-hours-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 5 7 7-7 7" /></svg>
+                </button>
 
                 <section class="section">
 
@@ -345,7 +341,6 @@
 
                     <h2>Conhece o espaço</h2>
 
-                    <p class="muted">Explora os equipamentos e descobre os exercícios</p>
 
                     <div class="equipment-global-action">
 
@@ -611,7 +606,6 @@
 
                         <h2>Meu treino</h2>
 
-                        <p class="muted">Escolhe o dia e cria um treino com vários exercícios</p>
 
                     </div>
 
@@ -625,10 +619,9 @@
 
                 <section class="section">
 
-                    <span class="eyebrow">TEMPO</span>
+                    <span class="eyebrow">TREINO</span>
 
                     <h2>Timer</h2>
-                    <p class="muted"> Define o teu tempo</p>
 
 
                     <div class="timer-card timer-wheel-card" id="timerCard">
@@ -795,15 +788,15 @@
                         <div class="info-card-content">
                             <p class="info-detail-intro">Planeia a tua visita com base no horário de funcionamento.</p>
                             <div class="info-hours-list" aria-label="Horário de funcionamento">
-                                <div class="info-hours-row">
+                                <div class="info-hours-row" data-weekdays="1,2,3,4,5">
                                     <span class="info-hours-day">Segunda a sexta</span>
                                     <strong class="info-hours-time">09:00–12:30 <span>·</span> 16:00–20:30</strong>
                                 </div>
-                                <div class="info-hours-row">
+                                <div class="info-hours-row" data-weekdays="6">
                                     <span class="info-hours-day">Sábado</span>
                                     <strong class="info-hours-time">15:00–19:00</strong>
                                 </div>
-                                <div class="info-hours-row info-hours-closed">
+                                <div class="info-hours-row info-hours-closed" data-weekdays="0">
                                     <span class="info-hours-day">Domingo</span>
                                     <strong class="info-hours-status">Encerrado</strong>
                                 </div>
@@ -1018,6 +1011,8 @@
     <script src="js/exercicios.js"></script>
 
     <script src="js/navegacao.js"></script>
+
+    <script src="js/horario.js"></script>
 
     <script src="js/timer.js"></script>
 
@@ -1486,7 +1481,7 @@ window.addEventListener("appinstalled", hidePopup);
     icon.addEventListener("animationend", () => {
 
       icon.classList.remove("nav-icon-pop");
-
+ 
     }, { once: true });
 
   });

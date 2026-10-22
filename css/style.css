@@ -10012,3 +10012,587 @@ body[data-theme="light"] #page-timer .timer-background-help-text {
     background: rgba(128, 96, 143, .055);
     color: #65596f;
 }
+
+/* =========================================================
+   ALTERAÇÕES PONTUAIS — INÍCIO, HORÁRIO E PROGRESSÃO
+   ========================================================= */
+.home-stats-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: calc(100% - 52px);
+  max-width: 500px;
+  margin: 14px auto 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-soft);
+}
+.home-stat {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 12px 5px 11px;
+  text-align: center;
+}
+.home-stat + .home-stat {
+  border-left: 1px solid var(--line);
+}
+.home-stat strong {
+  display: block;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.55px;
+  line-height: 1.2;
+}
+.home-stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.3;
+}
+.gym-hours-status {
+  width: calc(100% - 36px);
+  max-width: 504px;
+  min-height: 62px;
+  margin: 12px auto 0;
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--bg-soft);
+  color: var(--text);
+  text-align: left;
+  box-shadow: 0 5px 17px rgba(31, 15, 36, .035);
+}
+.gym-hours-status:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+.gym-hours-indicator {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: #827783;
+}
+.gym-hours-status.is-open .gym-hours-indicator {
+  background: #239b72;
+}
+.gym-hours-copy {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: 3px;
+}
+.gym-hours-copy strong {
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 750;
+}
+.gym-hours-copy > span {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.gym-hours-chevron {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+body[data-theme="light"] .home-stats-card,
+body[data-theme="light"] .gym-hours-status {
+  background: #fff;
+  border-color: rgba(57, 40, 61, .10);
+  box-shadow: 0 5px 16px rgba(79, 53, 71, .035);
+}
+body[data-theme="light"] .home-stat strong {
+  color: #302638;
+}
+body[data-theme="light"] .home-stat span,
+body[data-theme="light"] .gym-hours-copy > span {
+  color: #766b7a;
+}
+@media (max-width: 360px) {
+  .home-stats-card { width: calc(100% - 32px); }
+  .home-stat { padding-inline: 2px; }
+  .home-stat strong { font-size: 19px; }
+  .home-stat span { font-size: 9px; }
+  .gym-hours-status { width: calc(100% - 28px); }
+}
+
+/* Indicador de hoje separado do estado de seleção do dia de treino. */
+.day-button {
+  position: relative;
+}
+.day-button .day-today-dot {
+  width: 4px;
+  height: 4px;
+  min-height: 4px;
+  flex: 0 0 4px;
+  margin: -1px 0 0;
+  border-radius: 50%;
+  background: transparent;
+}
+.day-button.today .day-today-dot {
+  background: #827783;
+}
+.day-button.today.active .day-today-dot {
+  background: #fff;
+}
+.day-button .day-count {
+  min-height: 10px;
+  line-height: 10px;
+}
+
+/* Histórico de progressão: resumo comparativo e linha temporal. */
+.progress-modal {
+  width: min(560px, 100%);
+}
+.progress-modal .progress-heading-label {
+  display: block;
+  color: var(--vf-purple, #68406f);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.progress-modal .exercise-editor-top h2 {
+  margin: 3px 0 4px;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -.35px;
+}
+.progress-modal .exercise-editor-top .muted {
+  font-size: 10px;
+  line-height: 1.4;
+}
+.progress-modal #closeProgress {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(104, 64, 111, .08);
+  color: var(--muted);
+  font-size: 21px;
+  line-height: 1;
+}
+.progress-summary {
+  margin: 0 0 13px;
+  padding: 12px;
+  border-radius: 13px;
+  background: rgba(104, 64, 111, .075);
+}
+.progress-summary-caption {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.progress-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.progress-summary-metric {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.progress-summary-label {
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.35;
+}
+.progress-summary-value {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.progress-summary-delta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 17px;
+  padding: 2px 6px;
+  border-radius: 7px;
+  background: rgba(62, 157, 154, .14);
+  color: #357f7b;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.progress-summary-delta.is-neutral {
+  background: rgba(104, 64, 111, .09);
+  color: var(--muted);
+}
+.progress-history-list.has-history {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding-left: 17px;
+}
+.progress-history-list.has-history::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  left: 4px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--line);
+}
+.progress-history-list.has-history .progress-history-entry {
+  position: relative;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.progress-history-list.has-history .progress-history-entry::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: -17px;
+  top: 11px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--muted-2);
+  border-radius: 50%;
+  background: var(--bg-soft);
+}
+.progress-history-list.has-history .progress-history-entry.is-latest::before {
+  border-color: var(--vf-purple, #68406f);
+  background: var(--vf-purple, #68406f);
+  box-shadow: 0 0 0 3px rgba(104, 64, 111, .13);
+}
+.progress-history-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(104, 64, 111, .025);
+}
+.progress-history-date {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 10px 11px;
+  background: transparent;
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 850;
+}
+.progress-history-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 8px;
+  background: rgba(104, 64, 111, .09);
+  color: var(--vf-purple, #68406f);
+  font-size: 8px;
+  font-weight: 750;
+}
+.progress-history-series {
+  padding: 0 10px 5px;
+}
+.progress-history-series-row {
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 1px;
+  border-bottom-color: var(--line);
+}
+.progress-history-series-row span {
+  font-size: 8px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.progress-history-series-row strong {
+  color: var(--text);
+  font-size: 9px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.progress-readonly-note {
+  margin-top: 13px;
+  padding: 10px 11px;
+  border: 0;
+  background: rgba(104, 64, 111, .07);
+  font-size: 9px;
+}
+@media (max-width: 430px) {
+  .progress-summary-grid { gap: 8px; }
+  .progress-summary { padding: 10px; }
+  .progress-modal .exercise-editor-top { gap: 8px; }
+  .progress-modal .exercise-editor-top h2 { font-size: 16px; }
+}
+body[data-theme="light"] .progress-summary {
+  background: #f4eff4;
+}
+body[data-theme="light"] .progress-history-card {
+  background: #fff;
+  border-color: rgba(104, 64, 111, .12);
+}
+body[data-theme="light"] .progress-history-badge,
+body[data-theme="light"] .progress-summary-delta.is-neutral {
+  background: #f0e9f1;
+  color: #76567c;
+}
+body[data-theme="light"] .progress-readonly-note {
+  background: #f4eff4;
+  color: #756b79;
+}
+
+
+/* Ajuste localizado: estatísticas abaixo da apresentação do ginásio, como na referência. */
+#page-home .home-stats-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  width: calc(100% + 6px);
+  max-width: 560px;
+  margin: 12px -3px 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+#page-home .home-stat {
+  min-width: 0;
+  min-height: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 4px 9px;
+  border: 1px solid rgba(104, 64, 111, .035);
+  border-radius: 14px;
+  background: var(--bg-soft, rgba(255,255,255,.75));
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(45, 28, 50, .035);
+}
+#page-home .home-stat + .home-stat {
+  border-left: 1px solid rgba(104, 64, 111, .035);
+}
+#page-home .home-stat strong {
+  display: block;
+  color: #b7c9d7;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.45px;
+  line-height: 1.15;
+}
+#page-home .home-stat span {
+  display: block;
+  color: #8b808e;
+  font-size: 7px;
+  letter-spacing: .15px;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+body[data-theme="light"] #page-home .home-stat {
+  background: rgba(255, 255, 255, .64);
+  border-color: rgba(104, 64, 111, .025);
+  box-shadow: 0 6px 18px rgba(45, 28, 50, .035);
+}
+@media (max-width: 360px) {
+  #page-home .home-stats-card { width: calc(100% + 2px); gap: 5px; }
+  #page-home .home-stat { min-height: 58px; padding-inline: 2px; }
+  #page-home .home-stat strong { font-size: 18px; }
+  #page-home .home-stat span { font-size: 6.5px; }
+}
+
+
+/* =========================================================
+   AJUSTES PONTUAIS — HORÁRIO E PROGRESSÃO
+   Cores escuras alinhadas com o fundo ameixa da identidade Vila Flor.
+   ========================================================= */
+body[data-theme="dark"] #page-home .gym-hours-status {
+  background: #211b26;
+  border-color: rgba(193, 164, 201, .14);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, .13);
+}
+body[data-theme="dark"] #page-home .home-stat {
+  background: #211b26;
+  border-color: rgba(193, 164, 201, .10);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+}
+body[data-theme="dark"] #page-home .home-stat + .home-stat {
+  border-left-color: rgba(193, 164, 201, .10);
+}
+body[data-theme="dark"] #page-home .home-stat strong {
+  color: #c1d0dc;
+}
+body[data-theme="dark"] #page-home .home-stat span {
+  color: #a397a8;
+}
+
+/* A janela de progressão mantém uma paleta ameixa coesa em modo escuro. */
+body[data-theme="dark"] .progress-modal {
+  background: #211b26;
+  border-color: rgba(193, 164, 201, .15);
+}
+body[data-theme="dark"] .progress-modal #closeProgress {
+  background: rgba(193, 164, 201, .10);
+  color: #d7c9dc;
+}
+body[data-theme="dark"] .progress-summary,
+body[data-theme="dark"] .progress-readonly-note {
+  background: #2a2230;
+  border-color: rgba(193, 164, 201, .09);
+}
+body[data-theme="dark"] .progress-history-card {
+  background: #251e2a;
+  border-color: rgba(193, 164, 201, .17);
+}
+body[data-theme="dark"] .progress-history-badge {
+  background: rgba(193, 164, 201, .14);
+  color: #d0b5dc;
+}
+body[data-theme="dark"] .progress-summary-delta {
+  background: rgba(62, 157, 154, .18);
+  color: #8dd7ce;
+}
+body[data-theme="dark"] .progress-summary-delta.is-neutral {
+  background: rgba(193, 164, 201, .12);
+  color: #b9abbf;
+}
+body[data-theme="dark"] .progress-actions button {
+  background: #2a2230;
+  border-color: rgba(193, 164, 201, .17);
+  color: #eee5f0;
+}
+
+/* Texto centrado no painel Ver progressão, sem alterar os outros cartões de treino. */
+.progress-modal .exercise-editor-top > div:first-child {
+  flex: 1;
+  text-align: center;
+}
+.progress-modal .exercise-editor-top .muted,
+.progress-modal .progress-summary-caption,
+.progress-modal .progress-readonly-note {
+  text-align: center;
+}
+.progress-modal .progress-summary-metric {
+  align-items: center;
+  text-align: center;
+}
+.progress-modal .progress-summary-label,
+.progress-modal .progress-summary-value,
+.progress-modal .progress-summary-delta {
+  text-align: center;
+}
+.progress-modal .progress-history-date {
+  justify-content: center;
+  text-align: center;
+}
+.progress-modal .progress-history-series-row {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.progress-modal .progress-history-series-row span,
+.progress-modal .progress-history-series-row strong {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.progress-modal .progress-actions button {
+  text-align: center;
+}
+.exercise-card-actions .progress-button {
+  text-align: center !important;
+  white-space: normal;
+}
+
+/* Ajuste localizado: descrição com a mesma largura das estatísticas e menos espaço até ao horário. */
+#page-home .intro-section > p.muted {
+  width: calc(100% + 6px);
+  max-width: 560px;
+  margin: 0 -3px 8px;
+  box-sizing: border-box;
+}
+#page-home .intro-section {
+  padding-bottom: 4px;
+}
+#page-home .gym-hours-status {
+  margin-top: 0;
+}
+
+/* No Timer, a descrição respira ligeiramente mais abaixo do título, como nas outras páginas. */
+#page-timer > .section > p.muted {
+  margin-top: 8px;
+}
+
+/* Ajuste final da página inicial: largura alinhada e espaçamento consistente. */
+#page-home .intro-section {
+  padding-bottom: 12px;
+}
+#page-home .gym-hours-status {
+  width: calc(100% - 30px);
+  max-width: 510px;
+  min-height: 60px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  gap: 10px;
+  border-radius: 14px;
+  box-sizing: border-box;
+  transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+#page-home .gym-hours-status:hover {
+  transform: translateY(-1px);
+  border-color: rgba(104, 64, 111, .22);
+  box-shadow: 0 8px 20px rgba(45, 28, 50, .075);
+}
+body[data-theme="light"] #page-home .gym-hours-status {
+  background: #fff;
+  border-color: rgba(104, 64, 111, .11);
+  box-shadow: 0 6px 18px rgba(45, 28, 50, .045);
+}
+body[data-theme="light"] #page-home .gym-hours-status:hover {
+  border-color: rgba(104, 64, 111, .24);
+  box-shadow: 0 9px 22px rgba(45, 28, 50, .08);
+}
+body[data-theme="dark"] #page-home .gym-hours-status {
+  background: #211b26;
+  border-color: rgba(193, 164, 201, .12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+}
+body[data-theme="dark"] #page-home .gym-hours-status:hover {
+  border-color: rgba(193, 164, 201, .24);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .20);
+}
+@media (max-width: 360px) {
+  #page-home .gym-hours-status {
+    width: calc(100% - 30px);
+    min-height: 58px;
+    padding-inline: 12px;
+  }
+}
+
+/* Espaçamento do cabeçalho do Timer alinhado com as restantes páginas. */
+#page-timer > .section > h2 {
+    margin-bottom: 8px;
+}
+#page-timer > .section > p.muted {
+    margin: 0 auto 18px;
+}
+#page-timer > .section > .timer-card {
+    margin-top: 16px;
+}
