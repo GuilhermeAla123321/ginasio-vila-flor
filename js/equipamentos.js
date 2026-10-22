@@ -1958,7 +1958,7 @@ function renderEquipamentos() {
     const acaoGlobal = document.querySelector(".equipment-global-action");
     const introEquipamentos = [
         document.querySelector("#page-equipment > .section > .eyebrow"),
-        document.querySelector("#page-equipment > .section > h2"),
+        document.querySelector("#page-equipment > .section > .page-title-with-help"),
         document.querySelector("#page-equipment > .section > p.muted")
     ].filter(Boolean);
     if (botaoGlobal) botaoGlobal.hidden = false;
@@ -2414,7 +2414,7 @@ function mostrarBibliotecaGlobal() {
     // Introdução da página de equipamentos: ocultar apenas enquanto a biblioteca global está aberta.
     const introEquipamentos = [
         document.querySelector("#page-equipment > .section > .eyebrow"),
-        document.querySelector("#page-equipment > .section > h2"),
+        document.querySelector("#page-equipment > .section > .page-title-with-help"),
         document.querySelector("#page-equipment > .section > p.muted")
     ].filter(Boolean);
     if (!list) return;

@@ -1709,6 +1709,9 @@ function renderTreino() {
     const r = document.getElementById("workout-root");
     if (!r) return;
 
+    // Ao voltar à vista normal, repõe o cabeçalho principal da página.
+    document.querySelector("#page-workout .workout-page")?.classList.remove("is-adding-exercise");
+
     const todosTreinos = treinosDoDia(diaSelecionado);
     if (!todosTreinos.some(t => String(t.id) === String(treinoSelecionadoId))) {
         treinoSelecionadoId = todosTreinos[0]?.id || null;
@@ -2117,6 +2120,8 @@ function abrirAdicionar() {
             "workout-root"
         );
 
+    document.querySelector("#page-workout .workout-page")?.classList.add("is-adding-exercise");
+
     r.innerHTML = `
 
         <button
@@ -2133,12 +2138,20 @@ function abrirAdicionar() {
                 NOVO EXERCÍCIO
             </span>
 
-            <h2>
-                Adicionar exercício
-            </h2>
-
-            <p class="muted">
-                Escolhe o exercício e define o número de séries.
+            <div class="workout-add-title-row page-title-with-help-row">
+                <h2>
+                    Adicionar exercício
+                </h2>
+                <button
+                    type="button"
+                    class="page-context-help workout-add-help-button"
+                    aria-label="Ajuda sobre adicionar exercício"
+                    aria-expanded="false"
+                    aria-controls="addExercisePageHelpText"
+                >?</button>
+            </div>
+            <p id="addExercisePageHelpText" class="page-context-help-text workout-add-help-text" role="note" hidden>
+                Escolhe um exercício da biblioteca, define o número de séries e continua para registar os dados de cada série.
             </p>
 
         </div>
@@ -3645,6 +3658,15 @@ function abrirPopupExercicioPersonalizado() {
     overlay.innerHTML = `<div class="custom-exercise-modal" id="customExerciseModal" role="dialog" aria-modal="true" aria-labelledby="customExerciseTitle"></div>`;
     document.body.appendChild(overlay);
     const modal = document.getElementById("customExerciseModal");
+    modal.addEventListener("click", event => {
+        const helpButton = modal.querySelector("#customExerciseHelp");
+        const helpText = modal.querySelector("#customExerciseHelpText");
+        if (!helpButton || !helpText || helpText.hidden) return;
+        const target = event.target instanceof Element ? event.target : null;
+        if (target && target.closest("#customExerciseHelp, #customExerciseHelpText")) return;
+        helpText.hidden = true;
+        helpButton.setAttribute("aria-expanded", "false");
+    });
     let escapeHandler;
 
     const close = () => {
@@ -3658,6 +3680,14 @@ function abrirPopupExercicioPersonalizado() {
     function bindCloseButtons() {
         document.getElementById("closeCustomExercise")?.addEventListener("click", close);
         document.getElementById("cancelCustomExercise")?.addEventListener("click", close);
+
+        const helpButton = document.getElementById("customExerciseHelp");
+        const helpText = document.getElementById("customExerciseHelpText");
+        helpButton?.addEventListener("click", () => {
+            const isOpen = helpButton.getAttribute("aria-expanded") === "true";
+            helpButton.setAttribute("aria-expanded", isOpen ? "false" : "true");
+            if (helpText) helpText.hidden = isOpen;
+        });
     }
 
     function renderDetailsStep(values = {}) {
@@ -3666,15 +3696,18 @@ function abrirPopupExercicioPersonalizado() {
             <div class="custom-exercise-modal-top">
                 <div>
                     <span class="eyebrow">NOVO EXERCÍCIO</span>
-                    <h2 id="customExerciseTitle">Adicionar exercício personalizado</h2>
-                    <p class="muted">Cria o exercício e guarda-o na tua biblioteca.</p>
+                    <div class="custom-exercise-title-line">
+                        <h2 id="customExerciseTitle">Adicionar exercício personalizado</h2>
+                        <button type="button" class="page-context-help custom-exercise-help-button" id="customExerciseHelp" aria-controls="customExerciseHelpText" aria-expanded="false" aria-label="Ajuda sobre o exercício personalizado">?</button>
+                    </div>
+                    <p class="page-context-help-text custom-exercise-help-text" id="customExerciseHelpText" role="note" hidden>Cria um exercício com nome, grupo muscular, tipo e equipamento. Depois escolhe os dados que queres registar em cada série.</p>
                 </div>
                 <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
             </div>
             <div class="custom-exercise-form">
                 <div class="custom-exercise-field">
                     <label for="customExerciseName">Nome do exercício</label>
-                    <input id="customExerciseName" class="input" type="text" maxlength="80"
+                    <input id="customExerciseName" class="input" type="text" maxlength="80" autocomplete="off">
                 </div>
                 <div class="custom-exercise-field">
                     <label for="customExerciseGroup">Grupo muscular</label>

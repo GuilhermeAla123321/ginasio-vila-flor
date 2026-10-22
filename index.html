@@ -339,7 +339,13 @@
 
                     <span class="eyebrow">EQUIPAMENTOS/AJUDA</span>
 
-                    <h2>Conhece o espaço</h2>
+                    <div class="page-title-with-help">
+                        <div class="page-title-with-help-row">
+                            <h2>Conhece o espaço</h2>
+                            <button class="page-context-help" type="button" aria-label="Ajuda sobre Conhece o espaço" aria-expanded="false" aria-controls="equipmentPageHelpText">?</button>
+                        </div>
+                        <p id="equipmentPageHelpText" class="page-context-help-text" role="note" hidden>Explora os equipamentos disponíveis no ginásio, consulta para que serve cada máquina e descobre os exercícios associados. Em «Todos os exercícios», podes consultar a biblioteca completa.</p>
+                    </div>
 
 
                     <div class="equipment-global-action">
@@ -604,7 +610,13 @@
 
                         <span class="eyebrow">TREINO</span>
 
-                        <h2>Meu treino</h2>
+                        <div class="page-title-with-help">
+                            <div class="page-title-with-help-row">
+                                <h2>Meu treino</h2>
+                                <button class="page-context-help" type="button" aria-label="Ajuda sobre Meu treino" aria-expanded="false" aria-controls="workoutPageHelpText">?</button>
+                            </div>
+                            <p id="workoutPageHelpText" class="page-context-help-text" role="note" hidden>Organiza os treinos por dia da semana, adiciona exercícios e acompanha séries, pesos e repetições. Usa «Atualizar» para guardar os valores e «Ver progressão» para consultar o histórico.</p>
+                        </div>
 
 
                     </div>
@@ -621,7 +633,13 @@
 
                     <span class="eyebrow">TREINO</span>
 
-                    <h2>Timer</h2>
+                    <div class="page-title-with-help">
+                        <div class="page-title-with-help-row">
+                            <h2>Timer</h2>
+                            <button class="page-context-help" type="button" aria-label="Ajuda sobre o Timer" aria-expanded="false" aria-controls="timerPageHelpText">?</button>
+                        </div>
+                        <p id="timerPageHelpText" class="page-context-help-text" role="note" hidden>Escolhe os minutos e segundos de descanso e carrega em «Iniciar». Usa «Reiniciar» para repor o temporizador. Podes ativar alertas para receber uma notificação quando o tempo terminar.</p>
+                    </div>
 
 
                     <div class="timer-card timer-wheel-card" id="timerCard">
@@ -1481,7 +1499,7 @@ window.addEventListener("appinstalled", hidePopup);
     icon.addEventListener("animationend", () => {
 
       icon.classList.remove("nav-icon-pop");
- 
+
     }, { once: true });
 
   });
@@ -1495,6 +1513,8 @@ window.addEventListener("appinstalled", hidePopup);
 <script src="js/equipamentos.js"></script>
 
 <script src="js/dicas.js"></script>
+
+    <script src="js/page-context-help.js"></script>
 
 </body>
 
