@@ -10718,3 +10718,501 @@ body[data-theme="dark"] #page-workout .exercise-card {
   box-shadow: 0 6px 18px rgba(0, 0, 0, .14);
 }
 
+
+
+/* Ajuda contextual junto aos títulos das páginas: mesmo visual do ? do Timer. */
+.page-title-with-help {
+    width: 100%;
+    min-width: 0;
+    margin: 6px 0 10px;
+}
+.page-title-with-help-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 0;
+}
+#page-equipment > .section > .page-title-with-help,
+#page-workout .workout-header > .page-title-with-help {
+    margin: 6px 0 10px;
+}
+#page-timer > .section > .page-title-with-help {
+    margin: 0 0 8px;
+}
+#page-equipment > .section .page-title-with-help-row > h2,
+#page-workout .workout-header .page-title-with-help-row > h2,
+#page-timer > .section.page-title-with-help-row > h2 {
+    margin: 0;
+}
+.page-context-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 19px;
+    width: 19px;
+    min-width: 19px;
+    height: 19px;
+    min-height: 19px;
+    padding: 0;
+    border: 1px solid rgba(175, 155, 202, .5);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted, #b6b0c7);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.page-context-help:hover,
+.page-context-help:focus-visible,
+.page-context-help[aria-expanded="true"] {
+    border-color: rgba(167, 119, 213, .9);
+    background: rgba(143, 94, 174, .14);
+    color: var(--text, #f6f7fb);
+    outline: none;
+}
+.page-context-help-text {
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+    margin: 8px auto 0;
+    padding: 9px 11px;
+    border: 1px solid rgba(157, 119, 182, .2);
+    border-radius: 10px;
+    background: rgba(139, 102, 160, .08);
+    color: var(--muted, #b6b0c7);
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: left;
+}
+.page-context-help-text[hidden] { display: none !important; }
+body[data-theme="light"] .page-context-help {
+    border-color: rgba(84, 62, 100, .34);
+    color: #675274;
+}
+body[data-theme="light"] .page-context-help:hover,
+body[data-theme="light"] .page-context-help:focus-visible,
+body[data-theme="light"] .page-context-help[aria-expanded="true"] {
+    border-color: #80608f;
+    background: rgba(128, 96, 143, .1);
+    color: #392844;
+}
+body[data-theme="light"] .page-context-help-text {
+    border-color: rgba(84, 62, 100, .16);
+    background: rgba(128, 96, 143, .055);
+    color: #65596f;
+}
+@media (max-width: 420px) {
+    .page-context-help-text {
+        max-width: 100%;
+        font-size: 11px;
+    }
+}
+
+
+/* Ajustes localizados desta revisão: alinhamento de ajuda, fluxo de novo exercício
+   e ações principais em lilás suave, coerentes com a identidade visual Vila Flor. */
+.page-title-with-help-row {
+    align-items: center;
+}
+.page-title-with-help-row > h2 {
+    line-height: 1.05;
+}
+.page-title-with-help-row > .page-context-help {
+    align-self: center;
+    margin: 0 !important;
+    position: relative;
+    top: 0;
+    transform: none;
+    line-height: 19px;
+    vertical-align: middle;
+}
+
+/* Esconde apenas o cabeçalho normal "TREINO / Meu treino" durante o formulário;
+   o cabeçalho próprio "Adicionar exercício" continua visível. */
+#page-workout .workout-page.is-adding-exercise > .workout-header {
+    display: none !important;
+}
+
+#page-workout .workout-page.is-adding-exercise #workout-root > #backWorkout {
+    background: #f4edf8;
+    border: 1px solid #dfcce8;
+    color: #70477d;
+    box-shadow: 0 3px 10px rgba(104, 64, 111, .06);
+}
+#page-workout .workout-page.is-adding-exercise #workout-root > #backWorkout:hover,
+#page-workout .workout-page.is-adding-exercise #workout-root > #backWorkout:focus-visible {
+    background: #eee2f4;
+    border-color: #cdb1dc;
+    color: #633c71;
+}
+
+#page-workout .workout-page.is-adding-exercise .workout-add-form {
+    background: linear-gradient(145deg, rgba(255, 252, 248, .96), rgba(249, 245, 249, .96));
+    border-color: rgba(104, 64, 111, .14);
+    box-shadow: 0 10px 26px rgba(45, 28, 50, .06);
+}
+#page-workout .workout-page.is-adding-exercise .workout-add-form #continueSeries,
+#page-workout .workout-page.is-adding-exercise .workout-add-form #saveExercise,
+#page-timer .timer-wheel-actions #timerStart {
+    background: #d8c1e8;
+    border: 1px solid #c5a7d9;
+    color: #4d2d59;
+    box-shadow: 0 5px 14px rgba(104, 64, 111, .10);
+}
+#page-workout .workout-page.is-adding-exercise .workout-add-form #continueSeries:hover,
+#page-workout .workout-page.is-adding-exercise .workout-add-form #saveExercise:hover,
+#page-timer .timer-wheel-actions #timerStart:hover {
+    background: #cfb4df;
+    border-color: #b995cb;
+    color: #422449;
+    box-shadow: 0 7px 17px rgba(104, 64, 111, .14);
+}
+#page-timer .timer-wheel-actions #timerStart.is-paused {
+    background: #d8c1e8;
+    border-color: #c5a7d9;
+    color: #4d2d59;
+    box-shadow: 0 5px 14px rgba(104, 64, 111, .10);
+}
+
+/* O tema escuro mantém uma superfície neutra, menos saturada, com controlos lilás suaves. */
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form {
+    background: linear-gradient(145deg, #24212a, #201d25);
+    border-color: rgba(209, 179, 226, .17);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .16);
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form > label[for="exerciseName"],
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form .series-count-label {
+    color: #e7ddea;
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form .exercise-name-input,
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form #exerciseType {
+    background: #2a2630;
+    color: #f4edf7;
+    border-color: rgba(209, 179, 226, .20);
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form .exercise-picker-trigger {
+    background: rgba(209, 179, 226, .09);
+    border-color: rgba(209, 179, 226, .26);
+    color: #dec9eb;
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form .series-count-control {
+    background: rgba(209, 179, 226, .055);
+    border-color: rgba(209, 179, 226, .18);
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form .series-count-step {
+    background: rgba(209, 179, 226, .09);
+    border-color: rgba(209, 179, 226, .18);
+    color: #f0e4f6;
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form .exercise-selection-hint {
+    color: #bfb2c7;
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise #workout-root > #backWorkout {
+    background: rgba(209, 179, 226, .10);
+    border-color: rgba(209, 179, 226, .25);
+    color: #dec9eb;
+    box-shadow: none;
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise #workout-root > #backWorkout:hover,
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise #workout-root > #backWorkout:focus-visible {
+    background: rgba(209, 179, 226, .17);
+    border-color: rgba(209, 179, 226, .38);
+    color: #f2e6f8;
+}
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form #continueSeries,
+[data-theme="dark"] #page-workout .workout-page.is-adding-exercise .workout-add-form #saveExercise,
+[data-theme="dark"] #page-timer .timer-wheel-actions #timerStart,
+[data-theme="dark"] #page-timer .timer-wheel-actions #timerStart.is-paused {
+    background: #d8c1e8;
+    border-color: #c5a7d9;
+    color: #4d2d59;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, .12);
+}
+
+/* Coerência visual: formulários de exercício e ações secundárias usam lilás suave,
+   evitando azuis e gradientes saturados em modo escuro. */
+.custom-exercise-title-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+.custom-exercise-title-line h2 {
+    margin: 0 !important;
+    flex: 0 1 auto;
+    min-width: 0;
+}
+.custom-exercise-title-line .custom-exercise-help-button {
+    flex: 0 0 19px;
+}
+.custom-exercise-help-text {
+    width: 100%;
+    max-width: 100%;
+    margin: 8px 0 0;
+}
+.custom-exercise-modal .eyebrow {
+    color: #bfa0d2;
+}
+.custom-exercise-modal .custom-exercise-form .input:focus {
+    border-color: rgba(190, 157, 211, .62);
+    box-shadow: 0 0 0 3px rgba(190, 157, 211, .13);
+}
+.custom-exercise-modal .custom-exercise-actions .primary-btn {
+    background: #d8c1e8;
+    border: 1px solid #c5a7d9;
+    color: #4d2d59;
+    box-shadow: 0 5px 14px rgba(104, 64, 111, .10);
+}
+.custom-exercise-modal .custom-exercise-actions .primary-btn:hover {
+    background: #cfb4df;
+    border-color: #b995cb;
+    color: #422449;
+    box-shadow: 0 7px 17px rgba(104, 64, 111, .14);
+}
+.custom-exercise-modal .custom-exercise-actions .secondary-btn {
+    background: #f6f0f8;
+    border: 1px solid #e2d3e9;
+    color: #70577a;
+    box-shadow: none;
+}
+.custom-exercise-modal .custom-exercise-actions .secondary-btn:hover {
+    background: #eee2f4;
+    border-color: #cdb1dc;
+    color: #633c71;
+    box-shadow: none;
+}
+.custom-exercise-modal .exercise-picker-close {
+    background: #f6f0f8;
+    border-color: #e2d3e9;
+    color: #70577a;
+}
+.custom-exercise-modal .exercise-picker-close:hover {
+    background: #eee2f4;
+    border-color: #cdb1dc;
+    color: #633c71;
+}
+.custom-characteristics-exercise {
+    background: #f7f1f8;
+    border-color: rgba(128, 96, 143, .18);
+}
+.custom-characteristic-option {
+    background: rgba(128, 96, 143, .035);
+    border-color: rgba(128, 96, 143, .18);
+}
+.custom-characteristic-option > input[type="checkbox"] {
+    accent-color: #a47ab9;
+}
+.custom-characteristic-option:has(input:checked) {
+    background: rgba(192, 164, 211, .18);
+    border-color: rgba(164, 122, 185, .52);
+    box-shadow: 0 0 0 1px rgba(164, 122, 185, .06) inset;
+}
+.custom-characteristic-option:focus-within {
+    border-color: rgba(164, 122, 185, .62);
+    box-shadow: 0 0 0 3px rgba(164, 122, 185, .13);
+}
+.custom-characteristics-note {
+    background: rgba(192, 164, 211, .09);
+    border-color: rgba(128, 96, 143, .16);
+}
+
+body[data-theme="dark"] .custom-exercise-modal {
+    background: linear-gradient(145deg, #241f29, #1e1a23);
+    border-color: rgba(209, 179, 226, .18);
+    color: #f4edf7;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, .34);
+}
+body[data-theme="dark"] .custom-exercise-modal .eyebrow {
+    color: #c9addb;
+}
+body[data-theme="dark"] .custom-exercise-form .input {
+    background: #17131d;
+    color: #f4edf7;
+    border-color: rgba(209, 179, 226, .17);
+    color-scheme: dark;
+}
+body[data-theme="dark"] .custom-exercise-modal .custom-exercise-actions .primary-btn {
+    background: #d8c1e8;
+    border-color: #c5a7d9;
+    color: #4d2d59;
+}
+body[data-theme="dark"] .custom-exercise-modal .custom-exercise-actions .primary-btn:hover {
+    background: #cfb4df;
+    border-color: #b995cb;
+    color: #422449;
+}
+body[data-theme="dark"] .custom-exercise-modal .custom-exercise-actions .secondary-btn {
+    background: rgba(209, 179, 226, .085);
+    border-color: rgba(209, 179, 226, .22);
+    color: #dec9eb;
+}
+body[data-theme="dark"] .custom-exercise-modal .custom-exercise-actions .secondary-btn:hover {
+    background: rgba(209, 179, 226, .15);
+    border-color: rgba(209, 179, 226, .35);
+    color: #f2e6f8;
+}
+body[data-theme="dark"] .custom-exercise-modal .exercise-picker-close {
+    background: rgba(209, 179, 226, .09);
+    border-color: rgba(209, 179, 226, .22);
+    color: #dec9eb;
+}
+body[data-theme="dark"] .custom-exercise-modal .exercise-picker-close:hover {
+    background: rgba(209, 179, 226, .16);
+    border-color: rgba(209, 179, 226, .35);
+    color: #f2e6f8;
+}
+body[data-theme="dark"] .custom-characteristics-exercise {
+    background: rgba(209, 179, 226, .075);
+    border-color: rgba(209, 179, 226, .17);
+}
+body[data-theme="dark"] .custom-characteristics-exercise span {
+    color: #bfb2c7;
+}
+body[data-theme="dark"] .custom-characteristic-option {
+    background: rgba(209, 179, 226, .035);
+    border-color: rgba(209, 179, 226, .16);
+}
+body[data-theme="dark"] .custom-characteristic-option:has(input:checked) {
+    background: rgba(209, 179, 226, .13);
+    border-color: rgba(209, 179, 226, .37);
+    box-shadow: 0 0 0 1px rgba(209, 179, 226, .05) inset;
+}
+body[data-theme="dark"] .custom-characteristic-option:focus-within {
+    border-color: rgba(209, 179, 226, .46);
+    box-shadow: 0 0 0 3px rgba(209, 179, 226, .12);
+}
+body[data-theme="dark"] .custom-characteristics-note {
+    background: rgba(209, 179, 226, .06);
+    border-color: rgba(209, 179, 226, .15);
+    color: #bfb2c7;
+}
+
+/* Botões de ação seguem o mesmo lilás claro utilizado em «Continuar» e «Iniciar». */
+#page-timer .gym-tips-next,
+#page-info .location-button,
+#page-info .info-feedback-submit {
+    background: #d8c1e8;
+    border: 1px solid #c5a7d9;
+    color: #4d2d59;
+    box-shadow: 0 5px 14px rgba(104, 64, 111, .10);
+}
+#page-timer .gym-tips-next:hover,
+#page-info .location-button:hover,
+#page-info .info-feedback-submit:hover:not(:disabled) {
+    background: #cfb4df;
+    border-color: #b995cb;
+    color: #422449;
+    box-shadow: 0 7px 17px rgba(104, 64, 111, .14);
+    filter: none;
+}
+#page-timer .gym-tips-next:focus-visible,
+#page-info .location-button:focus-visible,
+#page-info .info-feedback-submit:focus-visible {
+    outline: 0;
+    border-color: #b995cb;
+    box-shadow: 0 0 0 3px rgba(190, 157, 211, .26);
+}
+body[data-theme="dark"] #page-timer .gym-tips-next,
+body[data-theme="dark"] #page-info .location-button,
+body[data-theme="dark"] #page-info .info-feedback-submit {
+    background: #d8c1e8;
+    border-color: #c5a7d9;
+    color: #4d2d59;
+}
+
+
+body[data-theme="light"] .custom-exercise-modal .eyebrow {
+    color: #986eaa;
+}
+body[data-theme="light"] .custom-characteristics-exercise {
+    background: #f7f1f8;
+    border-color: rgba(128, 96, 143, .18);
+}
+body[data-theme="light"] .custom-characteristic-option {
+    background: rgba(128, 96, 143, .035);
+    border-color: rgba(128, 96, 143, .18);
+}
+body[data-theme="light"] .custom-characteristic-option:has(input:checked) {
+    background: rgba(192, 164, 211, .18);
+    border-color: rgba(164, 122, 185, .52);
+    box-shadow: 0 0 0 1px rgba(164, 122, 185, .06) inset;
+}
+body[data-theme="light"] .custom-characteristic-option:focus-within {
+    border-color: rgba(164, 122, 185, .62);
+    box-shadow: 0 0 0 3px rgba(164, 122, 185, .13);
+}
+body[data-theme="light"] .custom-characteristics-note {
+    background: rgba(192, 164, 211, .09);
+    border-color: rgba(128, 96, 143, .16);
+    color: #6e5b77;
+}
+
+
+/* O cabeçalho Adicionar exercício usa o mesmo ícone de ajuda das páginas. */
+.workout-add-title-row {
+    width: 100%;
+    margin: 4px 0 0;
+    gap: 7px;
+}
+.workout-add-title-row > h2 {
+    margin: 0 !important;
+    line-height: 1.05;
+}
+.workout-add-title-row > .workout-add-help-button {
+    flex: 0 0 19px;
+    margin: 0 !important;
+}
+.workout-add-header .workout-add-help-text {
+    max-width: 370px;
+    margin: 8px auto 0;
+}
+
+/* «Atualizar» e «Ver progressão» seguem a mesma cor lilás do botão «Continuar». */
+#page-workout .exercise-card-actions > .update-exercise-button,
+#page-workout .exercise-card-actions > .progress-button {
+    background: #d8c1e8 !important;
+    border: 1px solid #c5a7d9 !important;
+    color: #4d2d59 !important;
+    box-shadow: 0 5px 14px rgba(104, 64, 111, .10) !important;
+}
+#page-workout .exercise-card-actions > .update-exercise-button:hover,
+#page-workout .exercise-card-actions > .progress-button:hover {
+    background: #cfb4df !important;
+    border-color: #b995cb !important;
+    color: #422449 !important;
+    box-shadow: 0 7px 17px rgba(104, 64, 111, .14) !important;
+}
+#page-workout .exercise-card-actions > .update-exercise-button:focus-visible,
+#page-workout .exercise-card-actions > .progress-button:focus-visible {
+    outline: 0 !important;
+    border-color: #b995cb !important;
+    box-shadow: 0 0 0 3px rgba(190, 157, 211, .26) !important;
+}
+
+
+/* Cabeçalho da progressão centrado em relação ao modal inteiro. */
+.progress-modal .exercise-editor-top {
+  position: relative;
+  display: block;
+  padding: 0 18px;
+  box-sizing: border-box;
+}
+.progress-modal .exercise-editor-top > div:first-child {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+.progress-modal .exercise-editor-top #closeProgress {
+  position: absolute;
+  top: 0;
+  right: 0;
+  flex: none;
+}

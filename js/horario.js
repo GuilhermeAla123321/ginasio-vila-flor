@@ -1,9 +1,5 @@
 /* Estado e navegação do cartão de horário da página inicial. */
 (() => {
-    const dias = [
-        "domingo", "segunda-feira", "terça-feira", "quarta-feira",
-        "quinta-feira", "sexta-feira", "sábado"
-    ];
 
     function lerHorarioDoDia(dia) {
         const rows = Array.from(document.querySelectorAll("#infoHoursCard .info-hours-row[data-weekdays]"));
@@ -32,12 +28,11 @@
         const { periodos, row } = lerHorarioDoDia(dia);
         const aberto = periodos.some(({ inicio, fim }) => horaAtual >= minutos(inicio) && horaAtual < minutos(fim));
         const formatoPeriodos = periodos.map(({ inicio, fim }) => `${inicio}–${fim}`).join(" · ");
-        const hoje = dias[dia];
 
         estado.textContent = aberto ? "Aberto agora" : "Fechado agora";
         resumo.textContent = formatoPeriodos
-            ? `Hoje (${hoje}): ${formatoPeriodos}`
-            : `Hoje (${hoje}): ${row?.querySelector(".info-hours-status")?.textContent?.trim() || "Encerrado"}`;
+            ? `Hoje: ${formatoPeriodos}`
+            : `Hoje: ${row?.querySelector(".info-hours-status")?.textContent?.trim() || "Encerrado"}`;
         cartao.classList.toggle("is-open", aberto);
         cartao.classList.toggle("is-closed", !aberto);
         cartao.setAttribute("aria-label", `${estado.textContent}. ${resumo.textContent}. Consultar informação e horários.`);
