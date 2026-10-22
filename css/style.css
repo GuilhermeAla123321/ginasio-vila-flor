@@ -11216,3 +11216,15 @@ body[data-theme="light"] .custom-characteristics-note {
   right: 0;
   flex: none;
 }
+
+
+/* Seleção dos dias do treino: substituir o gradiente turquesa pela paleta roxo/lilás. */
+.day-button.active {
+  background: linear-gradient(135deg, #68406f 0%, #a184b4 100%);
+  color: #fff8ff;
+  border-color: rgba(209, 179, 226, .34);
+  box-shadow: 0 8px 22px rgba(104, 64, 111, .24);
+}
+.day-button.active span {
+  color: #f4eafb;
+}
