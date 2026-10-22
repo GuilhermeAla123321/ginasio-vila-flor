@@ -1951,12 +1951,19 @@ function renderEquipamentos() {
     const list = document.getElementById("equipment-list");
     if (!list) return;
 
-    // A navegação principal volta a chamar esta função. Repor também o CTA:
-    // antes só era restaurada a grelha, ficando o botão hidden após sair da biblioteca.
+    // Sempre que se regressa à página normal de equipamentos, restaurar
+    // o CTA e a introdução. A biblioteca global esconde estes elementos,
+    // pelo que a navegação para outra página não os pode deixar ocultos.
     const botaoGlobal = document.getElementById("openAllExercises");
     const acaoGlobal = document.querySelector(".equipment-global-action");
+    const introEquipamentos = [
+        document.querySelector("#page-equipment > .section > .eyebrow"),
+        document.querySelector("#page-equipment > .section > h2"),
+        document.querySelector("#page-equipment > .section > p.muted")
+    ].filter(Boolean);
     if (botaoGlobal) botaoGlobal.hidden = false;
     if (acaoGlobal) acaoGlobal.hidden = false;
+    introEquipamentos.forEach(elemento => { elemento.hidden = false; });
 
     if (!list.dataset.originalHtml) {
         list.dataset.originalHtml = list.innerHTML;
