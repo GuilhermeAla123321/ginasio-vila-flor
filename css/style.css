@@ -11228,3 +11228,270 @@ body[data-theme="light"] .custom-characteristics-note {
 .day-button.active span {
   color: #f4eafb;
 }
+
+
+/* AJUDA CONTEXTUAL — popovers limpos que não ocupam espaço no layout. */
+.page-title-with-help {
+  position: relative;
+  z-index: 25;
+}
+.page-title-with-help:has(.page-context-help[aria-expanded="true"]) {
+  z-index: 500;
+}
+.page-context-help-text:not([hidden]) {
+  position: absolute !important;
+  top: calc(100% + 9px) !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  box-sizing: border-box !important;
+  width: min(320px, calc(100vw - 42px)) !important;
+  max-width: calc(100vw - 42px) !important;
+  margin: 0 !important;
+  padding: 12px 14px !important;
+  border: 1px solid rgba(193, 164, 201, .24) !important;
+  border-radius: 14px !important;
+  background: rgba(35, 29, 42, .98) !important;
+  color: #eee5f1 !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .30) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+  text-align: left !important;
+  z-index: 1000 !important;
+}
+.page-context-help-text:not([hidden])::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%) rotate(45deg);
+  background: inherit;
+  border-top: 1px solid rgba(193, 164, 201, .24);
+  border-left: 1px solid rgba(193, 164, 201, .24);
+}
+body[data-theme="light"] .page-context-help-text:not([hidden]) {
+  border-color: rgba(104, 64, 111, .18) !important;
+  background: rgba(255, 253, 255, .98) !important;
+  color: #55445e !important;
+  box-shadow: 0 14px 36px rgba(64, 42, 70, .16) !important;
+}
+body[data-theme="light"] .page-context-help-text:not([hidden])::before {
+  border-top-color: rgba(104, 64, 111, .18);
+  border-left-color: rgba(104, 64, 111, .18);
+}
+
+/* O mesmo popover é usado pelo botão de ajuda do modal de exercício personalizado. */
+.custom-exercise-modal-top > div:first-child {
+  position: relative;
+  z-index: 15;
+}
+.custom-exercise-title-line {
+  position: relative;
+}
+.custom-exercise-help-text:not([hidden]) {
+  top: calc(100% + 8px) !important;
+  left: 0 !important;
+  transform: none !important;
+  width: min(310px, calc(100vw - 72px)) !important;
+  max-width: calc(100vw - 72px) !important;
+}
+
+/* Página Informação: o título mantém-se centrado agora com o ícone contextual. */
+#page-info > .section > .info-page-title-with-help {
+  width: 100%;
+  margin: 4px auto 18px;
+}
+#page-info .info-page-title-with-help .page-title-with-help-row > h2 {
+  width: auto;
+  margin: 0;
+  text-align: center;
+}
+
+/* HERO — substituir o matiz alaranjado/turquesa por um fade roxo Vila Flor. */
+.hero {
+  background:
+    radial-gradient(circle at 84% 20%, rgba(161, 132, 180, .22), transparent 32%),
+    linear-gradient(135deg, rgba(104, 64, 111, .80) 0%, rgba(78, 52, 92, .77) 54%, rgba(104, 64, 111, .91) 100%),
+    url('../assets/vila-flor-identidade.png') center 35% / cover no-repeat !important;
+}
+body[data-theme="light"] .hero {
+  background:
+    radial-gradient(circle at 84% 20%, rgba(193, 164, 214, .24), transparent 32%),
+    linear-gradient(135deg, rgba(104, 64, 111, .72) 0%, rgba(83, 54, 98, .72) 54%, rgba(104, 64, 111, .87) 100%),
+    url('../assets/vila-flor-identidade.png') center 35% / cover no-repeat !important;
+}
+.hero:before {
+  background:
+    radial-gradient(circle at 75% 24%, rgba(255,255,255,.13), transparent 18%),
+    linear-gradient(130deg, rgba(195,79,118,.07), transparent 43%, rgba(161,132,180,.18)) !important;
+}
+
+/* Equipamentos: branco puro no cartão e na imagem, sem recorte que crie silhuetas. */
+.equipment-icon {
+  background: #fff !important;
+  border-color: rgba(255, 255, 255, .96) !important;
+  box-shadow: none !important;
+}
+.equipment-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 1px !important;
+  box-sizing: border-box !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #fff !important;
+}
+
+/* =========================================================
+   CARTÕES DE EQUIPAMENTO — hierarquia visual e leitura móvel
+   ========================================================= */
+#equipment-list.equipment-list {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+}
+
+#equipment-list > .equipment-card {
+    box-sizing: border-box;
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+    min-width: 0;
+    min-height: 82px;
+    padding: 12px 13px !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(190, 157, 211, .18) !important;
+    background: linear-gradient(135deg, #211a29 0%, #17121f 100%) !important;
+    box-shadow: 0 7px 18px rgba(0, 0, 0, .13), inset 0 1px 0 rgba(255, 255, 255, .025) !important;
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease !important;
+}
+
+#equipment-list > .equipment-card:hover,
+#equipment-list > .equipment-card:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(198, 169, 222, .42) !important;
+    box-shadow: 0 9px 22px rgba(0, 0, 0, .17), inset 0 1px 0 rgba(255, 255, 255, .035) !important;
+}
+
+#equipment-list > .equipment-card:focus-visible {
+    outline: 2px solid rgba(190, 157, 211, .55);
+    outline-offset: 2px;
+}
+
+#equipment-list > .equipment-card .equipment-icon {
+    box-sizing: border-box !important;
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+    flex: 0 0 56px !important;
+    display: grid !important;
+    place-items: center !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    border: 1px solid rgba(255, 255, 255, .95) !important;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, .08) !important;
+}
+
+#equipment-list > .equipment-card .equipment-icon img {
+    box-sizing: border-box !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    padding: 2px !important;
+    background: #fff !important;
+    border-radius: 13px !important;
+}
+
+#equipment-list > .equipment-card .equipment-info {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    width: auto !important;
+    min-width: 0 !important;
+}
+
+#equipment-list > .equipment-card .equipment-info h3 {
+    width: 100%;
+    margin: 0 !important;
+    color: #f0e8f5 !important;
+    font-size: 13.5px !important;
+    font-weight: 760 !important;
+    line-height: 1.28 !important;
+    letter-spacing: -.012em;
+    text-align: left !important;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
+}
+
+#equipment-list > .equipment-card .equipment-info p {
+    width: 100%;
+    margin: 0 !important;
+    color: #bdb0c7 !important;
+    font-size: 10.5px !important;
+    font-weight: 450;
+    line-height: 1.42 !important;
+    text-align: left !important;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
+}
+
+body[data-theme="light"] #equipment-list > .equipment-card {
+    background: linear-gradient(135deg, #fffdfb 0%, #f7f1ed 100%) !important;
+    border-color: rgba(103, 73, 111, .13) !important;
+    box-shadow: 0 6px 17px rgba(58, 38, 65, .055), inset 0 1px 0 rgba(255, 255, 255, .9) !important;
+}
+
+body[data-theme="light"] #equipment-list > .equipment-card:hover,
+body[data-theme="light"] #equipment-list > .equipment-card:focus-visible {
+    border-color: rgba(137, 96, 157, .28) !important;
+    box-shadow: 0 8px 20px rgba(58, 38, 65, .075) !important;
+}
+
+body[data-theme="light"] #equipment-list > .equipment-card .equipment-info h3 {
+    color: #3d2d43 !important;
+}
+
+body[data-theme="light"] #equipment-list > .equipment-card .equipment-info p {
+    color: #76657c !important;
+}
+
+@media (max-width: 380px) {
+    #equipment-list > .equipment-card {
+        gap: 11px !important;
+        padding: 11px !important;
+        min-height: 78px;
+        border-radius: 16px !important;
+    }
+
+    #equipment-list > .equipment-card .equipment-icon {
+        width: 52px !important;
+        height: 52px !important;
+        min-width: 52px !important;
+        min-height: 52px !important;
+        flex-basis: 52px !important;
+        border-radius: 13px !important;
+    }
+
+    #equipment-list > .equipment-card .equipment-info h3 {
+        font-size: 13px !important;
+    }
+
+    #equipment-list > .equipment-card .equipment-info p {
+        font-size: 10px !important;
+        line-height: 1.38 !important;
+    }
+}
+
