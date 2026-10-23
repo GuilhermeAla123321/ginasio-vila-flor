@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v68';
+const CACHE_NAME = 'vf-ginasio-v69';
 
 const APP_SHELL = [
     './',
@@ -9,6 +9,8 @@ const APP_SHELL = [
     './css/responsive.css',
 
     './js/equipamentos.js',
+    './js/seletor.js',
+    './js/janela.js',
     './js/treino.js',
     './js/exercicios.js',
     './js/navegacao.js',

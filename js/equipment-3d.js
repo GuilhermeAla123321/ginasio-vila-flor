@@ -5,57 +5,57 @@
         "passadeira": {
             file: "../assets/models/passadeira.glb",
             title: "Passadeira",
-            description: "Explora a passadeira e observa a consola, a superfície de corrida e a estrutura antes de começares o treino."
+            description: "Equipamento de cardio para caminhar ou correr em tapete rolante. Na consola ajustas a velocidade e a inclinação; as pegas laterais ajudam a subir e a descer com segurança."
         },
         "bicicleta-spinning": {
             file: "../assets/models/bicicleta-spinning.glb",
             title: "Bicicleta",
-            description: "Vê a bicicleta de spinning de vários ângulos e observa a posição do selim, do guiador e dos pedais."
+            description: "Bicicleta de cardio com volante de inércia frontal. Ajusta a altura do selim e do guiador antes de começar e controla a intensidade com o regulador de resistência."
         },
         "eliptica": {
             file: "../assets/models/eliptica.glb",
             title: "Elíptica",
-            description: "Explora a elíptica e identifica os apoios, os manípulos e o movimento dos pedais."
+            description: "Movimento contínuo e de baixo impacto que trabalha pernas e braços ao mesmo tempo. Mantém os pés bem apoiados nos pedais e acompanha o ritmo com os braços móveis."
         },
         "remo": {
             file: "../assets/models/remo.glb",
             title: "Máquina de Remo",
-            description: "Observa a máquina de remo, o assento deslizante e a pega utilizada durante o movimento."
+            description: "Simula a remada: empurra primeiro com as pernas, inclina ligeiramente o tronco e termina a puxar a pega até ao abdómen. Um treino de corpo inteiro com baixo impacto nas articulações."
         },
         "smith-machine": {
             file: "../assets/models/smith-machine.glb",
             title: "Smith Machine",
-            description: "Explora a estrutura guiada da Smith Machine, a barra e os pontos de apoio de segurança."
+            description: "Barra guiada em calhas verticais que mantém a trajetória estável em agachamentos, supinos e press. Roda a barra para a prender nos ganchos de segurança a qualquer altura."
         },
         "polia-dupla": {
             file: "../assets/models/polia-dupla.glb",
             title: "Polia Multifuncional",
-            description: "Observa as duas torres de cabos e os pontos de ajuste que permitem realizar exercícios variados."
+            description: "Duas torres de cabos com polias ajustáveis em altura. Permite exercícios de peito, costas, ombros, braços e pernas, com tensão constante ao longo do movimento."
         },
         "abdutor-adutor": {
             file: "../assets/models/abdutor-adutor.glb",
             title: "Máquina Abdutora",
-            description: "Explora a máquina destinada ao trabalho dos abdutores e adutores da anca."
+            description: "Máquina sentada para a anca: abre as pernas contra os apoios para trabalhar glúteos e abdutores, ou fecha-as para trabalhar os adutores, na zona interior da coxa."
         },
         "shoulder-press": {
             file: "../assets/models/shoulder-press.glb",
             title: "Prensa de Ombros",
-            description: "Observa o assento, os apoios e os braços de movimento da máquina para treino de ombros."
+            description: "Press sentado para ombros e tríceps. Ajusta o assento para que as pegas fiquem à altura dos ombros e empurra para cima sem arquear as costas."
         },
         "pec-fly": {
             file: "../assets/models/pec-fly.glb",
             title: "Peck Deck",
-            description: "Explora a máquina de diferentes ângulos antes de começares o treino. Roda o modelo com o rato ou com o dedo e ajusta a aproximação para veres melhor os detalhes."
+            description: "Máquina de aberturas para o peito; sentado de frente para o encosto, também trabalha a parte posterior dos ombros. Ajusta o assento para os braços ficarem à altura do peito."
         },
         "suporte-halteres": {
             file: "../assets/models/suporte-halteres.glb",
             title: "Suporte de halteres",
-            description: "Explora o suporte de halteres e a disposição dos diferentes pesos disponíveis na zona de peso livre."
+            description: "Suporte com halteres organizados por peso, para exercícios livres de braços, ombros, peito e pernas. Escolhe uma carga que consigas controlar e devolve-a ao lugar no fim."
         },
         "banco-ajustavel": {
             file: "../assets/models/banco-ajustavel.glb",
             title: "Banco ajustável",
-            description: "Observa o banco ajustável e o encosto, pensado para diferentes posições de treino."
+            description: "Banco com encosto regulável em várias posições — plano, inclinado ou quase vertical — para usar com halteres ou barra em supinos, remadas e press de ombros."
         },
         "haltere-redondo": {
             file: "../assets/models/haltere-redondo.glb",
@@ -70,17 +70,17 @@
         "leg-press": {
             file: "../assets/models/leg-press.glb",
             title: "Leg Press",
-            description: "Explora o Leg Press e identifica o assento, a plataforma para os pés e o percurso de movimento."
+            description: "Empurra a plataforma com os pés para trabalhar quadríceps, glúteos e posteriores da coxa, com as costas bem apoiadas no encosto. Não bloqueies os joelhos no final do movimento."
         },
         "extensao-pernas": {
             file: "../assets/models/extensao-pernas.glb",
             title: "Cadeira Extensora",
-            description: "Observa a cadeira extensora e os rolos de apoio usados para trabalhar a parte da frente da coxa."
+            description: "Sentado, estica as pernas contra o rolo almofadado para isolar os quadríceps. Alinha o joelho com o eixo de rotação da máquina e desce o peso devagar."
         },
         "leg-curl": {
             file: "../assets/models/leg-curl.glb",
             title: "Mesa Flexora",
-            description: "Explora a máquina flexora e os apoios que ajudam a trabalhar os músculos posteriores da coxa."
+            description: "Flete os joelhos contra o rolo almofadado para trabalhar os posteriores da coxa. Ajusta o rolo para ficar logo acima dos tornozelos e evita levantar a anca."
         }
     };
 
@@ -224,9 +224,7 @@
             const variant = MODEL_CATALOG[modelKey];
             const labels = {
                 "suporte-halteres": "Suporte",
-                "banco-ajustavel": "Banco ajustável",
-                "haltere-redondo": "Haltere redondo",
-                "haltere-hexagonal": "Haltere hexagonal"
+                "banco-ajustavel": "Banco ajustável"
             };
             const label = labels[modelKey] || variant.title;
             const selected = modelKey === key;

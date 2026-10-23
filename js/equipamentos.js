@@ -2064,7 +2064,7 @@ function abrirEquipamento(nome) {
         "peck-deck": { modelo: "pec-fly" },
         "peso-livre": {
             modelo: "suporte-halteres",
-            variantes: ["suporte-halteres", "banco-ajustavel", "haltere-redondo", "haltere-hexagonal"]
+            variantes: ["suporte-halteres", "banco-ajustavel"]
         },
         "leg-press": { modelo: "leg-press" },
         "cadeira-extensora": { modelo: "extensao-pernas" },
@@ -2315,7 +2315,7 @@ function prepararExercicioBiblioteca(exercicio) {
         videoId,
         videoLocal: `assets/exercises/videos/${baseFicheiro}.mp4`,
         gif: `assets/exercises/gifs/${baseFicheiro}.gif`,
-        imagemBiblioteca: `assets/ImagesExer/${imagemFicheiro}?v=92`
+        imagemBiblioteca: `assets/ImagesExer/${imagemFicheiro}?v=93`
     };
 }
 

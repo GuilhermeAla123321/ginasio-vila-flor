@@ -1635,8 +1635,9 @@ body[data-theme="light"] .exercise-modal-close {
   color: #252b3c
 }
 .theme-toggle-icon {
-  font-size: 17px;
-  line-height: 1
+  display: grid;
+  place-items: center;
+  line-height: 0
 }
 /* ===== Seletor pesquisável de exercícios ===== */
 .exercise-picker-trigger-wrap {
@@ -3644,9 +3645,9 @@ body[data-theme="dark"] .exercise-filters select option {
     }
 
     .theme-toggle-icon {
-        font-size: 17px !important;
-        line-height: 1 !important;
-        display: block !important;
+        line-height: 0 !important;
+        display: grid !important;
+        place-items: center !important;
     }
 
 
@@ -10935,20 +10936,18 @@ body[data-theme="light"] .page-context-help-text {
 
 /* Coerência visual: formulários de exercício e ações secundárias usam lilás suave,
    evitando azuis e gradientes saturados em modo escuro. */
+/* Título em linha: quando quebra, o "?" acompanha a última palavra em vez de descer sozinho. */
 .custom-exercise-title-line {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: block;
     min-width: 0;
-    flex-wrap: wrap;
 }
 .custom-exercise-title-line h2 {
+    display: inline;
     margin: 0 !important;
-    flex: 0 1 auto;
-    min-width: 0;
 }
 .custom-exercise-title-line .custom-exercise-help-button {
-    flex: 0 0 19px;
+    margin-left: 8px;
+    vertical-align: .2em;
 }
 .custom-exercise-help-text {
     width: 100%;
@@ -11166,6 +11165,23 @@ body[data-theme="light"] .custom-characteristics-note {
 .workout-add-title-row > .workout-add-help-button {
     flex: 0 0 19px;
     margin: 0 !important;
+}
+/* Título longo ("…personalizado"): texto em linha para o "?" acompanhar a última palavra. */
+.workout-add-title-row.page-title-with-help-row {
+    display: block;
+    text-align: center;
+}
+.workout-add-title-row > h2 {
+    display: inline;
+}
+.workout-add-title-row > .workout-add-help-button {
+    margin-left: 8px !important;
+    vertical-align: .25em;
+}
+/* O balão de ajuda abre logo abaixo do título, por cima do formulário. */
+.workout-add-header {
+    position: relative;
+    z-index: 30;
 }
 .workout-add-header .workout-add-help-text {
     max-width: 370px;
@@ -11868,4 +11884,355 @@ body[data-theme="light"] .equipment-3d-trigger {
         padding: .48rem .5rem;
         font-size: .67rem;
     }
+}
+
+/* Atualizar exercício: contador de séries e botão principal iguais ao fluxo "Adicionar exercício". */
+.exercise-editor .series-count-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.exercise-editor .series-count-row > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.exercise-editor .series-count-label {
+  display: block;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 800;
+}
+.exercise-editor .series-count-control {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 48px;
+  padding: 3px;
+  border: 1px solid rgba(209,179,226,.18);
+  border-radius: 14px;
+  background: rgba(209,179,226,.055);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.exercise-editor .series-count-step {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(209,179,226,.18);
+  border-radius: 10px;
+  background: rgba(209,179,226,.09);
+  color: #f0e4f6;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease, opacity .16s ease;
+}
+.exercise-editor .series-count-step svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.exercise-editor .series-count-step:hover:not(:disabled) {
+  border-color: rgba(209,179,226,.4);
+  background: rgba(209,179,226,.16);
+}
+.exercise-editor .series-count-step:active:not(:disabled) { transform: scale(.94); }
+.exercise-editor .series-count-step:disabled { opacity: .34; cursor: not-allowed; }
+.exercise-editor .series-count-step:focus-visible { outline: 2px solid var(--purple-2); outline-offset: 2px; }
+.exercise-editor .series-count-value {
+  display: inline-grid;
+  place-items: center;
+  min-width: 25px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+body[data-theme="light"] .exercise-editor .series-count-control {
+  background: rgba(104,64,111,.045);
+  border-color: rgba(57,40,61,.16);
+}
+body[data-theme="light"] .exercise-editor .series-count-step {
+  background: rgba(104,64,111,.07);
+  color: #39283d;
+  border-color: rgba(57,40,61,.13);
+}
+body[data-theme="light"] .exercise-editor .series-count-step:hover:not(:disabled) {
+  background: rgba(104,64,111,.13);
+  border-color: rgba(104,64,111,.32);
+}
+.exercise-editor #saveExerciseEdition {
+  background: #d8c1e8;
+  border: 1px solid #c5a7d9;
+  color: #4d2d59;
+  box-shadow: 0 5px 14px rgba(104,64,111,.10);
+}
+.exercise-editor #saveExerciseEdition:hover {
+  background: #cfb4df;
+  border-color: #b995cb;
+  color: #422449;
+  box-shadow: 0 7px 17px rgba(104,64,111,.14);
+}
+
+/* ===== Seletor próprio (substitui o menu nativo das <select>) ===== */
+.vf-select {
+  position: relative;
+  min-width: 0;
+  vertical-align: middle;
+}
+.vf-select > .vf-select-native {
+  pointer-events: none;
+}
+.vf-select-trigger {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 1;
+}
+.vf-select-trigger:focus-visible { outline: none; }
+.vf-select-trigger:disabled { cursor: not-allowed; }
+.vf-select-native.vf-select-focused:not(.vf-select-open) {
+  outline: 2px solid var(--purple-2, #b58fd0);
+  outline-offset: 2px;
+}
+.vf-select-native.vf-select-open {
+  border-color: rgba(209, 179, 226, .55) !important;
+  box-shadow: 0 0 0 3px rgba(209, 179, 226, .12) !important;
+}
+.vf-select-menu {
+  position: fixed;
+  /* Acima de todos os modais da app (o maior é 10080); abaixo só do aviso de orientação (100000). */
+  z-index: 99000;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px;
+  border: 1px solid rgba(209, 179, 226, .22);
+  border-radius: 14px;
+  background: #24202a;
+  color: #f1e8f5;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .42);
+  font-size: 14px;
+  outline: none;
+  animation: vfSelectIn .14s ease-out;
+}
+.vf-select-menu.is-up { animation-name: vfSelectInUp; }
+@keyframes vfSelectIn { from { opacity: 0; transform: translateY(-4px); } }
+@keyframes vfSelectInUp { from { opacity: 0; transform: translateY(4px); } }
+.vf-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.vf-select-option.is-active { background: rgba(209, 179, 226, .12); }
+.vf-select-option[aria-selected="true"] {
+  background: rgba(209, 179, 226, .2);
+  color: #fff;
+}
+.vf-select-option[aria-selected="true"]::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 6px;
+  height: 11px;
+  margin-right: 3px;
+  border: solid #d8c1e8;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translateY(-2px);
+}
+.vf-select-option[aria-disabled="true"] {
+  color: rgba(241, 232, 245, .38);
+  font-weight: 500;
+  cursor: default;
+}
+body[data-theme="light"] .vf-select-menu {
+  border-color: rgba(104, 64, 111, .18);
+  background: #fffdf9;
+  color: #3d2d43;
+  box-shadow: 0 16px 38px rgba(49, 30, 55, .16);
+}
+body[data-theme="light"] .vf-select-option.is-active { background: rgba(104, 64, 111, .07); }
+body[data-theme="light"] .vf-select-option[aria-selected="true"] {
+  background: rgba(104, 64, 111, .12);
+  color: #2a1f30;
+}
+body[data-theme="light"] .vf-select-option[aria-selected="true"]::after { border-color: #68406f; }
+body[data-theme="light"] .vf-select-option[aria-disabled="true"] { color: rgba(61, 45, 67, .4); }
+body[data-theme="light"] .vf-select-native.vf-select-open {
+  border-color: rgba(104, 64, 111, .45) !important;
+  box-shadow: 0 0 0 3px rgba(104, 64, 111, .1) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-select-menu { animation: none; }
+}
+
+/* ===== Janela de texto da app (substitui o prompt() do navegador) ===== */
+.vf-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(12, 9, 15, .58);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity .16s ease;
+}
+.vf-dialog-overlay.open { opacity: 1; }
+.vf-dialog {
+  box-sizing: border-box;
+  width: min(380px, 100%);
+  margin: 0;
+  padding: 20px;
+  border: 1px solid rgba(209, 179, 226, .2);
+  border-radius: 20px;
+  background: #24202a;
+  color: #f1e8f5;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+  transform: translateY(8px) scale(.98);
+  transition: transform .18s ease;
+}
+.vf-dialog-overlay.open .vf-dialog { transform: none; }
+.vf-dialog-eyebrow {
+  display: block;
+  margin-bottom: 4px;
+  color: #bfa0d2;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+.vf-dialog-title {
+  margin: 0 0 14px;
+  font-size: 20px;
+  line-height: 1.15;
+  letter-spacing: -.4px;
+}
+.vf-dialog-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.vf-dialog-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(209, 179, 226, .22);
+  border-radius: 13px;
+  background: #1a1720;
+  color: #f4edf7;
+  font: inherit;
+  font-size: 16px; /* 16px evita o zoom automático do iPhone ao focar */
+  outline: none;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.vf-dialog-input:focus {
+  border-color: rgba(209, 179, 226, .55);
+  box-shadow: 0 0 0 3px rgba(209, 179, 226, .12);
+}
+.vf-dialog-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+.vf-dialog-actions button {
+  min-height: 46px;
+  border-radius: 13px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease, opacity .16s ease;
+}
+.vf-dialog-actions button:active:not(:disabled) { transform: scale(.98); }
+.vf-dialog-actions button:focus-visible { outline: 2px solid var(--purple-2, #b58fd0); outline-offset: 2px; }
+.vf-dialog-cancel {
+  border: 1px solid rgba(209, 179, 226, .2);
+  background: rgba(209, 179, 226, .07);
+  color: #e7ddea;
+}
+.vf-dialog-cancel:hover { background: rgba(209, 179, 226, .13); }
+.vf-dialog-confirm {
+  border: 1px solid #c5a7d9;
+  background: #d8c1e8;
+  color: #4d2d59;
+}
+.vf-dialog-confirm:hover:not(:disabled) { background: #cfb4df; border-color: #b995cb; }
+.vf-dialog-confirm:disabled { opacity: .45; cursor: not-allowed; }
+body[data-theme="light"] .vf-dialog-overlay { background: rgba(49, 30, 55, .28); }
+body[data-theme="light"] .vf-dialog {
+  border-color: rgba(104, 64, 111, .16);
+  background: #fffdf9;
+  color: #2a2230;
+  box-shadow: 0 22px 54px rgba(49, 30, 55, .18);
+}
+body[data-theme="light"] .vf-dialog-eyebrow { color: #8a5d96; }
+body[data-theme="light"] .vf-dialog-input {
+  border-color: rgba(57, 40, 61, .16);
+  background: #fff;
+  color: #2a2230;
+}
+body[data-theme="light"] .vf-dialog-input:focus {
+  border-color: rgba(104, 64, 111, .45);
+  box-shadow: 0 0 0 3px rgba(104, 64, 111, .1);
+}
+body[data-theme="light"] .vf-dialog-cancel {
+  border-color: rgba(57, 40, 61, .14);
+  background: rgba(104, 64, 111, .06);
+  color: #49394e;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-dialog-overlay, .vf-dialog { transition: none; }
+}
+.vf-dialog-message {
+  margin: -6px 0 4px;
+  color: #cbbfd2;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.vf-dialog-actions.is-single { grid-template-columns: 1fr; }
+.vf-dialog.is-danger .vf-dialog-confirm {
+  border-color: rgba(232, 112, 132, .55);
+  background: rgba(232, 112, 132, .16);
+  color: #ffb9c4;
+}
+.vf-dialog.is-danger .vf-dialog-confirm:hover {
+  background: rgba(232, 112, 132, .26);
+  border-color: rgba(232, 112, 132, .75);
+}
+body[data-theme="light"] .vf-dialog-message { color: #5b4b61; }
+body[data-theme="light"] .vf-dialog.is-danger .vf-dialog-confirm {
+  border-color: rgba(190, 54, 78, .35);
+  background: rgba(190, 54, 78, .09);
+  color: #a32a40;
 }

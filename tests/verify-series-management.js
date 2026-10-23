@@ -21,7 +21,9 @@ assert.match(renderer, /data-series-action="add"/, 'Deve existir um botão para 
 assert.match(renderer, /series\.push\(\{\}\)/, 'Adicionar série deve criar uma nova série vazia.');
 assert.match(renderer, /series\.splice\(index, 1\)/, 'Remover série deve retirar apenas a série selecionada.');
 assert.match(renderer, /const series = lerValoresVisiveis\(\)/, 'Os valores preenchidos devem ser recolhidos antes de redesenhar as séries.');
-assert.match(renderer, /Math\.min\(30, Number\(seriesCount\) \|\| 1\)/, 'A listagem deve respeitar o limite de 30 séries.');
+assert.match(renderer, /Math\.min\(MAX_SERIES_EXERCICIO, Number\(seriesCount\) \|\| 1\)/, 'A listagem deve respeitar o limite de séries.');
+assert.match(source, /const MAX_SERIES_EXERCICIO = 8;/, 'O limite de séries por exercício deve ser 8.');
+assert.match(renderer, /series\.length >= MAX_SERIES_EXERCICIO\) return;/, 'Adicionar série deve parar no limite.');
 assert.match(renderer, /renderLinhasSeries\(\s*container,\s*\{ \.\.\.exercicio, seriesData: series \},\s*series\.length/s, 'A lista deve ser novamente renderizada e renumerada após alterações.');
 assert.match(css, /\.set-series-delete\s*\{/, 'O botão de apagar deve ter estilos próprios.');
 assert.match(css, /\.set-series-add\s*\{/, 'O botão para adicionar série deve ter estilos próprios.');
