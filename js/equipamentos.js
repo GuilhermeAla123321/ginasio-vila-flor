@@ -2052,7 +2052,27 @@ function abrirEquipamento(nome) {
         .toLocaleLowerCase("pt-PT")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
-    const temModelo3D = slugEquipamento === "peck-deck";
+    const modelos3DPorEquipamento = {
+        "passadeira": { modelo: "passadeira" },
+        "bicicleta": { modelo: "bicicleta-spinning" },
+        "eliptica": { modelo: "eliptica" },
+        "maquina-de-remo": { modelo: "remo" },
+        "smith-machine": { modelo: "smith-machine" },
+        "polia-multifuncional": { modelo: "polia-dupla" },
+        "maquina-abdutora": { modelo: "abdutor-adutor" },
+        "prensa-de-ombros": { modelo: "shoulder-press" },
+        "peck-deck": { modelo: "pec-fly" },
+        "peso-livre": {
+            modelo: "suporte-halteres",
+            variantes: ["suporte-halteres", "banco-ajustavel", "haltere-redondo", "haltere-hexagonal"]
+        },
+        "leg-press": { modelo: "leg-press" },
+        "cadeira-extensora": { modelo: "extensao-pernas" },
+        "mesa-flexora": { modelo: "leg-curl" }
+    };
+    const configuracaoModelo3D = modelos3DPorEquipamento[slugEquipamento] || null;
+    const temModelo3D = Boolean(configuracaoModelo3D);
+    const variantesModelo3D = configuracaoModelo3D?.variantes?.join(",") || "";
 
     list.innerHTML = `
         <div class="equipment-info" style="grid-column:1/-1;margin-bottom:1rem">
@@ -2084,7 +2104,11 @@ function abrirEquipamento(nome) {
                         ${
                             temModelo3D
                                 ? `
-                                <button class="equipment-3d-trigger" id="showEquipment3D" type="button" aria-haspopup="dialog" aria-controls="equipment3DModal">
+                                <button class="equipment-3d-trigger" id="showEquipment3D" type="button"
+                                    data-model-key="${configuracaoModelo3D.modelo}"
+                                    data-equipment-title="${escaparHTMLBiblioteca(nome)}"
+                                    ${variantesModelo3D ? `data-model-variants="${variantesModelo3D}"` : ""}
+                                    aria-haspopup="dialog" aria-controls="equipment3DModal">
                                     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.4 7.7 7.6 4.4 7.6-4.4M12 12.1V21"/></svg>
                                     <span>Mostrar equipamento</span>
                                 </button>

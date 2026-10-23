@@ -11774,10 +11774,6 @@ body[data-theme="light"] .equipment-3d-trigger {
     .equipment-3d-footnote { margin-top: .15rem; }
 }
 @media (max-width: 390px) {
-    .equipment-detail-tools { align-items: stretch; }
-    .equipment-detail-tools .equipment-muscle-filter-wrap { flex-basis: 100%; }
-    .equipment-detail-tools .equipment-muscle-filter-wrap select { width: 100%; }
-    .equipment-3d-trigger { width: 100%; }
     .equipment-3d-overlay { padding: 7px; }
     .equipment-3d-panel { max-height: 94dvh; border-radius: 17px; }
     .equipment-3d-stage { height: 34vh; min-height: 220px; }
@@ -11788,4 +11784,88 @@ body[data-theme="light"] .equipment-3d-trigger {
     .equipment-3d-trigger,
     .equipment-3d-close { transition: none !important; }
     .equipment-3d-spinner { animation-duration: 1.8s; }
+}
+
+/* Seletor para os modelos associados à zona de peso livre. */
+.equipment-3d-model-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .38rem;
+    width: 100%;
+    margin: -.1rem 0 .15rem;
+}
+.equipment-3d-model-options[hidden] { display: none !important; }
+.equipment-3d-model-option {
+    min-height: 31px;
+    padding: .42rem .58rem;
+    border: 1px solid #e9e2ec;
+    border-radius: 9px;
+    background: #fff;
+    color: #706578;
+    font: inherit;
+    font-size: .68rem;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background .16s ease, border-color .16s ease, color .16s ease;
+}
+.equipment-3d-model-option:hover { border-color: #cab5d2; }
+.equipment-3d-model-option.is-selected,
+.equipment-3d-model-option[aria-pressed="true"] {
+    border-color: #c9b1d3;
+    background: #f5eff8;
+    color: #674879;
+}
+
+/* Em telemóveis, o filtro e o botão 3D permanecem sempre na mesma linha. */
+@media (max-width: 680px) {
+    .equipment-detail-tools {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        gap: .45rem;
+    }
+    .equipment-detail-tools .equipment-muscle-filter-wrap {
+        flex: 1 1 0;
+        min-width: 0;
+        width: 0;
+    }
+    .equipment-detail-tools .equipment-muscle-filter-wrap select {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        padding-left: .65rem;
+        padding-right: 1.65rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .equipment-detail-tools .equipment-3d-trigger {
+        flex: 0 0 auto;
+        width: auto;
+        max-width: 54%;
+        min-width: 0;
+        padding: .5rem .62rem;
+        gap: .35rem;
+        font-size: .71rem;
+    }
+    .equipment-detail-tools .equipment-3d-trigger svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+@media (max-width: 390px) {
+    .equipment-detail-tools { gap: .35rem; }
+    .equipment-detail-tools .equipment-muscle-filter-wrap { flex-basis: 0; }
+    .equipment-detail-tools .equipment-muscle-filter-wrap select {
+        min-height: 38px;
+        padding-left: .56rem;
+        padding-right: 1.45rem;
+        font-size: .72rem;
+    }
+    .equipment-detail-tools .equipment-3d-trigger {
+        max-width: 56%;
+        padding: .48rem .5rem;
+        font-size: .67rem;
+    }
 }
