@@ -2047,6 +2047,12 @@ function abrirEquipamento(nome) {
     ];
 
     const temMusculacao = gruposMusculares.length > 0;
+    const slugEquipamento = String(nome || "").normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("pt-PT")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    const temModelo3D = slugEquipamento === "peck-deck";
 
     list.innerHTML = `
         <div class="equipment-info" style="grid-column:1/-1;margin-bottom:1rem">
@@ -2058,15 +2064,33 @@ function abrirEquipamento(nome) {
             <p>Exercícios disponíveis neste equipamento.</p>
 
             ${
-                temMusculacao
+                temMusculacao || temModelo3D
                     ? `
-                    <div class="exercise-filters equipment-muscle-filter-wrap">
-                        <select id="exerciseMuscleFilter" aria-label="Filtrar por grupo muscular">
-                            <option value="Todos">Todos os grupos</option>
-                            ${gruposMusculares
-                                .map(grupo => `<option value="${escaparHTMLBiblioteca(grupo)}">${escaparHTMLBiblioteca(grupo)}</option>`)
-                                .join("")}
-                        </select>
+                    <div class="equipment-detail-tools">
+                        ${
+                            temMusculacao
+                                ? `
+                                <div class="exercise-filters equipment-muscle-filter-wrap">
+                                    <select id="exerciseMuscleFilter" aria-label="Filtrar por grupo muscular">
+                                        <option value="Todos">Todos os grupos</option>
+                                        ${gruposMusculares
+                                            .map(grupo => `<option value="${escaparHTMLBiblioteca(grupo)}">${escaparHTMLBiblioteca(grupo)}</option>`)
+                                            .join("")}
+                                    </select>
+                                </div>
+                                `
+                                : ""
+                        }
+                        ${
+                            temModelo3D
+                                ? `
+                                <button class="equipment-3d-trigger" id="showEquipment3D" type="button" aria-haspopup="dialog" aria-controls="equipment3DModal">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.4 7.7 7.6 4.4 7.6-4.4M12 12.1V21"/></svg>
+                                    <span>Mostrar equipamento</span>
+                                </button>
+                                `
+                                : ""
+                        }
                     </div>
                     `
                     : ""
