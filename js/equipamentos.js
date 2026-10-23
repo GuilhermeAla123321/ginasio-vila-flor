@@ -2267,7 +2267,7 @@ function prepararExercicioBiblioteca(exercicio) {
         videoId,
         videoLocal: `assets/exercises/videos/${baseFicheiro}.mp4`,
         gif: `assets/exercises/gifs/${baseFicheiro}.gif`,
-        imagemBiblioteca: `assets/ImagesExer/${imagemFicheiro}`
+        imagemBiblioteca: `assets/ImagesExer/${imagemFicheiro}?v=92`
     };
 }
 

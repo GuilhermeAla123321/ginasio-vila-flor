@@ -3674,7 +3674,18 @@ function abrirPopupExercicioPersonalizado() {
         if (escapeHandler) document.removeEventListener("keydown", escapeHandler);
     };
     overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
-    escapeHandler = e => { if (e.key === "Escape") close(); };
+    escapeHandler = e => {
+        if (e.key !== "Escape") return;
+        const helpButton = document.getElementById("customExerciseHelp");
+        const helpText = document.getElementById("customExerciseHelpText");
+        if (helpButton && helpText && helpButton.getAttribute("aria-expanded") === "true" && !helpText.hidden) {
+            helpText.hidden = true;
+            helpButton.setAttribute("aria-expanded", "false");
+            e.stopPropagation();
+            return;
+        }
+        close();
+    };
     document.addEventListener("keydown", escapeHandler);
 
     function bindCloseButtons() {

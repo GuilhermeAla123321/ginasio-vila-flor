@@ -1,4 +1,4 @@
-/* Ajuda contextual: funciona também nos cabeçalhos criados dinamicamente. */
+/* Ajuda contextual em popovers compactos; o texto permanece oculto até ao clique. */
 (() => {
     function closeAll(except = null) {
         document.querySelectorAll(".page-context-help").forEach(button => {
@@ -15,10 +15,8 @@
             closeAll();
             return;
         }
-
-        // O modal de exercício personalizado já gere o seu próprio botão de ajuda.
+        // A ajuda dentro do modal personalizado tem um handler próprio.
         if (target.closest(".custom-exercise-help-button")) return;
-
         const button = target.closest(".page-context-help");
         if (button) {
             const text = document.getElementById(button.getAttribute("aria-controls"));
@@ -29,7 +27,6 @@
             text.hidden = wasOpen;
             return;
         }
-
         if (target.closest(".page-context-help-text")) return;
         closeAll();
     });
