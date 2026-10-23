@@ -361,6 +361,8 @@ const TIPOS_EXERCICIO = {
    PARÂMETROS DOS EXERCÍCIOS
    ========================================================= */
 
+const MAX_SERIES_EXERCICIO = 8;
+
 const PARAMETROS = {
 
     carga: {
@@ -1470,7 +1472,7 @@ function renderLinhasSeries(
 
     const count = Math.max(
         1,
-        Math.min(30, Number(seriesCount) || 1)
+        Math.min(MAX_SERIES_EXERCICIO, Number(seriesCount) || 1)
     );
 
     const lerValoresVisiveis = () =>
@@ -1541,14 +1543,14 @@ function renderLinhasSeries(
             type="button"
             class="set-series-add"
             data-series-action="add"
-            ${count >= 30 ? "disabled" : ""}
+            ${count >= MAX_SERIES_EXERCICIO ? "disabled" : ""}
         >
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M12 5v14M5 12h14" />
             </svg>
             Adicionar série
         </button>
-        <p class="set-series-limit" ${count >= 30 ? "" : "hidden"}>Atingiste o limite de 30 séries por exercício.</p>
+        <p class="set-series-limit" ${count >= MAX_SERIES_EXERCICIO ? "" : "hidden"}>Atingiste o limite de ${MAX_SERIES_EXERCICIO} séries por exercício.</p>
     `;
 
     // Ações delegadas: ao adicionar/remover, guarda primeiro os valores já escritos
@@ -1563,7 +1565,7 @@ function renderLinhasSeries(
         const action = actionButton.dataset.seriesAction;
 
         if (action === "add") {
-            if (series.length >= 30) return;
+            if (series.length >= MAX_SERIES_EXERCICIO) return;
             series.push({});
         } else if (action === "delete") {
             if (series.length <= 1) return;
@@ -1585,6 +1587,7 @@ function renderLinhasSeries(
         if (countInput) countInput.value = String(series.length);
         const countDisplay = document.getElementById("seriesCountDisplay");
         if (countDisplay) countDisplay.textContent = String(series.length);
+        container.dispatchEvent(new CustomEvent("seriescountchange", { detail: series.length }));
     };
 }
 
@@ -1846,7 +1849,7 @@ function renderTreino() {
     document.getElementById("addWorkout").onclick = () => {
         const listaDia = treinosDoDia(diaSelecionado);
         if (listaDia.length >= MAX_TREINOS_POR_DIA) {
-            alert(listaDia.length > MAX_TREINOS_POR_DIA
+            avisoApp(listaDia.length > MAX_TREINOS_POR_DIA
                 ? `Este dia já tem ${listaDia.length} treinos. Os dados foram preservados; elimina treinos excedentes antes de adicionar outro.`
                 : "Atingiste o limite máximo de 4 treinos para este dia.");
             return;
@@ -1900,10 +1903,14 @@ function renderTreino() {
     });
 
     r.querySelectorAll("[data-edit-workout]").forEach(b => {
-        b.onclick = () => {
+        b.onclick = async () => {
             const treino = encontrarTreinoDia(b.dataset.editWorkout);
             if (!treino) return;
-            const nome = prompt("Nome do treino:", treino.nome);
+            const nome = await window.pedirTextoApp({
+                eyebrow: "EDITAR TREINO",
+                titulo: "Nome do treino",
+                valor: treino.nome
+            });
             if (nome?.trim()) {
                 treino.nome = nome.trim();
                 treinoSelecionadoId = treino.id;
@@ -1914,13 +1921,15 @@ function renderTreino() {
     });
 
     r.querySelectorAll("[data-delete-workout]").forEach(b => {
-        b.onclick = () => {
-            const eliminado = eliminarTreinoDia(
-                b.dataset.deleteWorkout,
-                () => window.confirm(
-                    "Tens a certeza de que pretendes eliminar este treino? Todos os exercícios associados serão removidos."
-                )
-            );
+        b.onclick = async () => {
+            const confirmado = await confirmarApp({
+                titulo: "Eliminar treino?",
+                mensagem: "Todos os exercícios associados a este treino serão removidos.",
+                confirmar: "Eliminar",
+                perigo: true
+            });
+            if (!confirmado) return;
+            const eliminado = eliminarTreinoDia(b.dataset.deleteWorkout, () => true);
             if (!eliminado) return;
             renderTreino();
         };
@@ -2139,7 +2148,7 @@ function abrirAdicionar() {
             </span>
 
             <div class="workout-add-title-row page-title-with-help-row">
-                <h2>
+                <h2 id="addExerciseTitle">
                     Adicionar exercício
                 </h2>
                 <button
@@ -2309,7 +2318,7 @@ function abrirAdicionar() {
     const seriesCountDisplay = document.getElementById("seriesCountDisplay");
     const decreaseSeriesCount = document.getElementById("decreaseSeriesCount");
     const increaseSeriesCount = document.getElementById("increaseSeriesCount");
-    const MAX_SERIES_NOVO_EXERCICIO = 8;
+    const MAX_SERIES_NOVO_EXERCICIO = MAX_SERIES_EXERCICIO;
 
     const updateSeriesCount = value => {
         const parsed = Number(value);
@@ -2358,7 +2367,7 @@ function abrirAdicionar() {
             !tipo
         ) {
 
-            return alert(
+            return avisoApp(
                 "Escolhe primeiro um exercício."
             );
         }
@@ -3748,7 +3757,7 @@ function abrirPopupExercicioPersonalizado() {
         bindCloseButtons();
         const nameInput = document.getElementById("customExerciseName");
 
-        document.getElementById("saveCustomExercise").onclick = () => {
+        document.getElementById("saveCustomExercise").onclick = async () => {
             const draft = {
                 nome: nameInput?.value.trim() || "",
                 grupo: document.getElementById("customExerciseGroup")?.value || "",
@@ -3757,12 +3766,12 @@ function abrirPopupExercicioPersonalizado() {
                 descricao: ""
             };
             if (!draft.nome) {
-                alert("Indica o nome do exercício.");
+                await avisoApp("Indica o nome do exercício.");
                 nameInput?.focus();
                 return;
             }
             if (!draft.grupo || !grupos.includes(draft.grupo)) {
-                alert("Seleciona um grupo muscular válido.");
+                await avisoApp("Seleciona um grupo muscular válido.");
                 document.getElementById("customExerciseGroup")?.focus();
                 return;
             }
@@ -3770,7 +3779,7 @@ function abrirPopupExercicioPersonalizado() {
                 normalizarTexto(item.nome) === normalizarTexto(draft.nome)
             );
             if (jaExiste) {
-                alert("Já existe um exercício com esse nome na biblioteca.");
+                await avisoApp("Já existe um exercício com esse nome na biblioteca.");
                 nameInput?.focus();
                 return;
             }
@@ -3829,7 +3838,7 @@ function abrirPopupExercicioPersonalizado() {
                 .map(input => input.dataset.customParam)
                 .filter(key => Object.prototype.hasOwnProperty.call(PARAMETROS, key) && key !== "series");
             if (!parametrosSeries.length) {
-                alert("Seleciona pelo menos uma característica para as séries.");
+                avisoApp("Seleciona pelo menos uma característica para as séries.");
                 return;
             }
             const novo = {
@@ -4110,7 +4119,7 @@ function renderResultadosPesquisa(termo) {
         });
 
     results.querySelectorAll(".exercise-delete-button").forEach(btn => {
-        btn.onclick = event => {
+        btn.onclick = async event => {
             event.stopPropagation();
 
             const id = btn.dataset.deleteCustomId || "";
@@ -4121,14 +4130,16 @@ function renderResultadosPesquisa(termo) {
             );
 
             if (!exercicio) {
-                alert("Não foi possível encontrar este exercício criado.");
+                avisoApp("Não foi possível encontrar este exercício criado.");
                 return;
             }
 
-            const confirmado = window.confirm(
-                `Apagar «${exercicio.nome}» da biblioteca?\n\n` +
-                "Os treinos já guardados não serão alterados."
-            );
+            const confirmado = await confirmarApp({
+                titulo: `Apagar «${exercicio.nome}»?`,
+                mensagem: "O exercício sai da biblioteca. Os treinos já guardados não serão alterados.",
+                confirmar: "Apagar",
+                perigo: true
+            });
             if (!confirmado) return;
 
             exerciciosPersonalizados = exerciciosPersonalizados.filter(item =>
@@ -4218,6 +4229,23 @@ function selecionarExercicio(
     input.dataset.parametrosSeries = JSON.stringify(
         Array.isArray(item?.parametrosSeries) ? item.parametrosSeries : []
     );
+
+
+    // Título e ajuda acompanham o tipo de exercício escolhido.
+    const titulo = document.getElementById("addExerciseTitle");
+    const ajudaTexto = document.getElementById("addExercisePageHelpText");
+    const ajudaBotao = document.querySelector(".workout-add-help-button");
+    if (titulo) titulo.textContent = personalizado ? "Adicionar exercício personalizado" : "Adicionar exercício";
+    if (ajudaTexto) {
+        ajudaTexto.textContent = personalizado
+            ? (Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length
+                ? "Este exercício foi criado por ti. Define o número de séries e continua para registar os dados de cada série, de acordo com as características que escolheste."
+                : "Este exercício foi criado por ti. Escolhe o tipo de exercício, define o número de séries e continua para registar os dados de cada série.")
+            : "Escolhe um exercício da biblioteca, define o número de séries e continua para registar os dados de cada série.";
+    }
+    if (ajudaBotao) {
+        ajudaBotao.setAttribute("aria-label", personalizado ? "Ajuda sobre adicionar exercício personalizado" : "Ajuda sobre adicionar exercício");
+    }
 
 
     const hint =
@@ -4353,7 +4381,7 @@ function guardarExercicio() {
 
     if (!nome) {
 
-        return alert(
+        return avisoApp(
             "Escolhe um exercício."
         );
     }
@@ -4395,7 +4423,7 @@ function guardarExercicio() {
 
 
     if (error) {
-        return alert(error);
+        return avisoApp(error);
     }
 
 
@@ -4433,7 +4461,7 @@ function guardarExercicio() {
     const t =
         treinoAtual();
     if (!t) {
-        return alert("Seleciona um treino antes de adicionar um exercício.");
+        return avisoApp("Seleciona um treino antes de adicionar um exercício.");
     }
 
     const now =
@@ -4578,9 +4606,9 @@ function abrirEditorExercicio(
 
                     <div>
 
-                        <label for="editorSeriesCount">
+                        <span class="series-count-label">
                             Número de séries
-                        </label>
+                        </span>
 
                         <small>
                             Podes aumentar ou reduzir
@@ -4589,12 +4617,45 @@ function abrirEditorExercicio(
 
                     </div>
 
+                    <div
+                        class="series-count-control"
+                        role="group"
+                        aria-label="Número de séries"
+                    >
+                        <button
+                            type="button"
+                            class="series-count-step"
+                            id="editorDecreaseSeries"
+                            aria-label="Diminuir número de séries"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M5 12h14"></path>
+                            </svg>
+                        </button>
+
+                        <output
+                            id="editorSeriesCountDisplay"
+                            class="series-count-value"
+                            aria-live="polite"
+                            aria-atomic="true"
+                        >${count}</output>
+
+                        <button
+                            type="button"
+                            class="series-count-step"
+                            id="editorIncreaseSeries"
+                            aria-label="Aumentar número de séries"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                            </svg>
+                        </button>
+                    </div>
+
                     <input
                         id="editorSeriesCount"
-                        class="input series-count-input"
-                        type="number"
-                        min="1"
-                        max="30"
+                        type="hidden"
                         value="${count}"
                     >
 
@@ -4635,25 +4696,32 @@ function abrirEditorExercicio(
     );
 
 
-    document.getElementById(
-        "editorSeriesCount"
-    ).addEventListener(
-        "change",
-        () => {
+    // Mesmo contador por botões do fluxo "Adicionar exercício", limitado a MAX_SERIES_EXERCICIO.
+    const editorFields = document.getElementById("exerciseEditorFields");
+    const editorCountInput = document.getElementById("editorSeriesCount");
+    const editorCountDisplay = document.getElementById("editorSeriesCountDisplay");
+    const editorDecrease = document.getElementById("editorDecreaseSeries");
+    const editorIncrease = document.getElementById("editorIncreaseSeries");
 
-            renderLinhasSeries(
-                document.getElementById(
-                    "exerciseEditorFields"
-                ),
-                exercicio,
-                Number(
-                    document.getElementById(
-                        "editorSeriesCount"
-                    ).value
-                ) || 1
-            );
-        }
-    );
+    const syncEditorCount = n => {
+        editorCountInput.value = String(n);
+        editorCountDisplay.textContent = String(n);
+        editorDecrease.disabled = n <= 1;
+        editorIncrease.disabled = n >= MAX_SERIES_EXERCICIO;
+    };
+
+    const changeEditorCount = delta => {
+        const atual = recolherSeries(editorFields, exercicio.tipo || inferirTipoExercicio(exercicio.nome, exercicio.grupo), exercicio.parametrosSeries);
+        const n = Math.max(1, Math.min(MAX_SERIES_EXERCICIO, atual.length + delta));
+        if (n === atual.length) return;
+        renderLinhasSeries(editorFields, { ...exercicio, seriesData: atual }, n);
+        syncEditorCount(n);
+    };
+
+    editorDecrease.addEventListener("click", () => changeEditorCount(-1));
+    editorIncrease.addEventListener("click", () => changeEditorCount(1));
+    editorFields.addEventListener("seriescountchange", event => syncEditorCount(event.detail));
+    syncEditorCount(Math.min(count, MAX_SERIES_EXERCICIO));
 
 
     document.getElementById(
@@ -4723,7 +4791,7 @@ function guardarAtualizacaoExercicio(
 
 
     if (err) {
-        return alert(err);
+        return avisoApp(err);
     }
 
 
