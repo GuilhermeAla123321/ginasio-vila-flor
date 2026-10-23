@@ -11495,3 +11495,297 @@ body[data-theme="light"] #equipment-list > .equipment-card .equipment-info p {
     }
 }
 
+
+/* Visualizador 3D do equipamento: painel claro e imersivo, sem alterar os cartões existentes. */
+.equipment-detail-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .7rem;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: .78rem 0 1.05rem;
+}
+.equipment-detail-tools .equipment-muscle-filter-wrap {
+    flex: 1 1 auto;
+    min-width: 150px;
+    margin: 0;
+}
+.equipment-detail-tools .equipment-muscle-filter-wrap select {
+    max-width: 100%;
+}
+.equipment-3d-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .48rem;
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding: .58rem .82rem;
+    border: 1px solid rgba(151, 119, 169, .32);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(130, 91, 151, .17), rgba(130, 91, 151, .07));
+    color: var(--exercise-card-text, #eee5f3);
+    font: inherit;
+    font-size: .79rem;
+    font-weight: 750;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 3px 12px rgba(40, 20, 50, .06);
+    transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.equipment-3d-trigger svg {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.equipment-3d-trigger:hover {
+    transform: translateY(-1px);
+    border-color: rgba(151, 119, 169, .62);
+    background: rgba(130, 91, 151, .2);
+    box-shadow: 0 6px 18px rgba(40, 20, 50, .12);
+}
+.equipment-3d-trigger:active { transform: translateY(0) scale(.985); }
+.equipment-3d-trigger:focus-visible,
+.equipment-3d-close:focus-visible,
+.equipment-3d-retry:focus-visible {
+    outline: 3px solid rgba(157, 123, 255, .55);
+    outline-offset: 3px;
+}
+body[data-theme="light"] .equipment-3d-trigger {
+    color: #45314d;
+    border-color: rgba(119, 79, 133, .22);
+    background: linear-gradient(135deg, rgba(137, 94, 153, .1), rgba(137, 94, 153, .045));
+}
+.equipment-3d-lock-scroll { overflow: hidden !important; }
+.equipment-3d-overlay[hidden],
+.equipment-3d-loading[hidden],
+.equipment-3d-error[hidden] { display: none !important; }
+.equipment-3d-overlay {
+    position: fixed;
+    z-index: 5000;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(10px, 2.5vw, 28px);
+    background: rgba(12, 10, 17, .68);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .24s ease, visibility .24s ease;
+}
+.equipment-3d-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.equipment-3d-panel {
+    display: flex;
+    flex-direction: column;
+    width: min(1120px, 100%);
+    max-height: min(88dvh, 880px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .6);
+    border-radius: 25px;
+    background: #fff;
+    color: #28232c;
+    box-shadow: 0 28px 90px rgba(0, 0, 0, .32);
+    transform: translateY(14px) scale(.985);
+    transition: transform .24s cubic-bezier(.2,.75,.25,1);
+    outline: none;
+}
+.equipment-3d-overlay.is-open .equipment-3d-panel { transform: translateY(0) scale(1); }
+.equipment-3d-header {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.15rem 1.35rem 1rem;
+    border-bottom: 1px solid #efedf0;
+    background: #fff;
+    text-align: center;
+}
+.equipment-3d-header > div {
+    text-align: center;
+}
+.equipment-3d-eyebrow {
+    display: block;
+    margin-bottom: .28rem;
+    color: #896b91;
+    font-size: .65rem;
+    font-weight: 850;
+    letter-spacing: .14em;
+}
+.equipment-3d-header h2 {
+    margin: 0;
+    color: #2e2733;
+    font-size: clamp(1.1rem, 2vw, 1.42rem);
+    font-weight: 780;
+    letter-spacing: -.04em;
+    line-height: 1.2;
+}
+.equipment-3d-close {
+    position: absolute;
+    top: 50%;
+    right: 1.35rem;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+    transform: translateY(-50%);
+    border: 1px solid #e8e4ea;
+    border-radius: 12px;
+    background: #faf9fb;
+    color: #574e5d;
+    cursor: pointer;
+    transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+.equipment-3d-close:hover { background: #f0ebf2; border-color: #d8cbdc; transform: translateY(-50%) rotate(3deg); }
+.equipment-3d-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.equipment-3d-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.48fr) minmax(240px, .72fr);
+    min-height: 0;
+    overflow: auto;
+    background: #fff;
+}
+.equipment-3d-stage-wrap { min-width: 0; padding: 1rem; background: #fff; }
+.equipment-3d-stage {
+    position: relative;
+    width: 100%;
+    height: clamp(340px, 56vh, 620px);
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #fff;
+    isolation: isolate;
+}
+#equipment3DCanvas { display: block; width: 100%; height: 100%; background: #fff; touch-action: none; outline: none; }
+.equipment-3d-loading,
+.equipment-3d-error {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    padding: 1.5rem;
+    background: #fff;
+    color: #736a79;
+    text-align: center;
+}
+.equipment-3d-loading p,
+.equipment-3d-error p { margin: 0; font-size: .85rem; line-height: 1.55; }
+.equipment-3d-spinner {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border: 2px solid #ece6ef;
+    border-top-color: #886493;
+    border-radius: 50%;
+    animation: equipment3DSpin .8s linear infinite;
+}
+@keyframes equipment3DSpin { to { transform: rotate(360deg); } }
+.equipment-3d-error-icon {
+    display: grid;
+    place-items: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #f7eff8;
+    color: #805b8c;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+.equipment-3d-retry {
+    min-height: 35px;
+    padding: .45rem .75rem;
+    border: 1px solid #d8cadd;
+    border-radius: 10px;
+    background: #f9f5fa;
+    color: #60466a;
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 750;
+    cursor: pointer;
+}
+.equipment-3d-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: .8rem;
+    min-width: 0;
+    padding: 1.7rem 1.55rem 1.6rem .8rem;
+    color: #756d7b;
+}
+.equipment-3d-pill {
+    display: inline-flex;
+    align-self: center;
+    align-items: center;
+    gap: .45rem;
+    padding: .38rem .58rem;
+    border: 1px solid #e8dfeb;
+    border-radius: 999px;
+    background: #faf6fb;
+    color: #765181;
+    font-size: .68rem;
+    font-weight: 750;
+}
+.equipment-3d-pill span { width: 6px; height: 6px; border-radius: 50%; background: #8d6998; box-shadow: 0 0 0 3px rgba(141,105,152,.12); }
+.equipment-3d-details h3 { align-self: center; margin: 0; color: #302735; text-align: center; font-size: clamp(1.25rem, 2vw, 1.7rem); line-height: 1.18; letter-spacing: -.045em; }
+.equipment-3d-details > p:not(.equipment-3d-footnote) { margin: 0; font-size: .87rem; line-height: 1.65; }
+.equipment-3d-feature { display: flex; align-items: flex-start; gap: .72rem; width: 100%; padding-top: .3rem; }
+.equipment-3d-feature-icon { display: grid; place-items: center; width: 35px; height: 35px; flex: 0 0 auto; border: 1px solid #eee7f0; border-radius: 11px; background: #faf7fb; color: #80618b; }
+.equipment-3d-feature-icon svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.equipment-3d-feature div { display: grid; gap: .22rem; padding-top: .05rem; }
+.equipment-3d-feature strong { color: #413746; font-size: .8rem; font-weight: 780; }
+.equipment-3d-feature div span { color: #817786; font-size: .74rem; line-height: 1.45; }
+.equipment-3d-footnote { margin: .5rem 0 0; padding-top: .8rem; border-top: 1px solid #f0edf1; color: #a098a6; font-size: .68rem; line-height: 1.5; }
+@media (max-width: 680px) {
+    .equipment-detail-tools { gap: .6rem; }
+    .equipment-detail-tools .equipment-muscle-filter-wrap { flex: 1 1 145px; min-width: 130px; }
+    .equipment-3d-trigger { min-height: 36px; padding: .52rem .68rem; font-size: .74rem; }
+    .equipment-3d-panel { max-height: 92dvh; border-radius: 21px; }
+    .equipment-3d-header { padding: .9rem 1rem .8rem; }
+    .equipment-3d-close { right: 1rem; }
+    .equipment-3d-content { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
+    .equipment-3d-stage-wrap { padding: .65rem .65rem 0; }
+    .equipment-3d-stage { height: clamp(250px, 42vh, 390px); border: 1px solid #f0edf1; border-radius: 15px; }
+    .equipment-3d-details { gap: .65rem; padding: 1.15rem 1.05rem 1.25rem; }
+    .equipment-3d-details h3 { font-size: 1.25rem; }
+    .equipment-3d-details > p:not(.equipment-3d-footnote) { font-size: .82rem; }
+    .equipment-3d-feature { padding-top: .15rem; }
+    .equipment-3d-footnote { margin-top: .15rem; }
+}
+@media (max-width: 390px) {
+    .equipment-detail-tools { align-items: stretch; }
+    .equipment-detail-tools .equipment-muscle-filter-wrap { flex-basis: 100%; }
+    .equipment-detail-tools .equipment-muscle-filter-wrap select { width: 100%; }
+    .equipment-3d-trigger { width: 100%; }
+    .equipment-3d-overlay { padding: 7px; }
+    .equipment-3d-panel { max-height: 94dvh; border-radius: 17px; }
+    .equipment-3d-stage { height: 34vh; min-height: 220px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .equipment-3d-overlay,
+    .equipment-3d-panel,
+    .equipment-3d-trigger,
+    .equipment-3d-close { transition: none !important; }
+    .equipment-3d-spinner { animation-duration: 1.8s; }
+}
