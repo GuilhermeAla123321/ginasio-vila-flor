@@ -29,6 +29,6 @@ assert.ok(/object-position:\s*center center\s*!important/.test(cardImageRule), '
 assert.ok(/max-width:\s*100%\s*!important/.test(cardImageRule) && /max-height:\s*100%\s*!important/.test(cardImageRule), 'As imagens devem caber na área sem cortes.');
 assert.ok(/height:\s*116px\s*!important/.test(cardImageRule), 'A área de imagem deve ter altura consistente no ecrã normal.');
 assert.ok(/height:\s*112px\s*!important/.test(cardImageRule), 'A área deve adaptar-se ao ecrã móvel.');
-assert.match(sw, /CACHE_NAME\s*=\s*'vf-ginasio-v66'/, 'A cache deve ser renovada para que os dispositivos descarreguem o CSS corrigido.');
+assert.match(sw, /CACHE_NAME\s*=\s*'vf-ginasio-v71'/, 'A cache deve ser renovada para que os dispositivos descarreguem o CSS corrigido.');
 
 console.log(`PASS: ${imageFiles.length} imagens mapeadas existem; regras de enquadramento cobrem a biblioteca geral e as páginas de equipamento.`);

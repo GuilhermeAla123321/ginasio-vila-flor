@@ -1,7 +1,88 @@
-/* Visualizador 3D local dos equipamentos que têm um modelo GLB disponível. */
+/* Visualizador 3D local para os equipamentos que têm um modelo GLB disponível. */
 (() => {
-    const MODEL_URL = new URL("../assets/models/pec-fly.glb", import.meta.url).href;
     const TRANSITION_MS = 240;
+    const MODEL_CATALOG = {
+        "passadeira": {
+            file: "../assets/models/passadeira.glb",
+            title: "Passadeira",
+            description: "Explora a passadeira e observa a consola, a superfície de corrida e a estrutura antes de começares o treino."
+        },
+        "bicicleta-spinning": {
+            file: "../assets/models/bicicleta-spinning.glb",
+            title: "Bicicleta",
+            description: "Vê a bicicleta de spinning de vários ângulos e observa a posição do selim, do guiador e dos pedais."
+        },
+        "eliptica": {
+            file: "../assets/models/eliptica.glb",
+            title: "Elíptica",
+            description: "Explora a elíptica e identifica os apoios, os manípulos e o movimento dos pedais."
+        },
+        "remo": {
+            file: "../assets/models/remo.glb",
+            title: "Máquina de Remo",
+            description: "Observa a máquina de remo, o assento deslizante e a pega utilizada durante o movimento."
+        },
+        "smith-machine": {
+            file: "../assets/models/smith-machine.glb",
+            title: "Smith Machine",
+            description: "Explora a estrutura guiada da Smith Machine, a barra e os pontos de apoio de segurança."
+        },
+        "polia-dupla": {
+            file: "../assets/models/polia-dupla.glb",
+            title: "Polia Multifuncional",
+            description: "Observa as duas torres de cabos e os pontos de ajuste que permitem realizar exercícios variados."
+        },
+        "abdutor-adutor": {
+            file: "../assets/models/abdutor-adutor.glb",
+            title: "Máquina Abdutora",
+            description: "Explora a máquina destinada ao trabalho dos abdutores e adutores da anca."
+        },
+        "shoulder-press": {
+            file: "../assets/models/shoulder-press.glb",
+            title: "Prensa de Ombros",
+            description: "Observa o assento, os apoios e os braços de movimento da máquina para treino de ombros."
+        },
+        "pec-fly": {
+            file: "../assets/models/pec-fly.glb",
+            title: "Peck Deck",
+            description: "Explora a máquina de diferentes ângulos antes de começares o treino. Roda o modelo com o rato ou com o dedo e ajusta a aproximação para veres melhor os detalhes."
+        },
+        "suporte-halteres": {
+            file: "../assets/models/suporte-halteres.glb",
+            title: "Suporte de halteres",
+            description: "Explora o suporte de halteres e a disposição dos diferentes pesos disponíveis na zona de peso livre."
+        },
+        "banco-ajustavel": {
+            file: "../assets/models/banco-ajustavel.glb",
+            title: "Banco ajustável",
+            description: "Observa o banco ajustável e o encosto, pensado para diferentes posições de treino."
+        },
+        "haltere-redondo": {
+            file: "../assets/models/haltere-redondo.glb",
+            title: "Haltere redondo",
+            description: "Vê de perto um haltere de discos redondos e explora a sua forma e pega."
+        },
+        "haltere-hexagonal": {
+            file: "../assets/models/haltere-hexagonal.glb",
+            title: "Haltere hexagonal",
+            description: "Explora um haltere hexagonal, incluindo as extremidades planas que ajudam a evitar que role no chão."
+        },
+        "leg-press": {
+            file: "../assets/models/leg-press.glb",
+            title: "Leg Press",
+            description: "Explora o Leg Press e identifica o assento, a plataforma para os pés e o percurso de movimento."
+        },
+        "extensao-pernas": {
+            file: "../assets/models/extensao-pernas.glb",
+            title: "Cadeira Extensora",
+            description: "Observa a cadeira extensora e os rolos de apoio usados para trabalhar a parte da frente da coxa."
+        },
+        "leg-curl": {
+            file: "../assets/models/leg-curl.glb",
+            title: "Mesa Flexora",
+            description: "Explora a máquina flexora e os apoios que ajudam a trabalhar os músculos posteriores da coxa."
+        }
+    };
 
     let modal = null;
     let lastTrigger = null;
@@ -22,8 +103,11 @@
     let camera = null;
     let controls = null;
     let model = null;
-    let loadingModel = false;
-    let loadingToken = 0;
+    let activeModelKey = "pec-fly";
+    let loadedModelKey = null;
+    let initialModelKey = "pec-fly";
+    let initialEquipmentTitle = "Peck Deck";
+    let modelVariantKeys = ["pec-fly"];
 
     function createModal() {
         if (modal) return modal;
@@ -62,7 +146,8 @@
                     <aside class="equipment-3d-details">
                         <span class="equipment-3d-pill"><span aria-hidden="true"></span> Modelo interativo</span>
                         <h3>Peck Deck</h3>
-                        <p>Explora a máquina de diferentes ângulos antes de começares o treino. Roda o modelo com o rato ou com o dedo e ajusta a aproximação para veres melhor os detalhes.</p>
+                        <p class="equipment-3d-description">Explora a máquina de diferentes ângulos antes de começares o treino. Roda o modelo com o rato ou com o dedo e ajusta a aproximação para veres melhor os detalhes.</p>
+                        <div class="equipment-3d-model-options" role="group" aria-label="Escolher modelo de peso livre" hidden></div>
                         <div class="equipment-3d-feature">
                             <span class="equipment-3d-feature-icon" aria-hidden="true">
                                 <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg>
@@ -89,6 +174,11 @@
             showLoading();
             startViewer(token);
         });
+        modal.querySelector(".equipment-3d-model-options").addEventListener("click", event => {
+            const button = event.target.closest?.("[data-model-choice]");
+            if (!button || !modelVariantKeys.includes(button.dataset.modelChoice)) return;
+            escolherModelo(button.dataset.modelChoice);
+        });
         modal.addEventListener("click", event => {
             if (event.target === modal) closeModal();
         });
@@ -113,6 +203,37 @@
         modal.querySelector(".equipment-3d-error").hidden = true;
     }
 
+    function atualizarDetalhesModelo(key, usarTituloEquipamento = false) {
+        const config = MODEL_CATALOG[key];
+        if (!config || !modal) return;
+        const title = usarTituloEquipamento ? initialEquipmentTitle : config.title;
+        modal.querySelector("#equipment3DTitle").textContent = title;
+        modal.querySelector(".equipment-3d-details h3").textContent = title;
+        modal.querySelector(".equipment-3d-description").textContent = config.description;
+        const canvas = modal.querySelector("#equipment3DCanvas");
+        if (canvas) canvas.setAttribute("aria-label", `Modelo 3D interativo de ${title}`);
+
+        const options = modal.querySelector(".equipment-3d-model-options");
+        if (!options) return;
+        options.hidden = modelVariantKeys.length < 2;
+        if (options.hidden) {
+            options.innerHTML = "";
+            return;
+        }
+        options.innerHTML = modelVariantKeys.map(modelKey => {
+            const variant = MODEL_CATALOG[modelKey];
+            const labels = {
+                "suporte-halteres": "Suporte",
+                "banco-ajustavel": "Banco ajustável",
+                "haltere-redondo": "Haltere redondo",
+                "haltere-hexagonal": "Haltere hexagonal"
+            };
+            const label = labels[modelKey] || variant.title;
+            const selected = modelKey === key;
+            return `<button type="button" data-model-choice="${modelKey}" class="equipment-3d-model-option${selected ? " is-selected" : ""}" aria-pressed="${selected}">${label}</button>`;
+        }).join("");
+    }
+
     function openModal(trigger) {
         createModal();
         if (closeTimer) {
@@ -122,6 +243,15 @@
 
         lastTrigger = trigger;
         isOpen = true;
+        initialModelKey = trigger.dataset.modelKey || "pec-fly";
+        activeModelKey = MODEL_CATALOG[initialModelKey] ? initialModelKey : "pec-fly";
+        initialEquipmentTitle = trigger.dataset.equipmentTitle || MODEL_CATALOG[activeModelKey].title;
+        const requestedVariants = (trigger.dataset.modelVariants || initialModelKey)
+            .split(",").map(key => key.trim()).filter(key => MODEL_CATALOG[key]);
+        modelVariantKeys = [...new Set([activeModelKey, ...requestedVariants])];
+        if (modelVariantKeys.length < 2) modelVariantKeys = [activeModelKey];
+        atualizarDetalhesModelo(activeModelKey, true);
+
         if (autoRotateResumeTimer) {
             window.clearTimeout(autoRotateResumeTimer);
             autoRotateResumeTimer = null;
@@ -174,49 +304,77 @@
         }
     }
 
+    function disposeObject(object) {
+        if (!object) return;
+        object.traverse(child => {
+            child.geometry?.dispose?.();
+            const materials = Array.isArray(child.material) ? child.material : [child.material];
+            materials.filter(Boolean).forEach(material => {
+                Object.values(material).forEach(value => {
+                    if (value && value.isTexture && typeof value.dispose === "function") value.dispose();
+                });
+                material.dispose?.();
+            });
+        });
+    }
+
+    function removerModeloAtual() {
+        if (!model) {
+            loadedModelKey = null;
+            return;
+        }
+        scene?.remove(model);
+        disposeObject(model);
+        model = null;
+        loadedModelKey = null;
+    }
+
     function destroyViewer() {
         if (controls) {
             controls.dispose();
             controls = null;
         }
-        if (scene && model) {
-            model.traverse(object => {
-                if (object.geometry) object.geometry.dispose();
-                const materials = Array.isArray(object.material) ? object.material : [object.material];
-                materials.filter(Boolean).forEach(material => {
-                    Object.values(material).forEach(value => {
-                        if (value && value.isTexture && typeof value.dispose === "function") value.dispose();
-                    });
-                    material.dispose?.();
-                });
-            });
-        }
+        removerModeloAtual();
         if (environmentTarget) {
             environmentTarget.dispose();
             environmentTarget = null;
         }
         if (renderer) {
-            try { renderer.dispose(); } catch (_) { /* A falha de limpeza não deve bloquear a página. */ }
-            try { renderer.forceContextLoss(); } catch (_) { /* Nem todos os dispositivos expõem este método. */ }
+            try { renderer.dispose(); } catch (_) { /* A limpeza não deve bloquear a página. */ }
+            try { renderer.forceContextLoss(); } catch (_) { /* Nem todos os dispositivos suportam este método. */ }
             renderer = null;
         }
         scene = null;
         camera = null;
-        model = null;
-        loadingModel = false;
-        loadingToken = 0;
 
         const canvas = modal?.querySelector("#equipment3DCanvas");
         if (canvas) {
             const replacement = document.createElement("canvas");
             replacement.id = "equipment3DCanvas";
-            replacement.setAttribute("aria-label", "Modelo 3D interativo do Peck Deck");
+            const title = MODEL_CATALOG[activeModelKey]?.title || "equipamento";
+            replacement.setAttribute("aria-label", `Modelo 3D interativo de ${title}`);
             canvas.replaceWith(replacement);
         }
     }
 
+    function escolherModelo(key) {
+        if (!MODEL_CATALOG[key] || key === activeModelKey) return;
+        activeModelKey = key;
+        atualizarDetalhesModelo(key, key === initialModelKey);
+        if (!isOpen) return;
+        if (animationFrame !== null) {
+            window.cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+        }
+        if (controls) controls.autoRotate = true;
+        const token = ++viewerToken;
+        showLoading();
+        startViewer(token);
+    }
+
     async function startViewer(token) {
         try {
+            if (!MODEL_CATALOG[activeModelKey]) throw new Error(`Modelo 3D não configurado: ${activeModelKey}`);
             if (!THREE || !GLTFLoader || !OrbitControls) {
                 const modules = await Promise.all([
                     import("../assets/vendor/three/build/three.module.js"),
@@ -261,7 +419,6 @@
                 rim.position.set(0, 4, -5);
                 scene.add(rim);
 
-                // Ambiente de estúdio para dar reflexos suaves ao metal sem escurecer o fundo branco.
                 const pmrem = new THREE.PMREMGenerator(renderer);
                 const environment = new RoomEnvironment(renderer);
                 environmentTarget = pmrem.fromScene(environment, 0.04);
@@ -282,7 +439,7 @@
                 controls.maxDistance = 12;
                 controls.maxPolarAngle = Math.PI * 0.49;
                 controls.addEventListener("start", () => {
-                    controls.autoRotate = false;
+                    if (controls) controls.autoRotate = false;
                     if (autoRotateResumeTimer) window.clearTimeout(autoRotateResumeTimer);
                     autoRotateResumeTimer = null;
                 });
@@ -296,21 +453,25 @@
             }
 
             fitRendererToStage();
-            if (model) {
+            if (model && loadedModelKey === activeModelKey) {
                 showLoaded();
                 startRenderLoop(token);
                 return;
             }
-            if (loadingModel && loadingToken === token) return;
-            loadingModel = true;
-            loadingToken = token;
+            if (model) removerModeloAtual();
+
+            const modelKey = activeModelKey;
+            const config = MODEL_CATALOG[modelKey];
             const loader = new GLTFLoader();
             loader.load(
-                MODEL_URL,
+                new URL(config.file, import.meta.url).href,
                 gltf => {
-                    if (loadingToken === token) loadingModel = false;
-                    if (!isOpen || token !== viewerToken || !scene || !renderer) return;
+                    if (!isOpen || token !== viewerToken || modelKey !== activeModelKey || !scene || !renderer) {
+                        disposeObject(gltf.scene);
+                        return;
+                    }
                     model = gltf.scene;
+                    loadedModelKey = modelKey;
                     const bounds = new THREE.Box3().setFromObject(model);
                     const size = bounds.getSize(new THREE.Vector3());
                     const center = bounds.getCenter(new THREE.Vector3());
@@ -325,17 +486,18 @@
                     const label = modal.querySelector(".equipment-3d-loading p");
                     if (progress.lengthComputable && label) {
                         label.textContent = `A carregar o modelo 3D… ${Math.round(progress.loaded / progress.total * 100)}%`;
+                    } else if (label) {
+                        label.textContent = `A preparar ${config.title}…`;
                     }
                 },
-                () => {
-                    if (loadingToken === token) loadingModel = false;
+                error => {
                     if (!isOpen || token !== viewerToken) return;
+                    if (window.console?.warn) console.warn(`Não foi possível carregar o modelo 3D (${modelKey}):`, error);
                     showError();
                 }
             );
             startRenderLoop(token);
         } catch (error) {
-            loadingModel = false;
             if (window.console?.warn) console.warn("Não foi possível iniciar o visualizador 3D:", error);
             if (isOpen && token === viewerToken) showError();
         }
@@ -424,6 +586,6 @@
         }
     });
 
-    // Cria apenas a estrutura acessível; o motor 3D e o modelo são carregados sob pedido.
+    // O motor 3D e os modelos são carregados apenas quando o utilizador pede para ver um equipamento.
     createModal();
 })();
