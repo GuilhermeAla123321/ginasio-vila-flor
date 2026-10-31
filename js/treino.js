@@ -98,6 +98,8 @@ const exerciciosDisponiveis = [
     "Chin-up",
     "Peso Morto",
     "Peso Morto Romeno",
+    "Encolhimento de Ombros com Halteres (Shrugs)",
+    "Encolhimento de Ombros com Barra (Shrugs)",
 
     // OMBROS
     "Elevação Lateral",
@@ -111,17 +113,17 @@ const exerciciosDisponiveis = [
     "Crucifixo Inverso com Halteres",
 
     // BÍCEPS E ANTEBRAÇOS
-    "Curl de Bíceps",
-    "Curl com Barra",
-    "Curl com Barra EZ",
-    "Curl Alternado com Halteres",
-    "Curl Martelo",
-    "Curl Martelo na Corda",
-    "Curl Concentrado",
-    "Curl Inclinado com Halteres",
-    "Curl Scott",
-    "Curl na Polia Baixa",
-    "Curl Inverso com Barra",
+    "Rosca de Bíceps",
+    "Rosca com Barra",
+    "Rosca com Barra EZ",
+    "Rosca Alternado com Halteres",
+    "Rosca Martelo",
+    "Rosca Martelo na Corda",
+    "Rosca Concentrado",
+    "Rosca Inclinado com Halteres",
+    "Rosca Scott",
+    "Rosca na Polia Baixa",
+    "Rosca Inverso com Barra",
     "Flexão de Punhos",
     "Extensão de Punhos",
 
@@ -225,8 +227,8 @@ const exerciciosDisponiveis = [
     "Elevação Frontal na Polia",
     "Elevação Lateral Unilateral na Polia",
     "Face Pull com Corda na Polia",
-    "Curl de Bíceps com Barra na Polia",
-    "Curl de Bíceps Unilateral na Polia",
+    "Rosca de Bíceps com Barra na Polia",
+    "Rosca de Bíceps Unilateral na Polia",
     "Extensão de Tríceps com Barra na Polia",
     "Extensão de Tríceps Unilateral na Polia",
     "Kickback de Tríceps na Polia",
@@ -834,11 +836,11 @@ function inferirGrupoExercicio(nome) {
 
     if (/glute|hip thrust|coice de gluteo|elevacao de gluteos|abducao da anca|extensao de anca|pull-through/.test(n)) return "Glúteos";
 
-    if (/crucifixo inverso|face pull|encolhimento de ombros|press de ombros|prensa de ombros|desenvolvimento militar|elevacao lateral|elevacao frontal|desenvolvimento com halteres|ombros|remada alta/.test(n)) return "Ombros";
+    if (/crucifixo inverso|face pull|press de ombros|prensa de ombros|desenvolvimento militar|elevacao lateral|elevacao frontal|desenvolvimento com halteres|ombros|remada alta/.test(n)) return "Ombros";
 
     if (/supino|peito|crucifixo|abertura|press de peito|voador|crossover|flexoes|flexao de bracos|fundos para peito/.test(n)) return "Peito";
 
-    if (/costas|puxada|remada|pulldown|pull up|pull-up|chin-up|barra fixa|pullover/.test(n)) return "Costas";
+    if (/costas|encolhimento de ombros|shrugs?|puxada|remada|pulldown|pull up|pull-up|chin-up|barra fixa|pullover/.test(n)) return "Costas";
 
     if (/bicep|tricep|braco|curl|rosca|punhos|kickback|francesa/.test(n)) return "Braços";
 
@@ -1495,7 +1497,7 @@ function renderLinhasSeries(
                 return `
                     <div class="set-entry-card" data-series-card-index="${i}">
                         <div class="set-entry-title">
-                            <span>SÉRIE ${i + 1}</span>
+                            <span class="gym-entry-series-select" aria-label="Série ${i + 1}"><span class="gym-series-index">${String(i + 1).padStart(2, "0")}</span><span class="gym-series-word">Série</span></span>
                             <small>Valores independentes</small>
                             <button
                                 type="button"
@@ -1536,6 +1538,16 @@ function renderLinhasSeries(
                             }).join("")}
                         </div>
                     </div>
+                    ${i < count - 1 ? `<div class="gym-inline-rest" data-gym-rest-gap="${i}" aria-label="Descanso entre a série ${i + 1} e a série ${i + 2}">
+                        <div class="gym-rest-row">
+                            <span class="gym-rest-slot"><strong class="gym-rest-clock gym-inline-rest-clock" role="timer">01:30</strong><select class="gym-rest-select" aria-label="Tempo de descanso"></select></span>
+                            <input class="gym-duration-time" type="text" inputmode="numeric" maxlength="5" placeholder="MM:SS" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tempo personalizado em minutos e segundos" hidden />
+                            <button type="button" class="gym-rest-btn gym-rest-play gym-inline-rest-toggle" aria-label="Iniciar descanso"></button>
+                            <button type="button" class="gym-rest-btn gym-inline-rest-reset" aria-label="Reiniciar descanso">↺</button>
+                        </div>
+                        <span class="gym-duration-error" role="alert" hidden>Usa MM:SS (de 00:01 até 99:59).</span>
+                        <div class="gym-inline-rest-track"><span class="gym-inline-rest-fill"></span></div>
+                    </div>` : ''}
                 `;
             }).join("")}
         </div>
@@ -2006,17 +2018,18 @@ function renderExercicioCard(
             const valores = parametrosSerie
                 .filter(p => s?.[p] !== "" && s?.[p] != null)
                 .map(p => `
-                    <span>
-                        ${PARAMETROS[p].label}: ${formatarValor(p, s[p])}
+                    <span class="gym-series-metric">
+                        <span class="gym-series-metric-label">${p === "pesoHalter" ? "Por halter" : p === "carga" ? "Carga" : p === "repeticoes" ? "Reps" : p === "tempo" ? "Tempo" : p === "distancia" ? "Distância" : PARAMETROS[p].label}</span>
+                        <span class="gym-series-metric-value">${formatarValor(p, s[p])}</span>
                     </span>
                 `)
                 .join("");
 
             return `
                 <div class="series-card-line">
-                    <span>Série ${n + 1}</span>
+                    <button type="button" class="gym-series-complete" data-gym-series="${n}" aria-label="Concluir série ${n + 1} e iniciar descanso" aria-pressed="false" title="Concluir série e iniciar descanso"><span class="gym-series-check" aria-hidden="true">✓</span><span class="gym-series-name">${String(n + 1).padStart(2, "0")}</span></button>
                     <strong class="series-card-values">
-                        ${valores || "Sem valores"}
+                        ${valores || '<span class="gym-series-empty">Sem valores</span>'}
                     </strong>
                 </div>
             `;
@@ -2160,7 +2173,7 @@ function abrirAdicionar() {
                 >?</button>
             </div>
             <p id="addExercisePageHelpText" class="page-context-help-text workout-add-help-text" role="note" hidden>
-                Escolhe um exercício da biblioteca, define o número de séries e continua para registar os dados de cada série.
+                Escolhe um exercício, define as séries e continua.
             </p>
 
         </div>
@@ -3720,7 +3733,7 @@ function abrirPopupExercicioPersonalizado() {
                         <h2 id="customExerciseTitle">Adicionar exercício personalizado</h2>
                         <button type="button" class="page-context-help custom-exercise-help-button" id="customExerciseHelp" aria-controls="customExerciseHelpText" aria-expanded="false" aria-label="Ajuda sobre o exercício personalizado">?</button>
                     </div>
-                    <p class="page-context-help-text custom-exercise-help-text" id="customExerciseHelpText" role="note" hidden>Cria um exercício com nome, grupo muscular, tipo e equipamento. Depois escolhe os dados que queres registar em cada série.</p>
+                    <p class="page-context-help-text custom-exercise-help-text" id="customExerciseHelpText" role="note" hidden>Indica nome, grupo, tipo e equipamento. Depois escolhe os dados a registar em cada série.</p>
                 </div>
                 <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
             </div>
@@ -4039,7 +4052,7 @@ function renderResultadosPesquisa(termo) {
                                 : favoritosApenas
                                     ? "Carrega na estrela dos exercícios para os guardar aqui."
                                     : q
-                                        ? "Usa o botão + Criar no topo para adicionar um exercício personalizado."
+                                        ? "Usa «+ Criar», no topo, para adicionar um exercício."
                                         : "Escreve o nome na caixa acima para procurar um exercício."
                         }
                     </p>
@@ -4136,7 +4149,7 @@ function renderResultadosPesquisa(termo) {
 
             const confirmado = await confirmarApp({
                 titulo: `Apagar «${exercicio.nome}»?`,
-                mensagem: "O exercício sai da biblioteca. Os treinos já guardados não serão alterados.",
+                mensagem: "Sai da biblioteca. Os treinos guardados não mudam.",
                 confirmar: "Apagar",
                 perigo: true
             });
@@ -4239,9 +4252,9 @@ function selecionarExercicio(
     if (ajudaTexto) {
         ajudaTexto.textContent = personalizado
             ? (Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length
-                ? "Este exercício foi criado por ti. Define o número de séries e continua para registar os dados de cada série, de acordo com as características que escolheste."
-                : "Este exercício foi criado por ti. Escolhe o tipo de exercício, define o número de séries e continua para registar os dados de cada série.")
-            : "Escolhe um exercício da biblioteca, define o número de séries e continua para registar os dados de cada série.";
+                ? "Exercício criado por ti. Define as séries e continua."
+                : "Exercício criado por ti. Escolhe o tipo, define as séries e continua.")
+            : "Escolhe um exercício, define as séries e continua.";
     }
     if (ajudaBotao) {
         ajudaBotao.setAttribute("aria-label", personalizado ? "Ajuda sobre adicionar exercício personalizado" : "Ajuda sobre adicionar exercício");

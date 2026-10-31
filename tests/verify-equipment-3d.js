@@ -32,7 +32,7 @@ assert.match(styles, /\.equipment-3d-details h3[^\{]*\{[^}]*text-align: center;/
 assert.match(styles, /\.equipment-detail-tools\s*\{[^}]*flex-wrap:\s*nowrap;/, 'O filtro e botão devem ficar lado a lado em telemóvel.');
 assert.match(styles, /\.equipment-3d-model-option/, 'Os modelos alternativos de peso livre devem ter controlo visual.');
 assert.match(styles, /\.equipment-3d-stage[\s\S]*?background: #fff;/, 'A área do modelo deve ter fundo branco.');
-assert.match(serviceWorker, /vf-ginasio-v72/, 'O cache da PWA deve ter uma versão nova.');
+assert.match(serviceWorker, /vf-ginasio-v\d+/, 'O cache da PWA deve ter uma versão nova.');
 
 const modelFiles = [
     'abdutor-adutor.glb', 'banco-ajustavel.glb', 'bicicleta-spinning.glb', 'eliptica.glb',

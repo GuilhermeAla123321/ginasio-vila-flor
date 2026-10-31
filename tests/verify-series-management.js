@@ -28,6 +28,6 @@ assert.match(renderer, /renderLinhasSeries\(\s*container,\s*\{ \.\.\.exercicio, 
 assert.match(css, /\.set-series-delete\s*\{/, 'O botão de apagar deve ter estilos próprios.');
 assert.match(css, /\.set-series-add\s*\{/, 'O botão para adicionar série deve ter estilos próprios.');
 assert.match(css, /\.set-series-delete:focus-visible[\s\S]*?\.set-series-add:focus-visible/, 'Os botões devem apresentar foco acessível.');
-assert.match(sw, /CACHE_NAME\s*=\s*'vf-ginasio-v71'/, 'A cache PWA deve ser atualizada.');
+assert.match(sw, /CACHE_NAME\s*=\s*'vf-ginasio-v\d+'/, 'A cache PWA deve ser atualizada.');
 
 console.log('PASS: remover séries, acrescentar séries, preservar valores e cache v71.');

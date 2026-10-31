@@ -62,7 +62,7 @@
       form.reset();
       setStatus('Obrigado! O teu feedback foi submetido.');
     } catch (error) {
-      setStatus('Não foi possível ligar ao serviço de envio. Verifica a ligação à Internet e tenta novamente.', true);
+      setStatus('Não foi possível enviar. Verifica a Internet e tenta novamente.', true);
     } finally {
       submitButton.disabled = false;
       submitButton.querySelector('span').textContent = 'Enviar feedback';

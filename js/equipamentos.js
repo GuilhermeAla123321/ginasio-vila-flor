@@ -570,7 +570,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
             musculos: [
                 "Peitoral",
                 "Tríceps",
-                "Deltóide anterior"
+                "Deltoide anterior"
             ],
             beneficios: [
                 "Desenvolve força de empurrar",
@@ -643,7 +643,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
                 "Usar carga que obrigue a compensações."
             ],
             musculos: [
-                "Deltóides",
+                "Deltoides",
                 "Tríceps",
                 "Trapézio superior"
             ],
@@ -694,7 +694,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
                 "Empurra a barra para cima mantendo os ombros controlados e sem bloquear agressivamente os cotovelos."
             ],
             erros: ["Usar uma inclinação excessiva do banco.", "Descer a barra sem controlo.", "Usar carga que comprometa a posição dos ombros."],
-            musculos: ["Peitoral superior", "Tríceps", "Deltóide anterior"],
+            musculos: ["Peitoral superior", "Tríceps", "Deltoide anterior"],
             beneficios: ["Dá ênfase à região superior do peito", "A trajetória guiada facilita o controlo"],
             dificuldade: "Intermédio",
             cuidados: ["Confirma o apoio do banco e o bloqueio de segurança da barra."],
@@ -912,7 +912,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
             musculos: [
                 "Peitoral",
                 "Tríceps",
-                "Deltóide anterior"
+                "Deltoide anterior"
             ],
             beneficios: [
                 "Desenvolve força do peito",
@@ -944,7 +944,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
                 "Abrir demasiado os cotovelos ou perder a estabilidade dos ombros.",
                 "Deixar a carga cair rapidamente na descida."
             ],
-            musculos: ["Peitoral superior", "Tríceps", "Deltóide anterior"],
+            musculos: ["Peitoral superior", "Tríceps", "Deltoide anterior"],
             beneficios: [
                 "Dá ênfase à região superior do peitoral",
                 "Permite progressão gradual de carga"

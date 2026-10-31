@@ -28,3 +28,16 @@ Os registos são guardados no `localStorage` do navegador. Cada registo contém:
 - data
 
 A função `progression()` compara os dois últimos registos do mesmo exercício.
+
+
+## Atualização de 31/10/2026 — Descansos do treino
+
+O projeto tem agora um descanso geral em «Meu treino», duração padrão propagada para os intervalos entre séries, aviso local sonoro de cerca de 3 segundos e integração separada de notificações OneSignal para ambos os tipos de relógio. Para configurar notificações em segundo plano, consultar `docs/DESCANSO-GERAL-E-ALERTAS.md`.
+
+## Duração personalizada (atualização de 31/10/2026)
+
+Ambos os relógios mantêm os tempos predefinidos e têm a opção **Personalizar…**. Seleciona-a, introduz minutos e segundos (de 1 segundo até 99 min 59 s) e carrega em **Aplicar**. A duração geral fica guardada no navegador e é usada por defeito nos intervalos entre séries que não tenham sido alterados individualmente. Os avisos de 3 segundos e a integração das notificações mantêm-se. O serviço externo OneSignal continua a precisar de configuração para receber push com a aplicação em segundo plano.
+
+
+## Atualização — duração por escrita direta e setas
+Nos dois relógios, basta escrever **MM:SS** no campo (por exemplo `02:15` ou `0215`) e sair do campo ou premir Enter. As setas verticais sobem/descem **1 segundo por toque**. Os tempos predefinidos estão em pequenos atalhos sempre visíveis. Intervalos individuais mantêm as suas escolhas quando mudas a duração geral. Limites: `00:01` a `99:59`.
