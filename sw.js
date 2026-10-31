@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v69';
+const CACHE_NAME = 'vf-ginasio-v106';
 
 const APP_SHELL = [
     './',
@@ -7,13 +7,23 @@ const APP_SHELL = [
 
     './css/style.css',
     './css/responsive.css',
+    './css/rest-global.css',
 
     './js/equipamentos.js',
     './js/seletor.js',
     './js/janela.js',
     './js/treino.js',
     './js/exercicios.js',
+    './js/progresso-descanso.js',
+    './images/progress/corpo-anterior.svg',
+    './images/progress/corpo-posterior.svg',
+    './images/progress/corpo-anterior-detalhado.png',
+    './images/progress/corpo-posterior-detalhado.png',
+    './assets/vila-flor-flor-branca.png',
     './js/navegacao.js',
+    './js/horario.js',
+    './js/dicas.js',
+    './js/page-context-help.js',
     './js/timer.js',
     './js/timer-push-config.js',
     './js/timer-background-push.js',
@@ -232,7 +242,7 @@ self.addEventListener('fetch', event => {
 
                 .catch(async () => {
 
-                    const cached = await caches.match(request);
+                    const cached = await caches.match(request, { ignoreSearch: true });
                     if (cached) return cached;
 
                     return new Response(
@@ -278,7 +288,7 @@ self.addEventListener('fetch', event => {
 
                 .catch(() => {
 
-                    return caches.match(request);
+                    return caches.match(request, { ignoreSearch: true });
 
                 })
 
@@ -316,7 +326,7 @@ self.addEventListener('fetch', event => {
 
                 .catch(() => {
 
-                    return caches.match(request);
+                    return caches.match(request, { ignoreSearch: true });
 
                 })
 
@@ -343,7 +353,7 @@ self.addEventListener('fetch', event => {
 
         event.respondWith(
 
-            caches.match(request)
+            caches.match(request, { ignoreSearch: true })
 
                 .then(cached => {
 

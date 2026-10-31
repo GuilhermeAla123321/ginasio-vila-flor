@@ -24,6 +24,16 @@
 
     let remoteNotificationScheduled = false;
 
+    // IDs independentes evitam que o descanso geral cancele a notificação de uma série.
+    const REST_MESSAGE_STORE = "vf_gym_rest_push_ids_v1";
+    const restMessageIds = (() => { try { return JSON.parse(localStorage.getItem(REST_MESSAGE_STORE)) || {}; } catch (_) { return {}; } })();
+    const restVersions = { geral: 0, series: 0 };
+    const saveRestMessageIds = () => { try { localStorage.setItem(REST_MESSAGE_STORE, JSON.stringify(restMessageIds)); } catch (_) {} };
+    const restButton = () => document.getElementById("gymGeneralAlertsEnable");
+    const restStatus = () => document.getElementById("gymGeneralAlertsStatus");
+
+    const BLOCKED_NOTE = "Notificações bloqueadas. Permite-as nas definições do site e toca novamente.";
+
     const button = () => document.getElementById("timerBackgroundEnable");
 
     const status = () => document.getElementById("timerBackgroundStatus");
@@ -59,6 +69,16 @@
         node.textContent = message || "";
 
         node.hidden = !message;
+        const other = restStatus();
+        if (other) other.textContent = message || "";
+        const help = document.getElementById("gymGeneralAlertsHelp");
+        if (help) {
+            help.hidden = !message;
+            if (!message) {
+                help.setAttribute("aria-expanded", "false");
+                if (other) other.hidden = true;
+            }
+        }
 
     }
 
@@ -73,12 +93,44 @@
         node.disabled = !enabled;
 
         node.setAttribute("aria-disabled", enabled ? "false" : "true");
+        const other = restButton();
+        if (other) {
+            other.textContent = label;
+            other.disabled = !enabled;
+            other.setAttribute("aria-disabled", String(!enabled));
+        }
 
     }
 
     function hasBrowserNotificationPermission() {
 
         return typeof Notification !== "undefined" && Notification.permission === "granted";
+
+    }
+
+    // Android e iOS (app instalada) só aceitam notificações através do service worker;
+    // aí new Notification() falha, por isso só serve de alternativa em computador.
+    async function showLocalNotification(title, options) {
+
+        if (!hasBrowserNotificationPermission()) return false;
+
+        try {
+
+            const registration = await navigator.serviceWorker?.getRegistration();
+
+            if (registration) {
+
+                await registration.showNotification(title, options);
+
+                return true;
+
+            }
+
+            new Notification(title, options);
+
+            return true;
+
+        } catch (_) { return false; }
 
     }
 
@@ -318,9 +370,9 @@
 
         if (typeof Notification !== "undefined" && Notification.permission === "denied") {
 
-            setButton("Ativar alertas", false);
+            setButton("Ativar alertas", true);
 
-            setStatus("Notificações bloqueadas nas definições do navegador.");
+            setStatus(BLOCKED_NOTE);
 
             return;
 
@@ -404,7 +456,7 @@
 
             if (typeof Notification !== "undefined" && Notification.permission === "denied") {
 
-                throw new Error("Notificações bloqueadas nas definições do navegador.");
+                throw new Error(BLOCKED_NOTE);
 
             }
 
@@ -414,7 +466,7 @@
 
                 if (typeof Notification === "undefined") {
 
-                    throw new Error("Alertas em segundo plano não estão configurados. O Timer local continua a funcionar.");
+                    throw new Error("Este navegador não permite notificações. No iPhone, adiciona a app ao ecrã principal e abre-a daí.");
 
                 }
 
@@ -433,6 +485,8 @@
                 setButton("Alertas ativos", false);
 
                 setStatus("");
+
+                showLocalNotification("Alertas ativos", { body: "Vais ser avisado quando o descanso terminar.", icon: "icons/icon-192.png", tag: "gym-alerts-enabled" });
 
                 return;
 
@@ -599,6 +653,44 @@
 
     }
 
+    // Envio independente para os dois relógios de "Meu treino".
+    async function scheduleNamed(kind, deadlineMs) {
+        if (kind !== 'geral' && kind !== 'series') return {scheduled:false,reason:'invalid-kind'};
+        const version = ++restVersions[kind];
+        const oldId = restMessageIds[kind];
+        delete restMessageIds[kind]; saveRestMessageIds();
+        if (oldId) await cancelMessageOnServer(oldId).catch(() => {});
+        if (!isEnabled()) return {scheduled:false,reason:'push-not-configured'};
+        const id = oneSignalInstance?.User?.PushSubscription?.id || subscriptionId;
+        if (!id) return {scheduled:false,reason:'missing-subscription'};
+        try {
+            const response = await requestJson('/api/timer/schedule', {
+                method:'POST', body:JSON.stringify({kind,subscriptionId:id,dueAt:Math.floor(Number(deadlineMs)+PUSH_DELAY_MS)})
+            });
+            if (version !== restVersions[kind]) {
+                if (response.messageId) await cancelMessageOnServer(response.messageId).catch(()=>{});
+                return {scheduled:false,reason:'cancelled'};
+            }
+            if (!response.messageId) throw Error('no-message-id');
+            restMessageIds[kind]=response.messageId;saveRestMessageIds();
+            return {scheduled:true,messageId:response.messageId};
+        } catch (_) { return {scheduled:false,reason:'push-unavailable'}; }
+    }
+    async function cancelNamed(kind) {
+        if (kind !== 'geral' && kind !== 'series') return;
+        ++restVersions[kind];
+        const id=restMessageIds[kind];delete restMessageIds[kind];saveRestMessageIds();
+        if(id) await cancelMessageOnServer(id).catch(()=>{});
+    }
+    function notifyNamed(kind) {
+        if (!hasBrowserNotificationPermission() || (kind!=='geral' && kind!=='series')) return false;
+        if (restMessageIds[kind]) return false;
+        showLocalNotification(kind==='geral'?'Descanso geral terminado':'Descanso entre séries terminado', {
+            body:'Está na hora de retomar o treino.',icon:'icons/icon-192.png',tag:`gym-rest-${kind}`
+        });
+        return true;
+    }
+
     async function cancel() {
 
         requestVersion += 1;
@@ -634,6 +726,7 @@
         const enableButton = button();
 
         if (enableButton) enableButton.addEventListener("click", enable);
+        restButton()?.addEventListener("click", enable);
 
         const helpButton = document.getElementById("timerBackgroundHelp");
         const helpText = document.getElementById("timerBackgroundHelpText");
@@ -653,6 +746,10 @@
 
         renderCurrentState();
 
+        navigator.permissions?.query?.({ name: "notifications" })
+            .then(state => { state.onchange = renderCurrentState; })
+            .catch(() => {});
+
         // O SDK de terceiros só será carregado após interação explícita do utilizador.
 
     }
@@ -660,6 +757,14 @@
     window.TimerBackgroundAlerts = Object.freeze({
 
         isEnabled,
+
+        enable,
+
+        scheduleNamed,
+
+        cancelNamed,
+
+        notifyNamed,
 
         schedule,
 
@@ -675,13 +780,9 @@
 
             if (!hasBrowserNotificationPermission()) return false;
 
-            try {
+            showLocalNotification("Timer terminado", { body: "O tempo de descanso chegou ao fim.", icon: "icons/icon-192.png" });
 
-                new Notification("Timer terminado", { body: "O tempo de descanso chegou ao fim.", icon: "icons/icon-192.png" });
-
-                return true;
-
-            } catch (_) { return false; }
+            return true;
 
         }
 

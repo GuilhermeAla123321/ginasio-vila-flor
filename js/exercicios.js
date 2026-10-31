@@ -2002,7 +2002,7 @@ const exerciciosBiblioteca=[
 
 
 
- desc:"Exercício para a panturrilha, em pé, com ou sem carga adicional.",
+ desc:"Exercício para a gémeos, em pé, com ou sem carga adicional.",
 
 
 
@@ -2036,7 +2036,7 @@ const exerciciosBiblioteca=[
 
 
 
-  "Eleva os calcanhares o mais alto possível, contraindo a panturrilha.",
+  "Eleva os calcanhares o mais alto possível, contraindo a gémeos.",
 
 
 
@@ -2052,7 +2052,7 @@ const exerciciosBiblioteca=[
 
 
 
-  "Desce lentamente até sentir um bom alongamento na panturrilha."
+  "Desce lentamente até sentir um bom alongamento na gémeos."
 
 
 
@@ -2320,7 +2320,7 @@ function gifParaExercicio(ex){
 
 
 
- if(/gémeos|gemeos|panturrilha/.test(n))
+ if(/gémeos|gemeos|gémeos/.test(n))
 
 
 
@@ -2364,7 +2364,7 @@ async function carregarManifestoVideosExercicio() {
 
   if (!manifestoVideosPromise) {
 
-    manifestoVideosPromise = fetch("assets/exercises/videos/manifest.json", { cache: "no-store" })
+    manifestoVideosPromise = (location.protocol === "file:" ? Promise.resolve({ok:true,json:async()=>({"localVideos":[{"id":"hip-abduction","exercise":"Abdução da anca","equipment":["Máquina Abdutora/Adutora"],"file":"assets/exercises/videos/abducao-de-quadril-gluteos.mp4"},{"id":"hip-adduction","exercise":"Adução da anca","equipment":["Máquina Abdutora/Adutora"],"file":"assets/exercises/videos/aducao-de-quadril-virilhas.mp4"},{"id":"smith-squat","exercise":"Agachamento na Smith Machine","equipment":["Smith Machine"],"file":"assets/exercises/videos/agachamento.mp4"},{"id":"cable-crossover-high","exercise":"Crucifixo na polia alta (peitoral inferior)","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/crucifixo-alto-peitoral-inferior.mp4"},{"id":"cable-crossover-low","exercise":"Crucifixo na polia baixa (peitoral superior)","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/crucifixo-baixo-peitoral-superior.mp4"},{"id":"pec-deck-reverse-fly","exercise":"Crucifixo invertido com pegada neutra","equipment":["Peck Deck"],"file":"assets/exercises/videos/crucifixo-invertido-peck-deck.mp4"},{"id":"cable-reverse-fly","exercise":"Crucifixo invertido na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/crucifixo-invertido.mp4"},{"id":"pec-deck-fly","exercise":"Crucifixo","equipment":["Peck Deck"],"file":"assets/exercises/videos/crucifixo-peck-deck.mp4"},{"id":"cable-lateral-raise-unilateral","exercise":"Elevação lateral unilateral na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/elevacao-lateral-unilateral.mp4"},{"id":"knee-extension","exercise":"Extensão de pernas","equipment":["Cadeira Extensora"],"file":"assets/exercises/videos/extensao-de-quadriceps.mp4"},{"id":"cable-triceps-bar","exercise":"Extensão de tríceps com barra na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/extensao-triceps-com-barra.mp4"},{"id":"cable-triceps-rope","exercise":"Extensão de tríceps com corda na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/extensao-triceps-com-corda.mp4"},{"id":"cable-triceps-unilateral","exercise":"Extensão unilateral de tríceps na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/extensao-triceps-unilateral.mp4"},{"id":"smith-bench-press","exercise":"Supino reto na Smith Machine","equipment":["Smith Machine"],"file":"assets/exercises/videos/extensao-triceps.mp4","note":"O nome do ficheiro é antigo; a demonstração corresponde ao supino reto na Smith Machine."},{"id":"smith-calf-raise","exercise":"Elevação de gémeos na Smith Machine","equipment":["Smith Machine"],"file":"assets/exercises/videos/flexao-de-gemeos.mp4"},{"id":"leg-curl","exercise":"Flexão de pernas","equipment":["Mesa Flexora"],"file":"assets/exercises/videos/flexao-de-isquiotibiais.mp4"},{"id":"cable-glute-kickback","exercise":"Coice de glúteo unilateral na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/kickback-unilateral.mp4"},{"id":"shoulder-press-neutral","exercise":"Prensa de ombros com pegada neutra","equipment":["Prensa de Ombros"],"file":"assets/exercises/videos/prensa-de-ombros-neutra.mp4"},{"id":"shoulder-press-pronated","exercise":"Prensa de ombros com pegada pronada","equipment":["Prensa de Ombros"],"file":"assets/exercises/videos/prensa-de-ombros-pronada.mp4"},{"id":"smith-shoulder-press","exercise":"Press de ombros na Smith Machine","equipment":["Smith Machine"],"file":"assets/exercises/videos/press-de-ombros.mp4"},{"id":"cable-straight-arm-pulldown","exercise":"Puxada de braços estendidos na polia","aliases":["Puxada frontal de dorsal"],"equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/puxada-frontal-de-dorsal.mp4","note":"O fotograma mostra uma puxada com os braços estendidos na polia."},{"id":"lat-pulldown-neutral-triangle","exercise":"Puxada neutra com triângulo","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/puxada-neutra-com-triangulo.mp4"},{"id":"lat-pulldown-pronated","exercise":"Puxada frontal pronada com barra","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/puxada-pronada-com-barra.mp4"},{"id":"lat-pulldown-supinated","exercise":"Puxada frontal supinada","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/puxada-supinada.mp4"},{"id":"cable-seated-row-triangle","exercise":"Remada baixa com triângulo","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/remada-baixa-triangulo.mp4"},{"id":"smith-row-pronated","exercise":"Remada curvada pronada na Smith Machine","equipment":["Smith Machine"],"file":"assets/exercises/videos/remada-curvada-pronada.mp4"},{"id":"cable-seated-row-neutral-unilateral","exercise":"Remada neutra unilateral na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/remada-neutra-unilateral.mp4"},{"id":"cable-seated-row-pronated","exercise":"Remada baixa pronada com barra","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/remada-pronada-com-barra.mp4"},{"id":"cable-bayesian-curl","exercise":"Rosca Bayesian na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/rosca-bayesian.mp4"},{"id":"cable-biceps-curl","exercise":"Rosca direta na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/rosca-direta.mp4"},{"id":"smith-incline-bench-press","exercise":"Supino inclinado na Smith Machine","equipment":["Smith Machine"],"file":"assets/exercises/videos/supino-inclinado.mp4"},{"id":"cable-overhead-triceps-rope","exercise":"Tríceps francês com corda na polia","equipment":["Polia Multifuncional"],"file":"assets/exercises/videos/triceps-frances-com-corda.mp4"},{"id":"treadmill-walk","exercise":"Caminhada","equipment":["Passadeira"],"file":"assets/exercises/videos/caminhada.mp4"},{"id":"treadmill-incline-walk","exercise":"Caminhada inclinada","equipment":["Passadeira"],"file":"assets/exercises/videos/caminhada-inclinada.mp4"},{"id":"stationary-bike-cardio","exercise":"Pedalagem moderada","equipment":["Bicicleta"],"file":"assets/exercises/videos/bicicleta.mp4"},{"id":"elliptical-cardio","exercise":"Cardio moderado","equipment":["Elíptica"],"file":"assets/exercises/videos/eliptica.mp4"},{"id":"rowing-cardio","exercise":"Resistência no remo","equipment":["Máquina de Remo"],"file":"assets/exercises/videos/remo.mp4"},{"id":"dumbbell-chest-fly","exercise":"Crucifixo com halteres","equipment":["Banco de Peso"],"file":"assets/exercises/videos/crucifixo-com-halteres.mp4"},{"id":"dumbbell-incline-row","exercise":"Remada inclinada com halteres","equipment":["Banco de Peso"],"file":"assets/exercises/videos/remada-inclinada-com-halteres.mp4"},{"id":"dumbbell-incline-curl","exercise":"Rosca inclinada com halteres","equipment":["Banco de Peso"],"file":"assets/exercises/videos/rosca-inclinada-biceps.mp4"},{"id":"dumbbell-incline-bench-press","exercise":"Supino inclinado com pesos livres","equipment":["Banco de Peso"],"file":"assets/exercises/videos/supino-inclinado-halteres.mp4"},{"id":"dumbbell-shoulder-press","exercise":"Press de ombros com halteres","equipment":["Banco de Peso"],"file":"assets/exercises/videos/press-de-ombros-halteres.mp4"},{"id":"bulgarian-split-squat","exercise":"Agachamento búlgaro","equipment":["Banco de Peso"],"file":"assets/exercises/videos/agachamento-bulgaro.mp4"},{"id":"peso-livre-agachamento-bulgaro-halteres","exercise":"Agachamento búlgaro","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-agachamento-bulgaro-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-agachamento-bulgaro-halteres.jpg"},{"id":"peso-livre-crucifixo-inclinado-halteres","exercise":"Crucifixo inclinado com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-crucifixo-inclinado-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-crucifixo-inclinado-halteres.jpg"},{"id":"peso-livre-crucifixo-invertido-halteres","exercise":"Crucifixo invertido com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-crucifixo-invertido-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-crucifixo-invertido-halteres.jpg"},{"id":"peso-livre-elevacao-frontal-neutra-halteres","exercise":"Elevação frontal neutra com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-elevacao-frontal-neutra-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-elevacao-frontal-neutra-halteres.jpg"},{"id":"peso-livre-elevacao-frontal-pronada-halteres","exercise":"Elevação frontal pronada com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-elevacao-frontal-pronada-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-elevacao-frontal-pronada-halteres.jpg"},{"id":"peso-livre-elevacao-lateral-halteres","exercise":"Elevação lateral com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-elevacao-lateral-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-elevacao-lateral-halteres.jpg"},{"id":"peso-livre-peso-morto-romeno-halteres","exercise":"Peso morto romeno com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-peso-morto-romeno-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-peso-morto-romeno-halteres.jpg"},{"id":"peso-livre-press-ombros-halteres","exercise":"Press de ombros com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-press-ombros-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-press-ombros-halteres.jpg"},{"id":"peso-livre-rosca-scott-unilateral","exercise":"Rosca Scott unilateral","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-rosca-scott-unilateral.mp4","thumbnail":"assets/ImagesExer/peso-livre-rosca-scott-unilateral.jpg"},{"id":"peso-livre-rosca-direta-halteres","exercise":"Rosca direta com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-rosca-direta-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-rosca-direta-halteres.jpg"},{"id":"peso-livre-rosca-martelo-halteres","exercise":"Rosca martelo com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-rosca-martelo-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-rosca-martelo-halteres.jpg"},{"id":"peso-livre-encolhimento-ombros-halteres","exercise":"Encolhimento de ombros com halteres","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-encolhimento-ombros-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-encolhimento-ombros-halteres.jpg"},{"id":"peso-livre-supino-reto-barra","exercise":"Supino reto com barra","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-supino-reto-barra.mp4","thumbnail":"assets/ImagesExer/peso-livre-supino-reto-barra.jpg"},{"id":"peso-livre-triceps-frances-halteres","exercise":"Tríceps francês com haltere","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-triceps-frances-halteres.mp4","thumbnail":"assets/ImagesExer/peso-livre-triceps-frances-halteres.jpg"},{"id":"peso-livre-agachamento-barra","exercise":"Agachamento com barra","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-agachamento-barra.mp4","thumbnail":"assets/ImagesExer/peso-livre-agachamento-barra.jpg"},{"id":"peso-livre-rosca-scott-pegada-aberta","exercise":"Rosca Scott no banco com pegada aberta","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-rosca-scott-pegada-aberta.mp4","thumbnail":"assets/ImagesExer/peso-livre-rosca-scott-pegada-aberta.jpg"},{"id":"peso-livre-rosca-scott-pegada-fechada","exercise":"Rosca Scott no banco com pegada fechada","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-rosca-scott-pegada-fechada.mp4","thumbnail":"assets/ImagesExer/peso-livre-rosca-scott-pegada-fechada.jpg"},{"id":"peso-livre-elevacao-pelvica-barra","exercise":"Elevação pélvica com barra","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-elevacao-pelvica-barra.mp4","thumbnail":"assets/ImagesExer/peso-livre-elevacao-pelvica-barra.jpg"},{"id":"peso-livre-extensao-triceps-barra-w","exercise":"Extensão de tríceps deitado com barra W","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-extensao-triceps-barra-w.mp4","thumbnail":"assets/ImagesExer/peso-livre-extensao-triceps-barra-w.jpg"},{"id":"peso-livre-peso-morto-barra","exercise":"Peso morto com barra","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-peso-morto-barra.mp4","thumbnail":"assets/ImagesExer/peso-livre-peso-morto-barra.jpg"},{"id":"peso-livre-remada-pronada-barra","exercise":"Remada curvada pronada com barra","equipment":["Peso Livre"],"file":"assets/exercises/videos/peso-livre-remada-pronada-barra.mp4","thumbnail":"assets/ImagesExer/peso-livre-remada-pronada-barra.jpg"},{"id":"leg-press-extensao-joelhos","exercise":"Extensão de joelhos no Leg Press","equipment":["Leg Press"],"file":"assets/exercises/videos/leg-press-extensao-joelhos.mp4","thumbnail":"assets/ImagesExer/leg-press-extensao-joelhos.jpg"},{"id":"leg-press-flexao-plantar","exercise":"Flexão plantar no Leg Press","equipment":["Leg Press"],"file":"assets/exercises/videos/leg-press-flexao-plantar.mp4","thumbnail":"assets/ImagesExer/leg-press-flexao-plantar.jpg"}]})}) : fetch("assets/exercises/videos/manifest.json", { cache: "no-store" }))
 
       .then(resposta => {
 
@@ -2590,6 +2590,17 @@ function libertarVideoDemonstracao(container) {
 
 
 
+// Símbolo institucional animado: visível até o vídeo estar pronto a reproduzir.
+function criarIndicadorVilaFlor(texto = "A carregar demonstração…") {
+  const estado = document.createElement("div");
+  estado.className = "exercise-modal-loading vf-demo-loading";
+  estado.setAttribute("role", "status");
+  estado.setAttribute("aria-live", "polite");
+  estado.innerHTML = `<span class="vf-demo-loader-mark" aria-hidden="true"><img src="assets/vila-flor-flor-branca.png" alt="" draggable="false"></span><span class="vf-demo-loader-label"></span>`;
+  estado.querySelector(".vf-demo-loader-label").textContent = texto;
+  return estado;
+}
+
 async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
   if (!media) return;
@@ -2604,13 +2615,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
   media.classList.add("is-loading");
 
-  const carregamento = document.createElement("div");
-
-  carregamento.className = "exercise-modal-loading";
-
-  carregamento.setAttribute("role", "status");
-
-  carregamento.textContent = "A preparar demonstração…";
+  const carregamento = criarIndicadorVilaFlor("A preparar demonstração…");
 
   media.replaceChildren(carregamento);
 
@@ -2660,7 +2665,13 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
     video.playsInline = true;
 
-    video.preload = "none";
+    video.preload = "metadata";
+    video.controls = false;
+    video.disablePictureInPicture = true;
+    video.disableRemotePlayback = true;
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
+    video.setAttribute("controlslist", "nodownload noplaybackrate noremoteplayback nofullscreen");
 
     video.setAttribute("aria-label", `Demonstração de ${ex.nome || "exercício"}`);
 
@@ -2680,6 +2691,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
     video.addEventListener("loadeddata", ocultarIndicadorCarregamento, { once: true });
 
     video.addEventListener("canplay", ocultarIndicadorCarregamento, { once: true });
+    video.addEventListener("playing", ocultarIndicadorCarregamento);
 
     // Alguns projetos têm os MP4 diretamente em assets/exercises/ e outros em
 
@@ -2718,7 +2730,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
             tentativaAlternativa.catch(() => {
 
-              if (pedido === requisicaoMediaExercicio && video.isConnected) video.controls = true;
+              if (pedido === requisicaoMediaExercicio && video.isConnected) video.controls = false;
 
             });
 
@@ -2726,7 +2738,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
         } catch (erro) {
 
-          video.controls = true;
+          video.controls = false;
 
         }
 
@@ -2742,13 +2754,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
 
 
-    const indicador = document.createElement("div");
-
-    indicador.className = "exercise-modal-loading";
-
-    indicador.setAttribute("role", "status");
-
-    indicador.textContent = "A carregar demonstração…";
+    const indicador = criarIndicadorVilaFlor("A carregar demonstração…");
 
     media.replaceChildren(video, indicador);
 
@@ -2770,7 +2776,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
         tentativa.catch(() => {
 
-          if (pedido === requisicaoMediaExercicio && video.isConnected) video.controls = true;
+          if (pedido === requisicaoMediaExercicio && video.isConnected) video.controls = false;
 
         });
 
@@ -2778,7 +2784,7 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
     } catch (erro) {
 
-      video.controls = true;
+      video.controls = false;
 
     }
 
@@ -2814,11 +2820,14 @@ async function carregarDemonstracaoExercicio(ex, media, pedido) {
 
     }, { once: true });
 
-    media.replaceChildren(imagem);
-
-    media.classList.remove("is-loading");
-    media.classList.add("has-zoom-media");
-
+    imagem.addEventListener("load", () => {
+      if (pedido !== requisicaoMediaExercicio || !imagem.isConnected) return;
+      media.classList.remove("is-loading");
+      media.classList.add("has-zoom-media");
+      media.querySelector(".exercise-modal-loading")?.remove();
+    }, { once: true });
+    media.replaceChildren(imagem, criarIndicadorVilaFlor());
+    media.classList.add("is-loading");
     imagem.src = gif;
 
     return;
@@ -2970,6 +2979,7 @@ function ampliarDemonstracaoExercicio(elementoOriginal) {
 
   const moldura = document.createElement("div");
   moldura.className = "exercise-media-zoom-frame";
+  if (elementoOriginal.tagName === "VIDEO") moldura.classList.add("is-video");
   moldura.setAttribute("aria-hidden", "true");
 
   let demonstracao;
@@ -2987,7 +2997,13 @@ function ampliarDemonstracaoExercicio(elementoOriginal) {
     demonstracao.defaultMuted = true;
     demonstracao.playsInline = true;
     demonstracao.preload = "auto";
+    demonstracao.controls = false;
     demonstracao.removeAttribute("controls");
+    demonstracao.disablePictureInPicture = true;
+    demonstracao.disableRemotePlayback = true;
+    demonstracao.setAttribute("playsinline", "");
+    demonstracao.setAttribute("webkit-playsinline", "");
+    demonstracao.setAttribute("controlslist", "nodownload noplaybackrate noremoteplayback nofullscreen");
     demonstracao.addEventListener("loadedmetadata", () => {
       try {
         if (Number.isFinite(elementoOriginal.currentTime)) demonstracao.currentTime = elementoOriginal.currentTime;
@@ -3069,7 +3085,7 @@ document.addEventListener("DOMContentLoaded",()=>{
  close?.addEventListener("click",fecharExercicioModal);
  media?.addEventListener("click", evento => {
   if (media.classList.contains("is-loading") || !media.classList.contains("has-zoom-media")) return;
-  const alvo = evento.target instanceof Element ? evento.target.closest("video, img") : null;
+  const alvo = media.querySelector("video.exercise-demo-video, img");
   if (alvo && media.contains(alvo)) ampliarDemonstracaoExercicio(alvo);
  });
 

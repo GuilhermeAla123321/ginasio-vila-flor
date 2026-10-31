@@ -28,7 +28,8 @@
 
     <script>try{const t=localStorage.getItem("vf_ginasio_tema");document.documentElement.dataset.theme=t==="light"?"light":"dark";}catch(e){document.documentElement.dataset.theme="dark";}</script>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=90">
+    <link rel="stylesheet" href="css/rest-global.css?v=11">
 
     <script type="importmap">
     {
@@ -47,7 +48,7 @@
         <div class="portrait-lock-card">
             <span class="portrait-lock-icon" aria-hidden="true">↻</span>
             <h1>Utiliza a aplicação na vertical</h1>
-            <p>Roda o telemóvel para a posição vertical para continuares a utilizar o ginásio.</p>
+            <p>Roda o telemóvel para a vertical.</p>
         </div>
     </div>
 
@@ -102,8 +103,11 @@
             <section class="page active" id="page-home">
 
 
-                <div class="hero">
+                <div class="hero hero-cinematic">
 
+                    <div class="hero-cinema-image" aria-hidden="true"></div>
+                    <div class="hero-cinema-tint" aria-hidden="true"></div>
+                    <div class="hero-cinema-light" aria-hidden="true"></div>
                     <div class="hero-glow"></div>
 
                     <div class="hero-grid"></div>
@@ -124,19 +128,11 @@
 
                     <div class="hero-overlay">
 
-                        <h1>
-
-                            Treina melhor<br>
-
-                            <em>Vive melhor</em>
-
-                        </h1>
+                        <h1><span class="hero-line hero-line-first">Treina melhor</span><span class="hero-line hero-line-second"><em>Vive melhor</em></span></h1>
 
                         <p>
                             <br>
-                            O teu espaço para força, cardio e evolução.
-
-                            Tudo o que precisas para treinar num só lugar. 
+                            O teu espaço para força, cardio e evolução. 
 
                         </p>
 
@@ -158,6 +154,7 @@
 
                     </div>
 
+                    <div class="hero-border-finish" aria-hidden="true"></div>
                 </div>
 
                 <section class="section intro-section">
@@ -353,7 +350,7 @@
                             <h2>Conhece o espaço</h2>
                             <button class="page-context-help" type="button" aria-label="Ajuda sobre Conhece o espaço" aria-expanded="false" aria-controls="equipmentPageHelpText">?</button>
                         </div>
-                        <p id="equipmentPageHelpText" class="page-context-help-text" role="note" hidden>Explora os equipamentos disponíveis no ginásio, consulta para que serve cada máquina e descobre os exercícios associados. Em «Todos os exercícios», podes consultar a biblioteca completa.</p>
+                        <p id="equipmentPageHelpText" class="page-context-help-text" role="note" hidden>Vê para que serve cada máquina e os seus exercícios. A biblioteca completa está em «Todos os exercícios».</p>
                     </div>
 
 
@@ -573,7 +570,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/extensora .png" alt="Leg Press">
+                                <img src="assets/extensora .png" alt="Extensora">
 
                             </div>
 
@@ -591,7 +588,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/mesa.png" alt="Leg Press">
+                                <img src="assets/mesa.png" alt="Mesa flexora">
 
                             </div>
 
@@ -624,16 +621,45 @@
                                 <h2>Meu treino</h2>
                                 <button class="page-context-help" type="button" aria-label="Ajuda sobre Meu treino" aria-expanded="false" aria-controls="workoutPageHelpText">?</button>
                             </div>
-                            <p id="workoutPageHelpText" class="page-context-help-text" role="note" hidden>Organiza os treinos por dia da semana, adiciona exercícios e acompanha séries, pesos e repetições. Usa «Atualizar» para guardar os valores e «Ver progressão» para consultar o histórico.</p>
+                            <p id="workoutPageHelpText" class="page-context-help-text" role="note" hidden>Organiza os treinos por dia e regista séries, pesos e repetições. «Atualizar» guarda os valores e «Ver progressão» mostra o histórico. Com o telemóvel bloqueado, os alertas podem não chegar.</p>
                         </div>
 
 
                     </div>
 
+                    <!-- Descanso global: define o intervalo padrão de TODO o treino. -->
+                    <section class="gym-general-rest" id="gymGeneralRest" aria-label="Descanso do treino">
+                      <div class="gym-rest-row">
+                        <span class="gym-rest-slot"><strong id="gymGeneralClock" class="gym-rest-clock" role="timer" aria-live="off">01:30</strong><select class="gym-rest-select" aria-label="Tempo de descanso"></select></span>
+                        <input class="gym-duration-time" type="text" inputmode="numeric" maxlength="5" placeholder="MM:SS" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tempo personalizado em minutos e segundos" hidden />
+                        <button type="button" class="gym-rest-btn gym-rest-play" id="gymGeneralStart" aria-label="Iniciar descanso"></button>
+                        <button type="button" class="gym-rest-btn" id="gymGeneralReset" aria-label="Reiniciar descanso">↺</button>
+                        <button type="button" id="gymGeneralAlertsEnable" class="gym-general-alerts-btn">Ativar alertas</button>
+                        <button class="page-context-help" id="gymGeneralAlertsHelp" type="button" aria-label="Ajuda sobre os alertas" aria-expanded="false" aria-controls="gymGeneralAlertsStatus" hidden>?</button>
+                      </div>
+                      <div class="gym-inline-rest-track"><span class="gym-inline-rest-fill" id="gymGeneralBar"></span></div>
+                      <span class="gym-duration-error" role="alert" hidden>Usa MM:SS (de 00:01 até 99:59).</span>
+                      <span class="page-context-help-text" id="gymGeneralAlertsStatus" role="note" hidden></span>
+                    </section>
+
                     <div id="workout-root"></div>
 
                 </section>
 
+            </section>
+
+            <section class="page" id="page-progress">
+              <section class="section gym-progress-section">
+                <span class="eyebrow">EVOLUÇÃO DO TREINO</span>
+                <div class="page-title-with-help">
+                    <div class="page-title-with-help-row">
+                        <h2>O teu progresso</h2>
+                        <button class="page-context-help" type="button" aria-label="Ajuda sobre O teu progresso" aria-expanded="false" aria-controls="progressPageHelpText">?</button>
+                    </div>
+                    <p id="progressPageHelpText" class="page-context-help-text" role="note" hidden>Os músculos dos teus treinos ficam a roxo. Quanto mais séries, mais intensa a cor.</p>
+                </div>
+                <div id="gymProgressBody"></div>
+              </section>
             </section>
 
             <section class="page" id="page-timer">
@@ -647,7 +673,7 @@
                             <h2>Timer</h2>
                             <button class="page-context-help" type="button" aria-label="Ajuda sobre o Timer" aria-expanded="false" aria-controls="timerPageHelpText">?</button>
                         </div>
-                        <p id="timerPageHelpText" class="page-context-help-text" role="note" hidden>Escolhe os minutos e segundos de descanso e carrega em «Iniciar». Usa «Reiniciar» para repor o temporizador. Podes ativar alertas para receber uma notificação quando o tempo terminar.</p>
+                        <p id="timerPageHelpText" class="page-context-help-text" role="note" hidden>Escolhe o tempo de descanso e carrega em «Iniciar». Ativa os alertas para saberes quando termina.</p>
                     </div>
 
 
@@ -729,7 +755,7 @@
                                 <strong id="timerBackgroundTitle">Alertas em segundo plano</strong>
                             </div>
                             <button id="timerBackgroundEnable" class="secondary-btn" type="button" aria-disabled="false">Ativar alertas</button>
-                            <p id="timerBackgroundHelpText" class="timer-background-help-text" hidden>Recebe uma notificação quando o temporizador termina, mesmo que estejas noutra página ou com o site em segundo plano. O navegador pode pedir autorização para enviar notificações.</p>
+                            <p id="timerBackgroundHelpText" class="timer-background-help-text" hidden>Recebe uma notificação quando o tempo termina, mesmo noutra página. O navegador pode pedir autorização.</p>
                             <span id="timerBackgroundStatus" role="status" aria-live="polite" hidden></span>
                         </div>
 
@@ -747,7 +773,7 @@
                                 <h3 id="gymTipsTitle">Treina melhor, um passo de cada vez</h3>
                             </div>
                         </div>
-                        <p class="gym-tips-text" id="gymTipText" aria-live="polite">Começa com alguns minutos de aquecimento para preparar o corpo e entrar no treino com mais conforto.</p>
+                        <p class="gym-tips-text" id="gymTipText" aria-live="polite">Aquece alguns minutos antes de começar o treino.</p>
                         <div class="gym-tips-footer">
                             <span>Pequenos hábitos fazem a diferença.</span>
                             <button class="gym-tips-next" id="nextGymTip" type="button">
@@ -772,7 +798,7 @@
                             <h2>Estamos aqui para ti</h2>
                             <button class="page-context-help" type="button" aria-label="Ajuda sobre Estamos aqui para ti" aria-expanded="false" aria-controls="infoPageHelpText">?</button>
                         </div>
-                        <p id="infoPageHelpText" class="page-context-help-text" role="note" hidden>Consulta aqui a localização do ginásio, os horários de funcionamento e os contactos disponíveis. Abre cada secção para veres os detalhes.</p>
+                        <p id="infoPageHelpText" class="page-context-help-text" role="note" hidden>Localização, horários e contactos do ginásio. Abre cada secção para veres os detalhes.</p>
                     </div>
 
                     <details class="info-card" id="infoLocationCard">
@@ -843,7 +869,7 @@
                             </span>
                         </summary>
                         <div class="info-card-content">
-                            <p class="info-detail-intro">Precisas de ajuda ou de mais informações? Entra em contacto com o Município.</p>
+                            <p class="info-detail-intro">Precisas de ajuda? Contacta o Município.</p>
                             <div class="info-contact-list">
                                 <a class="info-contact-link" href="mailto:geral@cm-vilaflor.pt">
                                     <span class="info-contact-icon" aria-hidden="true">
@@ -879,7 +905,7 @@
                         <div class="info-card-content">
                             <p class="info-about-description">
                                 <strong>A tua evolução, num só lugar.</strong>
-                                <span>Regista os teus treinos, consulta exercícios e equipamentos e acompanha o teu progresso de forma simples.</span>
+                                <span>Regista treinos, consulta exercícios e acompanha o teu progresso.</span>
                             </p>
                             <div class="ods-brand-card" aria-label="Créditos do projeto Office Digital Solutions">
                                 <span class="ods-brand-overline">DESENVOLVIMENTO DA APLICAÇÃO</span>
@@ -1003,12 +1029,9 @@
 
             </button>
 
-            <button class="nav-item" data-page="timer">
-
-                <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13" r="8.2"/><path d="M12 8.5V13l3 1.8M9 2.5h6M12 2.5v2.2"/></svg></span>
-
-                <small>Timer</small>
-
+            <button class="nav-item" data-page="progress">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></span>
+                <small>Progresso</small>
             </button>
 
         </nav>
@@ -1037,11 +1060,19 @@
 
     </div>
 
-    <script src="js/treino.js"></script>
+    <div id="gymRestCompleteToast" class="gym-rest-complete-toast" hidden role="status" aria-live="assertive">
+      <span aria-hidden="true" class="gym-rest-done-icon" id="gymRestCompleteIcon">◷</span>
+      <div><strong id="gymRestCompleteTitle">Descanso terminado</strong><span id="gymRestCompleteText">Está na hora de retomar o treino.</span></div>
+      <button type="button" id="gymRestCompleteDismiss" aria-label="Fechar aviso">×</button>
+      <span class="gym-rest-done-bar" aria-hidden="true"></span>
+    </div>
 
-    <script src="js/exercicios.js"></script>
+    <script src="js/treino.js?v=93"></script>
+
+    <script src="js/exercicios.js?v=70"></script>
 
     <script src="js/navegacao.js"></script>
+    <script src="js/progresso-descanso.js?v=101"></script>
 
     <script src="js/horario.js"></script>
 
@@ -1049,7 +1080,7 @@
 
     <script src="js/timer-push-config.js"></script>
 
-    <script src="js/timer-background-push.js"></script>
+    <script src="js/timer-background-push.js?v=7"></script>
 
     <script src="js/tema.js"></script>
 
@@ -1261,7 +1292,7 @@
 
   }
 
-/* Os estilos da biblioteca global estão definidos em css/style.css. */
+/* Os estilos da biblioteca global estão definidos em css/style.css?v=90. */
 
 </style>
 
@@ -1277,7 +1308,7 @@
 
   <p id="installPopupDescription">
 
-    Instala o Ginásio Municipal para acederes rapidamente aos teus treinos.
+    Instala a app e acede mais depressa aos treinos.
 
   </p>
 
@@ -1535,6 +1566,63 @@ window.addEventListener("appinstalled", hidePopup);
 
 <script type="module" src="js/equipment-3d.js"></script>
 
+
+<script>
+/* Hero cinematográfico: camadas independentes com scroll, sem bibliotecas externas. */
+(() => {
+  const hero = document.querySelector('#page-home .hero-cinematic');
+  if (!hero) return;
+  const home = document.getElementById('page-home');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let frame = 0, pointerX = 0, pointerY = 0, currentX = 0, currentY = 0;
+  const clamp = (v,a,b) => Math.min(b,Math.max(a,v));
+  function update() {
+    frame = 0;
+    if (reduced.matches || !home.classList.contains('active')) return;
+    const r = hero.getBoundingClientRect();
+    const progress = clamp(-r.top / Math.max(r.height,1),0,1);
+    currentX += (pointerX-currentX)*0.085;
+    currentY += (pointerY-currentY)*0.085;
+    hero.style.setProperty('--cinema-progress', progress.toFixed(4));
+    hero.style.setProperty('--cinema-pointer-x', currentX.toFixed(2)+'px');
+    hero.style.setProperty('--cinema-pointer-y', currentY.toFixed(2)+'px');
+    if (Math.abs(pointerX-currentX)>.15 || Math.abs(pointerY-currentY)>.15) schedule();
+  }
+  function schedule(){ if(!frame) frame=requestAnimationFrame(update); }
+  hero.addEventListener('pointermove',e=>{
+    if(e.pointerType==='touch')return;
+    const r=hero.getBoundingClientRect();
+    pointerX=((e.clientX-r.left)/r.width-.5)*18;
+    pointerY=((e.clientY-r.top)/r.height-.5)*12;
+    schedule();
+  },{passive:true});
+  hero.addEventListener('pointerleave',()=>{pointerX=pointerY=0;schedule();},{passive:true});
+  window.addEventListener('scroll',schedule,{passive:true});
+  window.addEventListener('resize',schedule,{passive:true});
+  reduced.addEventListener?.('change',()=>{hero.style.removeProperty('--cinema-progress');schedule();});
+  schedule();
+})();
+</script>
+
+<script>
+/* Navegação inferior responsiva ao scroll, sempre alinhada à base do viewport. */
+(()=>{
+ const nav=document.querySelector('.bottom-nav'); if(!nav)return;
+ let prev=window.scrollY, lastToggle=0, compact=false;
+ const apply=value=>{ if(compact===value)return; compact=value; nav.classList.toggle('is-compact',value); };
+ const onScroll=()=>{
+   if(document.querySelector('.exercise-modal-overlay.open,.exercise-editor-overlay.open,.exercise-picker.open'))return;
+   const y=Math.max(0,window.scrollY), diff=y-prev;prev=y;
+   if(y<80){apply(false);return;}
+   if(Math.abs(diff)<5 || performance.now()-lastToggle<150)return;
+   if(diff>6 && y>180){apply(true);lastToggle=performance.now();}
+   else if(diff< -7){apply(false);lastToggle=performance.now();}
+ };
+ window.addEventListener('scroll',onScroll,{passive:true});
+ nav.addEventListener('click',()=>apply(false));
+ document.addEventListener('click',e=>{if(e.target.closest('.nav-item')){apply(false);prev=0;}});
+})();
+</script>
 </body>
 
 </html>

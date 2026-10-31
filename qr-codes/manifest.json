@@ -32,12 +32,6 @@
       "file": "smith-machine.png"
     },
     {
-      "slug": "banco-de-peso",
-      "label": "Banco de Peso",
-      "url": "https://ginasio-vila-flor.vercel.app/?equipamento=banco-de-peso",
-      "file": "banco-de-peso.png"
-    },
-    {
       "slug": "polia-multifuncional",
       "label": "Polia Multifuncional",
       "url": "https://ginasio-vila-flor.vercel.app/?equipamento=polia-multifuncional",

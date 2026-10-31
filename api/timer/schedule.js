@@ -14,6 +14,9 @@ module.exports = async function handler(req, res) {
     if (!checkOrigin(req, res, config.appOrigin)) return;
 
     const body = readBody(req);
+    const allowedKinds = ['timer', 'geral', 'series'];
+    const kind = allowedKinds.includes(body?.kind) ? body.kind : (body?.kind == null ? 'timer' : null);
+    if (!kind) return res.status(400).json({ error: 'invalid_timer_kind' });
     const subscriptionId = body?.subscriptionId;
     const dueAt = Number(body?.dueAt);
     if (!isValidUuid(subscriptionId) || !Number.isFinite(dueAt)) {
@@ -22,20 +25,22 @@ module.exports = async function handler(req, res) {
 
     const now = Date.now();
     const delayMs = dueAt - now;
-    // A roda atual limita a duração a 59:59; pequena margem para latência e envio push.
+    // Limite do Timer: 60 min, mais uma pequena margem para latência e envio push.
     if (delayMs < 500 || delayMs > 3605 * 1000) {
         return res.status(400).json({ error: "due_time_out_of_range" });
     }
 
+    const headings = {timer: 'Tempo de descanso terminado', geral: 'Descanso geral terminado', series: 'Descanso entre séries terminado'};
+    const contents = {timer: 'O teu temporizador terminou.', geral: 'Está na hora de retomar o treino.', series: 'Está na hora da próxima série.'};
     const payload = {
         app_id: config.appId,
         target_channel: "push",
         include_subscription_ids: [subscriptionId],
-        headings: { pt: "Tempo de descanso terminado", en: "Rest timer finished" },
-        contents: { pt: "O teu temporizador terminou.", en: "Your timer has finished." },
+        headings: { pt: headings[kind], en: "Rest timer finished" },
+        contents: { pt: contents[kind], en: "Your timer has finished." },
         send_after: new Date(dueAt).toISOString(),
         url: `${config.appOrigin}/index.html`,
-        name: "Ginásio — alerta do temporizador"
+        name: `Ginásio — alerta ${kind}`
     };
 
     try {

@@ -12236,3 +12236,510 @@ body[data-theme="light"] .vf-dialog.is-danger .vf-dialog-confirm {
   background: rgba(190, 54, 78, .09);
   color: #a32a40;
 }
+
+/* Patch: médias ampliados sem cortes e sem deslocamentos */
+.exercise-media-zoom-overlay { padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+.exercise-media-zoom-frame { width: min(94vw, 1050px); height: min(85dvh, 860px); aspect-ratio: auto; border-radius: 16px; background: #10141a; padding: 8px; box-sizing: border-box; }
+.exercise-media-zoom-item { width: 100%; height: 100%; max-height: 100%; object-fit: contain !important; object-position: 50% 50% !important; background: transparent; border-radius: 9px; }
+.exercise-modal-video img, .exercise-catalog-image img { object-fit: contain !important; object-position: center center !important; }
+@media(max-width:650px){ .exercise-media-zoom-frame { width: calc(100vw - 24px); height: min(81dvh, 720px); padding: 5px; } }
+/* Treino: confirmar séries e descansar */
+.gym-series-complete { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(82,212,184,.35); border-radius:999px; color:inherit; background:rgba(82,212,184,.08); padding:7px 11px; cursor:pointer; font:inherit; font-weight:750; white-space:nowrap; }
+.gym-series-check { display:grid; place-items:center; width:19px; height:19px; border:1px solid #4fd4b8; border-radius:50%; color:transparent; }
+.gym-series-complete[aria-pressed="true"] { border-color:#4edbbb; background:rgba(78,219,187,.22); }
+.gym-series-complete[aria-pressed="true"] .gym-series-check { color:#061b1c; background:#4edbbb; }
+.gym-rest-dock { position:fixed; left:50%; transform:translateX(-50%); bottom:calc(80px + env(safe-area-inset-bottom)); z-index:1100; width:min(460px, calc(100vw - 24px)); border:1px solid rgba(88,218,187,.35); border-radius:20px; color:#f4fcff; background:rgba(8,26,38,.97); box-shadow:0 16px 45px #0008; padding:15px 18px; box-sizing:border-box; }
+.gym-rest-dock[hidden]{display:none !important}
+.gym-rest-heading{display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:13px;}
+.gym-rest-time{font-size:34px; font-weight:850; letter-spacing:-1px; font-variant-numeric:tabular-nums; margin:3px 0 10px;}
+.gym-rest-meter{height:5px; background:#203d4c; border-radius:99px; overflow:hidden; margin-bottom:12px;}
+.gym-rest-meter span{display:block; height:100%; width:100%; background:linear-gradient(90deg,#659af9,#55e0ba); transition:width .2s linear;}
+.gym-rest-actions{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+.gym-rest-actions button,.gym-rest-heading button{cursor:pointer; color:inherit; background:#203b4b; border:1px solid #477282; border-radius:9px; padding:8px 11px;}
+.gym-rest-actions select{padding:8px; color:#fff; background:#183544; border:1px solid #467183; border-radius:9px;}
+.gym-progress-section{padding-bottom:110px;}.gym-progress-description{max-width:720px;color:#9eb5c6;}
+.gym-progress-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(230px,1.4fr);gap:14px;align-items:start;margin-top:24px;}
+.gym-body-card,.gym-progress-totals{min-width:0;background:rgba(6,17,27,.75);border:1px solid #1b3645;border-radius:18px;padding:12px;}
+.gym-body-card svg{display:block;width:100%;height:320px;max-height:45vh;}.gym-body-card strong{display:block;font-size:12px;color:#a1b6c5;margin-top:5px;}
+.gym-body-shape{fill:#243b41;stroke:#7c9196;stroke-width:1.4;stroke-linejoin:round; transition:fill .25s;}
+.gym-body-outline{fill:none;stroke:#899ba0;stroke-width:2;}
+.gym-progress-line{display:grid;grid-template-columns:72px minmax(0,1fr) 65px;gap:9px;align-items:center;margin:16px 0;font-size:12px;}
+.gym-progress-line .track{height:9px;background:#203746;border-radius:50px;overflow:hidden}.gym-progress-line .fill{display:block;height:100%;border-radius:50px;background:linear-gradient(90deg,#619afd,#56dfbc)}.gym-progress-line em{font-size:11px;font-style:normal;text-align:right;color:#9ab0c4;white-space:nowrap;}
+.gym-body-legend{font-size:12px;color:#a3bac8;text-align:center;margin-top:14px;}
+@media(max-width:750px){.gym-progress-grid{grid-template-columns:1fr 1fr}.gym-progress-totals{grid-column:span 2}.gym-body-card svg{height:250px}.gym-progress-line{grid-template-columns:70px 1fr 65px}}
+
+/* Seleção explícita da série: nunca depender do campo de carga */
+.gym-entry-series-select{font:inherit;font-weight:800;letter-spacing:.035em;color:inherit;background:transparent;border:1px solid rgba(85,220,185,.38);border-radius:999px;padding:7px 12px;cursor:pointer;transition:background .18s,border-color .18s;}
+.gym-entry-series-select:hover,.gym-entry-series-select:focus-visible,.gym-entry-series-select[aria-pressed="true"]{background:rgba(85,220,185,.18);border-color:#55dcba;outline-offset:3px;}
+
+/* Mapa corporal: anatomia vetorial e tonalidade azul-verde da marca */
+.gym-progress-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(235px,1.48fr);align-items:stretch}
+.gym-body-card{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(160deg,#091626,#07131d);border-color:rgba(86,157,196,.23);padding:18px 10px 12px}
+.gym-body-card svg.gym-anatomy-svg{width:100%;height:330px;max-height:none;max-width:210px;overflow:visible}
+.gym-body-card strong{font-size:12px;align-self:stretch;border-top:1px solid rgba(110,172,200,.17);padding:10px 8px 0;margin-top:9px}
+.gym-anatomy-silhouette{fill:url(#bodySheenF);stroke:#708d9e;stroke-width:1.6;stroke-linejoin:round}
+.gym-anatomy-muscle{stroke:#80a2af;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;transition:fill .24s ease;filter:drop-shadow(0 0 2px rgba(65,206,188,.13))}
+.gym-anatomy-details path{stroke:#a5c2c8;stroke-width:.9;fill:none;opacity:.5;stroke-linejoin:round;stroke-linecap:round;pointer-events:none}
+.gym-anatomy-fine{stroke:#87a6b5;stroke-width:1;fill:none}
+.gym-body-legend-swatches{display:inline-flex;gap:4px;vertical-align:middle;margin:0 8px}.gym-body-legend-swatches i{height:8px;width:22px;border-radius:2px;background:#243b56}.gym-body-legend-swatches i:nth-child(2){background:#4078bc}.gym-body-legend-swatches i:nth-child(3){background:#4eb6cd}.gym-body-legend-swatches i:nth-child(4){background:#4be0b4}
+@media(max-width:750px){.gym-progress-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.gym-body-card svg.gym-anatomy-svg{height:260px;max-width:160px}.gym-body-card{padding:11px 5px}.gym-progress-totals{grid-column:span 2}}
+
+/* Figuras anatómicas fiéis à segunda fotografia de referência, sem esticar nem recortar. */
+.gym-body-card{justify-content:space-between;gap:0;min-height:360px;padding:12px 12px 0;background:#06111d;border-radius:22px;overflow:hidden}
+.gym-body-card img.gym-reference-anatomy{display:block;object-fit:contain;object-position:center center;width:100%;height:310px;max-width:245px;margin:auto;filter:hue-rotate(13deg) saturate(1.04);}
+.gym-body-card strong{width:calc(100% + 24px);margin:0 -12px;padding:12px 13px;background:rgba(10,22,25,.8);text-align:left;border-top:1px solid #20333c;color:#9ab1bf;}
+@media(max-width:750px){.gym-body-card{min-height:270px;padding:9px 6px 0}.gym-body-card img.gym-reference-anatomy{height:240px;max-width:100%}.gym-body-card strong{width:calc(100% + 12px);margin:0 -6px;padding:11px 9px}}
+
+/* Temporizador discreto entre cartões de séries, sem painel flutuante */
+.gym-inline-rest{margin:9px 0 14px;padding:11px 14px;border:1px solid rgba(65,179,204,.25);border-radius:14px;background:linear-gradient(100deg,rgba(45,127,215,.09),rgba(65,214,175,.07));color:inherit}
+.gym-inline-rest-caption,.gym-inline-rest-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.gym-inline-rest-caption{font-size:10px;font-weight:800;letter-spacing:.08em;color:#8fb3c8;margin-bottom:8px}
+.gym-inline-rest-caption small{font-size:10px;font-weight:500;letter-spacing:0}
+.gym-inline-rest-controls{justify-content:flex-start}
+.gym-inline-rest-clock{font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:.04em;min-width:80px;color:#d8f8ff}
+.gym-inline-rest-duration,.gym-inline-rest-toggle,.gym-inline-rest-reset{min-height:35px;border-radius:10px;border:1px solid rgba(85,207,191,.3);background:#142535;color:#e8f5ff;padding:6px 10px;font:inherit;font-size:12px;cursor:pointer}
+.gym-inline-rest-toggle{background:linear-gradient(110deg,#448cdb,#42cbb2);color:#071a25;border:0;font-weight:800;min-width:75px}
+.gym-inline-rest-reset{font-size:19px;padding:4px 12px}
+.gym-inline-rest-track{margin-top:9px;height:4px;background:rgba(98,151,182,.22);border-radius:10px;overflow:hidden}
+.gym-inline-rest-fill{display:block;height:100%;width:100%;background:linear-gradient(90deg,#4a95e8,#45d4b9);transition:width .25s linear}
+.gym-inline-rest.is-finished .gym-inline-rest-clock{color:#45d4b9}
+@media(max-width:480px){.gym-inline-rest{padding:10px}.gym-inline-rest-clock{font-size:21px;min-width:70px}.gym-inline-rest-duration{max-width:125px}}
+
+
+/* Harmonização cromática — lilás / ameixa, sem alterar a estrutura do site. */
+.gym-progress-section{--gym-purple-deep:#68406f;--gym-purple-mid:#9871b5;--gym-purple-light:#c6a4e8;}
+.gym-progress-description,.gym-body-legend{color:#c0aeca}
+.gym-body-card,.gym-progress-totals{background:linear-gradient(155deg,#211a29 0%,#17121f 100%);border-color:rgba(175,137,198,.3)}
+.gym-body-card strong{background:#1d1822;border-top-color:rgba(180,143,197,.2);color:#d0bedb}
+.gym-progress-line .track{background:#3b3044}
+.gym-progress-line .fill{background:linear-gradient(90deg,#68406f 0%,#9871b5 55%,#c6a4e8 100%)}
+.gym-progress-line em{color:#bfaecc}
+.gym-body-legend-swatches i:nth-child(1){background:#493650}
+.gym-body-legend-swatches i:nth-child(2){background:#68406f}
+.gym-body-legend-swatches i:nth-child(3){background:#9871b5}
+.gym-body-legend-swatches i:nth-child(4){background:#c6a4e8}
+.gym-body-card img.gym-reference-anatomy{filter:none}
+.gym-inline-rest{border-color:rgba(174,128,199,.34);background:linear-gradient(105deg,rgba(104,64,111,.19),rgba(161,132,180,.11))}
+.gym-inline-rest-caption{color:#cdb6dc}
+.gym-inline-rest-clock{color:#eadbf6}
+.gym-inline-rest-duration,.gym-inline-rest-reset{background:#282030;border-color:rgba(176,132,201,.42);color:#f2eafa}
+.gym-inline-rest-duration:focus-visible,.gym-inline-rest-toggle:focus-visible,.gym-inline-rest-reset:focus-visible{outline:2px solid #c6a4e8;outline-offset:2px}
+.gym-inline-rest-toggle{background:linear-gradient(120deg,#68406f,#a184b4);color:#fff}
+.gym-inline-rest-track{background:rgba(175,135,195,.19)}
+.gym-inline-rest-fill{background:linear-gradient(90deg,#68406f,#a184b4,#c6a4e8)}
+.gym-inline-rest.is-finished .gym-inline-rest-clock{color:#c6a4e8}
+.gym-entry-series-select{border-color:rgba(174,128,199,.55)}
+.gym-entry-series-select:hover,.gym-entry-series-select:focus-visible,.gym-entry-series-select[aria-pressed="true"]{background:rgba(161,132,180,.22);border-color:#a184b4}
+.gym-series-complete{border-color:rgba(161,132,180,.45);background:rgba(161,132,180,.10)}
+.gym-series-check{border-color:#a184b4}
+.gym-series-complete[aria-pressed="true"]{border-color:#c6a4e8;background:rgba(161,132,180,.24)}
+.gym-series-complete[aria-pressed="true"] .gym-series-check{background:#c6a4e8;color:#201729}
+.gym-rest-dock{border-color:rgba(174,128,199,.35);background:#211a29}
+.gym-rest-meter{background:#42344a}.gym-rest-meter span{background:linear-gradient(90deg,#68406f,#c6a4e8)}
+.gym-rest-actions button,.gym-rest-heading button,.gym-rest-actions select{background:#302439;border-color:#73567e}
+
+
+/* HERO CINEMATOGRÁFICO | Vila Flor — roxo e lilás */
+#page-home .hero-cinematic {
+  --cinema-progress: 0;
+  --cinema-pointer-x: 0px;
+  --cinema-pointer-y: 0px;
+  isolation: isolate;
+  background: #211829 !important;
+  perspective: 1000px;
+}
+#page-home .hero-cinematic .hero-cinema-image,
+#page-home .hero-cinematic .hero-cinema-tint,
+#page-home .hero-cinematic .hero-cinema-light {
+  position: absolute;
+  inset: -9% -6%;
+  pointer-events: none;
+}
+#page-home .hero-cinematic .hero-cinema-image {
+  z-index: -3;
+  background: url('../assets/vila-flor-identidade.png') center 35% / cover no-repeat;
+  will-change: transform,filter;
+  transform: translate3d(calc(var(--cinema-pointer-x) * -.9), calc(var(--cinema-progress) * 78px + var(--cinema-pointer-y) * -.8), 0) scale(calc(1.12 + var(--cinema-progress) * .12));
+  filter: saturate(.85) contrast(1.08) brightness(.86);
+}
+#page-home .hero-cinematic .hero-cinema-tint {
+  z-index: -2;
+  background: linear-gradient(145deg, rgba(56,29,69,.63), rgba(62,39,84,.47) 42%,rgba(23,16,33,.92) 100%),
+  radial-gradient(ellipse at 78% 26%,rgba(169,118,219,.34),transparent 50%);
+}
+#page-home .hero-cinematic .hero-cinema-light {
+  z-index: -1;
+  inset: -25%;
+  background: radial-gradient(ellipse at 72% 35%,rgba(182,133,236,.27),transparent 42%);
+  mix-blend-mode: screen;
+  transform: translate3d(calc(var(--cinema-pointer-x) * 1.3),calc(var(--cinema-progress) * -80px),0);
+}
+#page-home .hero-cinematic:before { opacity: .35; z-index: 0; }
+#page-home .hero-cinematic:after { z-index: 0; pointer-events: none; background: linear-gradient(180deg,rgba(24,16,35,.10),rgba(24,16,35,.18) 27%,rgba(24,16,35,.80) 68%,#18121f 100%) !important; }
+#page-home .hero-cinematic .hero-grid { z-index: 1; }
+#page-home .hero-cinematic .hero-overlay { z-index: 4; will-change: transform,opacity; transform: translate3d(calc(var(--cinema-pointer-x) * .18),calc(var(--cinema-progress) * -22px),0); }
+#page-home .hero-cinematic .justthis { z-index: 5; opacity: calc(1 - var(--cinema-progress) * 1.4); transform: translate3d(-50%, calc(var(--cinema-progress) * -35px), 0); }
+#page-home .hero-cinematic h1 { overflow: visible; }
+#page-home .hero-cinematic .hero-line { display: block; will-change: transform,opacity; }
+#page-home .hero-cinematic .hero-line-first { transform: translate3d(calc(var(--cinema-progress) * -25px),calc(var(--cinema-progress) * -35px),0); opacity: calc(1 - var(--cinema-progress) * 1.18); }
+#page-home .hero-cinematic .hero-line-second { transform: translate3d(calc(var(--cinema-progress) * 24px),calc(var(--cinema-progress) * -14px),0); opacity: calc(1 - var(--cinema-progress) * 1.04); }
+#page-home .hero-cinematic .hero-line em { background: linear-gradient(110deg,#f5e1ff,#c6a4e8 48%,#9e74c4); -webkit-background-clip:text; background-clip:text; }
+#page-home .hero-cinematic .hero-overlay p { transform:translate3d(0,calc(var(--cinema-progress) * -15px),0); opacity:calc(1 - var(--cinema-progress) * 1.4); }
+#page-home .hero-cinematic .hero-actions { transform:translate3d(0,calc(var(--cinema-progress) * 16px),0); opacity:calc(1 - var(--cinema-progress) * 1.65); }
+#page-home .hero-cinematic .hero-glow { transform:translate3d(calc(var(--cinema-pointer-x) * .55),calc(var(--cinema-progress) * -60px),0); }
+@media (max-width: 600px) {
+  #page-home .hero-cinematic .hero-cinema-image { transform:translate3d(0,calc(var(--cinema-progress) * 52px),0) scale(1.14); }
+  #page-home .hero-cinematic .hero-line-first { transform:translate3d(calc(var(--cinema-progress) * -12px),calc(var(--cinema-progress) * -20px),0); }
+  #page-home .hero-cinematic .hero-line-second { transform:translate3d(calc(var(--cinema-progress) * 12px),calc(var(--cinema-progress) * -10px),0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #page-home .hero-cinematic *, #page-home .hero-cinematic::before,#page-home .hero-cinematic::after { animation:none !important; transition:none !important; transform:none !important; opacity:1 !important; }
+  #page-home .hero-cinematic .justthis {transform:translateX(-50%) !important;}
+  #page-home .hero-cinematic .hero-cinema-image { transform:scale(1.12) !important; }
+}
+
+/* 2026-10: formato panorâmico de demonstrações e progresso responsivo. */
+.exercise-media-zoom-overlay { padding: 0 !important; background: #09070d !important; }
+.exercise-media-zoom-frame {
+  width: 100vw !important; height: 100dvh !important; max-width: none !important;
+  max-height: none !important; border: 0 !important; border-radius: 0 !important;
+  box-shadow: none !important; background: #09070d !important;
+}
+.exercise-media-zoom-frame .exercise-media-zoom-item {
+  width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important;
+  object-fit: contain !important; object-position: center center !important; background: #09070d !important; border-radius: 0 !important;
+}
+.exercise-media-zoom-frame.is-video .exercise-media-zoom-item { object-fit: contain !important; }
+.exercise-media-zoom-hint { position: fixed; z-index: 10002; bottom: max(18px, env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%); margin: 0 !important; white-space: nowrap; }
+.gym-body-card img.gym-reference-anatomy {
+  width: 100%; max-width: 320px; height: auto; max-height: 430px;
+  aspect-ratio: 603 / 852; object-fit: contain; image-rendering: auto;
+  transform: translateZ(0);
+}
+.gym-body-card img.gym-reference-anatomy.is-neutral { filter: grayscale(1) saturate(0) brightness(.75) contrast(1.13) !important; }
+.gym-body-card img.gym-reference-anatomy.is-active { filter: none !important; }
+@media (max-width:750px) {
+  .gym-body-card img.gym-reference-anatomy { height: auto !important; max-height: none !important; max-width: 100% !important; }
+  .gym-body-card { min-height: 0 !important; }
+}
+
+/* Progresso muscular — cartões sem fundo preto e legendas centradas */
+.gym-progress-section .gym-body-card{background:radial-gradient(ellipse at 50% 38%,rgba(135,91,163,.17),transparent 70%),linear-gradient(160deg,#251c2e,#17121f)!important;border:1px solid rgba(186,145,215,.25)!important;box-shadow:inset 0 1px rgba(255,255,255,.035);}
+.gym-progress-section .gym-body-card img.gym-reference-anatomy{display:block;object-fit:contain;mix-blend-mode:normal;image-rendering:auto;filter:none;max-width:100%;}
+.gym-progress-section .gym-body-card strong{width:100%!important;margin:0!important;box-sizing:border-box;text-align:center!important;align-self:center!important;background:transparent!important;color:#d9c6e4;padding:13px 2px!important;border-top:1px solid rgba(190,154,213,.16);}
+@media(max-width:750px){.gym-progress-section .gym-body-card{padding:12px 9px 0!important;border-radius:19px;}.gym-progress-section .gym-body-card img.gym-reference-anatomy{width:100%;height:auto;max-height:330px;}}
+
+/* Atualização visual 27/10 — figuras neutras e destaque progressivo */
+.gym-progress-section .gym-body-card{background:linear-gradient(155deg,#251c2d,#17121f)!important;}
+.gym-anatomy-layers{position:relative;width:100%;max-width:280px;aspect-ratio: .78;margin:auto;overflow:hidden;}
+.gym-anatomy-layers img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;}
+.gym-anatomy-neutral{filter:grayscale(1) saturate(0) brightness(1.12) contrast(1.06)!important;}
+.gym-muscle-highlight{filter:grayscale(1) sepia(1) hue-rotate(215deg) saturate(3.6) brightness(1.12)!important;pointer-events:none;}
+.gym-progress-section .gym-body-card strong{text-align:center!important;}
+@media(max-width:600px){
+ #page-home .hero-cinematic{border-radius:36px!important;overflow:hidden!important;background:#17101e!important;}
+ #page-home .hero-cinematic .hero-cinema-image{filter:saturate(.72) contrast(1.15) brightness(.57)!important;}
+ #page-home .hero-cinematic .hero-cinema-tint{background:linear-gradient(180deg,rgba(38,23,49,.42),rgba(34,20,43,.5) 38%,rgba(18,12,24,.94) 100%)!important;}
+ #page-home .hero-cinematic .hero-cinema-light{opacity:.28!important;}
+ #page-home .hero-cinematic:after{background:linear-gradient(180deg,transparent 5%,rgba(23,15,30,.3) 40%,#18121f 100%)!important;}
+ .gym-anatomy-layers{aspect-ratio:.67;}
+}
+
+/* Correções finais: hero fiel à referência e anatomia homogénea */
+#page-home .hero.hero-cinematic{border-radius:clamp(30px,6vw,80px)!important;overflow:hidden!important;isolation:isolate!important;border:1px solid rgba(185,119,176,.55)!important;background:#18111c!important;}
+#page-home .hero.hero-cinematic .hero-cinema-image{border-radius:inherit!important;filter:saturate(.87) brightness(.88)!important;}
+#page-home .hero.hero-cinematic .hero-cinema-tint{border-radius:inherit!important;background:linear-gradient(180deg,rgba(63,32,66,.07) 0%,rgba(36,19,43,.12) 35%,rgba(17,12,21,.83) 100%)!important;}
+#page-home .hero.hero-cinematic .hero-cinema-light{opacity:.35!important;}
+#page-home .hero.hero-cinematic .hero-line-second em{background:linear-gradient(105deg,#f1cafa 10%,#d8a8ed 53%,#b8dcd2 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;}
+.gym-progress-section .gym-anatomy-neutral{filter:grayscale(1) brightness(1.25) contrast(.94)!important;}
+.gym-progress-section .gym-muscle-highlight{filter:grayscale(1) sepia(1) hue-rotate(216deg) saturate(4) brightness(1.14)!important;mix-blend-mode:screen;}
+.gym-progress-section .gym-anatomy-layers{overflow:hidden!important;}
+.gym-progress-section .gym-body-card strong{text-align:center!important;}
+@media(max-width:750px){
+ #page-home .hero.hero-cinematic{border-radius:38px!important;margin-inline:0!important;}
+ #page-home .hero.hero-cinematic .hero-cinema-image{filter:saturate(.83) brightness(.85)!important;}
+ #page-home .hero.hero-cinematic .hero-cinema-tint{background:linear-gradient(180deg,rgba(63,32,66,.05),rgba(33,20,40,.17) 40%,rgba(17,12,21,.86) 100%)!important;}
+}
+
+/* =========================================================
+   REVISÃO 27/10 — Correções reais da aplicação (mobile/UX)
+   ========================================================= */
+/* Hero: mascaramento WebKit, não apenas border-radius; impede que camadas
+   com transform 3D vazem sobre os cantos no Safari do iPhone. */
+#page-home .hero.hero-cinematic {
+  position:relative !important;
+  overflow:hidden !important;
+  border-radius:clamp(30px,5vw,66px) !important;
+  -webkit-mask-image:-webkit-radial-gradient(white,black);
+  mask-image:linear-gradient(#fff,#fff);
+  isolation:isolate;
+  box-sizing:border-box;
+}
+#page-home .hero.hero-cinematic .hero-cinema-image,
+#page-home .hero.hero-cinematic .hero-cinema-tint,
+#page-home .hero.hero-cinematic .hero-cinema-light { border-radius:inherit; }
+#page-home .hero.hero-cinematic .hero-cinema-tint {
+  background:linear-gradient(180deg,rgba(42,24,55,.09) 0%,rgba(31,20,43,.31) 42%,rgba(19,12,25,.90) 100%) !important;
+}
+#page-home .hero.hero-cinematic::after{
+  background:linear-gradient(180deg,rgba(26,14,29,.04) 0%,rgba(24,14,31,.22) 40%,rgba(20,13,26,.85) 81%,#18121f 100%) !important;
+}
+@media(max-width:767px){
+  #page-home .hero.hero-cinematic {
+    width:calc(100% - 32px) !important;
+    margin:16px auto 21px !important;
+    border-radius:36px !important;
+    clip-path:inset(0 round 36px);
+    -webkit-clip-path:inset(0 round 36px);
+    transform:translateZ(0);
+    background-clip:padding-box;
+  }
+  #page-home .hero.hero-cinematic .hero-cinema-image {
+    inset:0 !important;
+    filter:saturate(.78) brightness(.75) contrast(1.05) !important;
+  }
+  #page-home .hero.hero-cinematic .hero-cinema-tint {inset:0 !important;}
+  #page-home .hero.hero-cinematic .hero-cinema-light {opacity:.19!important;}
+  #page-home .hero.hero-cinematic .hero-line-second em {
+    background:linear-gradient(105deg,#f3e8f8 5%,#dcbce9 54%,#b69bd8 100%) !important;
+    -webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;
+  }
+}
+@media(max-width:360px){#page-home .hero.hero-cinematic {width:calc(100% - 24px)!important; margin-inline:auto!important; border-radius:28px!important; clip-path:inset(0 round 28px);-webkit-clip-path:inset(0 round 28px);}}
+
+/* Indicador institucional animado durante a preparação do vídeo. */
+.exercise-modal-loading.vf-demo-loading {
+  display:flex; flex-direction:column;gap:14px;
+  align-items:center;justify-content:center;
+  color:#e3d3ee;background:linear-gradient(150deg,rgba(26,18,34,.92),rgba(33,22,44,.9));
+  font-size:13px;font-weight:600;letter-spacing:.012em;
+}
+.exercise-modal-loading.vf-demo-loading::before {content:none!important;display:none!important;}
+.vf-demo-loader-mark {
+  display:grid;place-items:center;position:relative;
+  width:78px;height:78px;border-radius:50%;
+  background:radial-gradient(circle at 48% 45%,rgba(133,91,164,.23),rgba(44,27,55,.52));
+  border:1px solid rgba(203,164,230,.22);
+  animation:vf-logo-breathe 1.8s ease-in-out infinite;
+}
+.vf-demo-loader-mark::before,.vf-demo-loader-mark::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid transparent;border-top-color:#bb8edf;border-right-color:rgba(188,143,222,.2);animation:vf-logo-orbit 1.7s linear infinite;}
+.vf-demo-loader-mark::after{inset:-12px;border-width:1px;opacity:.5;animation-direction:reverse;animation-duration:2.8s;}
+.vf-demo-loader-mark img {width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(196,145,224,.55));}
+.vf-demo-loader-label {opacity:.82;}
+@keyframes vf-logo-breathe{0%,100%{transform:scale(.96)}50%{transform:scale(1.045)}}
+@keyframes vf-logo-orbit {to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.vf-demo-loader-mark,.vf-demo-loader-mark::before,.vf-demo-loader-mark::after{animation:none!important}}
+/* Sem controlos nativos, nem overlay de pausa ou cronómetro do iOS.
+   O toque para ampliar é tratado pelo contentor e não pelo próprio vídeo. */
+#exerciseModalVideo video.exercise-demo-video,
+.exercise-media-zoom-frame video.exercise-media-zoom-item {
+  pointer-events:none!important;
+  -webkit-touch-callout:none;
+}
+#exerciseModalVideo video::-webkit-media-controls,
+#exerciseModalVideo video::-webkit-media-controls-enclosure,
+#exerciseModalVideo video::-webkit-media-controls-panel,
+.exercise-media-zoom-frame video::-webkit-media-controls,
+.exercise-media-zoom-frame video::-webkit-media-controls-enclosure,
+.exercise-media-zoom-frame video::-webkit-media-controls-panel {display:none!important;opacity:0!important;visibility:hidden!important;}
+#exerciseModalVideo.is-loading {background:#1d1828!important;}
+
+/* Cartão de séries: leitura rápida e sem cápsulas/pesos de fonte exagerados. */
+#page-workout .exercise-series-list {gap:3px;margin-top:13px;padding-top:12px;}
+#page-workout .series-card-line {
+  display:flex;gap:12px;justify-content:space-between;align-items:center;
+  padding:10px 3px;min-height:42px;border-radius:0;
+  background:transparent!important;
+  border-bottom:1px solid rgba(184,145,214,.12);
+}
+#page-workout .series-card-line:last-child{border-bottom:0;}
+#page-workout .gym-series-complete{
+  min-width:70px;display:inline-flex;align-items:center;gap:9px;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  color:#e8ddef;font-weight:700;font-size:12px;letter-spacing:.02em;
+  padding:6px 3px;box-shadow:none!important;
+}
+#page-workout .gym-series-check {
+  width:23px;height:23px;border:1.5px solid rgba(189,157,212,.66);
+  background:transparent;box-sizing:border-box;border-radius:50%;color:transparent;
+  font-size:12px;transition:background .2s,border-color .2s,transform .2s;
+}
+#page-workout .gym-series-complete[aria-pressed="true"] .gym-series-check{
+  color:#24142f;background:#d2a8ec;border-color:#d2a8ec;
+}
+#page-workout .gym-series-complete:active .gym-series-check{transform:scale(.89)}
+#page-workout .series-card-values {display:flex;align-items:center;justify-content:flex-end;gap:12px!important;flex-wrap:wrap;}
+#page-workout .series-card-values>.gym-series-metric{display:flex;flex-direction:column;gap:2px;text-align:right;align-items:flex-end;}
+#page-workout .gym-series-metric-label{color:#9b8ba6;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.055em;line-height:1.25;}
+#page-workout .gym-series-metric-value{color:#e9ddee;font-size:13px;font-weight:750;letter-spacing:-.01em;line-height:1.2;}
+#page-workout .gym-series-empty{color:#8f8596;font-size:11px;}
+@media(max-width:410px){#page-workout .series-card-line{gap:6px;}#page-workout .series-card-values{gap:9px!important;}#page-workout .gym-series-metric-value{font-size:12px;}}
+
+/* Anatomia: sobreposição de SVGs com caminhos musculares individuais,
+   alinhados ponto a ponto ao viewBox das figuras de base. */
+.gym-progress-section .gym-anatomy-layers{
+  width:100%;max-width:265px;aspect-ratio:603 / 852!important;
+  margin-inline:auto;position:relative;overflow:hidden;background:transparent!important;
+}
+.gym-progress-section .gym-anatomy-layers>img.gym-anatomy-neutral,
+.gym-progress-section .gym-anatomy-layers>svg.gym-anatomy-overlay{
+  position:absolute;inset:0;display:block;width:100%!important;height:100%!important;
+  object-fit:fill!important;object-position:center;max-width:unset!important;max-height:unset!important;
+}
+.gym-progress-section .gym-anatomy-layers>img.gym-anatomy-neutral {
+  filter:grayscale(1) brightness(1.38) contrast(.89)!important;
+}
+.gym-progress-section .gym-anatomy-overlay{pointer-events:none;overflow:visible;filter:drop-shadow(0 0 4px rgba(192,130,240,.10));}
+.gym-progress-section .gym-muscle-region{
+  mix-blend-mode:screen;
+  transition:opacity .32s ease-in-out;
+}
+.gym-progress-section .gym-body-card strong{font-size:12px;text-align:center!important;width:100%;}
+@media(max-width:750px){.gym-progress-section .gym-anatomy-layers{max-width:none!important;}}
+
+/* =========================================================
+   27/10 — Acabamento final: séries, barra aderente, hero e anatomia
+   ========================================================= */
+
+/* Seletor de série reduzido a um número e legenda com visual editorial. */
+.set-entry-card .gym-entry-series-select {
+  display: inline-flex !important; align-items: center; gap: 9px !important;
+  min-height: 36px; padding: 3px 11px 3px 4px !important;
+  border: 1px solid rgba(189,147,214,.22) !important;
+  border-radius: 12px !important;
+  background: rgba(189,147,214,.045) !important;
+  box-shadow: none !important;
+  text-transform: none !important; letter-spacing: 0 !important;
+  font-size: 12px !important; font-weight: 640 !important; color: #e9dced !important;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.set-entry-card .gym-entry-series-select .gym-series-index {
+  display: grid; place-items: center; width: 28px; height: 28px;
+  border-radius: 9px; background: rgba(178,137,197,.16);
+  border: 1px solid rgba(178,137,197,.19);
+  color: #dbc0ea !important; font-size: 11px !important;
+  letter-spacing: .02em !important; font-weight: 750 !important;
+  font-variant-numeric: tabular-nums;
+}
+.set-entry-card .gym-entry-series-select .gym-series-word {
+  color: #e8dfec !important; font-size: 12px !important;
+  font-weight: 650 !important; letter-spacing: .01em !important;
+}
+.set-entry-card .gym-entry-series-select:is(:hover, :focus-visible, [aria-pressed="true"]) {
+  border-color: rgba(205,169,229,.58) !important;
+  background: rgba(160,114,190,.15) !important;
+}
+.set-entry-card .set-entry-title small { font-size: 10px !important; letter-spacing: .01em; opacity: .75; }
+.set-entry-card { background: linear-gradient(135deg,rgba(170,129,193,.055),rgba(31,24,42,.3)); border-color:rgba(186,148,204,.17); }
+@media(max-width:420px){.set-entry-card .set-entry-title small{font-size:9px!important;}}
+
+/* Bottom dock sempre a tocar na borda inferior. Encolhe em scroll descendente. */
+.bottom-nav {
+  position: fixed !important; bottom: 0 !important; left:50% !important;
+  right:auto !important; transform:translate3d(-50%,0,0) !important;
+  margin: 0 !important; width: min(540px,100%) !important;
+  height: calc(79px + env(safe-area-inset-bottom)) !important;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom)) !important;
+  border-radius: 18px 18px 0 0 !important;
+  border-top: 1px solid rgba(195,160,216,.13) !important;
+  box-sizing: border-box !important;
+  background: rgba(22,17,27,.98) !important;
+  box-shadow: 0 -12px 32px rgba(15,9,19,.18) !important;
+  transition: height .25s cubic-bezier(.2,.8,.25,1), padding .25s cubic-bezier(.2,.8,.25,1) !important;
+  will-change:height;
+}
+.bottom-nav.is-compact {
+  height:calc(55px + env(safe-area-inset-bottom)) !important;
+  padding-top: 3px !important;
+  padding-bottom: calc(3px + env(safe-area-inset-bottom)) !important;
+}
+.bottom-nav .nav-item {
+  min-height: 0 !important;
+  border-radius:14px !important;
+  transition: background .25s, border-color .25s, color .25s !important;
+}
+.bottom-nav .nav-item small {
+  max-height: 22px; opacity: 1;
+  transition: opacity .17s ease, max-height .23s ease, transform .23s ease !important;
+}
+.bottom-nav.is-compact .nav-item small { max-height: 0; opacity:0; transform:translateY(4px); overflow:hidden; }
+.bottom-nav.is-compact .nav-item .nav-icon { transform: translateY(0) !important; }
+.bottom-nav.is-compact .nav-item.active { background:rgba(109,72,128,.22)!important; }
+@media(max-width:767px){.bottom-nav{border-radius: 18px 18px 0 0!important;}}
+
+/* Contorno fechado acima de todas as camadas parallax e dos botões do hero. */
+#page-home .hero.hero-cinematic { isolation:isolate !important; }
+#page-home .hero.hero-cinematic .hero-border-finish {
+  position: absolute; inset:0; z-index: 60;
+  border:1.35px solid rgba(186,127,187,.64);
+  border-radius: inherit; pointer-events:none;
+  box-shadow: inset 0 0 0 .3px rgba(216,157,213,.20);
+  background: transparent;
+  transform: translateZ(0);
+}
+@media(max-width:767px){
+  #page-home .hero.hero-cinematic .hero-border-finish{
+    border-radius:36px;
+    border-color:rgba(199,143,206,.64);
+  }
+}
+@media(max-width:360px){#page-home .hero.hero-cinematic .hero-border-finish{border-radius:28px;}}
+
+/* Figura anatómica de alta definição da referência enviada (sem fundo
+   e com máscaras de recorte individual para cada músculo). */
+.gym-progress-section .gym-anatomy-layers.detailed-anatomy {
+  position:relative !important;
+  width:100% !important; max-width:290px !important;
+  aspect-ratio: 499 / 803 !important;
+  overflow: visible !important;
+  contain: layout;
+  margin:0 auto !important;
+}
+.gym-progress-section .gym-body-card:nth-child(2) .detailed-anatomy {aspect-ratio:473 / 803 !important;}
+.gym-progress-section .detailed-anatomy > img.gym-anatomy-neutral {
+  display:block; position:absolute; inset:0; width:100%!important;height:100%!important;
+  object-fit:fill!important; filter:none!important;
+  image-rendering:auto; -webkit-backface-visibility:hidden;
+}
+.gym-progress-section .detailed-anatomy > svg.gym-anatomy-overlay {
+  display:block; position:absolute; inset:0;width:100%!important;height:100%!important;
+  overflow:visible; pointer-events:none;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-position:center;mask-position:center;
+  filter:none!important;
+}
+/* O blend fica no <svg>: como tem máscara, é um grupo isolado e um blend nas
+   regiões interiores não veria a ilustração, resultando em manchas lisas. */
+.gym-progress-section .detailed-anatomy > svg.gym-anatomy-overlay{mix-blend-mode:hard-light}
+.gym-progress-section .detailed-anatomy .gym-muscle-region{
+  fill:#9a68d8;
+  mix-blend-mode:normal!important;
+  transition:opacity .28s ease;
+}
+.gym-progress-section .gym-progress-line{grid-template-columns:84px minmax(0,1fr) 56px}
+.gym-progress-empty{margin:12px 0 4px;font-size:12px;line-height:1.5;color:#c0aeca}
+.gym-progress-section .gym-body-card {
+  min-height:0!important;
+  border-radius:23px!important;
+  padding:15px 10px 8px!important;
+  justify-content:space-between!important;
+  gap:4px;
+}
+.gym-progress-section .gym-body-card strong {
+  font-size:12px!important;
+  color:#ded0e6!important;
+  background:transparent!important;
+  letter-spacing:.018em;
+  border-top:1px solid rgba(196,165,218,.18)!important;
+  margin-top:2px!important;
+  padding:12px 0 4px!important;
+  text-align:center!important;
+}
+@media(max-width:750px){
+  .gym-progress-section .gym-body-card {padding:12px 4px 5px!important;gap:2px;}
+  .gym-progress-section .detailed-anatomy {max-width:100%!important;}
+  .gym-progress-section .gym-body-card strong{padding:10px 0 5px!important;font-size:11px!important;}
+}
+@media(prefers-reduced-motion:reduce){.bottom-nav,.bottom-nav .nav-item small,.gym-muscle-region{transition:none!important;}}
