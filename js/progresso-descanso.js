@@ -248,6 +248,7 @@
   let gap = {el:null,duration:defaultSeconds,remaining:defaultSeconds,running:false,paused:false,deadline:0};
   let ticker=null;
   let audioCtx=null;
+  let audioUnlocked=false;
   let toastTimer=null;
   let toastToken=0;
   const getGlobal = id => document.getElementById(id);
@@ -262,19 +263,35 @@
   }
   function ensureAudio(){
     if(!audioCtx){const Class=window.AudioContext||window.webkitAudioContext; if(Class)try{audioCtx=new Class();}catch(_){}}
-    if(audioCtx?.state==='suspended') audioCtx.resume().catch(()=>{});
+    if(audioCtx&&audioCtx.state!=='running') audioCtx.resume().catch(()=>{});
+    // O iOS só desbloqueia o áudio se um som começar durante um toque: basta um instante de silêncio.
+    if(audioCtx&&!audioUnlocked){
+      try{
+        const silence=audioCtx.createBufferSource();
+        silence.buffer=audioCtx.createBuffer(1,1,22050);
+        silence.connect(audioCtx.destination);silence.start(0);
+        audioUnlocked=true;
+      }catch(_){}
+    }
   }
   function soundForThreeSeconds(){
     if(!audioCtx || audioCtx.state==='closed') return;
-    if(audioCtx.state==='suspended') audioCtx.resume().catch(()=>{});
+    if(audioCtx.state!=='running') audioCtx.resume().catch(()=>{});
+    // Por defeito, o botão de silêncio do iPhone cala este áudio; «transient» toca na mesma sem parar a música.
+    try{
+      if(navigator.audioSession){
+        navigator.audioSession.type='transient';
+        setTimeout(()=>{try{navigator.audioSession.type='auto';}catch(_){}},3200);
+      }
+    }catch(_){}
     const start=audioCtx.currentTime+.03;
     // Sininho de 3 segundos: o badalo alterna entre dois tons agudos, com parciais
     // não harmónicos para o brilho metálico, e o último toque fica a ressoar.
     try {
       const end=start+3;
       const master=audioCtx.createGain();
-      master.gain.setValueAtTime(1,start);
-      master.gain.setValueAtTime(1,end-.25);
+      master.gain.setValueAtTime(2.5,start);
+      master.gain.setValueAtTime(2.5,end-.25);
       master.gain.exponentialRampToValueAtTime(.0001,end);
       master.connect(audioCtx.destination);
       for(let strike=0;strike<16;strike++){
@@ -453,7 +470,10 @@
     });
   }
 
+  // Qualquer toque prepara o áudio: um descanso retomado ao reabrir a app não passa por Iniciar.
+  document.addEventListener('touchend',ensureAudio,{passive:true});
   document.addEventListener('click',event=>{
+    ensureAudio();
     if(event.target.closest('#gymGeneralStart')){startGeneral();return;}
     if(event.target.closest('#gymGeneralReset')){resetGeneral();return;}
     if(event.target.closest('#gymRestCompleteDismiss')){

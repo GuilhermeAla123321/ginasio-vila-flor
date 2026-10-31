@@ -1538,7 +1538,7 @@ function renderLinhasSeries(
                             }).join("")}
                         </div>
                     </div>
-                    ${i < count - 1 ? `<div class="gym-inline-rest" data-gym-rest-gap="${i}" aria-label="Descanso entre a série ${i + 1} e a série ${i + 2}">
+                    <div class="gym-inline-rest" data-gym-rest-gap="${i}" aria-label="Descanso depois da série ${i + 1}">
                         <div class="gym-rest-row">
                             <span class="gym-rest-slot"><strong class="gym-rest-clock gym-inline-rest-clock" role="timer">01:30</strong><select class="gym-rest-select" aria-label="Tempo de descanso"></select></span>
                             <input class="gym-duration-time" type="text" inputmode="numeric" maxlength="5" placeholder="MM:SS" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tempo personalizado em minutos e segundos" hidden />
@@ -1547,7 +1547,7 @@ function renderLinhasSeries(
                         </div>
                         <span class="gym-duration-error" role="alert" hidden>Usa MM:SS (de 00:01 até 99:59).</span>
                         <div class="gym-inline-rest-track"><span class="gym-inline-rest-fill"></span></div>
-                    </div>` : ''}
+                    </div>
                 `;
             }).join("")}
         </div>

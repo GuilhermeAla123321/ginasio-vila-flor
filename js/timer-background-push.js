@@ -442,6 +442,44 @@
 
     }
 
+    // Abre o aviso no «?» do timer. Em diferido porque o clique que chegou aqui
+    // ainda vai fechar as ajudas abertas quando subir até ao document.
+    function openRestMessage() {
+
+        window.setTimeout(() => {
+
+            const help = document.getElementById("gymGeneralAlertsHelp");
+
+            const other = restStatus();
+
+            if (!help || help.hidden || !other) return;
+
+            help.setAttribute("aria-expanded", "true");
+
+            other.hidden = false;
+
+        }, 0);
+
+    }
+
+    async function activateRemote() {
+
+        const OneSignal = oneSignalInstance || await loadOneSignal();
+
+        if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
+
+            throw new Error("Alertas não suportados neste navegador.");
+
+        }
+
+        await OneSignal.User.PushSubscription.optIn();
+
+        subscriptionId = await waitForSubscriptionId(OneSignal);
+
+        if (!subscriptionId) throw new Error("O serviço de alertas não respondeu.");
+
+    }
+
     async function enable() {
 
         const node = button();
@@ -454,100 +492,40 @@
 
         try {
 
-            if (typeof Notification !== "undefined" && Notification.permission === "denied") {
+            if (typeof Notification === "undefined") {
 
-                throw new Error(BLOCKED_NOTE);
-
-            }
-
-            // Sem backend OneSignal configurado, usa a permissão normal do navegador
-            // como alternativa local; não tenta carregar o SDK remoto.
-            if ((!backendConfigured || !APP_ID) && !(await checkBackend())) {
-
-                if (typeof Notification === "undefined") {
-
-                    throw new Error("Este navegador não permite notificações. No iPhone, adiciona a app ao ecrã principal e abre-a daí.");
-
-                }
-
-                const permission = Notification.permission === "granted"
-
-                    ? "granted"
-
-                    : await Notification.requestPermission();
-
-                if (permission !== "granted") {
-
-                    throw new Error("Notificações não autorizadas.");
-
-                }
-
-                setButton("Alertas ativos", false);
-
-                setStatus("");
-
-                showLocalNotification("Alertas ativos", { body: "Vais ser avisado quando o descanso terminar.", icon: "icons/icon-192.png", tag: "gym-alerts-enabled" });
-
-                return;
+                throw new Error("Este navegador não permite notificações. No iPhone, adiciona a app ao ecrã principal e abre-a daí.");
 
             }
 
-            if (!oneSignalInstance) {
+            if (Notification.permission === "denied") throw new Error(BLOCKED_NOTE);
 
-                // Carrega o SDK após interação explícita. Depois de preparado, o
-                // utilizador toca novamente para autorizar/confirmar a subscrição.
-                const prepared = await loadOneSignal();
+            // O pedido tem de ser a primeira coisa após o toque: o iOS recusa-o depois de esperar pela rede.
+            const permission = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
 
-                subscriptionId = prepared.User?.PushSubscription?.id || null;
+            if (permission !== "granted") {
 
-                if (prepared.User?.PushSubscription?.optedIn && subscriptionId) {
-
-                    renderCurrentState();
-
-                    return;
-
-                }
-
-                setButton("Ativar alertas", true);
-
-                setStatus("Serviço preparado. Toca novamente para concluir a ativação.");
-
-                return;
+                throw new Error(permission === "denied" ? BLOCKED_NOTE : "Notificações não autorizadas.");
 
             }
 
-            const OneSignal = oneSignalInstance;
+            if (!backendConfigured || !APP_ID) await checkBackend();
 
-            if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
+            if (backendConfigured && APP_ID) await activateRemote();
 
-                throw new Error("Alertas não suportados neste navegador.");
+            setButton("Alertas ativos", false);
 
-            }
+            setStatus("");
 
-            // O pedido de permissão parte diretamente deste clique do utilizador.
-            const permissionRequest = OneSignal.Notifications.requestPermission();
-
-            await permissionRequest;
-
-            if (!OneSignal.Notifications.permission) {
-
-                throw new Error("Notificações não autorizadas.");
-
-            }
-
-            await OneSignal.User.PushSubscription.optIn();
-
-            subscriptionId = await waitForSubscriptionId(OneSignal);
-
-            if (!subscriptionId) throw new Error("Não foi possível ativar os alertas. Tenta novamente.");
-
-            renderCurrentState();
+            showLocalNotification("Alertas ativos", { body: "Vais ser avisado quando o descanso terminar.", icon: "icons/icon-192.png", tag: "gym-alerts-enabled" });
 
         } catch (error) {
 
             setButton("Ativar alertas", true);
 
             setStatus(error?.message || "Não foi possível ativar os alertas.");
+
+            openRestMessage();
 
         }
 
@@ -750,7 +728,13 @@
             .then(state => { state.onchange = renderCurrentState; })
             .catch(() => {});
 
-        // O SDK de terceiros só será carregado após interação explícita do utilizador.
+        // Quem já autorizou não precisa de voltar a tocar no botão depois de reabrir a app;
+        // nos restantes casos, o SDK só é carregado após interação explícita.
+        if (backendConfigured && hasBrowserNotificationPermission()) {
+
+            loadOneSignal().then(renderCurrentState).catch(() => {});
+
+        }
 
     }
 
