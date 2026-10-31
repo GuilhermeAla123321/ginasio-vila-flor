@@ -7,8 +7,6 @@
 #gymGeneralAlertsHelp{flex:0 0 auto}
 #gymGeneralAlertsHelp[hidden]{display:none}
 @media(max-width:350px){.gym-rest-slot::before{display:none}.gym-rest-clock{left:10px}select.gym-rest-select{padding-left:10px!important}}
-/* O seletor do descanso geral aparece apenas na vista inicial, não dentro do editor. */
-#page-workout .workout-page.is-adding-exercise .gym-general-rest{display:none}
 /* A duração aplica-se a séries em cartões e em popups sem os transformar em painéis enormes. */
 .gym-inline-rest{border-color:rgba(167,125,200,.30);background:linear-gradient(115deg,rgba(100,64,132,.16),rgba(62,43,79,.12))}
 .gym-inline-rest.is-finished{border-color:rgba(207,160,236,.63)}
