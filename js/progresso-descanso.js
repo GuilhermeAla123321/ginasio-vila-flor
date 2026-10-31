@@ -241,7 +241,7 @@
       general.remaining=Math.max(0,Math.ceil((general.deadline-Date.now())/1000));
       general.running=general.remaining>0;general.paused=false;
     } else {
-      general.remaining=Math.max(0,Math.min(general.duration,Number(previous.remaining)||0));
+      general.remaining=Math.min(general.duration,Number(previous.remaining)||general.duration);
       general.paused=Boolean(previous.paused);
     }
   }
@@ -383,14 +383,14 @@
   function tick(){
     if(general.running){
       general.remaining=Math.max(0,Math.ceil((general.deadline-Date.now())/1000));
-      if(general.remaining===0){general.running=false;general.paused=false;general.deadline=0;completeRest('geral');}
+      if(general.remaining===0){general.running=false;general.paused=false;general.deadline=0;general.remaining=general.duration;completeRest('geral');}
       saveGeneral();renderGeneral();
     }
     if(gap.running){
       if(!gap.el?.isConnected){gap.running=false;cancelPush('series');}
       else {
         gap.remaining=Math.max(0,Math.ceil((gap.deadline-Date.now())/1000));
-        if(gap.remaining===0){gap.running=false;gap.paused=false;gap.deadline=0;completeRest('series');}
+        if(gap.remaining===0){gap.running=false;gap.paused=false;gap.deadline=0;gap.remaining=gap.duration;completeRest('series');}
         renderGap();
       }
     }

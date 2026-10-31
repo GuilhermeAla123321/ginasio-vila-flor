@@ -28,8 +28,8 @@
 
     <script>try{const t=localStorage.getItem("vf_ginasio_tema");document.documentElement.dataset.theme=t==="light"?"light":"dark";}catch(e){document.documentElement.dataset.theme="dark";}</script>
 
-    <link rel="stylesheet" href="css/style.css?v=90">
-    <link rel="stylesheet" href="css/rest-global.css?v=12">
+    <link rel="stylesheet" href="css/style.css?v=93">
+    <link rel="stylesheet" href="css/rest-global.css?v=24">
 
     <script type="importmap">
     {
@@ -42,7 +42,7 @@
 
 </head>
 
-<body>
+<body><script>document.body.dataset.theme=document.documentElement.dataset.theme</script>
 
     <div class="portrait-lock-screen" role="status" aria-live="polite">
         <div class="portrait-lock-card">
@@ -370,7 +370,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/passadeira.png" alt="Passadeira">
+                                <img src="assets/passadeira.png?v=2" alt="Passadeira">
 
                             </div>
 
@@ -388,7 +388,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/bicicleta.png" alt="Bicicleta">
+                                <img src="assets/bicicleta.png?v=2" alt="Bicicleta">
 
                             </div>
 
@@ -406,7 +406,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/eliptica.png" alt="Elíptica">
+                                <img src="assets/eliptica.png?v=2" alt="Elíptica">
 
                             </div>
 
@@ -424,7 +424,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/remo.png" alt="Máquina de Remo">
+                                <img src="assets/remo.png?v=2" alt="Máquina de Remo">
 
                             </div>
 
@@ -442,7 +442,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/smith.png" alt="Smith Machine">
+                                <img src="assets/smith.png?v=2" alt="Smith Machine">
 
                             </div>
 
@@ -462,7 +462,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/polia.png" alt="Polia Multifuncional">
+                                <img src="assets/polia.png?v=2" alt="Polia Multifuncional">
 
                             </div>
 
@@ -480,7 +480,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/abdutora.png" alt="Máquina Abdutora">
+                                <img src="assets/abdutora.png?v=2" alt="Máquina Abdutora">
 
                             </div>
 
@@ -498,7 +498,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/prensa.png" alt="Prensa de Ombros">
+                                <img src="assets/prensa.png?v=2" alt="Prensa de Ombros">
 
                             </div>
 
@@ -516,7 +516,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/peckdeck.png" alt="Peck Deck">
+                                <img src="assets/peckdeck.png?v=2" alt="Peck Deck">
 
                             </div>
 
@@ -534,7 +534,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/peso-livre.png" alt="Peso Livre">
+                                <img src="assets/peso-livre.png?v=2" alt="Peso Livre">
 
                             </div>
 
@@ -552,7 +552,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/legpress.png" alt="Leg Press">
+                                <img src="assets/legpress.png?v=2" alt="Leg Press">
 
                             </div>
 
@@ -570,7 +570,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/extensora .png" alt="Extensora">
+                                <img src="assets/extensora .png?v=2" alt="Extensora">
 
                             </div>
 
@@ -588,7 +588,7 @@
 
                             <div class="equipment-icon">
 
-                                <img src="assets/mesa.png" alt="Mesa flexora">
+                                <img src="assets/mesa.png?v=2" alt="Mesa flexora">
 
                             </div>
 
@@ -660,131 +660,6 @@
                 </div>
                 <div id="gymProgressBody"></div>
               </section>
-            </section>
-
-            <section class="page" id="page-timer">
-
-                <section class="section">
-
-                    <span class="eyebrow">TREINO</span>
-
-                    <div class="page-title-with-help">
-                        <div class="page-title-with-help-row">
-                            <h2>Timer</h2>
-                            <button class="page-context-help" type="button" aria-label="Ajuda sobre o Timer" aria-expanded="false" aria-controls="timerPageHelpText">?</button>
-                        </div>
-                        <p id="timerPageHelpText" class="page-context-help-text" role="note" hidden>Escolhe o tempo de descanso e carrega em «Iniciar». Ativa os alertas para saberes quando termina.</p>
-                    </div>
-
-
-                    <div class="timer-card timer-wheel-card" id="timerCard">
-
-                        <!-- Contagem decrescente circular visível acima do seletor em roda -->
-
-                        <svg class="timer-wheel-svg-defs" width="0" height="0" aria-hidden="true">
-
-                            <defs>
-
-                                <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-
-                                    <stop offset="0%" stop-color="#7042B8"/>
-
-                                    <stop offset="100%" stop-color="#4E2D82"/>
-
-                                </linearGradient>
-
-                                <linearGradient id="timerGradientActive" x1="0%" y1="0%" x2="100%" y2="100%">
-
-                                    <stop offset="0%" stop-color="#7042B8"/>
-
-                                    <stop offset="100%" stop-color="#4E2D82"/>
-
-                                </linearGradient>
-
-                            </defs>
-
-                        </svg>
-
-                        <div class="timer-ring-wrap timer-wheel-countdown" aria-label="Tempo restante">
-
-                            <svg class="timer-ring" viewBox="0 0 220 220" aria-hidden="true">
-
-                                <circle class="timer-ring-bg" cx="110" cy="110" r="100"/>
-
-                                <circle id="timerRingProgress" class="timer-ring-progress" cx="110" cy="110" r="100"/>
-
-                            </svg>
-
-                            <div class="timer-center">
-
-                                <div id="timerDisplay" class="timer-display">00:00</div>
-
-                            </div>
-
-                        </div>
-<div class="timer-wheel-picker" aria-label="Selecionar duração do temporizador">
-
-                            <div class="timer-wheel-column">
-
-                                <span class="timer-wheel-label">Minutos</span>
-
-                                <div class="timer-wheel" id="timerMinutesWheel" tabindex="0" aria-label="Minutos"></div>
-
-                            </div>
-
-                            <div class="timer-wheel-column">
-
-                                <span class="timer-wheel-label">Segundos</span>
-
-                                <div class="timer-wheel" id="timerSecondsWheel" tabindex="0" aria-label="Segundos"></div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="timer-wheel-actions">
-
-                            <button id="timerStart" class="primary-btn" type="button">Iniciar</button>
-
-                            <button id="timerReset" class="secondary-btn" type="button">Reiniciar</button>
-
-                        </div>
-
-                        <div class="timer-background-alerts" aria-labelledby="timerBackgroundTitle">
-                            <div class="timer-background-alerts-label">
-                                <strong id="timerBackgroundTitle">Alertas em segundo plano</strong>
-                            </div>
-                            <button id="timerBackgroundEnable" class="secondary-btn" type="button" aria-disabled="false">Ativar alertas</button>
-                            <p id="timerBackgroundHelpText" class="timer-background-help-text" hidden>Recebe uma notificação quando o tempo termina, mesmo noutra página. O navegador pode pedir autorização.</p>
-                            <span id="timerBackgroundStatus" role="status" aria-live="polite" hidden></span>
-                        </div>
-
-                        <p class="timer-wheel-status" id="timerState" aria-live="polite"></p>
-
-                    </div>
-
-                    <aside class="gym-tips-card" id="gymTipsCard" aria-labelledby="gymTipsTitle">
-                        <div class="gym-tips-header">
-                            <span class="gym-tips-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" focusable="false"><path d="M9 18h6M10 21h4M8.2 14.8A6 6 0 1 1 15.8 15c-.8.6-1.3 1.5-1.3 2.3h-5c0-.8-.5-1.8-1.3-2.5Z"/><path d="M12 2v1.5M4.9 4.9 6 6M19.1 4.9 18 6"/></svg>
-                            </span>
-                            <div class="gym-tips-heading">
-                                <span class="gym-tips-eyebrow">DICA DE TREINO</span>
-                                <h3 id="gymTipsTitle">Treina melhor, um passo de cada vez</h3>
-                            </div>
-                        </div>
-                        <p class="gym-tips-text" id="gymTipText" aria-live="polite">Aquece alguns minutos antes de começar o treino.</p>
-                        <div class="gym-tips-footer">
-                            <span>Pequenos hábitos fazem a diferença.</span>
-                            <button class="gym-tips-next" id="nextGymTip" type="button">
-                                Outra dica
-                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-                            </button>
-                        </div>
-                    </aside>
-
-                </section>
-
             </section>
 
             <section class="page" id="page-info">
@@ -1038,28 +913,6 @@
 
     </div>
 
-    <div class="timer-completion-popup" id="timerCompletionPopup" role="status" aria-live="polite" aria-atomic="false" hidden>
-
-        <span class="timer-completion-icon" aria-hidden="true">✓</span>
-
-        <div class="timer-completion-content">
-
-            <strong id="timerCompletionTitle">Tempo de descanso terminado</strong>
-
-            <p>Aviso fecha automaticamente em <span id="timerCompletionCountdown" aria-live="off">3</span> s.</p>
-
-            <div class="timer-completion-track" aria-hidden="true">
-
-                <span id="timerCompletionProgress"></span>
-
-            </div>
-
-        </div>
-
-        <button class="timer-completion-dismiss" id="timerCompletionDismiss" type="button" aria-label="Dispensar aviso" title="Dispensar aviso">×</button>
-
-    </div>
-
     <div id="gymRestCompleteToast" class="gym-rest-complete-toast" hidden role="status" aria-live="assertive">
       <span aria-hidden="true" class="gym-rest-done-icon" id="gymRestCompleteIcon">◷</span>
       <div><strong id="gymRestCompleteTitle">Descanso terminado</strong><span id="gymRestCompleteText">Está na hora de retomar o treino.</span></div>
@@ -1067,20 +920,16 @@
       <span class="gym-rest-done-bar" aria-hidden="true"></span>
     </div>
 
-    <script src="js/treino.js?v=94"></script>
+    <script src="js/treino.js?v=95"></script>
 
-    <script src="js/exercicios.js?v=70"></script>
+    <script src="js/exercicios.js?v=72"></script>
 
     <script src="js/navegacao.js"></script>
-    <script src="js/progresso-descanso.js?v=102"></script>
+    <script src="js/progresso-descanso.js?v=103"></script>
 
     <script src="js/horario.js"></script>
 
-    <script src="js/timer.js"></script>
-
-    <script src="js/timer-push-config.js"></script>
-
-    <script src="js/timer-background-push.js?v=8"></script>
+<script src="js/timer-background-push.js?v=12"></script>
 
     <script src="js/tema.js"></script>
 
@@ -1292,7 +1141,7 @@
 
   }
 
-/* Os estilos da biblioteca global estão definidos em css/style.css?v=90. */
+/* Os estilos da biblioteca global estão definidos em css/style.css?v=93. */
 
 </style>
 
@@ -1560,9 +1409,7 @@ window.addEventListener("appinstalled", hidePopup);
 
 <script src="js/janela.js"></script>
 
-<script src="js/dicas.js"></script>
-
-    <script src="js/page-context-help.js"></script>
+<script src="js/page-context-help.js"></script>
 
 <script type="module" src="js/equipment-3d.js"></script>
 
@@ -1604,25 +1451,6 @@ window.addEventListener("appinstalled", hidePopup);
 })();
 </script>
 
-<script>
-/* Navegação inferior responsiva ao scroll, sempre alinhada à base do viewport. */
-(()=>{
- const nav=document.querySelector('.bottom-nav'); if(!nav)return;
- let prev=window.scrollY, lastToggle=0, compact=false;
- const apply=value=>{ if(compact===value)return; compact=value; nav.classList.toggle('is-compact',value); };
- const onScroll=()=>{
-   if(document.querySelector('.exercise-modal-overlay.open,.exercise-editor-overlay.open,.exercise-picker.open'))return;
-   const y=Math.max(0,window.scrollY), diff=y-prev;prev=y;
-   if(y<80){apply(false);return;}
-   if(Math.abs(diff)<5 || performance.now()-lastToggle<150)return;
-   if(diff>6 && y>180){apply(true);lastToggle=performance.now();}
-   else if(diff< -7){apply(false);lastToggle=performance.now();}
- };
- window.addEventListener('scroll',onScroll,{passive:true});
- nav.addEventListener('click',()=>apply(false));
- document.addEventListener('click',e=>{if(e.target.closest('.nav-item')){apply(false);prev=0;}});
-})();
-</script>
 </body>
 
 </html>

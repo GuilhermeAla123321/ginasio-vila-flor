@@ -650,18 +650,6 @@ function treinosDoDia(dia = diaSelecionado) {
     return treinos[dia];
 }
 
-function garantirTreinoInicial(dia = diaSelecionado) {
-    const lista = treinosDoDia(dia);
-    if (!lista.length) {
-        lista.push({
-            id: criarIdTreino(),
-            nome: "Treino 1",
-            exercicios: []
-        });
-    }
-    return lista;
-}
-
 function encontrarTreinoDia(id, dia = diaSelecionado) {
     return treinosDoDia(dia).find(t => String(t.id) === String(id)) || null;
 }
@@ -1232,39 +1220,6 @@ function formatarValor(
             ? ` ${PARAMETROS[param].unit}`
             : ""
     }`;
-}
-
-
-function resumoRegisto(x) {
-
-    const meta =
-        metadadosExercicio(
-            x.nome,
-            {
-                grupo: x.grupo,
-                tipo: x.tipo,
-                personalizado:
-                    x.personalizado
-            }
-        );
-
-    return meta.tipo
-        ? parametrosDoExercicio(x, meta.tipo)
-              .map(
-                  p =>
-                      formatarValor(
-                          p,
-                          valorAtual(
-                              x,
-                              p
-                          )
-                      )
-              )
-              .filter(
-                  v => v !== "—"
-              )
-              .join(" · ")
-        : "";
 }
 
 
@@ -1948,10 +1903,17 @@ function renderTreino() {
     });
 
     r.querySelectorAll(".delete-exercise").forEach(b => {
-        b.onclick = () => {
+        b.onclick = async () => {
             const treino = encontrarTreinoDia(b.dataset.trainId);
             const indice = Number(b.dataset.index);
             if (!treino || !Number.isInteger(indice) || indice < 0 || indice >= treino.exercicios.length) return;
+            const confirmado = await confirmarApp({
+                titulo: "Eliminar exercício?",
+                mensagem: "O exercício e o seu histórico de evolução serão removidos deste treino.",
+                confirmar: "Eliminar",
+                perigo: true
+            });
+            if (!confirmado) return;
             treino.exercicios.splice(indice, 1);
             treinoSelecionadoId = treino.id;
             save();

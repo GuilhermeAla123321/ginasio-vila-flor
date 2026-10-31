@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v107';
+const CACHE_NAME = 'vf-ginasio-v131';
 
 const APP_SHELL = [
     './',
@@ -6,7 +6,6 @@ const APP_SHELL = [
     './manifest.json',
 
     './css/style.css',
-    './css/responsive.css',
     './css/rest-global.css',
 
     './js/equipamentos.js',
@@ -15,17 +14,18 @@ const APP_SHELL = [
     './js/treino.js',
     './js/exercicios.js',
     './js/progresso-descanso.js',
-    './images/progress/corpo-anterior.svg',
-    './images/progress/corpo-posterior.svg',
     './images/progress/corpo-anterior-detalhado.png',
     './images/progress/corpo-posterior-detalhado.png',
     './assets/vila-flor-flor-branca.png',
     './js/navegacao.js',
+    './js/equipment-3d.js',
+    './assets/vendor/three/build/three.module.js',
+    './assets/vendor/three/examples/jsm/loaders/GLTFLoader.js',
+    './assets/vendor/three/examples/jsm/controls/OrbitControls.js',
+    './assets/vendor/three/examples/jsm/environments/RoomEnvironment.js',
+    './assets/vendor/three/examples/jsm/utils/BufferGeometryUtils.js',
     './js/horario.js',
-    './js/dicas.js',
     './js/page-context-help.js',
-    './js/timer.js',
-    './js/timer-push-config.js',
     './js/timer-background-push.js',
     './js/feedback.js',
     './js/tema.js',

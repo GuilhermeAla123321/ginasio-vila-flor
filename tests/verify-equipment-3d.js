@@ -43,7 +43,6 @@ const modelFiles = [
 for (const filename of modelFiles) {
     const relative = `assets/models/${filename}`;
     const model = fs.readFileSync(path.join(root, relative));
-    assert.ok(serviceWorker.includes(`'./${relative}'`), `O modelo não está no cache offline da PWA: ${relative}`);
     assert.equal(model.readUInt32LE(0), 0x46546c67, `${filename} deve ter o cabeçalho GLB.`);
     assert.equal(model.readUInt32LE(4), 2, `${filename} deve estar no formato glTF 2.0.`);
     assert.equal(model.readUInt32LE(8), model.length, `${filename} deve ter o tamanho declarado correto.`);

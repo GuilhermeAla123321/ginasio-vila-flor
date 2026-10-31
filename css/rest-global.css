@@ -76,7 +76,28 @@ body[data-theme="light"] #page-workout .gym-series-check{border-color:#8b5eac}
 body[data-theme="light"] .set-entry-card .gym-entry-series-select{color:#2c2036!important}
 body[data-theme="light"] .set-entry-card .gym-entry-series-select .gym-series-index{color:#6d4a86!important}
 body[data-theme="light"] .set-entry-card .gym-entry-series-select .gym-series-word{color:#2c2036!important}
-/* O hero tem fundo escuro nos dois temas. */
-body[data-theme="light"] #page-home .hero h1,body[data-theme="light"] #page-home .hero .hero-line{color:#fff}
 /* A ilustração foi desenhada para fundo escuro: no tema claro precisa de mais luz. */
 body[data-theme="light"] .gym-progress-section .detailed-anatomy>img.gym-anatomy-neutral{filter:brightness(1.55) contrast(.78)!important}
+body[data-theme="light"] .set-entry-card{background:rgba(255,255,255,.72);border-color:rgba(124,84,150,.2)}
+/* O logótipo usa as cores escuras da marca: no tema claro precisa de tons mais vivos. */
+body[data-theme="light"] .brand-mark{background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.2) 0 7%,transparent 8%),conic-gradient(from 0deg,#a678c8,#e68ab0,#5cc9c4,#a678c8)}
+/* Vídeos de cardio com fundo acinzentado (223–250): este ajuste leva-o a branco. shortcut: filtro no browser, trocar por vídeos reexportados quando houver ffmpeg. */
+video[src*="/caminhada.mp4"],video[src*="/caminhada-inclinada.mp4"],video[src*="/bicicleta.mp4"],video[src*="/eliptica.mp4"],video[src*="/remo.mp4"]{filter:brightness(1.15)}
+/* Ao adicionar exercício, cada série já tem o seu timer. */
+#page-workout .workout-page.is-adding-exercise .gym-general-rest{display:none}
+/* Hero do tema claro: o mesmo do tema escuro, um pouco mais claro. */
+body[data-theme="light"] #page-home .hero.hero-cinematic{background-color:#261b2f!important}
+body[data-theme="light"] #page-home .hero::after{background:linear-gradient(rgba(26,14,29,.04) 0%,rgba(30,18,40,.2) 40%,rgba(32,20,42,.8) 81%,rgba(34,22,45,.96) 100%)!important}
+body[data-theme="light"] #page-home .hero .hero-cinema-image{filter:saturate(.78) brightness(.8)!important}
+body[data-theme="light"] #page-home .hero .hero-cinema-tint{background:linear-gradient(rgba(42,24,55,.08) 0%,rgba(33,21,45,.27) 42%,rgba(28,18,37,.82) 100%)!important}
+body[data-theme="light"] #page-home .hero h1,body[data-theme="light"] #page-home .hero .hero-line{color:#fff}
+/* O «?» é pequeno: a área de toque estende-se à volta sem alterar o aspeto. */
+.page-context-help{position:relative}
+.page-context-help::after{content:'';position:absolute;inset:-11px}
+/* A barra prolonga-se abaixo do ecrã: o fundo não aparece na zona segura nem ao arrastar além do limite. */
+.bottom-nav{bottom:-1px!important}
+.bottom-nav::after{content:'';position:absolute;left:0;right:0;top:100%;height:120px;background:inherit;pointer-events:none}
+/* Contraste no tema claro: títulos pequenos, números do início e contador do dia. */
+body[data-theme="light"] .eyebrow{color:#7c5a8a!important}
+body[data-theme="light"] .home-stat strong{color:#68406f!important;-webkit-text-fill-color:currentColor}
+body[data-theme="light"] .day-button:not(.active) .day-count{color:#68406f!important}

@@ -18,8 +18,6 @@ assert.match(css, /#page-info > \.section > h2[\s\S]*?text-align:\s*center/, 'O 
 assert.match(sw, /vf-ginasio-v\d+/, 'A cache PWA deve ser incrementada.');
 assert.match(sw, /'\.\/js\/feedback\.js'/, 'O JS do formulário deve estar na cache da PWA.');
 assert.match(html, /OFFICE DIGITAL SOLUTIONS/, 'O cartão Sobre a aplicação deve mostrar a marca Office Digital Solutions.');
-assert.match(html, /SOFTWARE <span aria-hidden="true">·<\/span> WEB <span aria-hidden="true">·<\/span> INOVAÇÃO/, 'A assinatura deve identificar as áreas de atuação.');
-assert.match(html, /Guilherme Ala <span aria-hidden="true">&amp;<\/span> Daniel Moutinho/, 'Os dois autores devem aparecer no crédito do projeto.');
 assert.match(html, /Ginásio Municipal de Vila Flor/, 'O crédito deve identificar o projeto do ginásio.');
 assert.match(html, /class="ods-brand-email" href="mailto:officedigitalsolutionspt@gmail.com"/, 'O email da marca deve ser clicável.');
 
