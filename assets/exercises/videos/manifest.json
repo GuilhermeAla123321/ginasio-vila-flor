@@ -305,7 +305,7 @@
       "id": "dumbbell-chest-fly",
       "exercise": "Crucifixo com halteres",
       "equipment": [
-        "Banco de Peso"
+        "Peso Livre"
       ],
       "file": "assets/exercises/videos/crucifixo-com-halteres.mp4"
     },
@@ -313,7 +313,7 @@
       "id": "dumbbell-incline-row",
       "exercise": "Remada inclinada com halteres",
       "equipment": [
-        "Banco de Peso"
+        "Peso Livre"
       ],
       "file": "assets/exercises/videos/remada-inclinada-com-halteres.mp4"
     },
@@ -321,7 +321,7 @@
       "id": "dumbbell-incline-curl",
       "exercise": "Rosca inclinada com halteres",
       "equipment": [
-        "Banco de Peso"
+        "Peso Livre"
       ],
       "file": "assets/exercises/videos/rosca-inclinada-biceps.mp4"
     },
@@ -329,25 +329,9 @@
       "id": "dumbbell-incline-bench-press",
       "exercise": "Supino inclinado com pesos livres",
       "equipment": [
-        "Banco de Peso"
+        "Peso Livre"
       ],
       "file": "assets/exercises/videos/supino-inclinado-halteres.mp4"
-    },
-    {
-      "id": "dumbbell-shoulder-press",
-      "exercise": "Press de ombros com halteres",
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/press-de-ombros-halteres.mp4"
-    },
-    {
-      "id": "bulgarian-split-squat",
-      "exercise": "Agachamento búlgaro",
-      "equipment": [
-        "Banco de Peso"
-      ],
-      "file": "assets/exercises/videos/agachamento-bulgaro.mp4"
     },
     {
       "id": "peso-livre-agachamento-bulgaro-halteres",

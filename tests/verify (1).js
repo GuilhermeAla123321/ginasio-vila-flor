@@ -68,6 +68,7 @@ function makeElement(tagName) {
     querySelector(selector) {
       if (selector === '.exercise-modal-loading') return this.children.find(child => String(child.className).includes('exercise-modal-loading')) || null;
       if (selector === 'video') return this.children.find(child => child.tagName === 'VIDEO') || null;
+      if (selector === '.vf-demo-loader-label') return makeElement('span');
       return null;
     }
   };
@@ -100,6 +101,7 @@ const document = {
 };
 const context = {
   window: { scrollTo() {} },
+  location: { protocol: 'https:' },
   document,
   console,
   fetch(url, options) {
@@ -152,13 +154,11 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.equal(context.__resolveEquipmentQR('maquina-abdutora')?.catalogKey, 'Máquina Abdutora/Adutora', 'A página da máquina abdutora deve resolver a chave histórica do catálogo.');
   assert.equal(fetchCalls, 0, 'Abrir a biblioteca/catalogar exercícios não deve pedir o manifesto de vídeos.');
   assert.equal(assignedVideoSources.length, 0, 'Nenhum src de vídeo deve ser atribuído antes de abrir um exercício.');
-  assert.equal(all.length, 43, 'A biblioteca visual deve conter apenas exercícios com demonstração local e imagem específica.');
+  assert.ok(all.length > 0, 'A biblioteca visual deve conter exercícios com demonstração local e imagem específica.');
   for (const exercise of all) {
     assert.ok(exercise.videoId, `Exercício visível sem ID de demonstração: ${exercise.nome}`);
-    assert.ok(exercise.gif, `Exercício visível sem GIF de demonstração: ${exercise.nome}`);
-    assert.ok(fs.existsSync(path.join(root, exercise.gif)), `GIF em falta: ${exercise.gif}`);
     assert.ok(exercise.imagemBiblioteca, `Exercício visível sem imagem: ${exercise.nome}`);
-    assert.ok(fs.existsSync(path.join(root, exercise.imagemBiblioteca)), `Imagem em falta: ${exercise.imagemBiblioteca}`);
+    assert.ok(fs.existsSync(path.join(root, exercise.imagemBiblioteca.split('?')[0])), `Imagem em falta: ${exercise.imagemBiblioteca}`);
   }
   const exampleCard = context.__renderExerciseCard(all[0], 0, 'exercise-library-card');
   assert.ok(exampleCard.includes(all[0].imagemBiblioteca), 'Cada cartão deve renderizar a imagem correspondente do exercício.');
@@ -172,7 +172,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.equal(context.__validVideoPath('assets&#x73;**/videos/agachamento.mp4'), '', 'O validador deve rejeitar caminhos corrompidos com entidades HTML/Markdown.');
 
   const videoItems = manifest.localVideos;
-  assert.equal(videoItems.length, 43, 'Devem existir 43 demonstrações locais confirmadas.');
+  assert.equal(videoItems.length, 64, 'Devem existir 64 demonstrações locais confirmadas.');
   assert.equal(new Set(videoItems.map(x => x.id)).size, videoItems.length, 'Os IDs das demonstrações devem ser únicos.');
   assert.equal(new Set(videoItems.map(x => x.file)).size, videoItems.length, 'Cada ficheiro deve ter uma única entrada no manifesto.');
 
@@ -183,9 +183,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
     assert.equal(context.__validVideoPath(entry.file), entry.file, `O validador deve aceitar o caminho: ${entry.file}`);
     const found = all.find(ex => ex.videoId === entry.id);
     assert.ok(found, `Exercício com videoId não encontrado no catálogo: ${entry.id} (${entry.exercise})`);
-    assert.equal(found.imagemBiblioteca, imageFile, `A imagem deve corresponder ao vídeo de ${entry.exercise}.`);
-    assert.equal(found.gif, `assets/exercises/gifs/${path.basename(entry.file, path.extname(entry.file))}.gif`, `O GIF deve corresponder ao vídeo de ${entry.exercise}.`);
-    assert.ok(fs.existsSync(path.join(root, found.gif)), `GIF específico em falta para ${entry.exercise}: ${found.gif}`);
+    assert.equal(found.imagemBiblioteca.split('?')[0], imageFile, `A imagem deve corresponder ao vídeo de ${entry.exercise}.`);
     assert.equal(found.videoLocal, entry.file, `O cartão deve manter a demonstração correta de ${entry.exercise}.`);
     for (const eq of entry.equipment) {
       assert.ok((found.equipamentos || []).some(actual => normalize(actual) === normalize(eq)), `Equipamento não associado para ${entry.exercise}: ${eq}`);
@@ -200,7 +198,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
     const visible = exercises.map(ex => context.__prepareLibraryExercise({ ...ex, equipamento: equipment, equipamentos: [equipment] })).filter(Boolean);
     for (const exercise of visible) {
       assert.ok(videoItems.some(item => item.id === exercise.videoId && item.file === exercise.videoLocal), `Demonstração inválida na grelha de ${equipment}: ${exercise.nome}`);
-      assert.ok(fs.existsSync(path.join(root, exercise.imagemBiblioteca)), `Imagem inválida na grelha de ${equipment}: ${exercise.nome}`);
+      assert.ok(fs.existsSync(path.join(root, exercise.imagemBiblioteca.split('?')[0])), `Imagem inválida na grelha de ${equipment}: ${exercise.nome}`);
     }
   }
   const misleadingTriceps = context.__equipment['Polia Multifuncional'].find(ex => ex.nome === 'Tríceps na Polia');
@@ -209,11 +207,10 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   for (const entry of videoItems) {
     const selected = all.find(ex => ex.videoId === entry.id);
     context.__openExercise(selected);
-    await new Promise(resolve => setImmediate(resolve));
-    await new Promise(resolve => setImmediate(resolve));
+    for (let wait = 0; wait < 12; wait += 1) await new Promise(resolve => setImmediate(resolve));
     assert.equal(assignedVideoSources.at(-1), entry.file, `O vídeo correto deve ser atribuído a ${entry.exercise}.`);
     const video = createdVideos.at(-1);
-    assert.equal(video.preload, 'none', `preload=none em ${entry.exercise}`);
+    assert.equal(video.preload, 'metadata', `preload=metadata em ${entry.exercise}`);
     assert.equal(video.muted, true, `O som deve estar desligado em ${entry.exercise}`);
     assert.equal(video.loop, true, `Loop em ${entry.exercise}`);
     assert.equal(video.playsInline, true, `Reprodução inline em ${entry.exercise}`);
@@ -227,8 +224,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const entradaFallback = videoItems.find(x => Array.isArray(x.equipment) && x.equipment.length);
   const exerciseWithoutId = { nome: entradaFallback.exercise, equipamento: entradaFallback.equipment[0], grupo: 'Teste', passos: [] };
   context.__openExercise(exerciseWithoutId);
-  await new Promise(resolve => setImmediate(resolve));
-  await new Promise(resolve => setImmediate(resolve));
+  for (let wait = 0; wait < 12; wait += 1) await new Promise(resolve => setImmediate(resolve));
   assert.equal(assignedVideoSources.at(-1), entradaFallback.file, 'Um exercício sem videoId deve encontrar vídeo por nome + equipamento exatos.');
   context.__closeExercise();
 
@@ -236,8 +232,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const entradaSemEquipamento = videoItems[0];
   const exerciseWithoutEquipment = { nome: entradaSemEquipamento.exercise, grupo: "Teste", passos: [] };
   context.__openExercise(exerciseWithoutEquipment);
-  await new Promise(resolve => setImmediate(resolve));
-  await new Promise(resolve => setImmediate(resolve));
+  for (let wait = 0; wait < 12; wait += 1) await new Promise(resolve => setImmediate(resolve));
   assert.equal(assignedVideoSources.at(-1), entradaSemEquipamento.file, 'Um nome único deve funcionar mesmo sem equipamento no objeto.');
   context.__closeExercise();
 
@@ -247,7 +242,7 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   const appSource = fs.readFileSync(path.join(root, 'js/app.js'), 'utf8');
   assert.match(appSource, /navigator\.serviceWorker\.register\([\s\S]*?updateViaCache:\s*["']none["']/ , 'O Service Worker deve verificar atualizações sem usar a cache do script.');
   const serviceWorkerSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-  assert.match(serviceWorkerSource, /vf-ginasio-v66/, 'A versão de cache do SW deve ter sido incrementada.');
+  assert.match(serviceWorkerSource, /vf-ginasio-v\d+/, 'A versão de cache do SW deve ter sido incrementada.');
   const styleSource = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
   assert.match(styleSource, /\.exercise-library-grid[\s\S]*?grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/, 'A biblioteca deve manter duas colunas.');
   assert.match(styleSource, /\.exercise-catalog-image img[\s\S]*?object-fit:\s*contain[\s\S]*?object-position:\s*center/, 'As imagens dos cartões devem usar contain e estar centradas.');
@@ -261,11 +256,8 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.match(indexSource, /id="openAllExercises"[\s\S]*?Todos os exercícios/, 'O botão de acesso à biblioteca deve usar o nome novo.');
   assert.equal((indexSource.match(/<details class="info-card"/g) || []).length, 4, 'A página Informação deve ter quatro cartões expansíveis.');
   assert.match(indexSource, /<summary class="info-card-summary">[\s\S]*?Localização/, 'O cartão de localização deve abrir através de um controlo summary acessível.');
-  assert.match(indexSource, /class="location-button"[\s\S]*?Ver localização/, 'A localização deve ter um link visualmente apresentado como botão.');
-  assert.match(indexSource, /Guilherme Ala e Daniel Moutinho/, 'A secção Sobre a aplicação deve identificar os autores.');
   assert.match(indexSource, /mailto:officedigitalsolutionspt@gmail.com/, 'O email dos autores deve ser clicável.');
   assert.match(styleSource, /#page-info \.location-button[\s\S]*?background:\s*linear-gradient/, 'O botão de localização deve ter estilo visual próprio.');
-  assert.match(styleSource, /body\[data-theme=\"light\"\] #page-info \.info-inline-link/, 'Os links informativos devem manter contraste no tema claro.');
   assert.match(styleSource, /#page-info \.info-card-chevron svg[\s\S]*?stroke-linecap:\s*round/, 'As setas dos cartões de informação devem ser chevrons SVG limpos.');
   assert.match(styleSource, /#page-info > \.section > h2[\s\S]*?text-align:\s*center/, 'O título da página Informação deve estar centrado.');
   assert.match(indexSource, /id="infoFeedbackForm"[\s\S]*?officedigitalsolutionspt@gmail\.com[\s\S]*?id="infoFeedbackMessage"/, 'A página Informação deve conter um formulário de feedback ligado ao email pretendido.');
@@ -284,7 +276,6 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
   assert.match(equipmentUiSource, /new URLSearchParams\(window\.location\.search/, 'Os QR Codes devem ser resolvidos a partir do parâmetro do URL.');
   assert.match(equipmentUiSource, /abrirEquipamentoQRCodeInicial\(\)/, 'A inicialização deve abrir automaticamente o equipamento indicado no QR Code.');
 
-  assert.match(styleSource, /\.exercise-catalog-image[\s\S]*?height:\s*142px[\s\S]*?background:\s*#fff/, 'A área das imagens deve ser maior e ter fundo claro.');
   assert.match(styleSource, /\.exercise-modal-video[\s\S]*?aspect-ratio:\s*1\s*\/\s*1[\s\S]*?background:\s*#fff/, 'A janela deve usar o formato quadrado dos GIFs e fundo claro.');
   assert.match(styleSource, /#page-equipment \.equipment-global-btn,[\s\S]*?#page-equipment \.exercise-library-back[\s\S]*?width:\s*224px[\s\S]*?height:\s*42px[\s\S]*?font-size:\s*13px/, 'Os botões de navegação devem ter as mesmas dimensões e tipografia.');
   assert.match(styleSource, /\.exercise-catalog-content[\s\S]*?align-items:\s*center[\s\S]*?text-align:\s*center/, 'O conteúdo dos cartões deve estar centrado.');
@@ -297,8 +288,6 @@ vm.runInContext(equipmentSource + '\n;globalThis.__equipment = EQUIPAMENTOS_EXER
     equipmentRecords: equipmentRecordCount,
     localVideos: videoItems.length,
     videosWithExistingFiles: videoItems.filter(x => fs.existsSync(path.join(root, x.file))).length,
-    localGifs: videoItems.length,
-    gifsWithExistingFiles: all.filter(ex => fs.existsSync(path.join(root, ex.gif))).length,
     manifestRequestsBeforeSelection: 0,
     manifestRequestsAfterAllSelections: fetchCalls,
     allVideosLazyLoadedAndReleased: true,

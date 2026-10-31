@@ -2,13 +2,9 @@
 
     "use strict";
 
-    const CONFIG = window.GINASIO_TIMER_PUSH_CONFIG || { appId: "" };
+let APP_ID = "";
 
-    let APP_ID = typeof CONFIG.appId === "string" ? CONFIG.appId.trim() : "";
-
-    const MESSAGE_ID_KEY = "vf_timer_background_push_message_id";
-
-    const PUSH_DELAY_MS = 1200; // margem para cancelar um push se a página terminar em primeiro plano
+const PUSH_DELAY_MS = 1200; // margem para cancelar um push se a página terminar em primeiro plano
 
     let oneSignalPromise = null;
 
@@ -18,13 +14,7 @@
 
     let subscriptionId = null;
 
-    let requestVersion = 0;
-
-    let activeMessageId = readStoredMessageId();
-
-    let remoteNotificationScheduled = false;
-
-    // IDs independentes evitam que o descanso geral cancele a notificação de uma série.
+// IDs independentes evitam que o descanso geral cancele a notificação de uma série.
     const REST_MESSAGE_STORE = "vf_gym_rest_push_ids_v1";
     const restMessageIds = (() => { try { return JSON.parse(localStorage.getItem(REST_MESSAGE_STORE)) || {}; } catch (_) { return {}; } })();
     const restVersions = { geral: 0, series: 0 };
@@ -34,71 +24,41 @@
 
     const BLOCKED_NOTE = "Notificações bloqueadas. Permite-as nas definições do site e toca novamente.";
 
-    const button = () => document.getElementById("timerBackgroundEnable");
+function setStatus(message) {
 
-    const status = () => document.getElementById("timerBackgroundStatus");
-
-    function readStoredMessageId() {
-
-        try { return localStorage.getItem(MESSAGE_ID_KEY) || ""; }
-
-        catch (_) { return ""; }
-
-    }
-
-    function storeMessageId(id) {
-
-        activeMessageId = id || "";
-
-        try {
-
-            if (activeMessageId) localStorage.setItem(MESSAGE_ID_KEY, activeMessageId);
-
-            else localStorage.removeItem(MESSAGE_ID_KEY);
-
-        } catch (_) {}
-
-    }
-
-    function setStatus(message) {
-
-        const node = status();
-
-        if (!node) return;
-
-        node.textContent = message || "";
-
-        node.hidden = !message;
         const other = restStatus();
+
         if (other) other.textContent = message || "";
+
         const help = document.getElementById("gymGeneralAlertsHelp");
+
         if (help) {
+
             help.hidden = !message;
+
             if (!message) {
+
                 help.setAttribute("aria-expanded", "false");
+
                 if (other) other.hidden = true;
+
             }
+
         }
 
     }
 
     function setButton(label, enabled) {
 
-        const node = button();
-
-        if (!node) return;
-
-        node.textContent = label;
-
-        node.disabled = !enabled;
-
-        node.setAttribute("aria-disabled", enabled ? "false" : "true");
         const other = restButton();
-        if (other) {
-            other.textContent = label;
-            other.disabled = !enabled;
-            other.setAttribute("aria-disabled", String(!enabled));
-        }
+
+        if (!other) return;
+
+        other.textContent = label;
+
+        other.disabled = !enabled;
+
+        other.setAttribute("aria-disabled", String(!enabled));
 
     }
 
@@ -378,54 +338,7 @@
 
         }
 
-        // Se o serviço remoto estiver configurado, a permissão do navegador não
-        // significa que a subscrição OneSignal já esteja ativa.
-        if (backendConfigured && APP_ID) {
-
-            if (!oneSignalInstance) {
-
-                setButton("Ativar alertas", true);
-
-                setStatus("");
-
-                return;
-
-            }
-
-            const OneSignal = oneSignalInstance;
-
-            if (OneSignal.Notifications?.isPushSupported && !OneSignal.Notifications.isPushSupported()) {
-
-                setButton("Ativar alertas", false);
-
-                setStatus("Alertas não suportados neste navegador.");
-
-                return;
-
-            }
-
-            const optedIn = Boolean(OneSignal.User?.PushSubscription?.optedIn && (OneSignal.User?.PushSubscription?.id || subscriptionId));
-
-            if (optedIn) {
-
-                setButton("Alertas ativos", false);
-
-                setStatus("");
-
-            } else {
-
-                setButton("Ativar alertas", true);
-
-                setStatus("");
-
-            }
-
-            return;
-
-        }
-
-        // Sem configuração remota, permite as notificações locais do navegador
-        // como alternativa. O Timer continua a funcionar mesmo sem OneSignal.
+        // Com permissão, os alertas já funcionam; a subscrição para o telemóvel bloqueado trata-se em segundo plano.
         if (hasBrowserNotificationPermission()) {
 
             setButton("Alertas ativos", false);
@@ -472,6 +385,9 @@
 
         }
 
+        // Com a permissão já dada, optIn só muda a preferência: é requestPermission que cria a subscrição.
+        await OneSignal.Notifications.requestPermission();
+
         await OneSignal.User.PushSubscription.optIn();
 
         subscriptionId = await waitForSubscriptionId(OneSignal);
@@ -482,9 +398,7 @@
 
     async function enable() {
 
-        const node = button();
-
-        if (node?.disabled) return;
+        if (restButton()?.disabled) return;
 
         setButton("A ativar…", false);
 
@@ -511,13 +425,13 @@
 
             if (!backendConfigured || !APP_ID) await checkBackend();
 
-            if (backendConfigured && APP_ID) await activateRemote();
-
             setButton("Alertas ativos", false);
 
             setStatus("");
 
             showLocalNotification("Alertas ativos", { body: "Vais ser avisado quando o descanso terminar.", icon: "icons/icon-192.png", tag: "gym-alerts-enabled" });
+
+            if (backendConfigured && APP_ID) activateRemote().catch(error => console.warn("Subscrição de alertas por concluir:", error));
 
         } catch (error) {
 
@@ -526,84 +440,6 @@
             setStatus(error?.message || "Não foi possível ativar os alertas.");
 
             openRestMessage();
-
-        }
-
-    }
-
-    async function schedule(deadlineMs) {
-
-        remoteNotificationScheduled = false;
-
-        if (!isEnabled()) return { scheduled: false, reason: "not-enabled" };
-
-        const version = ++requestVersion;
-
-        // Se existir um alerta antigo, tenta cancelá-lo antes de criar o próximo.
-
-        const oldId = activeMessageId || readStoredMessageId();
-
-        storeMessageId("");
-
-        if (oldId) await cancelMessageOnServer(oldId).catch(() => {});
-
-        const id = oneSignalInstance?.User?.PushSubscription?.id || subscriptionId;
-
-        if (!id) {
-
-            setStatus("Alertas não ativos.");
-
-            return { scheduled: false, reason: "missing-subscription" };
-
-        }
-
-        try {
-
-            const response = await requestJson("/api/timer/schedule", {
-
-                method: "POST",
-
-                body: JSON.stringify({
-
-                    subscriptionId: id,
-
-                    dueAt: Math.floor(Number(deadlineMs) + PUSH_DELAY_MS)
-
-                })
-
-            });
-
-            const messageId = typeof response.messageId === "string" ? response.messageId : "";
-
-            if (!messageId) throw new Error("O servidor não devolveu o identificador do alerta.");
-
-            if (version !== requestVersion) {
-
-                // O utilizador parou/reiniciou durante o pedido; não deixar um push órfão.
-
-                await cancelMessageOnServer(messageId).catch(() => {});
-
-                return { scheduled: false, reason: "cancelled-during-request" };
-
-            }
-
-            storeMessageId(messageId);
-
-            remoteNotificationScheduled = true;
-
-            setStatus("");
-
-            return { scheduled: true, messageId };
-
-        } catch (error) {
-
-            if (version === requestVersion) {
-
-                setStatus("Não foi possível agendar o alerta.");
-
-            }
-
-            return { scheduled: false, reason: error?.message || "schedule-failed" };
 
         }
 
@@ -669,20 +505,6 @@
         return true;
     }
 
-    async function cancel() {
-
-        requestVersion += 1;
-
-        remoteNotificationScheduled = false;
-
-        const messageId = activeMessageId || readStoredMessageId();
-
-        storeMessageId("");
-
-        if (messageId) await cancelMessageOnServer(messageId);
-
-    }
-
     function isEnabled() {
 
         const OneSignal = oneSignalInstance;
@@ -701,20 +523,7 @@
 
     async function initialize() {
 
-        const enableButton = button();
-
-        if (enableButton) enableButton.addEventListener("click", enable);
-        restButton()?.addEventListener("click", enable);
-
-        const helpButton = document.getElementById("timerBackgroundHelp");
-        const helpText = document.getElementById("timerBackgroundHelpText");
-        if (helpButton && helpText) {
-            helpButton.addEventListener("click", () => {
-                const isExpanded = helpButton.getAttribute("aria-expanded") === "true";
-                helpButton.setAttribute("aria-expanded", String(!isExpanded));
-                helpText.hidden = isExpanded;
-            });
-        }
+restButton()?.addEventListener("click", enable);
 
         setButton("A verificar…", false);
 
@@ -732,45 +541,22 @@
         // nos restantes casos, o SDK só é carregado após interação explícita.
         if (backendConfigured && hasBrowserNotificationPermission()) {
 
-            loadOneSignal().then(renderCurrentState).catch(() => {});
+            // Sem um toque, o iOS pode recusar o pedido: nesse caso repete no próximo toque na app.
+            activateRemote().catch(() => {
+
+                document.addEventListener("click", () => {
+
+                    activateRemote().catch(error => console.warn("Subscrição de alertas por concluir:", error));
+
+                }, { once: true });
+
+            });
 
         }
 
     }
 
-    window.TimerBackgroundAlerts = Object.freeze({
-
-        isEnabled,
-
-        enable,
-
-        scheduleNamed,
-
-        cancelNamed,
-
-        notifyNamed,
-
-        schedule,
-
-        cancel,
-
-        getConfigured: () => Boolean(APP_ID && backendConfigured),
-
-        notifyCompletion: () => {
-
-            // Evita duplicados se o push remoto foi agendado com sucesso.
-            // Se o agendamento falhou, tenta entregar a notificação local.
-            if (remoteNotificationScheduled) return false;
-
-            if (!hasBrowserNotificationPermission()) return false;
-
-            showLocalNotification("Timer terminado", { body: "O tempo de descanso chegou ao fim.", icon: "icons/icon-192.png" });
-
-            return true;
-
-        }
-
-    });
+    window.TimerBackgroundAlerts = Object.freeze({ scheduleNamed, cancelNamed, notifyNamed });
 
     document.addEventListener("DOMContentLoaded", initialize, { once: true });
 

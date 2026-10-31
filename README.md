@@ -10,7 +10,6 @@ Versão mobile-first em HTML, CSS e JavaScript puro.
 - `js/treino.js` — registo e progressão do treino
 - `js/navegacao.js` — páginas e navegação
 - `js/app.js` — inicialização
-- `js/dicas.js` — apresentação das 50 dicas de treino no Timer
 
 ## Abrir
 Não precisa de npm, React ou Vite.

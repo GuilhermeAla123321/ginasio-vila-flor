@@ -545,14 +545,12 @@ const EQUIPAMENTOS_EXERCICIOS = {
             sugestoes: [
                 "Começa com amplitude confortável.",
                 "Mantém joelhos e pés alinhados."
-            ],
-            gif: "assets/exercises/gif1.gif"
+            ]
         },
 
         {
             nome: "Tricep JM",
             videoId: "smith-bench-press",
-            gif: "assets/exercises/smith-bench-press.gif",
             grupo: "Braços",
             icon: "🏋️",
             desc: "Press de peito guiado na Smith Machine para trabalhar o peitoral e músculos auxiliares.",
@@ -1817,27 +1815,6 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
         cuidados: ["Usa uma carga que permita controlar a descida e evita forçar o ombro."]
     },
     { equipamento: "Peso Livre", nome: "Supino inclinado com pesos livres", videoId: "dumbbell-incline-bench-press" },
-    { equipamento: "Peso Livre", nome: "Press de ombros com halteres", videoId: "dumbbell-shoulder-press" },
-    {
-        equipamento: "Peso Livre",
-        nome: "Agachamento búlgaro",
-        videoId: "bulgarian-split-squat",
-        grupo: "Pernas",
-        icon: "🦵",
-        desc: "Agachamento unilateral com o pé de trás apoiado num banco, para trabalhar quadríceps e glúteos.",
-        passos: [
-            "Coloca o pé de trás apoiado no banco e avança o pé da frente até ficares estável.",
-            "Mantém o tronco controlado e o joelho da frente alinhado com o pé.",
-            "Desce de forma controlada até à amplitude confortável.",
-            "Empurra o chão com o pé da frente para regressar à posição inicial e repete do outro lado."
-        ],
-        erros: ["Perder o equilíbrio por colocar os pés demasiado próximos.", "Deixar o joelho da frente colapsar para dentro.", "Usar impulso ou descer sem controlo."],
-        musculos: ["Quadríceps", "Glúteos", "Posteriores da coxa"],
-        beneficios: ["Desenvolve força unilateral", "Trabalha pernas e glúteos", "Ajuda a melhorar o equilíbrio"],
-        dificuldade: "Intermédio",
-        cuidados: ["Confirma que o banco está estável.", "Começa sem carga e usa uma amplitude controlável."],
-        sugestoes: ["Faz o mesmo número de repetições de cada lado.", "Mantém o pé da frente totalmente apoiado."]
-    },
     // Novas demonstrações recebidas: imagens próprias geradas a partir dos vídeos.
     { equipamento: "Peso Livre", nome: "Agachamento búlgaro", videoId: "peso-livre-agachamento-bulgaro-halteres", grupo: "Pernas", icon: "🦵", desc: "Agachamento unilateral com halteres e o pé de trás apoiado num banco, para trabalhar quadríceps e glúteos.", passos: ["Coloca o pé de trás apoiado num banco estável e segura os halteres ao lado do corpo.", "Avança o pé da frente até encontrares uma posição equilibrada.", "Desce de forma controlada, mantendo o joelho da frente alinhado com o pé.", "Empurra o chão com o pé da frente para regressar à posição inicial e repete do outro lado."], erros: ["Perder o equilíbrio por uma base demasiado curta.", "Deixar o joelho da frente colapsar para dentro.", "Usar impulso ou descer sem controlo."] },
     { equipamento: "Peso Livre", nome: "Crucifixo inclinado com halteres", videoId: "peso-livre-crucifixo-inclinado-halteres", grupo: "Peito", icon: "🏋️", desc: "Abertura dos braços num banco inclinado, com ênfase na região superior do peitoral.", passos: ["Ajusta o banco a uma inclinação confortável e deita-te com os pés apoiados.", "Mantém os halteres acima do peito e os cotovelos ligeiramente fletidos.", "Abre os braços em arco até uma amplitude confortável.", "Aproxima os halteres de forma controlada sem os deixar bater."], erros: ["Usar carga excessiva.", "Esticar completamente os cotovelos.", "Descer além da amplitude confortável dos ombros."] },
@@ -2159,17 +2136,6 @@ function abrirEquipamento(nome) {
     window.scrollTo(0, 0);
 }
 
-function classeExercicio(grupo) {
-    return {
-        Peito: "t-peito",
-        Costas: "t-costas",
-        Pernas: "t-pernas",
-        Ombros: "t-ombros",
-        Braços: "t-bracos",
-        Core: "t-core"
-    }[grupo] || "";
-}
-
 function configurarFiltrosEquipamentos() {
 
     const container = document.querySelector(
@@ -2276,8 +2242,6 @@ const IMAGENS_EXERCICIO_BIBLIOTECA = {
     "dumbbell-incline-row": "remada-inclinada-com-halteres.jpg",
     "dumbbell-incline-curl": "rosca-inclinada-biceps.jpg",
     "dumbbell-incline-bench-press": "supino-inclinado-halteres.jpg",
-    "dumbbell-shoulder-press": "press-de-ombros-halteres.jpg",
-    "bulgarian-split-squat": "agachamento-bulgaro.jpg",
     "peso-livre-agachamento-bulgaro-halteres": "peso-livre-agachamento-bulgaro-halteres.jpg",
     "peso-livre-crucifixo-inclinado-halteres": "peso-livre-crucifixo-inclinado-halteres.jpg",
     "peso-livre-crucifixo-invertido-halteres": "peso-livre-crucifixo-invertido-halteres.jpg",
@@ -2314,7 +2278,6 @@ function prepararExercicioBiblioteca(exercicio) {
         ...exercicio,
         videoId,
         videoLocal: `assets/exercises/videos/${baseFicheiro}.mp4`,
-        gif: `assets/exercises/gifs/${baseFicheiro}.gif`,
         imagemBiblioteca: `assets/ImagesExer/${imagemFicheiro}?v=93`
     };
 }
@@ -2372,7 +2335,7 @@ function obterTodosExerciciosBiblioteca() {
         existente.equipamentos = equipamentos;
         existente.equipamento = equipamentos.join(", ");
         // Keep details/video metadata if they were absent on the first occurrence; never replace a known video ID with another one.
-        ["grupo", "desc", "dificuldade", "videoId", "gif", "png", "imagemPNG", "imagemPng"].forEach(campo => {
+        ["grupo", "desc", "dificuldade", "videoId", "png", "imagemPNG", "imagemPng"].forEach(campo => {
             if ((existente[campo] == null || existente[campo] === "") && ex[campo] != null) existente[campo] = ex[campo];
         });
         ["passos", "erros", "cuidados", "musculos", "beneficios", "sugestoes"].forEach(campo => {
@@ -2609,10 +2572,6 @@ document.addEventListener("pointerdown", evento => {
         gatilho?.setAttribute("aria-expanded", "false");
     }
 });
-
-function abrirDetalheExercicioBiblioteca(ex) {
-    if (ex && typeof abrirExercicioModal === "function") abrirExercicioModal(ex);
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("openAllExercises")?.addEventListener("click", mostrarBibliotecaGlobal);
