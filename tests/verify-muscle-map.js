@@ -15,7 +15,7 @@ const extract = name => {
     return equipamentos.slice(start, equipamentos.indexOf('\n};', start) + 3);
 };
 const stub = { addEventListener() {}, getElementById: () => null, querySelectorAll: () => [], readyState: 'loading' };
-const context = { document: stub, localStorage: { getItem: () => null, setItem() {} }, setTimeout, clearTimeout, setInterval, clearInterval };
+const context = { Image: class {}, document: stub, localStorage: { getItem: () => null, setItem() {} }, setTimeout, clearTimeout, setInterval, clearInterval };
 context.window = context;
 vm.createContext(context);
 vm.runInContext(`${extract('EQUIPAMENTOS_EXERCICIOS')};${extract('EXERCICIOS_EXTRA')};this.catalogo=[...Object.values(EQUIPAMENTOS_EXERCICIOS),...Object.values(EXERCICIOS_EXTRA)].flat();`, context);

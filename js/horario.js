@@ -29,13 +29,12 @@
         const aberto = periodos.some(({ inicio, fim }) => horaAtual >= minutos(inicio) && horaAtual < minutos(fim));
         const formatoPeriodos = periodos.map(({ inicio, fim }) => `${inicio}–${fim}`).join(" · ");
 
-        estado.textContent = aberto ? "Aberto agora" : "Fechado agora";
-        resumo.textContent = formatoPeriodos
-            ? `Hoje: ${formatoPeriodos}`
-            : `Hoje: ${row?.querySelector(".info-hours-status")?.textContent?.trim() || "Encerrado"}`;
+        // Num dia sem horário, «Fechado hoje» já diz tudo.
+        estado.textContent = aberto ? "Aberto agora" : formatoPeriodos ? "Fechado agora" : "Fechado hoje";
+        resumo.textContent = formatoPeriodos ? `Hoje: ${formatoPeriodos}` : "";
         cartao.classList.toggle("is-open", aberto);
         cartao.classList.toggle("is-closed", !aberto);
-        cartao.setAttribute("aria-label", `${estado.textContent}. ${resumo.textContent}. Consultar informação e horários.`);
+        cartao.setAttribute("aria-label", `${estado.textContent}. ${resumo.textContent ? `${resumo.textContent}. ` : ""}Consultar informação e horários.`);
     }
 
     function abrirInformacaoHorario() {

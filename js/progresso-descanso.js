@@ -173,13 +173,19 @@
       return `<g class="gym-muscle-region" data-muscle="${key}" opacity="${opacity}" filter="url(#gymSoft-${view})">${segments.map(shape=>`<path d="${shape}"/>`).join('')}</g>`;
     }).join('');
     return `<div class="gym-anatomy-layers detailed-anatomy" role="img" aria-label="Vista ${view} — músculos alvo dos teus treinos a roxo">
-      <img class="gym-anatomy-neutral" src="${data.src}" alt="" loading="eager" decoding="async" draggable="false" />
+      <img class="gym-anatomy-neutral" src="${data.src}" alt="" loading="eager" decoding="sync" draggable="false" />
       <svg class="gym-anatomy-overlay" aria-hidden="true" viewBox="${data.x} ${data.y} ${data.w} ${data.h}" preserveAspectRatio="none" style="-webkit-mask-image:url('${data.src}');mask-image:url('${data.src}')"><filter id="gymSoft-${view}" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.8"/></filter>${bodySvg}</svg>
     </div>`;
   }
+  // As ilustrações ficam em memória para o mapa aparecer logo ao abrir a página.
+  Object.values(anatomia).forEach(view=>{new Image().src=view.src;});
+  let ultimoMapa=null;
   function renderProgress(){
     const root=document.getElementById('gymProgressBody');if(!root)return;
     const {series,weight}=getTargets();
+    const assinatura=JSON.stringify(series);
+    if(assinatura===ultimoMapa&&root.firstChild)return;
+    ultimoMapa=assinatura;
     const targets=Object.keys(weight).sort((a,b)=>weight[b]-weight[a]);
     const highest=Math.max(1,...Object.values(weight)),mostSeries=Math.max(1,...Object.values(series));
     root.innerHTML=`<div class="gym-progress-grid">
@@ -194,42 +200,25 @@
   const REST_DEFAULT_KEY = 'vf_workout_default_rest_seconds_v1';
   const GENERAL_STATE_KEY = 'vf_workout_general_rest_v1';
   const choices = Array.from({length:20},(_,i)=>(i+1)*15); // 00:15 a 05:00
-  const MIN_SECONDS = 1, MAX_SECONDS = 99 * 60 + 59;
+  const MIN_SECONDS = 1, MAX_SECONDS_MINUTES = 99, MAX_SECONDS = MAX_SECONDS_MINUTES * 60 + 59;
   const validSeconds = value => Number.isInteger(Number(value)) && Number(value) >= MIN_SECONDS && Number(value) <= MAX_SECONDS;
   const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg>';
   const ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
-  // Em «Personalizado…», um número sem separador é interpretado como segundos (ex.: 90 = 01:30).
-  // Um número sem separador é interpretado como segundos (ex.: 90 = 01:30).
-  const parseDuration = value => {
-    const raw=String(value ?? '').trim();
-    if(/^\d{1,2}:\d{1,2}$/.test(raw)){
-      const [m,s]=raw.split(':').map(Number);
-      const total=m*60+s;
-      return s<=59 && validSeconds(total)?total:null;
-    }
-    if(/^\d{1,4}$/.test(raw)){
-      // Teclado numérico do iPhone: 0215 ou 215 equivale a 02:15.
-      // Com um ou dois algarismos, o valor indica segundos (45 = 00:45).
-      if(raw.length>=3){
-        const minutes=Number(raw.slice(0,-2)),seconds=Number(raw.slice(-2));
-        const total=minutes*60+seconds;
-        return seconds<=59 && validSeconds(total)?total:null;
-      }
-      const n=Number(raw);return validSeconds(n)?n:null;
-    }
-    return null;
-  };
   // A <select> guarda a escolha; o relógio por cima mostra o tempo a correr.
   function syncSlot(row,seconds){
     const select=row?.querySelector('.gym-rest-select');if(!select)return;
-    const values=[...new Set([...choices,seconds])].sort((a,b)=>a-b);
-    select.innerHTML=values.map(v=>`<option value="${v}">${fmt(v)}</option>`).join('')+'<option value="custom">Personalizado…</option>';
+    const values=[...new Set([...choices,...customTimes,seconds])].sort((a,b)=>a-b);
+    select.innerHTML=values.map(v=>`<option value="${v}"${customTimes.includes(v)?' data-removivel':''}>${fmt(v)}</option>`).join('')+'<option value="custom">Personalizado…</option>';
     select.value=String(seconds);
   }
   const readJson = key => { try { return JSON.parse(localStorage.getItem(key)); } catch (_) { return null; } };
   const storage = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) {} };
   let defaultSeconds = Number(readJson(REST_DEFAULT_KEY));
   if (!validSeconds(defaultSeconds)) defaultSeconds = 90;
+  // Tempos criados pelo utilizador. Um padrão antigo fora da lista passa a ser um deles, para se poder apagar.
+  const CUSTOM_TIMES_KEY = 'vf_rest_custom_times_v1';
+  let customTimes = (readJson(CUSTOM_TIMES_KEY) || []).map(Number).filter(validSeconds);
+  if (!choices.includes(defaultSeconds) && !customTimes.includes(defaultSeconds)) customTimes.push(defaultSeconds);
   const fmt = n => `${String(Math.floor(Math.max(0,n)/60)).padStart(2,'0')}:${String(Math.max(0,n)%60).padStart(2,'0')}`;
 
   let general = {duration:defaultSeconds, remaining:defaultSeconds, running:false, paused:false, deadline:0};
@@ -491,8 +480,10 @@
     // A escolha do peso ou das repetições não aciona qualquer relógio.
     const series=event.target.closest('.gym-series-complete');
     if(series){
+      if(performance.now()-(window.__treinoRenderizadoEm||0)<450)return;
       const wasDone=series.getAttribute('aria-pressed')==='true';
       series.setAttribute('aria-pressed',String(!wasDone));
+      window.marcarSerie?.(series.dataset.serieChave,!wasDone);
       // Só arranca com o timer parado: outro check não pode reiniciar um descanso a contar ou em pausa.
       if(!wasDone){if(!general.running&&!general.paused)startGeneral();showEncouragement(series);}
     }
@@ -504,37 +495,88 @@
     if(row.closest('#gymGeneralRest'))setDefault(seconds);
     else if(node)applyDurationToGap(node,seconds,true);
   }
-  function toggleCustom(row,open){
-    const input=row.querySelector('.gym-duration-time'),slot=row.querySelector('.gym-rest-slot');
-    const error=row.parentElement.querySelector('.gym-duration-error');
-    slot.hidden=open;input.hidden=!open;input.removeAttribute('aria-invalid');
-    if(error)error.hidden=true;
-    syncSlot(row,rowSeconds(row));
-    if(open){input.value=fmt(rowSeconds(row));input.focus();input.select();}
+  const syncAllSlots=()=>document.querySelectorAll('.gym-rest-row').forEach(row=>syncSlot(row,rowSeconds(row)));
+  function removeCustomTime(seconds){
+    customTimes=customTimes.filter(v=>v!==seconds);storage(CUSTOM_TIMES_KEY,customTimes);
+    if(defaultSeconds===seconds)setDefault(90);
+    document.querySelectorAll('.gym-inline-rest').forEach(node=>{
+      if(Number(node.dataset.restSeconds)===seconds)applyDurationToGap(node,defaultSeconds,false);
+    });
+    syncAllSlots();
   }
-  function commitDuration(input){
-    const row=input.closest('.gym-rest-row');
-    const seconds=parseDuration(input.value);
-    if(seconds===null){
-      input.setAttribute('aria-invalid','true');
-      const error=row.parentElement.querySelector('.gym-duration-error');if(error)error.hidden=false;
-      return;
-    }
-    applySeconds(row,seconds);toggleCustom(row,false);
+  const WHEEL_ROW=44;
+  const wheelHtml=(label,max)=>`<div class="gym-wheel" role="spinbutton" tabindex="0" aria-label="${label}" aria-valuemin="0" aria-valuemax="${max}"><ul>${Array.from({length:max+1},(_,i)=>`<li>${String(i).padStart(2,'0')}</li>`).join('')}</ul></div>`;
+  // Roda de minutos e segundos: arrasta-se com o dedo e encaixa em cada valor (scroll-snap).
+  function chooseCustomTime(row){
+    const previous=rowSeconds(row),origin=document.activeElement;
+    const overlay=document.createElement('div');
+    overlay.className='vf-dialog-overlay';
+    overlay.innerHTML=`<div class="vf-dialog gym-wheel-dialog" role="dialog" aria-modal="true" aria-labelledby="gymWheelTitle">
+      <h2 id="gymWheelTitle" class="vf-dialog-title">Escolhe o tempo</h2>
+      <div class="gym-wheel-pair">${wheelHtml('Minutos',MAX_SECONDS_MINUTES)}<span aria-hidden="true">:</span>${wheelHtml('Segundos',59)}</div>
+      <p class="gym-wheel-note" role="status"></p>
+      <div class="vf-dialog-actions"><button type="button" class="vf-dialog-cancel">Cancelar</button><button type="button" class="vf-dialog-confirm">Guardar</button></div>
+    </div>`;
+    document.body.appendChild(overlay);
+    const [minutes,secondsWheel]=overlay.querySelectorAll('.gym-wheel');
+    const confirm=overlay.querySelector('.vf-dialog-confirm'),note=overlay.querySelector('.gym-wheel-note');
+    const wheelValue=wheel=>Math.round(wheel.scrollTop/WHEEL_ROW);
+    const total=()=>wheelValue(minutes)*60+wheelValue(secondsWheel);
+    const refresh=()=>{
+      const value=total(),repeated=choices.includes(value)||customTimes.includes(value);
+      [minutes,secondsWheel].forEach(wheel=>{
+        wheel.setAttribute('aria-valuenow',wheelValue(wheel));
+        wheel.querySelectorAll('li').forEach((li,i)=>li.classList.toggle('is-selected',i===wheelValue(wheel)));
+      });
+      confirm.disabled=value<MIN_SECONDS||repeated;
+      note.textContent=value<MIN_SECONDS?'Escolhe pelo menos 1 segundo.':repeated?`O tempo ${fmt(value)} já existe.`:'';
+    };
+    const close=()=>{
+      document.removeEventListener('keydown',keys,true);
+      overlay.classList.remove('open');
+      setTimeout(()=>overlay.remove(),160);
+      syncSlot(row,rowSeconds(row));
+      if(origin?.isConnected)origin.focus({preventScroll:true});
+    };
+    const keys=event=>{
+      if(event.key==='Escape'){event.preventDefault();event.stopPropagation();close();}
+      else if((event.key==='ArrowUp'||event.key==='ArrowDown')&&event.target.matches('.gym-wheel')){
+        event.preventDefault();
+        event.target.scrollTop+=(event.key==='ArrowUp'?-1:1)*WHEEL_ROW;
+      }
+    };
+    document.addEventListener('keydown',keys,true);
+    [minutes,secondsWheel].forEach(wheel=>{
+      wheel.addEventListener('scroll',refresh,{passive:true});
+      wheel.addEventListener('click',event=>{
+        const li=event.target.closest('li');
+        if(li)wheel.scrollTo({top:[...li.parentElement.children].indexOf(li)*WHEEL_ROW,behavior:'smooth'});
+      });
+    });
+    overlay.addEventListener('click',event=>{if(event.target===overlay)close();});
+    overlay.querySelector('.vf-dialog-cancel').addEventListener('click',close);
+    confirm.addEventListener('click',()=>{
+      const value=total();
+      if(!validSeconds(value)||choices.includes(value)||customTimes.includes(value))return;
+      customTimes.push(value);storage(CUSTOM_TIMES_KEY,customTimes);
+      applySeconds(row,value);
+      syncAllSlots();
+      close();
+    });
+    minutes.scrollTop=Math.floor(previous/60)*WHEEL_ROW;
+    secondsWheel.scrollTop=(previous%60)*WHEEL_ROW;
+    refresh();
+    requestAnimationFrame(()=>overlay.classList.add('open'));
+    minutes.focus({preventScroll:true});
   }
   document.addEventListener('change',event=>{
     if(!event.target.matches('.gym-rest-select'))return;
     const row=event.target.closest('.gym-rest-row');
-    if(event.target.value==='custom')toggleCustom(row,true);
+    if(event.target.value==='custom')chooseCustomTime(row);
     else applySeconds(row,Number(event.target.value));
   });
-  document.addEventListener('focusout',event=>{
-    if(event.target.matches('.gym-duration-time')&&!event.target.hidden)commitDuration(event.target);
-  });
-  document.addEventListener('keydown',event=>{
-    if(!event.target.matches('.gym-duration-time'))return;
-    if(event.key==='Enter'){event.preventDefault();commitDuration(event.target);}
-    else if(event.key==='Escape'){event.stopPropagation();toggleCustom(event.target.closest('.gym-rest-row'),false);}
+  document.addEventListener('vf-option-remove',event=>{
+    if(event.target.matches('.gym-rest-select'))removeCustomTime(Number(event.detail));
   });
   document.addEventListener('visibilitychange',()=>{
     if(document.visibilityState==='visible')tick();

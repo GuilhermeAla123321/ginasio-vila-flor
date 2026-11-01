@@ -36,34 +36,27 @@
 .gym-rest-slot[hidden]{display:none}
 .gym-rest-clock{position:absolute;z-index:1;left:34px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:16px!important;font-weight:780;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:#f3e5ff!important;min-width:0!important}
 .gym-rest-slot::before{content:'';position:absolute;z-index:1;left:11px;top:50%;width:16px;height:16px;transform:translateY(-50%);pointer-events:none;background:#cfaee3;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='13' r='8'/%3E%3Cpath d='M12 9v4l2.5 2M9 2h6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='13' r='8'/%3E%3Cpath d='M12 9v4l2.5 2M9 2h6'/%3E%3C/svg%3E") center/contain no-repeat}
-select.gym-rest-select,input.gym-duration-time{box-sizing:border-box;width:100%!important;max-width:none!important;height:40px!important;min-height:40px!important;margin:0!important;border:1px solid rgba(195,153,226,.38)!important;border-radius:11px!important;background-color:rgba(24,18,35,.64)!important;box-shadow:none!important;font-size:16px!important}
+select.gym-rest-select{box-sizing:border-box;width:100%!important;max-width:none!important;height:40px!important;min-height:40px!important;margin:0!important;border:1px solid rgba(195,153,226,.38)!important;border-radius:11px!important;background-color:rgba(24,18,35,.64)!important;box-shadow:none!important;font-size:16px!important}
 /* O texto da opção fica escondido: o relógio por cima mostra o tempo que está a correr. */
 select.gym-rest-select{appearance:none;-webkit-appearance:none;color:transparent!important;padding:0 28px 0 34px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 12' fill='none' stroke='%23e3c5f4' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 3l6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 10px center!important;background-size:14px 9px!important}
-input.gym-duration-time{flex:1 1 auto;min-width:0;padding:0 11px!important;color:#f7effe!important;font-weight:780!important;font-variant-numeric:tabular-nums}
-input.gym-duration-time[hidden]{display:none}
-input.gym-duration-time[aria-invalid="true"]{border-color:#ffaec6!important;color:#ffd2dd!important}
 .gym-rest-btn{flex:0 0 40px;width:40px;min-width:0;min-height:0;height:40px;display:grid;place-items:center;padding:0;border:1px solid rgba(190,146,220,.36);border-radius:11px;background:rgba(173,136,200,.1);color:#efe0fa;font:inherit;font-size:19px;line-height:1;cursor:pointer;touch-action:manipulation}
 .gym-rest-btn.gym-rest-play{border:0;background:linear-gradient(110deg,#9c72b6,#c4a1df);color:#20132c}
 .gym-rest-btn svg{width:16px;height:16px;fill:currentColor}
 .gym-rest-btn:focus-visible,.gym-rest-slot:focus-within{outline:2px solid #ceb0e7;outline-offset:2px;border-radius:11px}
 .gym-general-rest .gym-inline-rest-track{margin-top:6px;height:3px}
-.gym-duration-error{display:block;margin-top:6px;color:#ffaec6;font-size:11px;line-height:1.3}
-.gym-duration-error[hidden]{display:none}
 .gym-inline-rest{padding:8px!important;margin:6px 0 10px!important;border-radius:14px!important}
 .gym-inline-rest .gym-inline-rest-track{margin-top:6px;height:3px}
 
 /* Tema claro */
 body[data-theme="light"] #page-workout .gym-general-rest{background:rgba(255,255,255,.82);border-color:rgba(124,84,150,.22)}
 body[data-theme="light"] .gym-inline-rest{background:rgba(124,84,150,.06);border-color:rgba(124,84,150,.22)}
-body[data-theme="light"] select.gym-rest-select,body[data-theme="light"] input.gym-duration-time{background-color:#fff!important;border-color:rgba(124,84,150,.32)!important}
+body[data-theme="light"] select.gym-rest-select{background-color:#fff!important;border-color:rgba(124,84,150,.32)!important}
 body[data-theme="light"] select.gym-rest-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 12' fill='none' stroke='%236d4a86' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 3l6 6 6-6'/%3E%3C/svg%3E")!important}
-body[data-theme="light"] input.gym-duration-time{color:#2c2036!important}
 body[data-theme="light"] .gym-rest-clock{color:#2c2036!important}
 body[data-theme="light"] .gym-rest-slot::before{background:#7c5496}
 body[data-theme="light"] .gym-rest-btn,body[data-theme="light"] #page-workout .gym-general-alerts-btn{background:#fff;border-color:rgba(124,84,150,.32);color:#4d3560}
 body[data-theme="light"] .gym-rest-btn.gym-rest-play{border:0;background:linear-gradient(110deg,#8b5eac,#a97fc9);color:#fff}
 body[data-theme="light"] .gym-inline-rest-track{background:rgba(124,84,150,.16)}
-body[data-theme="light"] .gym-duration-error{color:#b3214f}
 body[data-theme="light"] .gym-progress-section .gym-body-card,body[data-theme="light"] .gym-progress-section .gym-progress-totals{background:rgba(255,255,255,.82)!important;border:1px solid rgba(124,84,150,.22)!important;box-shadow:none}
 body[data-theme="light"] .gym-progress-section .gym-body-card strong{color:#4d3560!important;border-top-color:rgba(124,84,150,.18)!important}
 body[data-theme="light"] .gym-progress-section .gym-progress-totals>strong,body[data-theme="light"] .gym-progress-section .gym-progress-line b{color:#2c2036!important}
@@ -80,16 +73,16 @@ body[data-theme="light"] .set-entry-card .gym-entry-series-select .gym-series-wo
 body[data-theme="light"] .gym-progress-section .detailed-anatomy>img.gym-anatomy-neutral{filter:brightness(1.55) contrast(.78)!important}
 body[data-theme="light"] .set-entry-card{background:rgba(255,255,255,.72);border-color:rgba(124,84,150,.2)}
 /* O logótipo usa as cores escuras da marca: no tema claro precisa de tons mais vivos. */
-body[data-theme="light"] .brand-mark{background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.2) 0 7%,transparent 8%),conic-gradient(from 0deg,#a678c8,#e68ab0,#5cc9c4,#a678c8)}
+body[data-theme="light"] .brand-mark{background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.2) 0 7%,transparent 8%),conic-gradient(from 0deg,#7d4f9c,#c9568c,#2fa39e,#7d4f9c)}
 /* Vídeos de cardio com fundo acinzentado (223–250): este ajuste leva-o a branco. shortcut: filtro no browser, trocar por vídeos reexportados quando houver ffmpeg. */
 video[src*="/caminhada.mp4"],video[src*="/caminhada-inclinada.mp4"],video[src*="/bicicleta.mp4"],video[src*="/eliptica.mp4"],video[src*="/remo.mp4"]{filter:brightness(1.15)}
 /* Ao adicionar exercício, cada série já tem o seu timer. */
 #page-workout .workout-page.is-adding-exercise .gym-general-rest{display:none}
 /* Hero do tema claro: o mesmo do tema escuro, um pouco mais claro. */
-body[data-theme="light"] #page-home .hero.hero-cinematic{background-color:#261b2f!important}
-body[data-theme="light"] #page-home .hero::after{background:linear-gradient(rgba(26,14,29,.04) 0%,rgba(30,18,40,.2) 40%,rgba(32,20,42,.8) 81%,rgba(34,22,45,.96) 100%)!important}
-body[data-theme="light"] #page-home .hero .hero-cinema-image{filter:saturate(.78) brightness(.8)!important}
-body[data-theme="light"] #page-home .hero .hero-cinema-tint{background:linear-gradient(rgba(42,24,55,.08) 0%,rgba(33,21,45,.27) 42%,rgba(28,18,37,.82) 100%)!important}
+body[data-theme="light"] #page-home .hero.hero-cinematic{background-color:#3a2846!important}
+body[data-theme="light"] #page-home .hero::after{background:linear-gradient(rgba(26,14,29,.02) 0%,rgba(46,29,60,.14) 40%,rgba(58,38,74,.62) 81%,rgba(68,46,86,.82) 100%)!important}
+body[data-theme="light"] #page-home .hero .hero-cinema-image{filter:saturate(.9) brightness(1.02)!important}
+body[data-theme="light"] #page-home .hero .hero-cinema-tint{background:linear-gradient(rgba(42,24,55,.04) 0%,rgba(46,29,60,.14) 42%,rgba(54,35,70,.58) 100%)!important}
 body[data-theme="light"] #page-home .hero h1,body[data-theme="light"] #page-home .hero .hero-line{color:#fff}
 /* O «?» é pequeno: a área de toque estende-se à volta sem alterar o aspeto. */
 .page-context-help{position:relative}
@@ -101,3 +94,29 @@ body[data-theme="light"] #page-home .hero h1,body[data-theme="light"] #page-home
 body[data-theme="light"] .eyebrow{color:#7c5a8a!important}
 body[data-theme="light"] .home-stat strong{color:#68406f!important;-webkit-text-fill-color:currentColor}
 body[data-theme="light"] .day-button:not(.active) .day-count{color:#68406f!important}
+body[data-theme="light"] #page-home .hero .hero-cinema-light{opacity:.55!important}
+html.vf-janela-aberta,html.vf-janela-aberta body{overflow:hidden!important}
+.exercise-editor-overlay,.progress-overlay,.exercise-editor,.progress-modal,.vf-select-menu,.vf-dialog-overlay,.exercise-modal-overlay,.exercise-modal,.custom-exercise-overlay,.equipment-3d-overlay{overscroll-behavior:contain}
+/* Roda de tempo personalizado */
+.gym-wheel-dialog{text-align:center}
+.gym-wheel-pair{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0 6px;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.gym-wheel-pair::before{content:'';position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%);border-radius:12px;background:rgba(190,146,220,.16);pointer-events:none}
+.gym-wheel{position:relative;width:84px;height:176px;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;outline-offset:2px;-webkit-mask:linear-gradient(transparent,#000 28%,#000 72%,transparent);mask:linear-gradient(transparent,#000 28%,#000 72%,transparent)}
+.gym-wheel::-webkit-scrollbar{display:none}
+.gym-wheel ul{list-style:none;margin:0;padding:66px 0}
+.gym-wheel li{height:44px;line-height:44px;scroll-snap-align:center;opacity:.4;cursor:pointer;user-select:none;-webkit-user-select:none}
+.gym-wheel li.is-selected{opacity:1}
+.gym-wheel-note{min-height:18px;margin:4px 0 10px;font-size:12px;line-height:1.4;color:#ffaec6}
+body[data-theme="light"] .gym-wheel-note{color:#b3214f}
+.vf-dialog-actions button:disabled{opacity:.45;cursor:default}
+.vf-select-option-remove{flex:0 0 36px;width:36px;height:36px;margin-left:auto;display:grid;place-items:center;padding:0;border:0;border-radius:10px;background:transparent;color:inherit;opacity:.7;cursor:pointer}
+.vf-select-option-remove svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vf-select-option-remove:active{opacity:1;background:rgba(179,33,79,.14);color:#e0527f}
+/* Estado do ginásio numa linha baixa. */
+#page-home .gym-hours-status{min-height:44px;padding:6px 12px;gap:8px;border-radius:12px;box-shadow:none}
+#page-home .gym-hours-status .gym-hours-indicator{width:8px;height:8px;flex-basis:8px}
+#page-home .gym-hours-copy{align-items:center}
+#page-home .gym-hours-copy strong{font-size:12px}
+#page-home .gym-hours-copy>span{font-size:11px}
+#page-home .gym-hours-copy>span:empty{display:none}
+#page-home .gym-hours-status .gym-hours-chevron{width:14px;height:14px;flex-basis:14px}
