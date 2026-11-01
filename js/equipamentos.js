@@ -565,11 +565,7 @@ const EQUIPAMENTOS_EXERCICIOS = {
                 "Abrir excessivamente os cotovelos.",
                 "Usar carga que comprometa a técnica."
             ],
-            musculos: [
-                "Peitoral",
-                "Tríceps",
-                "Deltoide anterior"
-            ],
+            musculos: ["Tríceps", "Peitoral", "Deltoide anterior"],
             beneficios: [
                 "Desenvolve força de empurrar",
                 "Permite progressão controlada",
