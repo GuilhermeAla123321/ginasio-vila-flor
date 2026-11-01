@@ -487,6 +487,39 @@ let favoritosApenas = false;
 
 let diaSelecionado = "segunda";
 let treinoSelecionadoId = null;
+
+/* Rascunho lido antes do primeiro render, que o apaga. */
+const STORAGE_RASCUNHO = "vf_rascunho_exercicio_v1";
+const rascunhoAoAbrir = carregarJSON(STORAGE_RASCUNHO, null);
+
+function apagarRascunhoExercicio() {
+    try { localStorage.removeItem(STORAGE_RASCUNHO); } catch (_) {}
+}
+
+/* Checks das séries: ficam guardados durante a semana e recomeçam à segunda-feira. */
+const STORAGE_CHECKS = "vf_series_checks_v1";
+
+function chaveSemana(data = new Date()) {
+    const segunda = new Date(data.getFullYear(), data.getMonth(), data.getDate());
+    segunda.setDate(segunda.getDate() - ((segunda.getDay() + 6) % 7));
+    return `${segunda.getFullYear()}-${segunda.getMonth() + 1}-${segunda.getDate()}`;
+}
+
+let checksSeries = carregarJSON(STORAGE_CHECKS, null);
+
+function checksDaSemana() {
+    if (checksSeries?.semana !== chaveSemana()) {
+        checksSeries = { semana: chaveSemana(), marcados: {} };
+    }
+    return checksSeries.marcados;
+}
+
+function marcarSerie(chave, marcada) {
+    const marcados = checksDaSemana();
+    if (marcada) marcados[chave] = true;
+    else delete marcados[chave];
+    try { localStorage.setItem(STORAGE_CHECKS, JSON.stringify(checksSeries)); } catch (_) {}
+}
 let filtroTreinosDia = null; // null = todos os treinos; caso contrário, ID do treino filtrado.
 let filtroTreinosAberto = false;
 
@@ -1496,11 +1529,9 @@ function renderLinhasSeries(
                     <div class="gym-inline-rest" data-gym-rest-gap="${i}" aria-label="Descanso depois da série ${i + 1}">
                         <div class="gym-rest-row">
                             <span class="gym-rest-slot"><strong class="gym-rest-clock gym-inline-rest-clock" role="timer">01:30</strong><select class="gym-rest-select" aria-label="Tempo de descanso"></select></span>
-                            <input class="gym-duration-time" type="text" inputmode="numeric" maxlength="5" placeholder="MM:SS" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tempo personalizado em minutos e segundos" hidden />
                             <button type="button" class="gym-rest-btn gym-rest-play gym-inline-rest-toggle" aria-label="Iniciar descanso"></button>
                             <button type="button" class="gym-rest-btn gym-inline-rest-reset" aria-label="Reiniciar descanso">↺</button>
                         </div>
-                        <span class="gym-duration-error" role="alert" hidden>Usa MM:SS (de 00:01 até 99:59).</span>
                         <div class="gym-inline-rest-track"><span class="gym-inline-rest-fill"></span></div>
                     </div>
                 `;
@@ -1678,6 +1709,10 @@ function historicoComSeries(
 function renderTreino() {
     const r = document.getElementById("workout-root");
     if (!r) return;
+
+    // Um segundo toque em «Adicionar ao treino» não pode cair no check que aparece por baixo do dedo.
+    window.__treinoRenderizadoEm = performance.now();
+    apagarRascunhoExercicio();
 
     // Ao voltar à vista normal, repõe o cabeçalho principal da página.
     document.querySelector("#page-workout .workout-page")?.classList.remove("is-adding-exercise");
@@ -1976,6 +2011,8 @@ function renderExercicioCard(
 
         const parametrosSerie = parametrosDoExercicio(x, meta.tipo);
 
+        const chaveSerie = n => `${treinoId}|${x.id ?? x.nome}|${n}`;
+
         const seriesHtml = series.map((s, n) => {
             const valores = parametrosSerie
                 .filter(p => s?.[p] !== "" && s?.[p] != null)
@@ -1989,7 +2026,7 @@ function renderExercicioCard(
 
             return `
                 <div class="series-card-line">
-                    <button type="button" class="gym-series-complete" data-gym-series="${n}" aria-label="Concluir série ${n + 1} e iniciar descanso" aria-pressed="false" title="Concluir série e iniciar descanso"><span class="gym-series-check" aria-hidden="true">✓</span><span class="gym-series-name">${String(n + 1).padStart(2, "0")}</span></button>
+                    <button type="button" class="gym-series-complete" data-gym-series="${n}" data-serie-chave="${escaparAtributo(chaveSerie(n))}" aria-label="Concluir série ${n + 1} e iniciar descanso" aria-pressed="${Boolean(checksDaSemana()[chaveSerie(n)])}" title="Concluir série e iniciar descanso"><span class="gym-series-check" aria-hidden="true">✓</span><span class="gym-series-name">${String(n + 1).padStart(2, "0")}</span></button>
                     <strong class="series-card-values">
                         ${valores || '<span class="gym-series-empty">Sem valores</span>'}
                     </strong>
@@ -4487,6 +4524,9 @@ function guardarExercicio() {
     });
 
 
+    // O exercício acabado de registar conta como feito.
+    seriesData.forEach((_, n) => marcarSerie(`${t.id}|${now}|${n}`, true));
+
     save();
 
     renderTreino();
@@ -5117,3 +5157,67 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, { passive: false });
 })();
+
+/* =========================================================
+   RASCUNHO: se a app recarregar a meio de adicionar um exercício
+   (ex.: ao abrir uma notificação), o que estava escrito é reposto.
+   ========================================================= */
+function guardarRascunhoExercicio() {
+    if (!document.querySelector(".workout-page.is-adding-exercise")) return;
+    const nome = document.getElementById("exerciseName")?.value;
+    if (!nome) return;
+    const valores = [...document.querySelectorAll("#exerciseFields .series-value-input")]
+        .map(campo => [campo.dataset.seriesIndex, campo.dataset.param, campo.value]);
+    try {
+        localStorage.setItem(STORAGE_RASCUNHO, JSON.stringify({
+            dia: diaSelecionado,
+            treino: treinoSelecionadoId,
+            nome,
+            series: Number(document.getElementById("seriesCount")?.value) || 1,
+            nasSeries: !document.getElementById("saveExercise")?.hidden,
+            valores,
+            quando: Date.now()
+        }));
+    } catch (_) {}
+}
+
+function restaurarRascunhoExercicio() {
+    const d = rascunhoAoAbrir;
+    if (!d || Date.now() - d.quando > 6 * 3600000 || location.search.includes("equipamento")) return;
+    if (!treinos[d.dia]?.some?.(t => t.id === d.treino)) return;
+    diaSelecionado = d.dia;
+    treinoSelecionadoId = d.treino;
+    mostrarPagina("workout");
+    abrirAdicionar();
+    const item = construirBibliotecaExercicios().find(x => normalizarTexto(x.nome) === normalizarTexto(d.nome));
+    selecionarExercicio(item?.nome || d.nome, !!item?.personalizado, item);
+    fecharSeletorExercicio();
+    const contagem = document.getElementById("seriesCount");
+    if (contagem) contagem.value = String(d.series);
+    const visor = document.getElementById("seriesCountDisplay");
+    if (visor) visor.textContent = String(d.series);
+    if (d.nasSeries) {
+        document.getElementById("continueSeries")?.click();
+        d.valores.forEach(([serie, parametro, valor]) => {
+            const campo = document.querySelector(`#exerciseFields [data-series-index="${serie}"][data-param="${parametro}"]`);
+            if (campo) campo.value = valor;
+        });
+    }
+    guardarRascunhoExercicio();
+}
+
+document.addEventListener("input", event => {
+    if (event.target.closest?.("#workout-root")) guardarRascunhoExercicio();
+});
+document.addEventListener("click", event => {
+    if (event.target.closest?.("#workout-root")) setTimeout(guardarRascunhoExercicio, 0);
+});
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") guardarRascunhoExercicio();
+    // A app pode ficar aberta de domingo para segunda.
+    else if (checksSeries?.semana && checksSeries.semana !== chaveSemana() &&
+        !document.querySelector(".workout-page.is-adding-exercise")) renderTreino();
+});
+window.addEventListener("pagehide", guardarRascunhoExercicio);
+window.addEventListener("load", restaurarRascunhoExercicio, { once: true });
+

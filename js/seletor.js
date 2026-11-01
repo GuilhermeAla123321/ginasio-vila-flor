@@ -108,6 +108,15 @@
             item.setAttribute("role", "option");
             item.dataset.index = String(option.index);
             item.textContent = textoOpcao(option);
+            if (option.dataset.removivel !== undefined) {
+                const apagar = document.createElement("button");
+                apagar.type = "button";
+                apagar.className = "vf-select-option-remove";
+                apagar.tabIndex = -1;
+                apagar.setAttribute("aria-label", `Apagar ${textoOpcao(option)}`);
+                apagar.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5"/></svg>';
+                item.appendChild(apagar);
+            }
             const selecionada = option.index === select.selectedIndex && !option.disabled;
             item.setAttribute("aria-selected", String(selecionada));
             if (option.disabled) item.setAttribute("aria-disabled", "true");
@@ -127,6 +136,12 @@
 
         lista.addEventListener("click", event => {
             const item = event.target.closest(".vf-select-option");
+            if (item && event.target.closest(".vf-select-option-remove")) {
+                const valor = select.options[Number(item.dataset.index)].value;
+                fecharMenu(true);
+                select.dispatchEvent(new CustomEvent("vf-option-remove", { bubbles: true, detail: valor }));
+                return;
+            }
             if (item && !item.hasAttribute("aria-disabled")) escolher(item);
         });
         lista.addEventListener("pointermove", event => {

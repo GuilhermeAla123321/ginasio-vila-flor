@@ -198,6 +198,10 @@ function setStatus(message) {
 
                         notifyButton: { enable: false },
 
+                        notificationClickHandlerMatch: "origin",
+
+                        notificationClickHandlerAction: "focus",
+
                         welcomeNotification: { disable: true }
 
                     });

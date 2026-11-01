@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v131';
+const CACHE_NAME = 'vf-ginasio-v138';
 
 const APP_SHELL = [
     './',
@@ -380,5 +380,21 @@ self.addEventListener('fetch', event => {
 
         return;
     }
+
+});
+
+
+/* =========================================================
+   NOTIFICAÇÕES: volta à app aberta, sem recarregar
+   ========================================================= */
+
+self.addEventListener('notificationclick', event => {
+
+    event.notification.close();
+
+    event.waitUntil(
+        self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+            .then(janelas => janelas[0] ? janelas[0].focus() : self.clients.openWindow('./'))
+    );
 
 });

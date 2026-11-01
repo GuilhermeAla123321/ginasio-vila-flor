@@ -120,3 +120,36 @@
             botoes: [{ texto: botao, valor: undefined, principal: true }]
         });
 })();
+
+/* A página por trás não se mexe enquanto houver uma janela aberta.
+   overflow:hidden chega na maioria dos browsers; o iPhone precisa também de travar o arrasto. */
+(() => {
+    const JANELAS = ".exercise-editor-overlay.open, .progress-overlay.open, .exercise-modal-overlay.open, .exercise-picker-overlay, .custom-exercise-overlay, .vf-dialog-overlay, .exercise-media-zoom-overlay, .equipment-3d-overlay.is-open, .vf-select-menu";
+    const raiz = document.documentElement;
+    const aviso = document.querySelector(".portrait-lock-screen");
+    const sincronizar = () => raiz.classList.toggle("vf-janela-aberta", Boolean(document.querySelector(JANELAS)) ||
+        (aviso && getComputedStyle(aviso).display !== "none"));
+    new MutationObserver(sincronizar).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    window.addEventListener("resize", sincronizar);
+    sincronizar();
+
+    let inicioX = 0, inicioY = 0;
+    document.addEventListener("touchstart", event => {
+        inicioX = event.touches[0].clientX;
+        inicioY = event.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener("touchmove", event => {
+        if (!raiz.classList.contains("vf-janela-aberta") || event.touches.length > 1) return;
+        const alvo = event.target instanceof Element ? event.target : null;
+        // O zoom da demonstração e o modelo 3D têm gestos próprios.
+        if (alvo?.closest("#exerciseMediaZoomOverlay, canvas")) return;
+        const dx = event.touches[0].clientX - inicioX, dy = event.touches[0].clientY - inicioY;
+        if (Math.abs(dx) > Math.abs(dy)) return;
+        for (let el = alvo; el && el !== document.body; el = el.parentElement) {
+            if (!/(auto|scroll)/.test(getComputedStyle(el).overflowY) || el.scrollHeight <= el.clientHeight) continue;
+            const noTopo = el.scrollTop <= 0, noFim = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+            if (!(dy > 0 && noTopo) && !(dy < 0 && noFim)) return;
+        }
+        if (event.cancelable) event.preventDefault();
+    }, { passive: false });
+})();
