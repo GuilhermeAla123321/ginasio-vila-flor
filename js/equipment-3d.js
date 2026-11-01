@@ -5,82 +5,82 @@
         "passadeira": {
             file: "../assets/models/passadeira.glb",
             title: "Passadeira",
-            description: "Equipamento de cardio para caminhar ou correr em tapete rolante. Na consola ajustas a velocidade e a inclinação; as pegas laterais ajudam a subir e a descer com segurança."
+            description: "Cardio: caminhada ou corrida"
         },
         "bicicleta-spinning": {
             file: "../assets/models/bicicleta-spinning.glb",
             title: "Bicicleta",
-            description: "Bicicleta de cardio com volante de inércia frontal. Ajusta a altura do selim e do guiador antes de começar e controla a intensidade com o regulador de resistência."
+            description: "Cardio de baixo impacto"
         },
         "eliptica": {
             file: "../assets/models/eliptica.glb",
             title: "Elíptica",
-            description: "Movimento contínuo e de baixo impacto que trabalha pernas e braços ao mesmo tempo. Mantém os pés bem apoiados nos pedais e acompanha o ritmo com os braços móveis."
+            description: "Cardio para pernas e braços"
         },
         "remo": {
             file: "../assets/models/remo.glb",
             title: "Máquina de Remo",
-            description: "Simula a remada: empurra primeiro com as pernas, inclina ligeiramente o tronco e termina a puxar a pega até ao abdómen. Um treino de corpo inteiro com baixo impacto nas articulações."
+            description: "Treino de corpo inteiro"
         },
         "smith-machine": {
             file: "../assets/models/smith-machine.glb",
             title: "Smith Machine",
-            description: "Barra guiada em calhas verticais que mantém a trajetória estável em agachamentos, supinos e press. Roda a barra para a prender nos ganchos de segurança a qualquer altura."
+            description: "Agachamentos, supinos e press"
         },
         "polia-dupla": {
             file: "../assets/models/polia-dupla.glb",
             title: "Polia Multifuncional",
-            description: "Duas torres de cabos com polias ajustáveis em altura. Permite exercícios de peito, costas, ombros, braços e pernas, com tensão constante ao longo do movimento."
+            description: "Cabos para treinar todo o corpo"
         },
         "abdutor-adutor": {
             file: "../assets/models/abdutor-adutor.glb",
             title: "Máquina Abdutora",
-            description: "Máquina sentada para a anca: abre as pernas contra os apoios para trabalhar glúteos e abdutores, ou fecha-as para trabalhar os adutores, na zona interior da coxa."
+            description: "Glúteos, abdutores e adutores"
         },
         "shoulder-press": {
             file: "../assets/models/shoulder-press.glb",
             title: "Prensa de Ombros",
-            description: "Press sentado para ombros e tríceps. Ajusta o assento para que as pegas fiquem à altura dos ombros e empurra para cima sem arquear as costas."
+            description: "Ombros e tríceps"
         },
         "pec-fly": {
             file: "../assets/models/pec-fly.glb",
             title: "Peck Deck",
-            description: "Máquina de aberturas para o peito; sentado de frente para o encosto, também trabalha a parte posterior dos ombros. Ajusta o assento para os braços ficarem à altura do peito."
+            description: "Peito e parte de trás dos ombros"
         },
         "suporte-halteres": {
             file: "../assets/models/suporte-halteres.glb",
             title: "Suporte de halteres",
-            description: "Suporte com halteres organizados por peso, para exercícios livres de braços, ombros, peito e pernas. Escolhe uma carga que consigas controlar e devolve-a ao lugar no fim."
+            description: "Halteres organizados por peso"
         },
         "banco-ajustavel": {
             file: "../assets/models/banco-ajustavel.glb",
             title: "Banco ajustável",
-            description: "Banco com encosto regulável em várias posições — plano, inclinado ou quase vertical — para usar com halteres ou barra em supinos, remadas e press de ombros."
+            description: "Encosto plano ou inclinado"
         },
         "haltere-redondo": {
             file: "../assets/models/haltere-redondo.glb",
             title: "Haltere redondo",
-            description: "Vê de perto um haltere de discos redondos e explora a sua forma e pega."
+            description: "Haltere de discos redondos"
         },
         "haltere-hexagonal": {
             file: "../assets/models/haltere-hexagonal.glb",
             title: "Haltere hexagonal",
-            description: "Explora um haltere hexagonal, incluindo as extremidades planas que ajudam a evitar que role no chão."
+            description: "Haltere que não rola no chão"
         },
         "leg-press": {
             file: "../assets/models/leg-press.glb",
             title: "Leg Press",
-            description: "Empurra a plataforma com os pés para trabalhar quadríceps, glúteos e posteriores da coxa, com as costas bem apoiadas no encosto. Não bloqueies os joelhos no final do movimento."
+            description: "Quadríceps, glúteos e posteriores"
         },
         "extensao-pernas": {
             file: "../assets/models/extensao-pernas.glb",
             title: "Cadeira Extensora",
-            description: "Sentado, estica as pernas contra o rolo almofadado para isolar os quadríceps. Alinha o joelho com o eixo de rotação da máquina e desce o peso devagar."
+            description: "Quadríceps"
         },
         "leg-curl": {
             file: "../assets/models/leg-curl.glb",
             title: "Mesa Flexora",
-            description: "Flete os joelhos contra o rolo almofadado para trabalhar os posteriores da coxa. Ajusta o rolo para ficar logo acima dos tornozelos e evita levantar a anca."
+            description: "Posteriores da coxa"
         }
     };
 
@@ -144,23 +144,8 @@
                         </div>
                     </div>
                     <aside class="equipment-3d-details">
-                        <span class="equipment-3d-pill"><span aria-hidden="true"></span> Modelo interativo</span>
-                        <h3>Peck Deck</h3>
-                        <p class="equipment-3d-description">Explora a máquina de diferentes ângulos antes de começares o treino. Roda o modelo com o rato ou com o dedo e ajusta a aproximação para veres melhor os detalhes.</p>
                         <div class="equipment-3d-model-options" role="group" aria-label="Escolher modelo de peso livre" hidden></div>
-                        <div class="equipment-3d-feature">
-                            <span class="equipment-3d-feature-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg>
-                            </span>
-                            <div><strong>Vista livre</strong><span>Roda 360° e aproxima a máquina.</span></div>
-                        </div>
-                        <div class="equipment-3d-feature">
-                            <span class="equipment-3d-feature-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h11M4 17h8"/><circle cx="18" cy="16" r="3"/></svg>
-                            </span>
-                            <div><strong>Exploração simples</strong><span>Sem sair da página de exercícios.</span></div>
-                        </div>
-                        <p class="equipment-3d-footnote">Modelo digital ilustrativo. O equipamento real pode apresentar diferenças.</p>
+                        <p class="equipment-3d-description"></p>
                     </aside>
                 </div>
             </section>
@@ -208,7 +193,6 @@
         if (!config || !modal) return;
         const title = usarTituloEquipamento ? initialEquipmentTitle : config.title;
         modal.querySelector("#equipment3DTitle").textContent = title;
-        modal.querySelector(".equipment-3d-details h3").textContent = title;
         modal.querySelector(".equipment-3d-description").textContent = config.description;
         const canvas = modal.querySelector("#equipment3DCanvas");
         if (canvas) canvas.setAttribute("aria-label", `Modelo 3D interativo de ${title}`);
@@ -400,10 +384,9 @@
                 renderer.outputColorSpace = THREE.SRGBColorSpace;
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
                 renderer.toneMappingExposure = 1.12;
-                renderer.setClearColor(0xffffff, 1);
 
                 scene = new THREE.Scene();
-                scene.background = new THREE.Color(0xffffff);
+                scene.background = new THREE.Color();
                 camera = new THREE.PerspectiveCamera(35, 1, 0.01, 100);
                 scene.add(new THREE.HemisphereLight(0xffffff, 0xc9cbd0, 2.0));
 
@@ -449,6 +432,9 @@
                     }, 1500);
                 });
             }
+
+            // O fundo do modelo acompanha o tema escolhido.
+            scene.background.set(document.body.dataset.theme === "light" ? 0xffffff : 0x3b3045);
 
             fitRendererToStage();
             if (model && loadedModelKey === activeModelKey) {

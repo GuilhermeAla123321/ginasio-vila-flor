@@ -200,7 +200,7 @@
   const REST_DEFAULT_KEY = 'vf_workout_default_rest_seconds_v1';
   const GENERAL_STATE_KEY = 'vf_workout_general_rest_v1';
   const choices = Array.from({length:20},(_,i)=>(i+1)*15); // 00:15 a 05:00
-  const MIN_SECONDS = 1, MAX_SECONDS_MINUTES = 99, MAX_SECONDS = MAX_SECONDS_MINUTES * 60 + 59;
+  const MIN_SECONDS = 1, MAX_SECONDS_MINUTES = 60, MAX_SECONDS = MAX_SECONDS_MINUTES * 60; // o servidor só agenda alertas até 60 min
   const validSeconds = value => Number.isInteger(Number(value)) && Number(value) >= MIN_SECONDS && Number(value) <= MAX_SECONDS;
   const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg>';
   const ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
@@ -217,7 +217,8 @@
   if (!validSeconds(defaultSeconds)) defaultSeconds = 90;
   // Tempos criados pelo utilizador. Um padrão antigo fora da lista passa a ser um deles, para se poder apagar.
   const CUSTOM_TIMES_KEY = 'vf_rest_custom_times_v1';
-  let customTimes = (readJson(CUSTOM_TIMES_KEY) || []).map(Number).filter(validSeconds);
+  const temposGuardados = readJson(CUSTOM_TIMES_KEY);
+  let customTimes = (Array.isArray(temposGuardados) ? temposGuardados : []).map(Number).filter(validSeconds);
   if (!choices.includes(defaultSeconds) && !customTimes.includes(defaultSeconds)) customTimes.push(defaultSeconds);
   const fmt = n => `${String(Math.floor(Math.max(0,n)/60)).padStart(2,'0')}:${String(Math.max(0,n)%60).padStart(2,'0')}`;
 
@@ -229,6 +230,8 @@
       general.deadline=Number(previous.deadline);
       general.remaining=Math.max(0,Math.ceil((general.deadline-Date.now())/1000));
       general.running=general.remaining>0;general.paused=false;
+      // Terminou com a app fechada: fica pronto a recomeçar, como quando termina com ela aberta.
+      if(!general.running){general.remaining=general.duration;general.deadline=0;}
     } else {
       general.remaining=Math.min(general.duration,Number(previous.remaining)||general.duration);
       general.paused=Boolean(previous.paused);
@@ -301,10 +304,15 @@
       setTimeout(()=>{try{master.disconnect();}catch(_){}},3200);
     }catch(_){}
   }
+  const ICONES_TOAST = {
+    descanso: '<svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>',
+    feito: '<svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+    fim: '<svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8Z"/></svg>'
+  };
   function showRestToast(kind){
-    showToast('◷',kind==='geral'?'Descanso geral terminado':'Descanso entre séries terminado','Está na hora de retomar o treino.');
+    showToast(ICONES_TOAST.descanso,kind==='geral'?'Descanso geral terminado':'Descanso entre séries terminado','Está na hora de retomar o treino.');
   }
-  // Conta apenas o que está marcado no ecrã: as séries concluídas não são guardadas.
+  // Conta o que está marcado no ecrã.
   function showEncouragement(button){
     const pending=root=>root.querySelector('.gym-series-complete[aria-pressed="false"]');
     const left=(n,one,many)=>`${n===1?`Está quase, continua: falta 1 ${one}`:`Continua: faltam ${n} ${many}`}.`;
@@ -312,13 +320,13 @@
     if(!exercise||!workout)return;
     const seriesLeft=exercise.querySelectorAll('.gym-series-complete[aria-pressed="false"]').length;
     const exercisesLeft=[...workout.querySelectorAll('.exercise-card')].filter(pending).length;
-    if(seriesLeft)showToast('✓','Bom trabalho!',left(seriesLeft,'série','séries'));
-    else if(exercisesLeft)showToast('✓','Exercício concluído, bom trabalho!',left(exercisesLeft,'exercício','exercícios'));
-    else showToast('★','Treino concluído!','Excelente trabalho, foste até ao fim.');
+    if(seriesLeft)showToast(ICONES_TOAST.feito,'Bom trabalho!',left(seriesLeft,'série','séries'));
+    else if(exercisesLeft)showToast(ICONES_TOAST.feito,'Exercício concluído, bom trabalho!',left(exercisesLeft,'exercício','exercícios'));
+    else showToast(ICONES_TOAST.fim,'Treino concluído!','Excelente trabalho, foste até ao fim.');
   }
   function showToast(icon,title,text){
     const toast=getGlobal('gymRestCompleteToast');if(!toast)return;
-    getGlobal('gymRestCompleteIcon').textContent=icon;
+    getGlobal('gymRestCompleteIcon').innerHTML=icon;
     getGlobal('gymRestCompleteTitle').textContent=title;
     getGlobal('gymRestCompleteText').textContent=text;
     toast.hidden=false;
@@ -372,7 +380,7 @@
   function tick(){
     if(general.running){
       general.remaining=Math.max(0,Math.ceil((general.deadline-Date.now())/1000));
-      if(general.remaining===0){general.running=false;general.paused=false;general.deadline=0;general.remaining=general.duration;completeRest('geral');}
+      if(general.remaining===0){general.running=false;general.paused=false;general.deadline=0;general.duration=defaultSeconds;general.remaining=defaultSeconds;completeRest('geral');}
       saveGeneral();renderGeneral();
     }
     if(gap.running){
@@ -390,16 +398,17 @@
     if(general.running){general.remaining=Math.max(0,Math.ceil((general.deadline-Date.now())/1000));general.running=false;general.paused=true;general.deadline=0;cancelPush('geral');}
     saveGeneral();renderGeneral();
   }
-  function startGeneral(){
+  function startGeneral(seriesSeconds){
     ensureAudio();
     if(general.running){pauseGeneral();return;}
+    if(validSeconds(seriesSeconds)){general.duration=seriesSeconds;general.remaining=seriesSeconds;}
     if(general.remaining<=0)general.remaining=general.duration;
     general.deadline=Date.now()+general.remaining*1000;
     general.running=true;general.paused=false;saveGeneral();renderGeneral();startTicker();
     schedulePush('geral',general.deadline);
   }
   function resetGeneral(){
-    pauseGeneral();general.paused=false;general.remaining=general.duration;general.deadline=0;
+    pauseGeneral();general.paused=false;general.duration=defaultSeconds;general.remaining=defaultSeconds;general.deadline=0;
     cancelPush('geral');saveGeneral();renderGeneral();
   }
   function selectGap(element){
@@ -454,7 +463,9 @@
     nodes.forEach(node=>{
       if(node.hasAttribute('data-rest-initialized'))return;
       node.setAttribute('data-rest-initialized','true');
-      applyDurationToGap(node,defaultSeconds,false);
+      const saved=Number(node.dataset.restSaved);
+      if(validSeconds(saved))applyDurationToGap(node,saved,true);
+      else applyDurationToGap(node,defaultSeconds,false);
       setPlayButton(node.querySelector('.gym-inline-rest-toggle'),false,'Iniciar');
     });
   }
@@ -463,7 +474,7 @@
   document.addEventListener('touchend',ensureAudio,{passive:true});
   document.addEventListener('click',event=>{
     ensureAudio();
-    if(event.target.closest('#gymGeneralStart')){startGeneral();return;}
+    if(event.target.closest('#gymGeneralStart')){startGeneral(null);return;}
     if(event.target.closest('#gymGeneralReset')){resetGeneral();return;}
     if(event.target.closest('#gymRestCompleteDismiss')){
       ++toastToken;clearTimeout(toastTimer);getGlobal('gymRestCompleteToast').hidden=true;return;
@@ -480,12 +491,12 @@
     // A escolha do peso ou das repetições não aciona qualquer relógio.
     const series=event.target.closest('.gym-series-complete');
     if(series){
-      if(performance.now()-(window.__treinoRenderizadoEm||0)<450)return;
+      if(performance.now()-(window.__treinoGuardadoEm||-1000)<450)return;
       const wasDone=series.getAttribute('aria-pressed')==='true';
       series.setAttribute('aria-pressed',String(!wasDone));
       window.marcarSerie?.(series.dataset.serieChave,!wasDone);
       // Só arranca com o timer parado: outro check não pode reiniciar um descanso a contar ou em pausa.
-      if(!wasDone){if(!general.running&&!general.paused)startGeneral();showEncouragement(series);}
+      if(!wasDone){if(!general.running&&!general.paused)startGeneral(Number(series.dataset.descanso));showEncouragement(series);}
     }
     if(event.target.closest('[data-page="progress"]'))setTimeout(renderProgress,0);
   });
@@ -528,8 +539,8 @@
         wheel.setAttribute('aria-valuenow',wheelValue(wheel));
         wheel.querySelectorAll('li').forEach((li,i)=>li.classList.toggle('is-selected',i===wheelValue(wheel)));
       });
-      confirm.disabled=value<MIN_SECONDS||repeated;
-      note.textContent=value<MIN_SECONDS?'Escolhe pelo menos 1 segundo.':repeated?`O tempo ${fmt(value)} já existe.`:'';
+      confirm.disabled=!validSeconds(value)||repeated;
+      note.textContent=value<MIN_SECONDS?'Escolhe pelo menos 1 segundo.':value>MAX_SECONDS?'O máximo é 60:00.':repeated?`O tempo ${fmt(value)} já existe.`:'';
     };
     const close=()=>{
       document.removeEventListener('keydown',keys,true);
@@ -583,7 +594,8 @@
   });
   const init=()=>{
     // Normalizar a duração restaurada, sem alterar o valor geral guardado.
-    if(general.duration!==defaultSeconds){general.duration=defaultSeconds;general.remaining=defaultSeconds;general.running=false;general.paused=false;}
+    if(general.duration!==defaultSeconds&&!general.running&&!general.paused){general.duration=defaultSeconds;general.remaining=defaultSeconds;}
+    saveGeneral();
     renderGeneral();initializeGaps();renderProgress();
     syncSlot(getGlobal('gymGeneralRest')?.querySelector('.gym-rest-row'),defaultSeconds);
     const observer=new MutationObserver(entries=>{
@@ -595,6 +607,5 @@
     if(general.running){startTicker();tick();}
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-  window.renderProgressoCorporal=renderProgress;
   window.regioesDoExercicio=regionsFor;
 })();

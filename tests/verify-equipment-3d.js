@@ -27,9 +27,11 @@ assert.match(viewerScript, /controls\.autoRotate = true/, 'A apresentação deve
 assert.match(viewerScript, /event\.key === "Escape" && isOpen/, 'A janela deve fechar com Escape.');
 assert.doesNotMatch(viewerScript, /equipment-3d-hint|Arrasta para rodar/, 'A caixa de instruções por cima do modelo deve estar removida.');
 assert.match(styles, /\.equipment-3d-header[\s\S]*?text-align: center;/, 'O título do cabeçalho deve estar centrado.');
-assert.match(styles, /\.equipment-3d-pill[\s\S]*?align-self: center;/, 'O selo de modelo interativo deve estar centrado.');
-assert.match(styles, /\.equipment-3d-details h3[^\{]*\{[^}]*text-align: center;/, 'O título do equipamento deve estar centrado.');
 assert.match(styles, /\.equipment-detail-tools\s*\{[^}]*flex-wrap:\s*nowrap;/, 'O filtro e botão devem ficar lado a lado em telemóvel.');
+for (const [, texto] of viewerScript.matchAll(/description: "([^"]*)"/g)) {
+    assert.ok(texto.length <= 40, `Descrição 3D demasiado longa: ${texto}`);
+}
+assert.doesNotMatch(viewerScript, /equipment-3d-feature|equipment-3d-pill|equipment-3d-footnote/, 'A janela 3D deve mostrar só o modelo e uma frase.');
 assert.match(styles, /\.equipment-3d-model-option/, 'Os modelos alternativos de peso livre devem ter controlo visual.');
 assert.match(styles, /\.equipment-3d-stage[\s\S]*?background: #fff;/, 'A área do modelo deve ter fundo branco.');
 assert.match(serviceWorker, /vf-ginasio-v\d+/, 'O cache da PWA deve ter uma versão nova.');

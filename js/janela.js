@@ -153,3 +153,62 @@
         if (event.cancelable) event.preventDefault();
     }, { passive: false });
 })();
+
+/* Botão "voltar" do telemóvel: fecha o que estiver aberto em vez de sair da app.
+   Enquanto não se está na vista inicial, existe uma entrada a mais no histórico para o gesto consumir. */
+(() => {
+    // Do que está por cima para o que está por baixo.
+    const CAMADAS = [
+        "#exerciseMediaZoomOverlay",
+        "#closeCustomExercise",
+        "#closeExercisePicker",
+        "#closeExerciseEditor",
+        "#closeProgress",
+        ".exercise-modal-overlay.open #exerciseModalClose",
+        ".equipment-3d-overlay.is-open .equipment-3d-close",
+        "#backWorkout",
+        "#page-equipment.active .equipment-back"
+    ];
+    const paginaInicial = () => Boolean(document.querySelector("#page-home.active"));
+    const camadaAberta = () => {
+        // Numa janela de confirmação, "voltar" nunca pode confirmar: é sempre Cancelar.
+        const janela = [...document.querySelectorAll(".vf-dialog-overlay")].pop();
+        if (janela) return janela.querySelector(".vf-dialog-cancel") || janela.querySelector(".vf-dialog-confirm");
+        return CAMADAS.map(seletor => document.querySelector(seletor)).find(Boolean) || null;
+    };
+    const naVistaInicial = () => !document.querySelector(".vf-select-menu") && !camadaAberta() && paginaInicial();
+
+    // Depois de recarregar, a entrada anterior continua no histórico.
+    let temEntrada = Boolean(history.state?.vfVoltar), aConsumir = false;
+    history.scrollRestoration = "manual";
+
+    const sincronizar = () => {
+        if (aConsumir) return;
+        const inicial = naVistaInicial();
+        if (!inicial && !temEntrada) {
+            history.pushState({ vfVoltar: true }, "");
+            temEntrada = true;
+        } else if (inicial && temEntrada) {
+            // Fechou-se com o X: retira a entrada, senão o próximo "voltar" não faria nada.
+            aConsumir = true;
+            history.back();
+        }
+    };
+
+    window.addEventListener("popstate", () => {
+        temEntrada = false;
+        if (aConsumir) {
+            aConsumir = false;
+        } else if (document.querySelector(".vf-select-menu")) {
+            document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        } else {
+            const camada = camadaAberta();
+            if (camada) camada.click();
+            else if (!paginaInicial()) mostrarPagina("home");
+        }
+        setTimeout(sincronizar, 0);
+    });
+
+    new MutationObserver(sincronizar).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    sincronizar();
+})();

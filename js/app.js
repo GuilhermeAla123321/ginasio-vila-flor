@@ -82,14 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const page =
                         btn.dataset.pageJump;
 
-                    if (
-                        typeof mostrarPagina ===
-                        "function"
-                    ) {
-
-                        mostrarPagina(page);
-
-                    }
+                    mostrarPagina(page);
 
                 }
             );

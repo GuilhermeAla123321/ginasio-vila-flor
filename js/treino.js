@@ -365,6 +365,13 @@ const TIPOS_EXERCICIO = {
 
 const MAX_SERIES_EXERCICIO = 8;
 
+// Acima disto é quase de certeza um engano ao escrever.
+const LIMITES_PARAMETROS = {
+    carga: 500, pesoHalter: 100, repeticoes: 200, tempo: 600, velocidade: 50,
+    inclinacao: 40, distancia: 300, resistencia: 100, ritmo: 30
+};
+const PARAMETROS_OBRIGATORIOS = ["carga", "pesoHalter", "repeticoes"];
+
 const PARAMETROS = {
 
     carga: {
@@ -481,11 +488,15 @@ if (!Array.isArray(favoritosExercicios)) {
     favoritosExercicios = [];
 }
 
+exerciciosPersonalizados = Array.isArray(exerciciosPersonalizados)
+    ? exerciciosPersonalizados.filter(x => x && typeof x === "object" && typeof x.nome === "string")
+    : [];
+
 let filtroBiblioteca = "todos";
 let valorFiltroBiblioteca = "Todos";
 let favoritosApenas = false;
 
-let diaSelecionado = "segunda";
+let diaSelecionado = diaAtualChave();
 let treinoSelecionadoId = null;
 
 /* Rascunho lido antes do primeiro render, que o apaga. */
@@ -551,6 +562,16 @@ function carregarJSON(chave, valorPadrao) {
 }
 
 
+let avisoGuardarAberto = false;
+
+function avisarFalhaGuardar() {
+    if (avisoGuardarAberto) return;
+    avisoGuardarAberto = true;
+    window.avisoApp("O armazenamento pode estar cheio ou bloqueado. Esta alteração perde-se ao fechar a app.", { titulo: "Não foi guardado" })
+        .finally(() => { avisoGuardarAberto = false; });
+}
+
+
 function save() {
     try {
         // Guarda o conteúdo original antes de substituir a estrutura antiga por múltiplos treinos.
@@ -567,6 +588,7 @@ function save() {
         treinosPrecisaBackup = false;
     } catch (e) {
         console.warn("Treinos localStorage:", e);
+        avisarFalhaGuardar();
     }
 }
 
@@ -586,6 +608,7 @@ function saveExerciciosPersonalizados() {
             "Exercícios personalizados localStorage:",
             e
         );
+        avisarFalhaGuardar();
     }
 }
 
@@ -609,7 +632,8 @@ function treinosNecessitamBackup(raw) {
 
         for (const treino of valor) {
             if (!treino || typeof treino !== "object" || Array.isArray(treino) ||
-                !treino.id || typeof treino.nome !== "string" || !Array.isArray(treino.exercicios)) {
+                !treino.id || typeof treino.nome !== "string" || !Array.isArray(treino.exercicios) ||
+                treino.exercicios.some(x => !x || typeof x !== "object")) {
                 return true;
             }
             const id = String(treino.id);
@@ -668,7 +692,9 @@ function normalizarTreinosMultiplos(dados) {
                     nome: typeof t.nome === "string" && t.nome.trim()
                         ? t.nome
                         : `Treino ${indice + 1}`,
-                    exercicios: Array.isArray(t.exercicios) ? t.exercicios : []
+                    exercicios: Array.isArray(t.exercicios)
+                        ? t.exercicios.filter(x => x && typeof x === "object")
+                        : []
                 };
             });
     });
@@ -694,9 +720,12 @@ function criarTreinoDia(dia = diaSelecionado) {
     // A validação também existe na lógica, não apenas no botão da interface.
     if (lista.length >= MAX_TREINOS_POR_DIA) return null;
 
+    let numero = lista.length + 1;
+    while (lista.some(t => t.nome === `Treino ${numero}`)) numero++;
+
     const novo = {
         id: criarIdTreino(),
-        nome: `Treino ${lista.length + 1}`,
+        nome: `Treino ${numero}`,
         exercicios: []
     };
     lista.push(novo);
@@ -1405,12 +1434,34 @@ function validarSeries(
 
                     return "Os valores não podem ser negativos.";
                 }
+
+                if (Number(serie[p]) > LIMITES_PARAMETROS[p]) {
+
+                    return `${PARAMETROS[p].label}: o máximo é ${LIMITES_PARAMETROS[p]}${PARAMETROS[p].unit ? ` ${PARAMETROS[p].unit}` : ""}.`;
+                }
             }
         }
 
         if (!temValor) {
 
             return "Preenche pelo menos um valor em cada série.";
+        }
+
+        const emFalta = params.find(p =>
+            PARAMETROS_OBRIGATORIOS.includes(p) && (serie[p] === "" || serie[p] == null)
+        );
+
+        if (emFalta) {
+
+            return `Preenche ${PARAMETROS[emFalta].label.toLowerCase()} em todas as séries.`;
+        }
+
+        if (
+            params.includes("repeticoes") &&
+            !Number.isInteger(Number(serie.repeticoes))
+        ) {
+
+            return "As repetições devem ser um número inteiro.";
         }
 
         if (
@@ -1435,6 +1486,12 @@ function validarSeries(
 /* =========================================================
    RENDERIZAÇÃO DAS LINHAS DE SÉRIES
    ========================================================= */
+
+// Só um tempo escolhido nesta série fica guardado; o resto segue o descanso geral.
+function descansoDaSerie(gap) {
+    return gap?.dataset.restOverride === "true" ? { descanso: Number(gap.dataset.restSeconds) } : {};
+}
+
 
 function renderLinhasSeries(
     container,
@@ -1466,8 +1523,8 @@ function renderLinhasSeries(
     );
 
     const lerValoresVisiveis = () =>
-        [...container.querySelectorAll(".set-entry-card")].map(card =>
-            Object.fromEntries(
+        [...container.querySelectorAll(".set-entry-card")].map(card => ({
+            ...Object.fromEntries(
                 params.map(param => {
                     const input = card.querySelector(`[data-param="${param}"]`);
                     return [
@@ -1475,8 +1532,9 @@ function renderLinhasSeries(
                         input && input.value !== "" ? Number(input.value) : ""
                     ];
                 })
-            )
-        );
+            ),
+            ...descansoDaSerie(card.nextElementSibling)
+        }));
 
     container.innerHTML = `
         <div class="set-entry-series-list">
@@ -1517,6 +1575,7 @@ function renderLinhasSeries(
                                             class="input series-value-input"
                                             type="number"
                                             min="0"
+                                            max="${LIMITES_PARAMETROS[param]}"
                                             step="${cfg.step}"
                                             placeholder="${cfg.placeholder}"
                                             value="${val !== "" ? escapeHtml(val) : ""}"
@@ -1526,11 +1585,11 @@ function renderLinhasSeries(
                             }).join("")}
                         </div>
                     </div>
-                    <div class="gym-inline-rest" data-gym-rest-gap="${i}" aria-label="Descanso depois da série ${i + 1}">
+                    <div class="gym-inline-rest" data-gym-rest-gap="${i}" ${serie.descanso ? `data-rest-saved="${Number(serie.descanso)}"` : ""} aria-label="Descanso depois da série ${i + 1}">
                         <div class="gym-rest-row">
                             <span class="gym-rest-slot"><strong class="gym-rest-clock gym-inline-rest-clock" role="timer">01:30</strong><select class="gym-rest-select" aria-label="Tempo de descanso"></select></span>
                             <button type="button" class="gym-rest-btn gym-rest-play gym-inline-rest-toggle" aria-label="Iniciar descanso"></button>
-                            <button type="button" class="gym-rest-btn gym-inline-rest-reset" aria-label="Reiniciar descanso">↺</button>
+                            <button type="button" class="gym-rest-btn gym-inline-rest-reset" aria-label="Reiniciar descanso"><svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
                         </div>
                         <div class="gym-inline-rest-track"><span class="gym-inline-rest-fill"></span></div>
                     </div>
@@ -1621,8 +1680,8 @@ function recolherSeries(
         {
             length: count
         },
-        (_, i) =>
-            Object.fromEntries(
+        (_, i) => ({
+            ...Object.fromEntries(
                 params.map(
                     p => {
 
@@ -1642,7 +1701,9 @@ function recolherSeries(
                         ];
                     }
                 )
-            )
+            ),
+            ...descansoDaSerie(container.querySelector(`[data-gym-rest-gap="${i}"]`))
+        })
     );
 }
 
@@ -1710,8 +1771,6 @@ function renderTreino() {
     const r = document.getElementById("workout-root");
     if (!r) return;
 
-    // Um segundo toque em «Adicionar ao treino» não pode cair no check que aparece por baixo do dedo.
-    window.__treinoRenderizadoEm = performance.now();
     apagarRascunhoExercicio();
 
     // Ao voltar à vista normal, repõe o cabeçalho principal da página.
@@ -1746,9 +1805,6 @@ function renderTreino() {
                 `;
             }).join("")}
         </div>
-
-        ${diaSelecionado === "domingo" ? `
-        ` : ""}
 
         <div class="selected-day workout-day-toolbar">
             <div class="selected-day-title">
@@ -1911,7 +1967,8 @@ function renderTreino() {
             const nome = await window.pedirTextoApp({
                 eyebrow: "EDITAR TREINO",
                 titulo: "Nome do treino",
-                valor: treino.nome
+                valor: treino.nome,
+                maxLength: 40
             });
             if (nome?.trim()) {
                 treino.nome = nome.trim();
@@ -2024,11 +2081,18 @@ function renderExercicioCard(
                 `)
                 .join("");
 
+            const descanso = Number(x.seriesData?.[n]?.descanso) || 0;
+            const descansoHtml = descanso ? `
+                    <span class="gym-series-metric">
+                        <span class="gym-series-metric-label">Descanso</span>
+                        <span class="gym-series-metric-value">${String(Math.floor(descanso / 60)).padStart(2, "0")}:${String(descanso % 60).padStart(2, "0")}</span>
+                    </span>` : "";
+
             return `
                 <div class="series-card-line">
-                    <button type="button" class="gym-series-complete" data-gym-series="${n}" data-serie-chave="${escaparAtributo(chaveSerie(n))}" aria-label="Concluir série ${n + 1} e iniciar descanso" aria-pressed="${Boolean(checksDaSemana()[chaveSerie(n)])}" title="Concluir série e iniciar descanso"><span class="gym-series-check" aria-hidden="true">✓</span><span class="gym-series-name">${String(n + 1).padStart(2, "0")}</span></button>
+                    <button type="button" class="gym-series-complete" data-gym-series="${n}" ${descanso ? `data-descanso="${descanso}"` : ""} data-serie-chave="${escaparAtributo(chaveSerie(n))}" aria-label="Concluir série ${n + 1} e iniciar descanso" aria-pressed="${Boolean(checksDaSemana()[chaveSerie(n)])}" title="Concluir série e iniciar descanso"><span class="gym-series-check" aria-hidden="true"><svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><span class="gym-series-name">${String(n + 1).padStart(2, "0")}</span></button>
                     <strong class="series-card-values">
-                        ${valores || '<span class="gym-series-empty">Sem valores</span>'}
+                        ${valores ? valores + descansoHtml : '<span class="gym-series-empty">Sem valores</span>'}
                     </strong>
                 </div>
             `;
@@ -2073,7 +2137,7 @@ function renderExercicioCard(
                     data-train-id="${escaparAtributo(treinoId)}"
                     aria-label="Remover exercício"
                 >
-                    ×
+                    <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
                 </button>
 
             </div>
@@ -2149,7 +2213,7 @@ function abrirAdicionar() {
             class="back-button"
             id="backWorkout"
         >
-            ← Voltar
+            <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Voltar
         </button>
 
 
@@ -2525,7 +2589,7 @@ function garantirEstilosBiblioteca() {
         }
 
         .exercise-filter-option.active {
-            background: linear-gradient(135deg,#68406f,#3e9d9a);
+            background: linear-gradient(135deg,#68406f,#853e9d);
             color: #fff;
             border-color: transparent;
         }
@@ -2577,7 +2641,7 @@ function garantirEstilosBiblioteca() {
 
         .custom-create-control {
             grid-column: 1 / -1;
-            background: linear-gradient(135deg, rgba(214, 112, 188, .18), rgba(62, 157, 154, .10));
+            background: linear-gradient(135deg, rgba(214, 112, 188, .18), rgba(133,62,157, .10));
             color: #9b4b91;
             border-color: rgba(214, 112, 188, .35);
             font-size: 9px;
@@ -2710,7 +2774,7 @@ function garantirEstilosBiblioteca() {
             margin: 0 0 15px;
             border: 1px solid rgba(104,64,111,.14);
             border-radius: 14px;
-            background: #f3f4f8;
+            background: #f7f3f8;
         }
 
         .custom-characteristics-exercise strong {
@@ -2750,20 +2814,20 @@ function garantirEstilosBiblioteca() {
             padding: 10px 11px;
             border: 1px solid rgba(104,64,111,.15);
             border-radius: 13px;
-            background: #f8f8fb;
+            background: #faf8fb;
             cursor: pointer;
             transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease, transform .16s ease;
         }
 
         .custom-characteristic-option:hover {
-            border-color: rgba(62,157,154,.45);
+            border-color: rgba(133,62,157,.45);
             transform: translateY(-1px);
         }
 
         .custom-characteristic-option:has(input:checked) {
-            border-color: #3e9d9a;
-            background: #edf7f6;
-            box-shadow: inset 0 0 0 1px rgba(62,157,154,.12);
+            border-color: #853e9d;
+            background: #f4edf7;
+            box-shadow: inset 0 0 0 1px rgba(133,62,157,.12);
         }
 
         .custom-characteristic-option:focus-within {
@@ -2777,7 +2841,7 @@ function garantirEstilosBiblioteca() {
             min-width: 17px;
             flex: 0 0 17px;
             margin: 0;
-            accent-color: #3e9d9a;
+            accent-color: #853e9d;
             cursor: pointer;
         }
 
@@ -2799,29 +2863,29 @@ function garantirEstilosBiblioteca() {
         }
 
         body[data-theme="dark"] .custom-characteristics-exercise {
-            background: #172131;
+            background: #2b1731;
             border-color: rgba(177,145,196,.20);
         }
 
         body[data-theme="dark"] .custom-characteristics-exercise span,
-        body[data-theme="dark"] .custom-characteristics-note { color: #aeb8c9; }
+        body[data-theme="dark"] .custom-characteristics-note { color: #c2aec9; }
 
-        body[data-theme="dark"] .custom-characteristics-heading strong { color: #f3f5fa; }
+        body[data-theme="dark"] .custom-characteristics-heading strong { color: #f8f3fa; }
 
         body[data-theme="dark"] .custom-characteristic-option {
-            background: #171e2b;
-            border-color: rgba(164,176,197,.18);
-            color: #eef2f8;
+            background: #26172b;
+            border-color: rgba(189,164,197,.18);
+            color: #f5eef8;
         }
 
         body[data-theme="dark"] .custom-characteristic-option:hover {
-            border-color: rgba(62,157,154,.60);
+            border-color: rgba(133,62,157,.60);
         }
 
         body[data-theme="dark"] .custom-characteristic-option:has(input:checked) {
-            background: rgba(62,157,154,.14);
-            border-color: #3e9d9a;
-            box-shadow: inset 0 0 0 1px rgba(62,157,154,.12);
+            background: rgba(133,62,157,.14);
+            border-color: #853e9d;
+            box-shadow: inset 0 0 0 1px rgba(133,62,157,.12);
         }
 
         body[data-theme="dark"] .custom-characteristics-note { background: rgba(255,255,255,.035); }
@@ -2858,40 +2922,40 @@ function garantirEstilosBiblioteca() {
         }
 
         body[data-theme="dark"] .custom-create-control {
-            background: linear-gradient(135deg, rgba(195,79,118,.30), rgba(104,64,111,.30), rgba(62,157,154,.22));
+            background: linear-gradient(135deg, rgba(195,79,118,.30), rgba(104,64,111,.30), rgba(133,62,157,.22));
             color: #f5d8e9;
             border-color: rgba(214,112,188,.58);
             font-weight: 850;
         }
 
         body[data-theme="dark"] .custom-exercise-modal {
-            background: #111824;
+            background: #1f1124;
             border-color: var(--line);
-            color: #eef2f8;
+            color: #f5eef8;
         }
 
         body[data-theme="dark"] .custom-exercise-field small {
-            color: #9aa6ba;
+            color: #b29aba;
         }
 
         body[data-theme="dark"] .custom-exercise-overlay {
-            background: rgba(4, 8, 14, .68);
+            background: rgba(11,4,14, .68);
         }
 
         body[data-theme="light"] .custom-create-control {
-            background: linear-gradient(135deg, rgba(214, 112, 188, .13), rgba(62, 157, 154, .10));
+            background: linear-gradient(135deg, rgba(214, 112, 188, .13), rgba(133,62,157, .10));
             color: #9b4b91;
             border-color: rgba(214, 112, 188, .32);
         }
 
         body[data-theme="dark"] .exercise-picker-control {
-            background: linear-gradient(135deg, rgba(124,77,255,.20), rgba(230,57,155,.12));
+            background: linear-gradient(135deg, rgba(188,122,210,.20), rgba(230,57,155,.12));
             color: #eadff0;
             border-color: rgba(161,132,180,.38);
         }
 
         body[data-theme="dark"] .exercise-picker-control.active {
-            background: linear-gradient(135deg, #68406f, #3e9d9a);
+            background: linear-gradient(135deg, #68406f, #853e9d);
             color: #ffffff;
             border-color: transparent;
         }
@@ -2901,7 +2965,7 @@ function garantirEstilosBiblioteca() {
         }
 
         body[data-theme="dark"] .exercise-filter-option {
-            background: linear-gradient(135deg, rgba(124,77,255,.17), rgba(230,57,155,.10));
+            background: linear-gradient(135deg, rgba(188,122,210,.17), rgba(230,57,155,.10));
             color: #e5d9eb;
             border-color: rgba(161,132,180,.34);
         }
@@ -2934,7 +2998,7 @@ function garantirEstilosBiblioteca() {
             padding: 0 11px;
             border: 1px solid rgba(161,132,180,.34);
             border-radius: 11px;
-            background: linear-gradient(135deg, rgba(124,77,255,.13), rgba(230,57,155,.07));
+            background: linear-gradient(135deg, rgba(188,122,210,.13), rgba(230,57,155,.07));
             color: var(--text, #f5edf7);
             font: inherit;
             font-size: 11px;
@@ -2946,8 +3010,8 @@ function garantirEstilosBiblioteca() {
 
         #exercisePickerOverlay .exercise-filter-trigger:hover,
         #exercisePickerOverlay .exercise-filter-trigger[aria-expanded="true"] {
-            border-color: rgba(62,157,154,.72);
-            box-shadow: 0 0 0 3px rgba(62,157,154,.10);
+            border-color: rgba(133,62,157,.72);
+            box-shadow: 0 0 0 3px rgba(133,62,157,.10);
         }
 
         #exercisePickerOverlay .exercise-filter-current {
@@ -3011,18 +3075,18 @@ function garantirEstilosBiblioteca() {
         }
 
         #exercisePickerOverlay .exercise-filter-menu-option:hover {
-            background: rgba(124,77,255,.17);
+            background: rgba(188,122,210,.17);
             color: #fff;
         }
 
         #exercisePickerOverlay .exercise-filter-menu-option.active {
-            background: linear-gradient(110deg, rgba(124,77,255,.32), rgba(62,157,154,.24));
+            background: linear-gradient(110deg, rgba(188,122,210,.32), rgba(133,62,157,.24));
             color: #fff;
         }
 
         #exercisePickerOverlay .exercise-filter-option-check {
             flex: 0 0 16px;
-            color: #6fd2c4;
+            color: #b871d0;
             font-size: 14px;
             font-weight: 900;
             text-align: center;
@@ -3030,7 +3094,7 @@ function garantirEstilosBiblioteca() {
 
         body[data-theme="light"] #exercisePickerOverlay .exercise-filter-trigger {
             color: #49394e;
-            background: linear-gradient(135deg, rgba(124,77,255,.07), rgba(230,57,155,.04));
+            background: linear-gradient(135deg, rgba(188,122,210,.07), rgba(230,57,155,.04));
             border-color: rgba(104,64,111,.23);
         }
 
@@ -3046,12 +3110,12 @@ function garantirEstilosBiblioteca() {
         }
 
         body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option:hover {
-            background: rgba(124,77,255,.09);
+            background: rgba(188,122,210,.09);
             color: #392841;
         }
 
         body[data-theme="light"] #exercisePickerOverlay .exercise-filter-menu-option.active {
-            background: linear-gradient(110deg, rgba(124,77,255,.14), rgba(62,157,154,.15));
+            background: linear-gradient(110deg, rgba(188,122,210,.14), rgba(133,62,157,.15));
             color: #392841;
         }
 
@@ -3250,17 +3314,17 @@ function abrirSeletorExercicio() {
                     class="exercise-picker-close"
                     id="closeExercisePicker"
                 >
-                    ×
+                    <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
                 </button>
             </div>
 
             <div class="exercise-search-wrap">
-                <span class="exercise-search-icon">⌕</span>
+                <span class="exercise-search-icon"><svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
                 <input
                     id="exerciseSearch"
                     class="exercise-search-input"
                     type="search"
-                    placeholder="Procurar ou escrever exercício..."
+                    placeholder="Procurar exercício..."
                     autocomplete="off"
                     spellcheck="false"
                 >
@@ -3321,7 +3385,7 @@ function abrirSeletorExercicio() {
                 class="custom-create-control"
                 id="openCustomExerciseCreator"
             >
-                ＋ Adicionar exercício personalizado
+                <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg> Adicionar exercício personalizado
             </button>
 
             <div
@@ -3734,12 +3798,12 @@ function abrirPopupExercicioPersonalizado() {
                     </div>
                     <p class="page-context-help-text custom-exercise-help-text" id="customExerciseHelpText" role="note" hidden>Indica nome, grupo, tipo e equipamento. Depois escolhe os dados a registar em cada série.</p>
                 </div>
-                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
+                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar"><svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
             </div>
             <div class="custom-exercise-form">
                 <div class="custom-exercise-field">
                     <label for="customExerciseName">Nome do exercício</label>
-                    <input id="customExerciseName" class="input" type="text" maxlength="80" autocomplete="off">
+                    <input id="customExerciseName" class="input" type="text" maxlength="80" autocomplete="off" value="${escaparAtributo(values.nome || "")}">
                 </div>
                 <div class="custom-exercise-field">
                     <label for="customExerciseGroup">Grupo muscular</label>
@@ -3815,7 +3879,7 @@ function abrirPopupExercicioPersonalizado() {
                     <span class="eyebrow">CONFIGURAR EXERCÍCIO</span>
                     <h2 id="customExerciseTitle">Características das séries</h2>
                 </div>
-                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar">×</button>
+                <button type="button" class="exercise-picker-close" id="closeCustomExercise" aria-label="Fechar"><svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
             </div>
             <div class="custom-characteristics-exercise">
                 <strong>${escapeHtml(draft.nome)}</strong>
@@ -3996,7 +4060,7 @@ function renderResultadosPesquisa(termo) {
                             }"
                             title="${favorito ? "Remover dos favoritos" : "Adicionar aos favoritos"}"
                         >
-                            ${favorito ? "★" : "☆"}
+                            <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8Z"/></svg>
                         </button>
 
                         ${filtroBiblioteca === "criados" && item.personalizado ? `
@@ -4029,7 +4093,7 @@ function renderResultadosPesquisa(termo) {
                 <div class="exercise-search-empty">
 
                     <div class="exercise-search-empty-icon">
-                        ${favoritosApenas ? "★" : "⌕"}
+                        ${favoritosApenas ? `<svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8Z"/></svg>` : `<svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>`}
                     </div>
 
                     <strong>
@@ -4272,7 +4336,7 @@ function selecionarExercicio(
             personalizado
                 ? `
                     <span class="custom-selected-badge">
-                        ✦ Exercício personalizado
+                        <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16v4M17 18h4"/></svg> Exercício personalizado
                     </span>
 
                     ${Array.isArray(item?.parametrosSeries) && item.parametrosSeries.length
@@ -4281,7 +4345,7 @@ function selecionarExercicio(
                 `
                 : `
                     <span class="existing-selected-badge">
-                        ✓ Exercício selecionado
+                        <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg> Exercício selecionado
                     </span>
 
                     ${escapeHtml(
@@ -4529,6 +4593,8 @@ function guardarExercicio() {
 
     save();
 
+    // Um segundo toque em «Adicionar ao treino» não pode cair no check que aparece por baixo do dedo.
+    window.__treinoGuardadoEm = performance.now();
     renderTreino();
 }
 
@@ -4537,6 +4603,8 @@ function guardarExercicio() {
    EDITAR EXERCÍCIO
    ========================================================= */
 
+let exercicioEmEdicao = null;
+
 function abrirEditorExercicio(
     exercicio
 ) {
@@ -4544,6 +4612,8 @@ function abrirEditorExercicio(
     if (!exercicio) {
         return;
     }
+
+    exercicioEmEdicao = exercicio;
 
 
     document
@@ -4607,7 +4677,7 @@ function abrirEditorExercicio(
                     id="closeExerciseEditor"
                     aria-label="Fechar"
                 >
-                    ×
+                    <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>
                 </button>
 
             </div>
@@ -4742,8 +4812,10 @@ function abrirEditorExercicio(
     document.getElementById(
         "closeExerciseEditor"
     ).onclick =
-        () =>
+        () => {
             overlay.remove();
+            apagarRascunhoExercicio();
+        };
 
 
     overlay.addEventListener(
@@ -4754,6 +4826,7 @@ function abrirEditorExercicio(
                 e.target === overlay
             ) {
                 overlay.remove();
+                apagarRascunhoExercicio();
             }
         }
     );
@@ -4837,9 +4910,16 @@ function guardarAtualizacaoExercicio(
             : [];
 
 
-    historico.push(
-        reg
-    );
+    // Sem valores novos não há evolução a registar.
+    const semDescanso = lista => lista.map(({ descanso, ...valores }) => valores);
+    const iguais = historico.length &&
+        JSON.stringify(semDescanso(seriesData)) === JSON.stringify(extrairSeriesExercicio(exercicio));
+
+    if (!iguais) {
+        historico.push(
+            reg
+        );
+    }
 
 
     exercicio.historico =
@@ -4888,6 +4968,7 @@ function guardarAtualizacaoExercicio(
         ?.remove();
 
 
+    window.__treinoGuardadoEm = performance.now();
     renderTreino();
 }
 
@@ -5059,14 +5140,14 @@ function mostrarProgressao(
                     <h2 id="progressExerciseTitle">${escapeHtml(exercicio.nome)}</h2>
                     <p class="muted">Histórico de evolução · apenas consulta</p>
                 </div>
-                <button type="button" class="exercise-picker-close" id="closeProgress" aria-label="Fechar">×</button>
+                <button type="button" class="exercise-picker-close" id="closeProgress" aria-label="Fechar"><svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
             </div>
             ${resumoHtml}
             <div class="progress-history-list ${historicoReverso.length ? "has-history" : ""}">
                 ${historyHtml}
             </div>
             <div class="progress-readonly-note">
-                🔒 Consulta apenas. Para registar novos valores, utiliza o botão <strong>Atualizar</strong> no exercício.
+                <svg class="vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Consulta apenas. Para registar novos valores, utiliza o botão <strong>Atualizar</strong> no exercício.
             </div>
             <div class="progress-actions">
                 <button type="button" class="secondary-btn" id="closeProgressBottom">Fechar</button>
@@ -5087,6 +5168,10 @@ function mostrarProgressao(
    INICIALIZAÇÃO
    ========================================================= */
 
+function aEscreverTreino() {
+    return Boolean(document.querySelector(".workout-page.is-adding-exercise, #exerciseEditorOverlay"));
+}
+
 function agendarAtualizacaoIndicadorDia() {
     if (diaAtualRefreshTimeout !== null) {
         window.clearTimeout(diaAtualRefreshTimeout);
@@ -5095,7 +5180,7 @@ function agendarAtualizacaoIndicadorDia() {
     const agora = new Date();
     const proximaMeiaNoite = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1, 0, 0, 1, 0);
     diaAtualRefreshTimeout = window.setTimeout(() => {
-        if (document.getElementById("page-workout")?.classList.contains("active")) {
+        if (document.getElementById("page-workout")?.classList.contains("active") && !aEscreverTreino()) {
             renderTreino();
         }
         agendarAtualizacaoIndicadorDia();
@@ -5163,11 +5248,27 @@ document.addEventListener("DOMContentLoaded", () => {
    (ex.: ao abrir uma notificação), o que estava escrito é reposto.
    ========================================================= */
 function guardarRascunhoExercicio() {
+    const editor = document.getElementById("exerciseEditorFields");
+    if (editor && exercicioEmEdicao) {
+        try {
+            localStorage.setItem(STORAGE_RASCUNHO, JSON.stringify({
+                editor: true,
+                dia: diaSelecionado,
+                treino: treinoSelecionadoId,
+                exercicio: exercicioEmEdicao.id ?? exercicioEmEdicao.nome,
+                seriesData: recolherSeries(editor, exercicioEmEdicao.tipo || inferirTipoExercicio(exercicioEmEdicao.nome, exercicioEmEdicao.grupo), exercicioEmEdicao.parametrosSeries),
+                quando: Date.now()
+            }));
+        } catch (_) {}
+        return;
+    }
     if (!document.querySelector(".workout-page.is-adding-exercise")) return;
     const nome = document.getElementById("exerciseName")?.value;
     if (!nome) return;
     const valores = [...document.querySelectorAll("#exerciseFields .series-value-input")]
         .map(campo => [campo.dataset.seriesIndex, campo.dataset.param, campo.value]);
+    const descansos = [...document.querySelectorAll("#exerciseFields .gym-inline-rest")]
+        .map(gap => descansoDaSerie(gap).descanso ?? null);
     try {
         localStorage.setItem(STORAGE_RASCUNHO, JSON.stringify({
             dia: diaSelecionado,
@@ -5176,6 +5277,7 @@ function guardarRascunhoExercicio() {
             series: Number(document.getElementById("seriesCount")?.value) || 1,
             nasSeries: !document.getElementById("saveExercise")?.hidden,
             valores,
+            descansos,
             quando: Date.now()
         }));
     } catch (_) {}
@@ -5188,6 +5290,16 @@ function restaurarRascunhoExercicio() {
     diaSelecionado = d.dia;
     treinoSelecionadoId = d.treino;
     mostrarPagina("workout");
+    if (d.editor) {
+        const exercicio = encontrarTreinoDia(d.treino)?.exercicios.find(x => (x.id ?? x.nome) === d.exercicio);
+        if (!exercicio) return;
+        abrirEditorExercicio(exercicio);
+        const campos = document.getElementById("exerciseEditorFields");
+        renderLinhasSeries(campos, { ...exercicio, seriesData: d.seriesData }, d.seriesData.length);
+        campos.dispatchEvent(new CustomEvent("seriescountchange", { detail: d.seriesData.length }));
+        guardarRascunhoExercicio();
+        return;
+    }
     abrirAdicionar();
     const item = construirBibliotecaExercicios().find(x => normalizarTexto(x.nome) === normalizarTexto(d.nome));
     selecionarExercicio(item?.nome || d.nome, !!item?.personalizado, item);
@@ -5202,21 +5314,24 @@ function restaurarRascunhoExercicio() {
             const campo = document.querySelector(`#exerciseFields [data-series-index="${serie}"][data-param="${parametro}"]`);
             if (campo) campo.value = valor;
         });
+        (d.descansos || []).forEach((segundos, serie) => {
+            const gap = document.querySelector(`#exerciseFields [data-gym-rest-gap="${serie}"]`);
+            if (gap && segundos) gap.dataset.restSaved = String(segundos);
+        });
     }
     guardarRascunhoExercicio();
 }
 
 document.addEventListener("input", event => {
-    if (event.target.closest?.("#workout-root")) guardarRascunhoExercicio();
+    if (event.target.closest?.("#workout-root, #exerciseEditorOverlay")) guardarRascunhoExercicio();
 });
 document.addEventListener("click", event => {
-    if (event.target.closest?.("#workout-root")) setTimeout(guardarRascunhoExercicio, 0);
+    if (event.target.closest?.("#workout-root, #exerciseEditorOverlay")) setTimeout(guardarRascunhoExercicio, 0);
 });
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") guardarRascunhoExercicio();
     // A app pode ficar aberta de domingo para segunda.
-    else if (checksSeries?.semana && checksSeries.semana !== chaveSemana() &&
-        !document.querySelector(".workout-page.is-adding-exercise")) renderTreino();
+    else if (checksSeries?.semana && checksSeries.semana !== chaveSemana() && !aEscreverTreino()) renderTreino();
 });
 window.addEventListener("pagehide", guardarRascunhoExercicio);
 window.addEventListener("load", restaurarRascunhoExercicio, { once: true });
