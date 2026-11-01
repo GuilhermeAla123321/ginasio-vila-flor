@@ -115,8 +115,78 @@ body[data-theme="light"] .gym-wheel-note{color:#b3214f}
 /* Estado do ginásio numa linha baixa. */
 #page-home .gym-hours-status{min-height:44px;padding:6px 12px;gap:8px;border-radius:12px;box-shadow:none}
 #page-home .gym-hours-status .gym-hours-indicator{width:8px;height:8px;flex-basis:8px}
-#page-home .gym-hours-copy{align-items:center}
-#page-home .gym-hours-copy strong{font-size:12px}
-#page-home .gym-hours-copy>span{font-size:11px}
+#page-home .gym-hours-copy{align-items:center;justify-content:space-between;gap:10px}
+#page-home .gym-hours-copy strong{font-size:13px;font-weight:650;line-height:1.2}
+#page-home .gym-hours-copy>span{flex:0 1 auto;font-size:13px;font-weight:500;line-height:1.2;text-align:right;font-variant-numeric:tabular-nums}
 #page-home .gym-hours-copy>span:empty{display:none}
 #page-home .gym-hours-status .gym-hours-chevron{width:14px;height:14px;flex-basis:14px}
+@media(max-width:360px){#page-home .gym-hours-copy{gap:6px}#page-home .gym-hours-copy strong{font-size:12px}#page-home .gym-hours-copy>span{font-size:11px}}
+/* Informação: a mesma paleta ameixa dos restantes cartões. */
+#page-info .info-card-summary{background:transparent!important}
+#page-info .info-contact-copy{color:inherit!important}
+#page-info .info-feedback-icon{background:linear-gradient(135deg,#6a3b61,#9a68b8)!important}
+body[data-theme="dark"] #page-info{--muted:#bcaec2}
+body[data-theme="dark"] #page-info .ods-brand-name{color:#bcaec2!important}
+body[data-theme="dark"] #page-info .info-card,body[data-theme="dark"] #page-info .info-feedback-card{background:linear-gradient(135deg,#211a29,#17121f)!important;border-color:rgba(190,157,211,.18)!important}
+body[data-theme="dark"] #page-info .info-card-chevron,body[data-theme="dark"] #page-info .info-hours-status{background:rgba(190,146,220,.13)!important;color:#d8c1e8!important}
+body[data-theme="dark"] #page-info .info-contact-link,body[data-theme="dark"] #page-info .info-hours-row,body[data-theme="dark"] #page-info .ods-brand-email{background:rgba(190,146,220,.05)!important;border-color:rgba(190,157,211,.18)!important}
+body[data-theme="dark"] #page-info .info-contact-link{color:#f0e7f5!important}
+body[data-theme="dark"] #page-info .info-contact-icon{background:rgba(190,146,220,.1)!important;border-color:rgba(190,157,211,.18)!important;color:#d8c1e8!important}
+body[data-theme="dark"] #page-info .info-contact-label{color:#bcaec2!important}
+body[data-theme="dark"] #page-info .info-hours-day,body[data-theme="dark"] #page-info .info-about-description{color:#bcaec2!important}
+body[data-theme="dark"] #page-info .ods-brand-card{background:linear-gradient(145deg,rgba(190,146,220,.09),rgba(106,59,97,.1))!important;border-color:rgba(190,157,211,.18)!important}
+body[data-theme="dark"] #page-info .ods-brand-email{color:#d8c1e8!important}
+body[data-theme="dark"] #page-info textarea,body[data-theme="dark"] #page-info input:not([type=hidden]){background:rgba(23,18,31,.8)!important;border-color:rgba(190,157,211,.24)!important}
+body[data-theme="light"] #page-info .info-card-chevron,body[data-theme="light"] #page-info .info-hours-status{background:rgba(104,64,111,.09)!important;color:#68406f!important}
+body[data-theme="light"] #page-info .info-contact-link,body[data-theme="light"] #page-info .info-hours-row,body[data-theme="light"] #page-info .ods-brand-email{background:rgba(104,64,111,.03)!important;border-color:rgba(104,64,111,.15)!important}
+body[data-theme="light"] #page-info .info-contact-link{color:#2a2230!important}
+body[data-theme="light"] #page-info .info-contact-icon{background:rgba(104,64,111,.07)!important;border-color:rgba(104,64,111,.15)!important;color:#68406f!important}
+body[data-theme="light"] #page-info .info-contact-label{color:#6d5a7a!important}
+body[data-theme="light"] #page-info .ods-brand-card{background:linear-gradient(145deg,rgba(104,64,111,.06),rgba(190,146,220,.07))!important;border-color:rgba(104,64,111,.15)!important}
+body[data-theme="light"] #page-info .ods-brand-email{color:#68406f!important}
+/* Ícones: um único desenho de linha em toda a app. */
+.vf-i{display:inline-block;width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em}
+.bottom-nav .nav-icon svg,.amenity-icon svg,.icon-btn svg,#page-info .info-contact-icon svg,#page-info .location-button svg,.gym-hours-chevron,#page-info .info-card-chevron svg{fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+.exercise-favorite-button.active .vf-i{fill:currentColor}
+.gym-series-check .vf-i{font-size:13px;stroke-width:2.6}
+.gym-rest-done-icon .vf-i{font-size:21px}
+.gym-rest-btn .vf-i{font-size:18px;fill:none}
+.gym-rest-btn.gym-rest-play svg:not(.vf-i){fill:currentColor}
+.gym-rest-complete-toast button .vf-i{font-size:18px}
+.portrait-lock-icon .vf-i{font-size:1em}
+.custom-selected-badge .vf-i,.existing-selected-badge .vf-i,.progress-readonly-note .vf-i{margin-right:4px}
+#page-info .ods-brand-card .ods-brand-email+.ods-brand-email{margin-top:-4px}
+body[data-theme="light"] .amenity-icon{color:#68406f!important}
+body[data-theme="light"] .amenity-icon svg{stroke:#68406f!important;opacity:1!important}
+/* Janela do modelo 3D: o modelo em destaque e uma frase. */
+.equipment-3d-panel{width:min(640px,100%)}
+.equipment-3d-content{grid-template-columns:minmax(0,1fr)}
+.equipment-3d-stage-wrap{padding:.75rem .75rem 0}
+.equipment-3d-stage{height:clamp(280px,56dvh,520px)}
+.equipment-3d-details{align-items:center;justify-content:flex-start;gap:.6rem;padding:.85rem 1.25rem 1.15rem;text-align:center}
+.equipment-3d-description{margin:0;max-width:44ch;font-size:.88rem;line-height:1.5}
+.equipment-3d-model-options{justify-content:center;margin:0}
+body[data-theme="dark"] .equipment-3d-panel{background:#211b26;border-color:rgba(190,157,211,.2);color:#f0e7f5}
+body[data-theme="dark"] .equipment-3d-header{background:#211b26;border-bottom-color:rgba(190,157,211,.14)}
+body[data-theme="dark"] .equipment-3d-eyebrow{color:#cfaee3}
+body[data-theme="dark"] .equipment-3d-header h2{color:#f7f2fa}
+body[data-theme="dark"] .equipment-3d-close{background:rgba(190,146,220,.12);border-color:rgba(190,157,211,.22);color:#eadff0}
+body[data-theme="dark"] .equipment-3d-close:hover{background:rgba(190,146,220,.22);border-color:rgba(190,157,211,.4)}
+body[data-theme="dark"] .equipment-3d-content,body[data-theme="dark"] .equipment-3d-stage-wrap{background:#211b26}
+body[data-theme="dark"] .equipment-3d-stage{background:#3b3045;border-color:rgba(190,157,211,.16)}
+body[data-theme="dark"] .equipment-3d-loading,body[data-theme="dark"] .equipment-3d-error{background:#3b3045;color:#d8cbe0}
+body[data-theme="dark"] .equipment-3d-spinner{border-color:rgba(190,157,211,.25);border-top-color:#d8c1e8}
+body[data-theme="dark"] .equipment-3d-error-icon{background:rgba(190,146,220,.16);color:#e6d3f2}
+body[data-theme="dark"] .equipment-3d-retry{background:rgba(190,146,220,.14);border-color:rgba(190,157,211,.3);color:#f0e7f5}
+body[data-theme="dark"] .equipment-3d-details{color:#cdbfd6}
+body[data-theme="dark"] .equipment-3d-model-option{background:rgba(190,146,220,.07);border-color:rgba(190,157,211,.22);color:#d8cbe0}
+body[data-theme="dark"] .equipment-3d-model-option:hover{border-color:rgba(190,157,211,.45)}
+body[data-theme="dark"] .equipment-3d-model-option.is-selected,body[data-theme="dark"] .equipment-3d-model-option[aria-pressed="true"]{background:rgba(190,146,220,.24);border-color:rgba(207,174,227,.55);color:#f7f2fa}
+/* Botões de eliminar: área de toque de 44 px sem mudar o desenho. */
+.delete-workout-btn,.delete-exercise{position:relative}
+.delete-workout-btn::after,.delete-exercise::after{content:'';position:absolute;inset:-7px}
+/* Conforto: os cartões cabem na largura mesmo em ecrãs de 320 px. */
+.amenities{grid-template-columns:repeat(2,minmax(0,1fr))}
+.amenity,.amenity>div:last-child{min-width:0}
+.amenity b,.amenity small{overflow-wrap:break-word}
+@media (max-width:340px){.amenity{flex-direction:column;align-items:flex-start;gap:7px}}

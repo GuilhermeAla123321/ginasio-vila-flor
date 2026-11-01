@@ -1,6 +1,6 @@
 # QR Codes dos equipamentos
 
-Esta pasta contém 14 QR Codes individuais e a folha pronta para imprimir (`imprimir-qr-codes.html`). Os QR Codes abrem o endereço público com o parâmetro `?equipamento=<slug>`.
+Esta pasta contém 13 QR Codes individuais e a folha pronta para imprimir (`imprimir-qr-codes.html`). Os QR Codes abrem o endereço público com o parâmetro `?equipamento=<slug>`.
 
 ## Instalação
 1. Publica esta versão do projeto na Vercel (a aplicação precisa de reconhecer o parâmetro `equipamento`).

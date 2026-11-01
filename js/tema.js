@@ -10,7 +10,7 @@
   document.documentElement.dataset.theme=safeTheme;
   document.documentElement.style.colorScheme=safeTheme;
   const meta=document.querySelector('meta[name="theme-color"]');
-  if(meta)meta.setAttribute("content",safeTheme==="light"?"#f4f5fb":"#0b1020");
+  if(meta)meta.setAttribute("content",safeTheme==="light"?"#f7f2f0":"#17121f");
   const button=document.getElementById("themeToggle");
   const icon=button?.querySelector(".theme-toggle-icon");
   // SVG em vez de ☀/☾: o iOS desenha esses caracteres como emoji colorido.

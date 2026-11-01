@@ -113,6 +113,11 @@ const context = {
 };
 vm.createContext(context);
 
+// Na página, js/treino.js carrega antes e fornece estes utilitários.
+const treinoSource = fs.readFileSync(path.join(root, 'js/treino.js'), 'utf8');
+for (const nome of ['normalizarTexto', 'escapeHtml']) {
+  vm.runInContext(treinoSource.match(new RegExp(`function ${nome}\\([\\s\\S]*?\\n\\}`))[0], context);
+}
 const librarySource = fs.readFileSync(path.join(root, 'js/exercicios.js'), 'utf8');
 vm.runInContext(librarySource + '\n;globalThis.__openExercise = abrirExercicioModal; globalThis.__closeExercise = fecharExercicioModal; globalThis.__validVideoPath = validarCaminhoVideoExercicio;', context);
 const equipmentSource = fs.readFileSync(path.join(root, 'js/equipamentos.js'), 'utf8');

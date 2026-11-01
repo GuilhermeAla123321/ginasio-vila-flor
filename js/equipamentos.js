@@ -1842,10 +1842,9 @@ const EXERCICIOS_COM_VIDEO_LOCAL = [
 ];
 
 (function registarExerciciosComVideoLocal() {
-    const normalizar = valor => String(valor || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-PT").trim();
     EXERCICIOS_COM_VIDEO_LOCAL.forEach(definicao => {
         const lista = EQUIPAMENTOS_EXERCICIOS[definicao.equipamento] || (EQUIPAMENTOS_EXERCICIOS[definicao.equipamento] = []);
-        const existente = lista.find(ex => normalizar(ex.nome) === normalizar(definicao.nome));
+        const existente = lista.find(ex => normalizarTexto(ex.nome) === normalizarTexto(definicao.nome));
         if (existente) {
             existente.videoId = definicao.videoId;
             return;
@@ -1908,16 +1907,7 @@ function abrirEquipamentoQRCodeInicial() {
     const equipamento = equipamentoQRCodePorValor(valor);
     if (!equipamento) return;
 
-    if (typeof mostrarPagina === "function") {
-        mostrarPagina("equipment");
-    } else {
-        document.querySelectorAll(".page").forEach(pagina => pagina.classList.remove("active"));
-        document.getElementById("page-equipment")?.classList.add("active");
-        document.querySelectorAll(".nav-item").forEach(botao => {
-            botao.classList.toggle("active", botao.dataset.page === "equipment");
-        });
-        renderEquipamentos();
-    }
+    mostrarPagina("equipment");
 
     abrirEquipamento(equipamento.label);
 }
@@ -2071,7 +2061,7 @@ function abrirEquipamento(nome) {
                                     <select id="exerciseMuscleFilter" aria-label="Filtrar por grupo muscular">
                                         <option value="Todos">Todos os grupos</option>
                                         ${gruposMusculares
-                                            .map(grupo => `<option value="${escaparHTMLBiblioteca(grupo)}">${escaparHTMLBiblioteca(grupo)}</option>`)
+                                            .map(grupo => `<option value="${escapeHtml(grupo)}">${escapeHtml(grupo)}</option>`)
                                             .join("")}
                                     </select>
                                 </div>
@@ -2083,7 +2073,7 @@ function abrirEquipamento(nome) {
                                 ? `
                                 <button class="equipment-3d-trigger" id="showEquipment3D" type="button"
                                     data-model-key="${configuracaoModelo3D.modelo}"
-                                    data-equipment-title="${escaparHTMLBiblioteca(nome)}"
+                                    data-equipment-title="${escapeHtml(nome)}"
                                     ${variantesModelo3D ? `data-model-variants="${variantesModelo3D}"` : ""}
                                     aria-haspopup="dialog" aria-controls="equipment3DModal">
                                     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.4 7.7 7.6 4.4 7.6-4.4M12 12.1V21"/></svg>
@@ -2196,7 +2186,7 @@ function configurarFiltrosEquipamentos() {
 
 /*
  * Exercícios elegíveis para as grelhas de demonstração.
- * Cada ID existe no manifesto de demonstrações e tem um GIF animado e uma
+ * Cada ID existe no manifesto de demonstrações e tem um vídeo e uma
  * imagem específica correspondente na pasta assets/ImagesExer (mesmo nome-base).
  * IDs sem associação explícita não são apresentados na biblioteca visual.
  */
@@ -2286,18 +2276,8 @@ function prepararExercicioBiblioteca(exercicio) {
    CARTÕES E BIBLIOTECA GLOBAL DE EXERCÍCIOS
    Os ecrãs global e por equipamento reutilizam os mesmos dados e cartões.
    ========================================= */
-function normalizarTextoBiblioteca(valor) {
-    return String(valor || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-PT").trim();
-}
-
-function escaparHTMLBiblioteca(valor) {
-    return String(valor == null ? "" : valor).replace(/[&<>"']/g, caracter => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-    }[caracter]));
-}
-
 function slugExercicioBiblioteca(valor) {
-    return normalizarTextoBiblioteca(valor)
+    return normalizarTexto(valor)
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
 }
@@ -2310,7 +2290,7 @@ function obterTodosExerciciosBiblioteca() {
         const nome = String(ex.nome).trim();
         // IDs de vídeo são IDs canónicos; os restantes exercícios recebem um ID estável pelo nome normalizado.
         const id = String(ex.id || ex.videoId || slugExercicioBiblioteca(nome));
-        const chave = normalizarTextoBiblioteca(nome);
+        const chave = normalizarTexto(nome);
         const nomeEquipamento = String(equipamento || ex.equipamento || "").trim();
         const existente = catalogo.get(chave);
 
@@ -2356,18 +2336,18 @@ function obterTodosExerciciosBiblioteca() {
 }
 
 function gerarCartaoExercicio(ex, indice, classeAdicional = "") {
-    const nome = escaparHTMLBiblioteca(ex.nome || "Exercício");
+    const nome = escapeHtml(ex.nome || "Exercício");
     const imagem = ex.imagemBiblioteca
-        ? `<img src="${escaparHTMLBiblioteca(ex.imagemBiblioteca)}" alt="Imagem de ${nome}" loading="lazy" decoding="async">`
+        ? `<img src="${escapeHtml(ex.imagemBiblioteca)}" alt="Imagem de ${nome}" loading="lazy" decoding="async">`
         : "";
     const equipamentoGlobal = Array.isArray(ex.equipamentos) && ex.equipamentos.length
         ? ex.equipamentos.join(", ")
         : ex.equipamento;
     const equipamento = equipamentoGlobal
-        ? `<p class="exercise-catalog-equipment">${escaparHTMLBiblioteca(equipamentoGlobal)}</p>`
+        ? `<p class="exercise-catalog-equipment">${escapeHtml(equipamentoGlobal)}</p>`
         : "";
 
-    return `<article class="exercise-catalog-card ${escaparHTMLBiblioteca(classeAdicional)}" role="button" tabindex="0" data-exercise-index="${indice}" aria-label="Ver exercício ${nome}">
+    return `<article class="exercise-catalog-card ${escapeHtml(classeAdicional)}" role="button" tabindex="0" data-exercise-index="${indice}" aria-label="Ver exercício ${nome}">
         <div class="exercise-catalog-image">${imagem}</div>
         <div class="exercise-catalog-content">
             <h3 class="exercise-catalog-title">${nome}</h3>
@@ -2406,7 +2386,7 @@ function renderizarCartoesExercicios(container, exercicios, classeAdicional = ""
         }
         const abrir = () => {
             const ex = exerciciosValidos[Number(card.dataset.exerciseIndex)];
-            if (ex && typeof abrirExercicioModal === "function") abrirExercicioModal(ex);
+            if (ex) abrirExercicioModal(ex);
         };
         card.addEventListener("click", abrir);
         card.addEventListener("keydown", evento => {
@@ -2454,7 +2434,7 @@ function mostrarBibliotecaGlobal() {
             </button>
             <div class="exercise-group-options" id="exerciseLibraryGroupOptions" role="listbox" aria-label="Grupos musculares" hidden>
               <button class="exercise-group-option is-selected" type="button" role="option" data-value="" aria-selected="true">Todos os grupos</button>
-              ${grupos.map(grupo => `<button class="exercise-group-option" type="button" role="option" data-value="${escaparHTMLBiblioteca(grupo)}" aria-selected="false">${escaparHTMLBiblioteca(grupo)}</button>`).join("")}
+              ${grupos.map(grupo => `<button class="exercise-group-option" type="button" role="option" data-value="${escapeHtml(grupo)}" aria-selected="false">${escapeHtml(grupo)}</button>`).join("")}
             </div>
           </div>
         </div>
@@ -2473,9 +2453,9 @@ function mostrarBibliotecaGlobal() {
     let selectedGroup = "";
 
     function renderizarResultados() {
-        const termo = normalizarTextoBiblioteca(search.value);
+        const termo = normalizarTexto(search.value);
         const filtrados = todos.filter(ex =>
-            (!termo || normalizarTextoBiblioteca(ex.nome).includes(termo)) &&
+            (!termo || normalizarTexto(ex.nome).includes(termo)) &&
             (!selectedGroup || ex.grupo === selectedGroup)
         );
         count.textContent = `${filtrados.length} ${filtrados.length === 1 ? "exercício" : "exercícios"}`;
