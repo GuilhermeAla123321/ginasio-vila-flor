@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vf-ginasio-v153';
+const CACHE_NAME = 'vf-ginasio-v157';
 
 const APP_SHELL = [
     './',
@@ -16,6 +16,8 @@ const APP_SHELL = [
     './js/progresso-descanso.js',
     './images/progress/corpo-anterior-detalhado.png',
     './images/progress/corpo-posterior-detalhado.png',
+    './images/progress/corpo-anterior-feminino.png',
+    './images/progress/corpo-posterior-feminino.png',
     './assets/vila-flor-flor-branca.png',
     './js/navegacao.js',
     './js/equipment-3d.js',

@@ -190,3 +190,10 @@ body[data-theme="dark"] .equipment-3d-model-option.is-selected,body[data-theme="
 .amenity,.amenity>div:last-child{min-width:0}
 .amenity b,.amenity small{overflow-wrap:break-word}
 @media (max-width:340px){.amenity{flex-direction:column;align-items:flex-start;gap:7px}}
+/* Progresso: escolha da figura. */
+.gym-body-switch{display:flex;gap:3px;width:max-content;max-width:100%;margin:0 auto 12px;padding:3px;border-radius:999px;border:1px solid rgba(190,157,211,.22);background:rgba(190,146,220,.07)}
+.gym-body-switch button{min-height:38px;padding:0 18px;border:0;border-radius:999px;background:transparent;color:#bcaec2;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
+.gym-body-switch button[aria-pressed="true"]{background:rgba(190,146,220,.26);color:#f7f2fa}
+body[data-theme="light"] .gym-body-switch{border-color:rgba(104,64,111,.15);background:rgba(104,64,111,.05)}
+body[data-theme="light"] .gym-body-switch button{color:#6d5a7a}
+body[data-theme="light"] .gym-body-switch button[aria-pressed="true"]{background:#68406f;color:#fff}
