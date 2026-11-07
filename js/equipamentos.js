@@ -1940,6 +1940,15 @@ function renderEquipamentos() {
         )
         .forEach(card => {
 
+            // Sem descrição no cartão: categoria, 3D e seta preenchem a linha.
+            const categoria = card.dataset.category === "Cardio" ? "Cardio" : "Força";
+            card.querySelector(".equipment-info")?.insertAdjacentHTML("beforeend", `
+                <div class="equipment-meta">
+                    <span class="equipment-meta-tag is-${categoria === "Cardio" ? "cardio" : "forca"}">${categoria}</span>
+                    <span class="equipment-meta-3d">3D</span>
+                </div>`);
+            card.insertAdjacentHTML("beforeend", `<svg class="equipment-chevron vf-i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg>`);
+
             card.setAttribute(
                 "role",
                 "button"
@@ -1980,6 +1989,19 @@ function renderEquipamentos() {
 
     configurarFiltrosEquipamentos();
 }
+// Exercícios mostrados no detalhe de um equipamento (o cartão da lista conta os mesmos).
+function exerciciosDoEquipamento(nome) {
+    const chaveCatalogo = equipamentoQRCodePorValor(nome)?.catalogKey || nome;
+    return (EQUIPAMENTOS_EXERCICIOS[chaveCatalogo] || EQUIPAMENTOS_EXERCICIOS[nome] || [])
+        .map(ex => prepararExercicioBiblioteca({
+            ...ex,
+            id: ex.id || ex.videoId || slugExercicioBiblioteca(ex.nome),
+            equipamentos: [nome],
+            equipamento: nome
+        }))
+        .filter(Boolean);
+}
+
 function abrirEquipamento(nome) {
     const list = document.getElementById("equipment-list");
     const filtrosEquipamentos = document.querySelector(".equipment-filters");
@@ -1990,16 +2012,7 @@ function abrirEquipamento(nome) {
         filtrosEquipamentos.style.display = "none";
     }
 
-    const definicaoQR = equipamentoQRCodePorValor(nome);
-    const chaveCatalogo = definicaoQR?.catalogKey || nome;
-    const exercicios = (EQUIPAMENTOS_EXERCICIOS[chaveCatalogo] || EQUIPAMENTOS_EXERCICIOS[nome] || [])
-        .map(ex => prepararExercicioBiblioteca({
-            ...ex,
-            id: ex.id || ex.videoId || slugExercicioBiblioteca(ex.nome),
-            equipamentos: [nome],
-            equipamento: nome
-        }))
-        .filter(Boolean);
+    const exercicios = exerciciosDoEquipamento(nome);
 
     const gruposMusculares = [
         ...new Set(
@@ -2037,14 +2050,26 @@ function abrirEquipamento(nome) {
     const temModelo3D = Boolean(configuracaoModelo3D);
     const variantesModelo3D = configuracaoModelo3D?.variantes?.join(",") || "";
 
+    // A descrição do cartão passa para a ajuda «?» ao lado do nome.
+    const cartoes = document.createElement("template");
+    cartoes.innerHTML = list.dataset.originalHtml || "";
+    const descricaoEquipamento = [...cartoes.content.querySelectorAll(".equipment-card")]
+        .find(cartao => cartao.querySelector("h3")?.textContent.trim() === nome)
+        ?.querySelector(".equipment-info p")?.textContent.trim();
+
     list.innerHTML = `
         <div class="equipment-info" style="grid-column:1/-1;margin-bottom:1rem">
             <button class="filter-btn equipment-back" type="button">
                 ← Equipamentos
             </button>
 
-            <h3 style="margin-top:1rem">${nome}</h3>
-            <p>Exercícios disponíveis neste equipamento.</p>
+            <div class="page-title-with-help equipment-detail-title">
+                <div class="page-title-with-help-row">
+                    <h3>${nome}</h3>
+                    <button class="page-context-help" type="button" aria-label="Ajuda sobre ${nome}" aria-expanded="false" aria-controls="equipmentDetailHelpText">?</button>
+                </div>
+                <p id="equipmentDetailHelpText" class="page-context-help-text" role="note" hidden>${descricaoEquipamento ? `${descricaoEquipamento} ` : ""}Abaixo estão os exercícios disponíveis neste equipamento.</p>
+            </div>
 
             ${
                 temMusculacao || temModelo3D
