@@ -348,3 +348,38 @@ body.vf-story-open{overflow:hidden}
 .vf-story-steps div{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);text-align:left}
 .vf-story-steps span{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;color:#4d2d59;font-weight:800}
 .vf-story-steps b{font-size:.92rem}
+
+/* Revisão de alinhamento */
+/* Título centrado: um espaço invisível à esquerda equilibra o «?» da direita. */
+.page-title-with-help-row::before{content:'';flex:0 0 19px}
+.workout-add-title-row.page-title-with-help-row::before{content:none}
+/* Detalhe do equipamento: nome centrado com a ajuda «?» ao lado. */
+.equipment-detail-title{margin:16px 0 12px}
+.equipment-detail-title h3{margin:0}
+/* Filtro e botão 3D lado a lado com o mesmo tamanho de letra. */
+#page-equipment #exerciseMuscleFilter,.equipment-detail-tools .equipment-3d-trigger{font-size:12.5px}
+#page-equipment #exerciseMuscleFilter{font-weight:700}
+/* Músculos alvo: nomes alinhados à esquerda da coluna. */
+.gym-progress-line b{text-align:left}
+/* Biblioteca: espaço entre o «+» e o nome do exercício. */
+.exercise-search-result{gap:12px}
+/* Lista de equipamentos: só o nome; a descrição aparece no «?» do detalhe. */
+#equipment-list .equipment-card .equipment-info p{display:none}
+#equipment-list .equipment-card .equipment-info{display:flex;flex-direction:column;justify-content:center}
+#equipment-list .equipment-card .equipment-info h3{margin:0}
+#equipment-list .equipment-card{position:relative;padding-right:44px}
+.equipment-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:7px;font-size:11.5px;font-weight:600;color:#b8a6c2}
+.equipment-meta span{display:inline-flex;align-items:center;min-height:22px;padding:0 9px;border-radius:999px;background:rgba(190,146,220,.10);border:1px solid rgba(190,157,211,.16)}
+.equipment-meta .equipment-meta-tag.is-cardio{background:rgba(62,157,154,.18);border-color:rgba(62,157,154,.32);color:#8fd6d2}
+.equipment-meta .equipment-meta-tag.is-forca{background:rgba(195,79,118,.16);border-color:rgba(195,79,118,.3);color:#ee9fbb}
+.equipment-meta .equipment-meta-3d{font-weight:800;letter-spacing:.04em;color:#d8c1e8}
+.equipment-chevron{position:absolute;right:16px;top:50%;width:20px;height:20px;margin-top:-10px;color:#9d8aa8}
+body[data-theme="light"] .equipment-meta{color:#6d5a7a}
+body[data-theme="light"] .equipment-meta span{background:rgba(104,64,111,.06);border-color:rgba(104,64,111,.12)}
+body[data-theme="light"] .equipment-meta .equipment-meta-tag.is-cardio{background:rgba(62,157,154,.12);color:#2c7472}
+body[data-theme="light"] .equipment-meta .equipment-meta-tag.is-forca{background:rgba(195,79,118,.10);color:#9c3459}
+body[data-theme="light"] .equipment-meta .equipment-meta-3d{color:#68406f}
+body[data-theme="light"] .equipment-chevron{color:#9a8aa0}
+/* Miniaturas dos equipamentos geradas dos modelos 3D: fundo claro em lilás para as máquinas escuras. */
+#equipment-list .equipment-card .equipment-icon{background:radial-gradient(circle at 50% 38%,#ffffff 0%,#f1e9f5 62%,#e3d6ea 100%)!important;border-color:rgba(177,145,196,.3)!important;overflow:hidden}
+#equipment-list .equipment-card .equipment-icon img{object-fit:contain!important;padding:3px!important;filter:drop-shadow(0 3px 4px rgba(40,20,50,.18))}
