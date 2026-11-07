@@ -635,4 +635,5 @@
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   window.regioesDoExercicio=regionsFor;
+  window.vfMusculos={regionsFor,REGIONS};
 })();
