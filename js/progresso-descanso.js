@@ -512,16 +512,14 @@
       } else toggleGap(element);
       return;
     }
-    // Ao concluir uma série já guardada, iniciar o descanso padrão do treino.
-    // A escolha do peso ou das repetições não aciona qualquer relógio.
+    // Marcar uma série não aciona o timer: o descanso só arranca pelo botão Iniciar.
     const series=event.target.closest('.gym-series-complete');
     if(series){
       if(performance.now()-(window.__treinoGuardadoEm||-1000)<450)return;
       const wasDone=series.getAttribute('aria-pressed')==='true';
       series.setAttribute('aria-pressed',String(!wasDone));
       window.marcarSerie?.(series.dataset.serieChave,!wasDone);
-      // Só arranca com o timer parado: outro check não pode reiniciar um descanso a contar ou em pausa.
-      if(!wasDone){if(!general.running&&!general.paused)startGeneral(Number(series.dataset.descanso));showEncouragement(series);}
+      if(!wasDone)showEncouragement(series);
     }
     const opcaoCorpo=event.target.closest('[data-corpo]');
     if(opcaoCorpo){corpo=opcaoCorpo.dataset.corpo;storage(BODY_KEY,corpo);renderProgress();}

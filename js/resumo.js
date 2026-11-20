@@ -211,8 +211,7 @@
     gasto = 0; inicio = performance.now();
     const palco = root.querySelector('.vf-story-stage');
     palco.className = `vf-story-stage is-${lista[atual].tema}`;
-    const frase = lista[atual].frase ? `<span class="vf-story-hype" aria-hidden="true">${esc(lista[atual].frase)}</span>` : '';
-    palco.innerHTML = `${frase}<div class="vf-story-slide">${lista[atual].html}</div>`;
+    palco.innerHTML = `<div class="vf-story-slide">${lista[atual].html}</div>`;
     palco.setAttribute('aria-label', `Página ${atual + 1} de ${lista.length}`);
     root.querySelectorAll('.vf-story-seg').forEach((b, n) => { b.classList.toggle('is-done', n < atual); b.style.setProperty('--p', n < atual ? 1 : 0); });
     contar(palco);
