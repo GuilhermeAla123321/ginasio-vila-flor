@@ -321,8 +321,6 @@ body.vf-story-open{overflow:hidden}
 .vf-story-countdown b{font-size:5.2rem;font-weight:800;line-height:.95;letter-spacing:-.04em;background:linear-gradient(120deg,#e58aa8,#c6a4e8,#7fd3cf);-webkit-background-clip:text;background-clip:text;color:transparent}
 .vf-story-countdown span{font-size:1.05rem;color:rgba(255,255,255,.82)}
 @keyframes vfStoryRise{from{transform:scaleY(0)}}
-.vf-story-hype{position:absolute;z-index:3;top:calc(84px + env(safe-area-inset-top));right:22px;padding:8px 16px;border-radius:14px;background:#fff;color:#4d2d59;font-size:1.05rem;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.35);pointer-events:none;animation:vfStoryHype 2.2s cubic-bezier(.2,.8,.2,1) both}
-@keyframes vfStoryHype{0%{opacity:0;transform:rotate(-14deg) scale(.3)}14%{opacity:1;transform:rotate(-6deg) scale(1.12)}22%{transform:rotate(-6deg) scale(1)}80%{opacity:1;transform:rotate(-6deg) scale(1)}100%{opacity:0;transform:rotate(-6deg) translateY(-14px) scale(.9)}}
 /* Story centrado e mais compacto, como o resto da página. */
 .vf-story-slide{align-items:center;text-align:center;gap:14px}
 .vf-story-slide h2{font-size:1.45rem}
@@ -368,18 +366,22 @@ body.vf-story-open{overflow:hidden}
 #equipment-list .equipment-card .equipment-info{display:flex;flex-direction:column;justify-content:center}
 #equipment-list .equipment-card .equipment-info h3{margin:0}
 #equipment-list .equipment-card{position:relative;padding-right:44px}
-.equipment-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:7px;font-size:11.5px;font-weight:600;color:#b8a6c2}
-.equipment-meta span{display:inline-flex;align-items:center;min-height:22px;padding:0 9px;border-radius:999px;background:rgba(190,146,220,.10);border:1px solid rgba(190,157,211,.16)}
-.equipment-meta .equipment-meta-tag.is-cardio{background:rgba(62,157,154,.18);border-color:rgba(62,157,154,.32);color:#8fd6d2}
-.equipment-meta .equipment-meta-tag.is-forca{background:rgba(195,79,118,.16);border-color:rgba(195,79,118,.3);color:#ee9fbb}
-.equipment-meta .equipment-meta-3d{font-weight:800;letter-spacing:.04em;color:#d8c1e8}
+.equipment-meta{display:flex;flex-wrap:wrap;align-items:center;gap:0;margin-top:5px;font-size:12.5px;font-weight:500;color:#a896b3}
+.equipment-meta .equipment-meta-tag{color:#cdbbd9}
+.equipment-meta .equipment-meta-3d::before{content:"\00B7";margin:0 7px;color:#6f5f7b}
+body[data-theme="light"] .equipment-meta{color:#7a6886}
+body[data-theme="light"] .equipment-meta .equipment-meta-tag{color:#4f3a5c}
+body[data-theme="light"] .equipment-meta .equipment-meta-3d::before{color:#b3a3bd}
 .equipment-chevron{position:absolute;right:16px;top:50%;width:20px;height:20px;margin-top:-10px;color:#9d8aa8}
-body[data-theme="light"] .equipment-meta{color:#6d5a7a}
-body[data-theme="light"] .equipment-meta span{background:rgba(104,64,111,.06);border-color:rgba(104,64,111,.12)}
-body[data-theme="light"] .equipment-meta .equipment-meta-tag.is-cardio{background:rgba(62,157,154,.12);color:#2c7472}
-body[data-theme="light"] .equipment-meta .equipment-meta-tag.is-forca{background:rgba(195,79,118,.10);color:#9c3459}
-body[data-theme="light"] .equipment-meta .equipment-meta-3d{color:#68406f}
 body[data-theme="light"] .equipment-chevron{color:#9a8aa0}
 /* Miniaturas dos equipamentos geradas dos modelos 3D: fundo claro em lilás para as máquinas escuras. */
 #equipment-list .equipment-card .equipment-icon{background:radial-gradient(circle at 50% 38%,#ffffff 0%,#f1e9f5 62%,#e3d6ea 100%)!important;border-color:rgba(177,145,196,.3)!important;overflow:hidden}
 #equipment-list .equipment-card .equipment-icon img{object-fit:contain!important;padding:3px!important;filter:drop-shadow(0 3px 4px rgba(40,20,50,.18))}
+/* Ajuda: poucas dicas curtas, sem caixas, separadas por uma linha fina. */
+#page-info .info-help-list{width:100%;margin:0;padding:0;list-style:none}
+#page-info .info-help-list li{padding:11px 2px;font-size:12.5px;line-height:1.55;color:#bcaec2;border-top:1px solid rgba(190,157,211,.14)}
+#page-info .info-help-list li:first-child{border-top:0;padding-top:2px}
+#page-info .info-help-list strong{color:#f0e7f5;font-weight:650}
+body[data-theme="light"] #page-info .info-help-list li{color:#6d5a7a;border-color:rgba(104,64,111,.12)}
+body[data-theme="light"] #page-info .info-help-list strong{color:#2a2230}
+#page-info .info-help-list a{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(190,157,211,.45)}
